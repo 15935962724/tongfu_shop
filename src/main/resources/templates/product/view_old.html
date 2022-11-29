@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>产品详情页</title>
+</head>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/reset.css" type="text/css" th:href="@{/assets/css/reset.css}"/>
+<link rel="stylesheet" href="../css/common.css" type="text/css" th:href="@{/assets/css/common.css}"/>
+<link href="../css/cpxx.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/cpxx.css}"/>
+<script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+<script src="../js/huaceng.js" th:src="@{/assets/js/qiehuan.js}"></script>
+<script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script src="../js/jquery-1.4.js" type="text/javascript"></script>
+<script src="../js/jquery.imagezoom.min.js" type="text/javascript"></script>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+</head>
+<body>
+
+<!--语言切换-->
+<!--未登录-->
+<shiro:notAuthenticated>
+    <th:block th:replace="~{incloud/language::language}"></th:block>
+</shiro:notAuthenticated>
+<!--已登录-->
+<shiro:authenticated>
+    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+</shiro:authenticated>
+
+<div class="head">
+    <!--未登录-->
+    <div th:replace="~{head::topbar}"></div>
+    <!--已登录-->
+</div>
+
+
+<div class="log_con1">
+
+    <div class="kua">
+        <div class="leftu">
+            <div class="box">
+
+                <div class="tb-booth tb-pic tb-s310">
+                    <a href="images/01.jpg"><img src="images/01_mid.jpg"  th:src="@{${path+picture.source}}"alt="" rel="images/01.jpg" class="jqzoom" /></a>
+                </div>
+
+                <ul class="tb-thumb" id="thumblist">
+                    <li  th:each="Img:${listImg}"><div class="tb-pic tb-s40"><a href="#"><img width="80px;" th:src="@{${path+Img.source}}"/></a></div></li>
+
+                    <!--<li class="tb-selected"><div class="tb-pic tb-s40"><a href="#"><img src="../img/cp001.jpg" th:src="@{/assets/img/cp001.jpg}" mid="../img/cp01.jpg" big="../img/cp01.jpg"></a></div></li>-->
+                    <!--<li><div class="tb-pic tb-s40"><a href="#"><img  src="../img/cp02.jpg" mid="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}" big="../img/cp02.jpg"></a></div></li>-->
+                    <!--<li><div class="tb-pic tb-s40"><a href="#"><img src="../img/cp03.jpg" mid="../img/cp03.jpg" th:src="@{/assets/img/cp03.jpg}" big="../img/cp03.jpg"></a></div></li>-->
+                    <!--<li><div class="tb-pic tb-s40"><a href="#"><img src="../img/cp04.jpg" mid="../img/cp04.jpg" th:src="@{/assets/img/cp04.jpg}" big="../img/cp04.jpg"></a></div></li>-->
+                </ul>
+
+            </div>
+
+
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    var ip = returnCitySN["cip"];
+                    var id=[[${product.id}]];//产品id
+
+                    var firstPurId=[[${firstPurId}]];//当前产品的第一个购买方式的id
+                    //记录商品点击量
+                    updateProductHits(id,ip);
+
+                    //查询出parentid后，根据panrentid和productid获取到相关的购买规格展示出来，然后添加到html中。
+                    loadGuiGe(id,firstPurId);
+
+                    $(".jqzoom").imagezoom();
+
+                    $("#thumblist li a").click(function(){
+                        $(this).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
+                        $(".jqzoom").attr('src',$(this).find("img").attr("mid"));
+                        $(".jqzoom").attr('rel',$(this).find("img").attr("big"));
+                    });
+
+                });
+
+                //记录点击量
+                function updateProductHits(id,ip) {
+                    $.ajax({
+                        type:"POST",
+                        url:'[[@{/product/updateProductHits}]]',
+                        data:{pid:id,ip:ip},
+                        dataType:"json",
+                        async: false
+
+                    });
+                }
+
+                //加载购买规格
+                function loadGuiGe(id,firstPurId){
+
+                    $.ajax({
+                        type:"POST",
+                        url:'[[@{/selectGuige}]]',
+                        data:{id:id,parentid:firstPurId},
+                        dataType:"json",
+                        async: false,
+                        success:function (data) {
+                            var list=data;
+
+                            var html = "";
+                            if(list.length>0){
+
+                                for (var i = 0;i<list.length;i++){
+
+                                    html=html+"<li onclick='updatePrice("+list[i].tid+")'>"+list[i].name+"</li>";
+
+                                }
+                                $("#JKDiv_0").children().html("");
+                                $("#JKDiv_0").children().append($(html));
+                            }
+                        }
+
+                    });
+                }
+            </script>
+            <div id="ann">
+                <ul>
+                    <li th:style="${product.isShowproductPackageUrl==false?'display:none':''}" ><a href="#">立即下载</a></li>
+                    <li th:style="${product.isShowOntrialPackageUrl==false?'display:none':''}" ><a href="#">免费试用</a></li>
+                    <li th:style="${product.isDemonstration==false?'display:none':''}" ><a href="#">申请演示</a></li>
+
+                </ul></div>
+        </div>
+        <div class="rightxx">
+            <div class="bt"><span id="name" >[[${product.name}]]</span><span id="log"><img  th:src="@{${path+company.logo}}"/></span></div>
+            <table width="100%" border="0" class="table1">
+                <tr>
+                    <td width="65">销售价格：</td>
+                    <td style="color:#ff7f25;"><span style="font-size:14px;">￥</span><span style="font-size:16px;" id="priceId">[[${product.price}]]</span></td>
+                </tr>
+                <tr>
+                    <td>商品编号：</td>
+                    <td>[[${product.sn}]]</td>
+                </tr>
+                <tr>
+                    <td>软件大小：</td>
+                    <td>[[${product.softwareSize}]]</td>
+                </tr>
+                <tr>
+                    <td>软件版本：</td>
+                    <td>[[${product.softwareVersion}]]</td>
+                </tr>
+                <tr>
+                    <td>生产厂家：</td>
+                    <td>[[${product.manufactor}]]</td>
+                </tr>
+                <tr>
+                    <td>公司网址：</td>
+                    <td>[[${product.url}]]</td>
+                </tr>
+                <tr>
+                    <td>促销信息：</td>
+                    <td style="color:#ff7f25;">购买2个病例，送DICOM...   <a href="#">详情<i class="iconfont">&#xe638;</i></a></td>
+                </tr>
+            </table>
+            <div id="ishideprice" th:style="${product.isHideprice==true?'display:none':''}">
+
+            <div class="guige">
+                <div id="fang">购买方式：<Br/>
+                    购买规格：</div>
+                <div class="ggtit">
+                    <div id="tit">
+                        <li th:each="purchase:${purchases}"  th:text="${purchase.name}"   th:onmousemove="'javascript:dataSource(\''+${purchase.id}+'\',this)'" th:id="${purchaseStat.index==0?'JKDiv_DEF':''}" th:class="${purchaseStat.index==0?'Selected':''}">按使用次数购买0</li>
+                    </div>
+
+
+                    <div class="con" id="JKDiv_0">
+                        <div class="guige_b">
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="tab2" style="border:0px;">
+                <span id="fang" style="font-size:18px;font-weight:bolder;">增值服务：</span>
+                <div class="xlcd"><input type="button" value="远程分析/计划报告服务" id="btnZZ" />
+                    <div id="divZZ" style="display:none;">
+                        <form id="form1" name="form1" method="post" action="">
+  <span>      <label>
+<input type="checkbox" name="CheckboxGroup1" value="远程分析/计划报告服务—1个病例" id="CheckboxGroup1_0" />远程分析/计划报告服务—1个病例</label> <a href="#">详情</a></span>
+                            <span>        <label>
+          <input type="checkbox" name="CheckboxGroup1" value="远程分析/计划报告服务—2个病例" id="CheckboxGroup1_1" />远程分析/计划报告服务—2个病例</label></span>
+                            <span>        <label>
+          <input type="checkbox" name="CheckboxGroup1" value="远程分析/计划报告服务—5个病例" id="CheckboxGroup1_2" />远程分析/计划报告服务—5个病例</label></span>    </form>
+                    </div>
+                </div>
+
+                <div class="xlcd"><input type="button" value="个性化3D打印定制服务" id="btnZZ" /></div>
+            </div>
+            <div class="tab2" style="border:0px;">
+                <span id="fang">购买数量：</span>
+                <div class="shul"><span>+</span><span>1</span><span>-</span></div>
+            </div>
+            <div class="gou">
+                <button type="button" class="gw">加入购物车</button>
+                <button type="button" class="gm">立即购买</button>
+                <button type="button" class="gw" th:style="${product.productId==null?'display:none':''}"><a th:href="@{/product/view(id=${product.productId})}">增值服务</a></button>
+            </div>
+            </div><!--ishideprice end-->
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="taoc">
+        <div class="taoc_top">优惠套餐</div>
+        <div class="tao_b">
+            <div class="title">
+                <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv1_',1,this)" id="JKDiv1_DEF" class="Selected">优惠套装1:远程培训包</li><span style="padding:11px 41px;color:#e6e6e6;float:left;">|</span>
+                <li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv1_',1,this)">优惠套装2:现场培训包</li></div>
+            <div class="con" id="JKDiv1_0">
+                <div class="tac1">
+                    <li><span class="cp1"><a href="#"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></a></span><span class="cpbt"><a href="">IQQA-3D肝脏评估和治疗计划辅助系统©</a></span>
+                        <span class="cpbt1">¥ 0.01</span>
+                    </li>
+                    <li style="    font-size: 26px;padding-top: 30px;">+</li>
+                    <li><span class="cp1"><a href="#"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></a></span><span class="cpbt"><a href="">远程培训包</a></span>
+                        <span class="cpbt1">¥ 5000</span>
+                    </li>
+                    <li style="font-size:26px;padding-top: 30px;">=</li>
+                    <li style="padding-top: 26px;width: 227px;line-height: 30px;"><p><span id="mo">套餐价：</span><span id="mo1">¥ 5800.0</span><span id="mo2">¥ 6000.0</span></p><p id="mo3">立即节省： ¥ 200.0</p></li>
+                    <li style="padding-top: 30px;"><button type="button" class="gm">立即购买</button></li>
+                </div>
+            </div>
+            <div class="con" id="JKDiv1_1" style="display:none;">
+                <div class="tac1">
+                    <li><span class="cp1"><a href="#"><img src="../img/cp001.jpg" th:src="@{/assets/img/cp001.jpg}"/></a></span><span class="cpbt"><a href="">IQQA-3D肝脏评估和治疗计划辅助系统©</a></span>
+                        <span class="cpbt1">¥ 0.01</span>
+                    </li>
+                    <li style="    font-size: 26px;padding-top: 30px;">+</li>
+                    <li><span class="cp1"><a href="#"><img src="../img/cp001.jpg" th:src="@{/assets/img/cp001.jpg}"/></a></span><span class="cpbt"><a href="">远程培训包</a></span>
+                        <span class="cpbt1">¥ 5000</span>
+                    </li>
+                    <li style="font-size:26px;padding-top: 30px;">=</li>
+                    <li style="padding-top: 26px;width: 227px;line-height: 30px;"><p><span id="mo">套餐价：</span><span id="mo1">¥ 5400.0</span><span id="mo2">¥ 6000.0</span></p><p id="mo3">立即节省： ¥ 600.0</p></li>
+                    <li style="padding-top: 30px;"><button type="button" class="gm">立即购买</button></li>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="clear"></div>
+    <div class="showAddsRight fr">
+        <div class="bq_box">
+            <div class="s-left-banner" style="display: none;"></div>
+            <div class="s-left-list" id="firstNav">
+                <ul>
+                    <li th:each="spe1:${spe1}" th:text="${spe1.title}" th:onmousemove="|JavaScript:ChangeDiv(${spe1Stat.index},'JKDiv2_',3,this)|"  th:id="${spe1Stat.index==0?'JKDiv2_DEF':''}" th:class="${spe1Stat.index==0?'Selected':''}" ><a href="javascript:;">软件概览</a></li>
+
+                </ul>
+            </div>
+            <div class="s-left-box">
+                <div class="product-detail-div clearfix" style="display:block;">
+                    <div class="con2" id="JKDiv2_0" th:each="spea:${spe1}"  th:id="${'JKDiv2_'+speaStat.index}" th:style="${speaStat.index==0?'display:block':'display:none'}" style="display:none;">
+                        <div class="pzxx" th:utext="${spea.content}">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="helpInfoContent"> </div>
+            </div>
+        </div>
+        <div class="bq_box">
+            <div class="detail_comment" id="detail_comment" style="">
+                <div class="dc_title">
+                    <ul class="clearfix">
+                        <li th:each="spe2:${spe2}" th:text="${spe2.title}" th:onmousemove="|JavaScript:ChangeDiv(${spe2Stat.index},'JKDiv3_',3,this)|"  th:id="${spe2Stat.index==0?'JKDiv3_DEF':''}"  th:class="${spe2Stat.index==0?'Selected':''}" ><a href="javascript:;">应用视频</a></li>
+
+                    </ul>
+                </div>
+                <div class="dc_cont">
+                    <div class="con2" id="JKDiv3_0" th:each="speb:${spe2}" th:id="${'JKDiv3_'+spebStat.index}"  th:style="${spebStat.index==0?'display:block':'display:none'}" >
+                        <div class="pzsp" th:utext="${speb.content}">
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="zxan">
+        <input type="button" value="我要咨询" id="btnZX" />
+        <div id="divZX" style="display:none;margin:auto; z-index:10; background:#fff;">
+
+            <div class="top">我要咨询</div>
+            <textarea name="content" placeholder="如果您有不清楚的地方，可以在线留言"></textarea>
+            <input type="submit" name="Submit" value="提交" style="float:unset;"></div>
+    </div>
+    <script>
+        var oBtnZZ = document.getElementById('btnZZ');
+        var oDivZZ = document.getElementById('divZZ');
+        oBtnZZ.onclick=function(){
+            oDivZZ.style.display = 'block';
+
+        };
+        function dataSource(parentid,obj){
+            var id=[[${product.id}]];//产品id
+            $(obj).addClass("Selected");
+            $(obj).siblings().removeClass("Selected");
+            //查询出parentid后，根据panrentid和productid获取到相关的购买规格展示出来，然后添加到html中。
+            loadGuiGe(id,parentid);
+
+        }
+        function  updatePrice(id) {
+            //根据购买规格获取价格
+
+            $.ajax({
+                type:"POST",
+                url:'[[@{/selectById}]]',
+                data:{id:id},
+                dataType:"json",
+                async: false,
+                success:function (data) {
+
+                    var price=data.price;
+                    console.log("price=="+price);
+                    $("#priceId").html(price);
+
+                }
+
+            });
+
+        }
+    </script>
+    <script>
+        var oBtnZX = document.getElementById('btnZX');
+        var oDivZX = document.getElementById('divZX');
+        oBtnZX.onclick=function(){
+            oDivZX.style.display = 'block';
+            oBtnZX.style.display = 'none';
+        };
+    </script>
+
+    <div class="zixun">
+        <div class="top">大家都在看</div>
+        <div class="zixun_photo">
+            <div id="four_flash">
+                <div class="flashBg">
+                    <ul class="mobile">
+                        <li><span id="tu"><a href="#"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></a></span>
+                            <span id="tit">Hisense 计算机辅助手术系统<br/>
+¥ 0.01</span></li>
+                        <li><span id="tu"><a href="#"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></a></span>
+                            <span id="tit">Hisense 计算机辅助手术系统<br/>
+¥ 0.01</span></li>
+                        <li><span id="tu"><a href="#"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></a></span>
+                            <span id="tit">Hisense 计算机辅助手术系统<br/>
+¥ 0.01</span></li>
+                        <li><span id="tu"><a href="#"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></a></span>
+                            <span id="tit">Hisense 计算机辅助手术系统<br/>
+¥ 0.01</span></li>
+                        <li><span id="tu"><a href="#"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></a></span>
+                            <span id="tit">Hisense 计算机辅助手术系统<br/>
+¥ 0.01</span></li>
+                    </ul>
+                </div>
+                <div class="but_left"><i class="iconfont">&#xe68d;</i></div>
+                <div class="but_right"><i class="iconfont">&#xe638;</i></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        var _index5=4;
+        var len = $(".flashBg ul.mobile li").length+8;
+        $(function(){
+
+            var li1 = $("#four_flash .flashBg ul.mobile li").eq(0).html();
+            var li2 = $("#four_flash .flashBg ul.mobile li").eq(1).html();
+            var li3 = $("#four_flash .flashBg ul.mobile li").eq(2).html();
+            var li4 = $("#four_flash .flashBg ul.mobile li").eq(3).html();
+
+            var li5 = $("#four_flash .flashBg ul.mobile li").eq(len-9).html();
+            var li6 = $("#four_flash .flashBg ul.mobile li").eq(len-10).html();
+            var li7 = $("#four_flash .flashBg ul.mobile li").eq(len-11).html();
+            var li8 = $("#four_flash .flashBg ul.mobile li").eq(len-12).html();
+            $("#four_flash .flashBg ul.mobile").stop().css({left:-4*210});
+            //alert(li6);
+            $("#four_flash .flashBg ul.mobile").append("<li>"+li1+"</li><li>"+li2+"</li><li>"+li3+"</li><li>"+li4+"</li>");
+            $("#four_flash .flashBg ul.mobile").prepend("<li>"+li8+"</li><li>"+li7+"</li><li>"+li6+"</li><li>"+li5+"</li>");
+            demo1();
+
+
+
+        })
+        function demo1(){
+            var t;
+            //alert(len);
+            t = setInterval(function(){
+                _index5++;
+
+                $("#four_flash .flashBg ul.mobile").stop().animate({left:-_index5*210},1000,function(){
+                    if(_index5+4>=len){
+                        _index5=4;
+
+                        $("#four_flash .flashBg ul.mobile").stop().css({left:-4*210});
+                    }
+                });
+            },3000)
+            $("#four_flash").hover(function(){
+                clearInterval(t);
+            },function(){
+                t = setInterval(function(){
+                    _index5++;
+
+                    $("#four_flash .flashBg ul.mobile").stop().animate({left:-_index5*210},1000,function(){
+                        if(_index5+4>=len){
+                            _index5=4;
+
+                            $("#four_flash .flashBg ul.mobile").stop().css({left:-4*210});
+                        }
+                    });
+                },3000)
+            });
+
+        }
+
+        $("#four_flash .but_right img").click(function(){
+
+            _index5++;
+
+            $("#four_flash .flashBg ul.mobile").stop().animate({left:-_index5*210},1000,function(){
+                if(_index5+4>=len){
+                    _index5=4;
+
+                    $("#four_flash .flashBg ul.mobile").stop().css({left:-4*210});
+                }
+            });
+
+        });
+
+
+        $("#four_flash .but_left img").click(function(){
+
+            _index5--;
+            //alert(_index5);
+            $("#four_flash .flashBg ul.mobile").stop().animate({left:-_index5*210},1000,function(){
+
+                if(_index5==0){
+                    _index5=len-8;
+                    $("#four_flash .flashBg ul.mobile").stop().css({left:-(len-8)*210});
+                }
+            });
+        });
+
+    </script>
+</div>
+<div class="zixun">
+    <div class="top">浏览记录</div>
+    <div class="Box">
+        <div class="content1">
+
+            <div class="Box_con clearfix">
+                <span class="btnl btn" id="btnl"><i class="iconfont">&#xe68d;</i></span>
+                <span class="btnr btn" id="btnr"><i class="iconfont">&#xe638;</i></span>
+
+                <div class="conbox" id="BoxUl">
+                    <ul>
+                        <li><span id="photo"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></span>
+                            <span id="bt">Hisense 计算机辅助手术系统<br/>
+¥ 0.01</span></span></li>
+
+                        <li class="cur"><span id="photo"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></span>
+                            <span id="bt">Hisense 计算机辅助手术系统<br/>
+¥ 0.01</span></span></li>
+
+                        <li class="cur"><span id="photo"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></span>
+                            <span id="bt">Hisense 计算机辅助手术系统<br/>
+¥ 0.01</span></span></li>
+
+                        <li class="cur"><span id="photo"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></span>
+                            <span id="bt">Hisense 计算机辅助手术系统<br/>
+¥ 0.01</span></span></li>
+
+                        <li class="cur"><span id="photo"><img src="../img/cp02.jpg" th:src="@{/assets/img/cp02.jpg}"/></span>
+                            <span id="bt">Hisense 计算机辅助手术系统<br/>
+¥ 0.01</span></span></li>
+                    </ul>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        //滚动元素id，左切换按钮，右切换按钮，切换元素个数id,滚动方式，切换方向，是否自动滚动，滚动距离，滚动时间，滚动间隔，显示个数
+        LbMove('BoxUl','btnl','btnr','BoxSwitch',true,'left',true,170,1000,5000,4);
+    </script>
+</div>
+<div class="tjnav">
+    <ul>
+        <li><a href="#"><img src="../img/fenxi.png" th:src="@{/assets/img/fenxi.png}"/></a><span><a href="#">分析软件</a></span></li>
+        <li><a href="#"><img src="../img/fxrj.png" th:src="@{/assets/img/fxrj.png}"/></a><span><a href="#">计划软件</a></span></li>
+        <li><a href="#"><img src="../img/3d.png" th:src="@{/assets/img/3d.png}"/></a><span><a href="#">3D打印</a></span></li>
+        <li><a href="#"><img src="../img/zhin.png" th:src="@{/assets/img/zhin.png}"/></a><span><a href="#">人工智能</a></span></li>
+        <li><a href="#"><img src="../img/robot.png" th:src="@{/assets/img/robot.png}"/></a><span><a href="#">导航/机器人</a></span></li>
+
+    </ul>
+
+</div>
+</div>
+
+
+<script>
+    //tabs随动
+    $(window).scroll(function(){
+        var nav = $("#firstNav"),navBox = $(".showAddsRight");
+        var detail_comment= $(".detail_comment").offset().top;
+        var commentNav = $("#detail_comment .dc_title");
+        if($(this).scrollTop()>navBox.offset().top && $(this).scrollTop()<detail_comment-50){
+            nav.addClass('onfix').next().css('padding-top','36px');
+        }else{
+            nav.removeClass('onfix').next().removeAttr('style');
+        }
+        if($(this).scrollTop()>detail_comment && $(this).scrollTop() < detail_comment + $(".detail_comment").parent().height()-20){
+            commentNav.addClass('onfix').next();
+        }else{
+            commentNav.removeClass('onfix').next();
+        }
+        if($(this).scrollTop()>$(window).height()){
+            $('.fsFixedTopContent').fadeIn();
+        }else{
+            $('.fsFixedTopContent').fadeOut();
+        }
+    })
+</script>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

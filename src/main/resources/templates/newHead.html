@@ -1,0 +1,249 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<nav th:fragment="topbar">
+    <link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
+
+    <div class="logo">
+        <a th:href="@{/}"><img th:src="@{/assets/img/logo.jpg}"/></a>
+    </div>
+    <div class="midd">
+        <div class="seach">
+            <form th:action="@{/product/list}" id="searchForm" method="post">
+                <input type="hidden" id="parent" name="parent" th:value="${parent}">
+                <input type="hidden" id ="type" value="1" >
+
+                <input type="hidden" id ="category" name="category" value="6" >
+                <input type="hidden" id ="index" name="index" value="3" >
+
+                <input type="text" id="seachName" name="keywords" autocomplete="off" />
+                <div class="searchResults">
+                </div>
+                <div class="seach-select">
+                    <p><span class="searchText"></span><i class="fa fa-caret-down"></i></p>
+                    <ul>
+                        <li th:each="cate:${categorylist}" th:onclick = "|editSearch(this,'1','${cate.name}',${cate.id})|"> [[${cate.name}]]</li>
+                    </ul>
+                </div>
+                <a id="seachSubmit" onclick="sertchList()"></a>
+            </form>
+            <script>
+                $(".searchResults").css({
+                    'height': '0px',
+                    'border': '0'
+                });
+                console.log([[${categorylist[0].id}]]);
+                var oldText,oldType,categoryId = [[${categorylist[0].id}]];
+                $("#category").val(categoryId);
+                $(".searchText").text('[[${categorylist[0].name}]]');
+                $(".seach-select").find("li").eq(0).addClass('seachActive')
+                function queryData(text) {
+                    if(text == ''|| text == null){
+                        return false;
+                    }
+                    var type = $("#type").val();
+                    if(text == oldText && type == oldType){
+                        $("#seachName").css({
+                            "border-radius": "10px 0 0 0",
+                            "border-bottom": "0"
+                        });
+                        $(".searchResults").css({
+                            'height': 'auto',
+                            'border': '1px solid #007fdc',
+                            'border-top': '0'
+                        });
+                        return false;
+                    }
+                    searchArticle(text,type)
+                }
+                //检索关联新闻
+                function searchArticle(text,type){
+                    $.ajax({
+                        url: "[[@{/article/searchArticleTitle}]]",
+                        type: "POST",
+                        data: JSON.stringify({
+                            keywords: text,
+                            category: categoryId
+                        }),
+                        contentType:"application/json",
+                        dataType:"json",
+                        async: false,
+                        success: function (data) {
+                            oldText = text;
+                            oldType = type;
+                            if(data.length === 0){
+                                $(".searchResults").empty();
+                                $(".searchResults").removeAttr('style');
+                                $(".searchResults").css({
+                                    'height': '0px',
+                                    'border': '0'
+                                });
+                                $("#seachName").css({
+                                    "border-radius": "10px 0 0 10px",
+                                    "border": "1px solid #007fdc"
+                                });
+                                return;
+                            }
+                            var html = '';
+                            for(var i = 0; i < data.length; i++ ){
+                                if(data[i].tab == 1){
+                                    html += '<a target="_blank" href="[[@{/article/view}]]?category='+ categoryId +'&articleid='+ data[i].id +'">'+ data[i].title +'</a>';
+                                }else if(data[i].tab == 2){
+                                    html += '<a target="_blank" href="[[@{/learning/view}]]?id='+ data[i].id +'">'+ data[i].title +'</a>';
+                                }else if(data[i].tab == 3){
+                                    html += '<a target="_blank" href="[[@{/journalism/view}]]?category='+ categoryId +'&articleid='+ data[i].id +'">'+ data[i].title +'</a>';
+                                }
+                                if(i == 9){ break; }
+                            }
+                            $(".searchResults").html(html);
+                            setTimeout(function () {
+                                $(".searchResults").css({
+                                    'height': 'auto',
+                                    'border': '1px solid #007fdc',
+                                    'border-top': '0'
+                                });
+                                $("#seachName").css({
+                                    "border-radius": "10px 0 0 0",
+                                    "border-bottom": "0"
+                                });
+                            },500)
+
+                        }
+                    });
+                }
+
+                //from表单回车事件
+                $("#searchForm").keydown(function(event){
+                    if(event.keyCode==13){
+                        sertchList()
+                    }
+                });
+                //节流函数开始
+                var input = document.getElementById("seachName");
+                $("#seachName").on('focus',function () {
+                    queryData($("#seachName").val())
+                });
+                $("#seachName").on('blur',function () {
+                    setTimeout(function () {
+                        $(".searchResults").css({
+                            'height': '0px',
+                            'border': '0'
+                        })
+                    },1000);
+                    $("#seachName").css({
+                        "border-radius": "10px 0 0 10px",
+                        "border": "1px solid #007fdc"
+                    })
+                });
+                input.addEventListener("keyup", function(event) {
+                    throttle(queryData, null, 500, this.value);
+                });
+                function throttle(fn, context, delay, text) {
+                    clearTimeout(fn.timeoutId);
+                    fn.timeoutId = setTimeout(function() {
+                        fn.call(context, text);
+                    }, delay);
+                }
+                //节流函数结束
+
+                //点击检索列表
+                function sertchList() {
+                    var type = $("#type").val();
+                    $("#seachName").css({
+                        "border-radius": "10px 0 0 10px",
+                        "border": "1px solid #007fdc"
+                    });
+                    // $("#seachName").attr("name","keywords");
+                    // $("#searchForm").attr('action','[[@{/article/searchArticle}]]');    //通过jquery为action属性赋值
+                    $(".searchResults").css({
+                        'height': '0px',
+                        'border': '0'
+                    });
+                    location.href = "[[@{/article/searchArticle}]]?keywords=" + $("#seachName").val() + "&category=" + $("#category").val();
+                    // $("#searchForm").submit();
+                }
+                //修改type值 并重新检索
+                function editSearch(_this,value,text,categoryId) {
+                    categoryId = categoryId;
+                    $("#category").val(categoryId);
+                    $(_this).siblings().removeClass("seachActive");
+                    $(_this).addClass("seachActive");
+                    $(".searchText").text(text);
+                    $("#type").val(value);
+                    $(".searchResults").css({
+                        'height': '0px',
+                        'border': '0'
+                    });
+                    $("#seachName").css({
+                        "border-radius": "10px 0 0 10px",
+                        "border": "1px solid #007fdc"
+                    });
+                    queryData($("#seachName").val());
+                }
+
+
+
+
+            </script>
+
+            <!--        <input type="text" value="" class="txt" >-->
+            <!--        <input type="submit" value="" class="but" />-->
+        </div>
+        <div class="navBar" id="headdiv">
+            <li style="padding-left:0px;"><a href="index.html" th:href="@{/}" >首页</a></li>
+            <!--开始-->
+            <li th:each="list:${@index.getList()}">
+                <th:block th:each="entry:${list}">
+                    <!--[[${entry.value.size()}]]-->
+                    <th:block th:if="${entry.value.size()<=1}" >
+                        <!--<a href="2j_news.html"  th:text="${entry.key}" >行业资讯</a>-->
+                        <a href="javascript:void(0)"  th:text="${entry.key}" th:href="@{/category/list(parent=${entry.value[0].id})}">行业资讯</a>
+                    </th:block>
+                    <th:block th:if="${entry.value.size()>1}">
+                        <a href="javascript:void(0)"  th:text="${entry.key}" >行业资讯</a>
+                        <ul class="gouw-son" style="width:170px;" >
+                            <th:block th:each="entry1 : ${list}">
+                                <th:block th:with="entrys=${entry1.value}" >
+                                    <th:block th:if="${entrys.size()>1}">
+                                        <th:block th:if="${entry1.key=='行业资讯'}">
+                                            <li class="" th:each="list2:${entrys}"><a href="2j_jytd.html" th:text="${list2.name}" th:href="@{/article/list(category=${list2.id})}">精英团队</a></li>
+                                        </th:block>
+                                        <th:block th:if="${entry1.key=='增值服务'}">
+                                            <li class="" th:each="list2:${entrys}"><a href="2j_jytd.html" th:text="${list2.name}" th:href="@{/article/valuelist(category=${list2.id})}">专题研讨会外包服务</a></li>
+                                        </th:block>
+                                        <th:block th:if="${entry1.key=='know-how'}">
+                                            <li class="" th:each="list2:${entrys}"><a href="2j_jytd.html" th:text="${list2.name}" th:href="@{/article/knowhowlist(category=${list2.id})}">专题研讨会外包服务</a></li>
+                                        </th:block>
+                                    </th:block>
+                                </th:block>
+                            </th:block>
+                        </ul>
+                    </th:block>
+                </th:block>
+                <!--<th:block th:each="mapkey:${list}">-->
+                <!--    <p th:text="${mapkey.key}"></p>-->
+                <!--</th:block>-->
+
+
+
+
+            </li>
+            <!--结束-->
+
+        </div>
+    </div>
+
+
+    <div class="internetLink">
+        <ul class="social-icons pull-right">
+<!--            <li> <a href="#" target="_blank"><i class="fa fa-facebook fa-2x" style="color: #00a0ea"></i></a> </li>-->
+<!--            <li> <a href="#" target="_blank"><i class="fa fa-twitter fa-2x" style="color: #00a0ea"></i></a> </li>-->
+<!--            <li> <a href="#" target="_blank"><i class="fa fa-youtube-square fa-2x" style="color: #00a0ea"></i></a> </li>-->
+<!--            <li> <a href="#" target="_blank"><i class="fa fa-weixin fa-2x" style="color: #00a0ea"></i></a> </li>-->
+<!--            <li> <a href="#" target="_blank"><i class="fa fa-weibo fa-2x" style="color: #00a0ea"></i></a> </li>-->
+        </ul>
+    </div>
+
+</nav>
+
+</html>

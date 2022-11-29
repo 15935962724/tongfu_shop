@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.ExhibitionDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.Exhibition" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="signup_entrance" property="signupEntrance" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="holding_time" property="holdingTime" jdbcType="TIMESTAMP" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="BIGINT" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="hits" property="hits" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.tongfu.entity.Exhibition" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, modify_date, phone, signup_entrance, title, holding_time, logo,
+    address, company_id, status, message, hits
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tf_exhibition
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="getAll" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tf_exhibition
+    where 1 = 1
+    <if test="title!=null and title !='' ">
+      and title like '%${title}%'
+    </if>
+    <if test="startDate != null and endDate !=null " >
+      and create_date BETWEEN #{startDate,jdbcType=TIMESTAMP} AND #{endDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="holdingStartDate != null and holdingEndDate !=null " >
+      and holding_time BETWEEN #{holdingStartDate,jdbcType=TIMESTAMP} AND #{holdingEndDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="companyId != null" >
+      and company_id = #{companyId,jdbcType=BIGINT}
+    </if>
+    <if test="status != null" >
+      and status = #{status,jdbcType=BIGINT}
+    </if>
+    ORDER BY create_date DESC
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_exhibition
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.Exhibition" >
+    insert into tf_exhibition (id, create_date, modify_date,
+      phone, signup_entrance, title,
+      holding_time, logo, address,
+      company_id, status, message,
+      hits, content)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP},
+      #{phone,jdbcType=VARCHAR}, #{signupEntrance,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
+      #{holdingTime,jdbcType=TIMESTAMP}, #{logo,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+      #{companyId,jdbcType=BIGINT}, #{status,jdbcType=BIGINT}, #{message,jdbcType=VARCHAR},
+      #{hits,jdbcType=BIGINT}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.Exhibition" >
+    insert into tf_exhibition
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="signupEntrance != null" >
+        signup_entrance,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="holdingTime != null" >
+        holding_time,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+      <if test="hits != null" >
+        hits,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="signupEntrance != null" >
+        #{signupEntrance,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="holdingTime != null" >
+        #{holdingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null" >
+        #{hits,jdbcType=BIGINT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.Exhibition" >
+    update tf_exhibition
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="signupEntrance != null" >
+        signup_entrance = #{signupEntrance,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="holdingTime != null" >
+        holding_time = #{holdingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIGINT},
+      </if>
+      <if test="message != null" >
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null" >
+        hits = #{hits,jdbcType=BIGINT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tongfu.entity.Exhibition" >
+    update tf_exhibition
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      phone = #{phone,jdbcType=VARCHAR},
+      signup_entrance = #{signupEntrance,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      holding_time = #{holdingTime,jdbcType=TIMESTAMP},
+      logo = #{logo,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=BIGINT},
+      status = #{status,jdbcType=BIGINT},
+      message = #{message,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=BIGINT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.Exhibition" >
+    update tf_exhibition
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      phone = #{phone,jdbcType=VARCHAR},
+      signup_entrance = #{signupEntrance,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      holding_time = #{holdingTime,jdbcType=TIMESTAMP},
+      logo = #{logo,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=BIGINT},
+      status = #{status,jdbcType=BIGINT},
+      message = #{message,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

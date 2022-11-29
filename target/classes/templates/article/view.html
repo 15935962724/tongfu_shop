@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>[[${productCategory.name}]]</title>
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}">
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script src="../js/swiper.min.js" th:src="@{/assets/js/memberView.js}"></script>
+</head>
+
+
+</head>
+
+<body>
+<header>
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+
+<div class="content">
+    <div class="luj"><a th:href="@{/}" >首页</a>&gt;
+        <a th:href="@{/article/list(category=${productCategory.id})}" th:text="${parent}"></a>&gt;
+        <a th:href="@{/article/list(category=${productCategory.id})}" th:text="${productCategory.name}"></a>
+    </div>
+    <div class="newsxx">
+        <div id="name" th:text="${article.title}">【视频专访】陈耀勇教授：无创DNA产前检测技术将是未来的发展方向</div>
+        <div class="shij" style="border: 0;padding-bottom: 10px">来源：[[${article.datasource}]]　　　时间：[[${#dates.format(article.modifyDate,'yyyy/MM/dd')}]]
+
+            <div class="target" style="padding: 0 0 20px; justify-content: flex-end;border-bottom: 1px solid #ddd;">
+                <th:block th:with="arrays=${#strings.arraySplit(article.seoKeywords,',')}">
+                    <a th:href="@{/article/list(category=${productCategory.id},keywords=${arrayS})}" th:each="arrayS:${arrays}" th:text="${arrayS}"></a>
+                </th:block>
+            </div>
+        </div>
+        <div id="text" th:utext="${article.content}">
+
+        </div>
+        <div class="copyright">版权归原作者所有，如有侵权，请联系我们删除。</div>
+
+    </div>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的积分</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script src="../js/jquery-3.1.1.js" th:src="@{/assets/js/jquery-3.3.1.js}"></script>
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+</head>
+<body>
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;<a href="javaScript:void(0);">我的SP</a></div>
+    <div class="con_sp">
+        <script>
+            $(function(){
+                $('.nav .nav-header-li-div').click(function(){
+                    if($(this).parent().hasClass('active')) {
+                        $(this).parent().removeClass('active').addClass("active-none");
+                    }else{
+                        $(this).parent().removeClass('active-none').addClass("active").siblings().removeClass('active').addClass("active-none");
+                        $(this).parent().siblings().find('.nav-second-level li').removeClass('active1');
+                    }
+                });
+
+                $('.nav-second-level li').click(function(){
+                    $(this).addClass('active1').siblings().removeClass('active1');
+                });
+            })
+        </script>
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+
+        <div class="con_right">
+            <div class="chax" style="overflow: hidden;">
+                <h1>我的积分</h1>
+                <div class="jif">
+                    <p><img src="../img/jif.png" th:src="@{/assets/img/jif.png}"/></p>
+                    <p>200</p>
+                    <input type="button" value="积分兑换" />
+                </div>
+                <div class="tongji">
+                    <h4>最近三个月积分统计</h4>
+                    <ul>
+                        <li><p><a href="#">+200</a></p><p>购物积分</p></li>
+                        <li><p><a href="#">0</a>单</p><p>积分支付订单</p></li>
+                        <li><p><a href="#">0</a>元</p><p>积分抵扣节省</p></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="height:20px;width:100%;display:block"></div>
+            <div class="chax">
+                <h1>我的积分明细</h1>
+                <form id="form"  th:action="@{/point/list}">
+
+                <div class="jfmx">
+                    <div class="mingx">
+<!--                        <li><a href="#">最近三个月<i class="iconfont">&#xe641;</i></a>-->
+<!--                            <ul>      <li class=""><a href="#">最近三个月</a></li>-->
+<!--                                <li class=""><a href="#">最近半年</a></li>-->
+<!--                                <li class=""><a href="#">最近一年</a></li></ul></li>-->
+                        <select name="seltime" id="seltime">
+                            <option value="3" th:selected="${seltime==3}">最近三个月</option>
+                            <option value="6" th:selected="${seltime==6}">最近半年</option>
+                            <option value="12" th:selected="${seltime==12}">最近一年</option>
+                        </select>
+<!--                        <li><a href="#">收入/支出<i class="iconfont">&#xe641;</i></a>-->
+<!--                            <ul>      <li class=""><a href="#">收入</a></li>-->
+<!--                                <li class=""><a href="#">支出</a></li></ul></li>-->
+                        <select name="selshouzhi" id="selshouzhi">
+                            <option value="">收入/支出</option>
+                            <option value="0" th:selected="${selshouzhi==0}">收入</option>
+                            <option value="1" th:selected="${selshouzhi==1}">支出</option>
+
+                        </select>
+                        <li style="padding-top: 20px"><a href="#">详细说明</a></li>
+                    </div>
+
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top:10px;">
+
+                        <tr th:each="point:${list}" th:style="${pointStat.index%2==0?'background:#f6fbff;':''}">
+                            <td width="320" th:text="${#dates.format(point.create_date,'yyyy-MM-dd')}">2019-04-08  15:06 </td>
+                            <th:block th:if="${point.type==0}">
+                                <td width="200" style="color:#fe1414;" >+[[${point.point}]]</td>
+                            </th:block>
+
+                            <td>[[${point.memo}]]</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" valign="bottom" class="more"><a href="#">查看更多 ></a> </td>
+                        </tr>
+                    </table>
+                </div>
+                </form>
+
+            </div>
+            <div style="height:20px;width:100%;display:block"></div>
+            <div class="chax">
+                <h1>积分使用常问题</h1>
+                <div class="wenti"><p style="color:#333;"><b>1. 积分的有效期</b></p>
+                    <p>　积分的有效期最长2年，最短1年，即从获得积分开始至次年年底，逾期自动作废（如若交易在使用积分有效期之外发生退款，该部分积分不予退还）</p><br>
+                    <p style="color:#333;"><b>2. 积分的兑换比例</b></p>
+                    <p>　积分和人民币兑换比例是10:1，即100个积分相当于人民币1元。</p><br>
+                    <p style="color:#333;"><b>3. 积分如何获取</b></p>
+                    <p>　用户在SP进行购物、商品评价、晒单、交易满意度、移动端下单、指定区域在线支付等活动都可以获得积分。具体获取积分规则详见帮助中心。</p></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        //判断控制页面初始时左右的高度一致
+        var hl = $(".con_left").outerHeight(); //获取左侧left层的高度
+        var hr = $(".con_right").outerHeight(); //获取右侧right层的高度
+        var mh = Math.max(hl,hr); //比较hl与hr的高度，并将最大值赋给变量mh
+        $(".con_left").height(mh); //将left层高度设为最大高度mh
+        $(".con_right").height(mh); //将right层高度设为最大高度
+
+        $("#seltime").change(function () {
+            $("#form").submit();
+        });
+
+        $("#selshouzhi").change(function () {
+            $("#form").submit();
+        });
+    </script>
+</div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+</body>
+</html>
+

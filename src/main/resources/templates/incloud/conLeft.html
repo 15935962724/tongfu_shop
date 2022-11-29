@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>我的SP左侧</title>
+
+  </head>
+  <body>
+  <!--购物车弹窗-->
+
+  <footer th:fragment="con_left">
+
+    <script>
+      $(function(){
+        $('.sp_nav .sp_nav-header-li-div').click(function(){
+          if($(this).parent().hasClass('active')) {
+            $(this).parent().removeClass('active').addClass("active-none");
+          }else{
+            $(this).parent().removeClass('active-none').addClass("active").siblings().removeClass('active').addClass("active-none");
+            $(this).parent().siblings().find('.sp_nav-second-level li').removeClass('active1');
+          }
+        });
+
+        $('.sp_nav-second-level li').click(function(){
+          $(this).addClass('active1').siblings().removeClass('active1');
+        });
+      })
+    </script>
+
+    <div class="con_left">
+      <div class="sp_navbar-default">
+        <ul class="sp_nav metismenu" id="side-menu" style="">
+          <li th:class="${activeNone eq 'member'?'active':'active-none'}" >
+            <div class="sp_nav-header-li-div">
+              <i class="iconfont">&#xe662;</i>
+              <span class="sp_nav-label">账号信息</span>
+            </div>
+            <ul class="sp_nav-second-level">
+              <li><a th:class="${active==1?'active1':''}" th:href="@{/member/view}"><i class="iconfont">&#xe636;</i>基本资料</a></li>
+              <li><a th:class="${active==2?'active1':''}" th:href="@{/receiver/list}"><i class="iconfont">&#xe636;</i>收货地址</a></li>
+              <li><a th:class="${active==3?'active1':''}" th:href="@{/member/security}"><i class="iconfont">&#xe636;</i>安全设置</a></li>
+            </ul>
+          </li>
+
+          <li th:class="${activeNone eq 'order'?'active':'active-none'}">
+            <div class="sp_nav-header-li-div">
+              <i class="iconfont" style="ont-size: 18px;">&#xe6c0;</i>
+              <span class="sp_nav-label">我的订单</span>
+            </div>
+            <ul class="sp_nav-second-level">
+              <li th:class="${active==4?'active1':''}"><a th:href="@{/order/orderList}"><i class="iconfont">&#xe636;</i>普通商品订单</a></li>
+              <li th:class="${active==5?'active1':''}"><a th:href="@{/order/addedOrderList}"><i class="iconfont">&#xe636;</i>增值服务订单</a></li>
+              <!--<li th:class="${active==6?'active1':''}"><a th:href="@{/order/knowHowList}"><i class="iconfont">&#xe636;</i>Know-how卡订单</a></li>-->
+            </ul>
+          </li>
+
+         <!-- <li th:class="${activeNone eq 'presentation'?'active':'active-none'}">
+            <div class="sp_nav-header-li-div">
+              <i class="iconfont">&#xe64f;</i>
+              <a th:href="@{/order/remoteReport}">
+                <span class="sp_nav-label">远程报告</span>
+              </a>
+            </div>
+          </li>-->
+
+          <li th:class="${activeNone eq 'knowHow'?'active':'active-none'}" style="background: none">
+            <div class="sp_nav-header-li-div">
+              <i class="iconfont" style="font-size: 22px;">&#xe613;</i>
+              <a th:href="@{/member/knowHow}">
+                <span class="sp_nav-label">Know-how卡</span>
+              </a>
+            </div>
+          </li>
+
+          <li th:class="${activeNone eq 'point'?'active':'active-none'}" style="background: none">
+            <div class="sp_nav-header-li-div">
+              <i class="iconfont">&#xe685;</i>
+              <a th:href="@{/point/list}">
+                <span class="sp_nav-label">我的积分</span>
+              </a>
+            </div>
+<!--            <ul class="sp_nav-second-level">-->
+<!--              <li th:class="${active==7?'active1':''}">-->
+<!--                <a th:href="@{/point/adddoctor}">-->
+<!--                  <i class="iconfont">&#xe636;</i>医生申请-->
+<!--                </a>-->
+<!--              </li>-->
+<!--              <li>-->
+<!--                <a th:class="${active==8?'active1':''}" th:href="@{/point/addcommittee}">-->
+<!--                  <i class="iconfont">&#xe636;</i>组委会申请-->
+<!--                </a>-->
+<!--              </li>-->
+<!--            </ul>-->
+          </li>
+
+          <li th:class="${activeNone eq 'invoice'?'active':'active-none'}" style="background: none">
+            <div class="sp_nav-header-li-div">
+              <i class="iconfont">&#xe627;</i>
+              <a th:href="@{/orderInvoice/list}">
+                <span class="sp_nav-label">我的发票</span>
+              </a>
+            </div>
+          </li>
+
+          <li th:class="${activeNone eq 'problem'?'active':'active-none'}" style="background: none">
+            <div class="sp_nav-header-li-div">
+              <i class="iconfont">&#xe611;</i>
+              <a th:href="@{/gotoproblem}" target="_blank"><span class="sp_nav-label">常见问题</span></a>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+  </footer>
+
+
+  </body>
+</html>

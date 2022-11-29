@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
+    <meta http-equiv="Content-Type"  content="multipart/form-data; charset=utf-8" />
+    <title>企业注册页</title>
+</head>
+
+<body>
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}" >
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<link href="../css/demo.css" rel="stylesheet" type="text/css"  th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css" rel="stylesheet" type="text/css"  th:href="@{/assets/css/iconfont.css}">
+<script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+<script src="../js/jquery.cookie.js" language="javascript" th:src="@{/assets/js/jquery.cookie.js}"></script>
+<link rel="stylesheet" href="../css/home.css" type="text/css"  th:href="@{/assets/css/home.css}"/>
+
+<!--三级联动插件-->
+<script th:src="@{/assets/js/lSelect.js}"></script>
+<style>
+
+    .reg .zc button,.reg .zc02 button{height:42px;text-align:center;padding:5px 0px;background:#007fdc;color:#fff;border:0px;border-radius:4px;}
+    .reg .zc button a,.reg .zc02 button a{color:#Fff;}
+    input[type="text"]{width:293px;height:42px;float:left;}
+    .step-index:after,.progress .pro-done .pro-line,.progress .pro-done .step-index:after{/*background:#007fdc*/}
+    .td01{text-align:right;padding-right:15px;}
+</style>
+
+<div id="Header">
+
+    <div class="ktou">
+        <div class="klogo"><img th:src="@{/assets/img/logo.jpg}"/></div>
+        <div class="kgouw">
+            <li><a href="">中文</a><i class="iconfont">&#xe641;</i><span style="float:right;    padding: 0px 10px;">|</span>
+                <ul class="gouw-son hidden">
+                    <li class=""><a href="#">中文</a></li>
+                    <li class=""><a href="#">EN</a></li>
+                </ul></li><li><a th:href="@{/}">返回首页</a></li>
+        </div>
+
+    </div>
+</div>
+<script>
+    function test(){
+        $('.gouw').children("li:has(ul)").hover(
+            function(){
+                //$(this).find("ul>li:last").addClass("li-last-s1");//给每个下拉菜单的最后一个li元素添加css样式，此处非必要
+                $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单
+            },
+            function(){
+                $(this).children("ul").hide();//隐藏下拉菜单
+            }
+        );
+    }
+
+</script>
+
+<script>
+    test();
+</script>
+
+<div class="log_con">
+    <div class="reg">
+        <div class="top"><span id="zh">注册SP会员账户</span><span id="zh1">已有账号？ <a href="#">立即登录</a></span></div>
+        <div class="progress">
+            <div class="pro-item pro-doing pro-item1">
+                <div class="pro-step">
+                    <span class="step-index">1</span><p class="step-desc">填写手机号码</p></div></div>
+            <div class="pro-item pro-doing pro-item2">
+                <div class="pro-line"></div><div class="pro-step"><span class="step-index">2</span><p class="step-desc">填写公司信息</p></div></div>
+            <div class="pro-item pro-undo pro-item3" style="padding-left: 145px;
+"><div class="pro-line"></div><div class="pro-step"><span class="step-index">3</span><p class="step-desc">注册完成</p></div></div></div>
+        <div class="zc02">
+            <form action="/regSubmitQy" method="post" id="form" th:action="@{/regSubmitQy}" enctype="multipart/form-data">
+                <input type="hidden" name="username">
+                <input type="hidden" name="password">
+                <input type="hidden" name="ip" id="ip">
+                <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td01"><font>*</font>注册类型：</td>
+                    <td><select name="regtype" style="width:332px;float:left;">
+                        <option value="0">选择类型</option>
+                        <option value="1">公司</option><option value="2"><a href="reg_2-1.html">医院</a></option>
+                    </select></td>
+
+                </tr>
+                <tr>
+                    <td class="td01" nowrap="nowrap"><font>*</font>统一社会信用代码：</td>
+                    <td><input type="text" placeholder="请按营业执照填写" name="creditCode" required/></td><!--报错<span class="zhuy">请填写统一社会信用代码 </span>-->
+                </tr>
+                <tr>
+                    <td class="td01"><font>*</font>公司名称：</td>
+                    <td><input type="text" placeholder="请按营业执照填写" name="company" required/></td><!--报错<span class="zhuy" style="top:74px;">请填写正确的公司名称</span><span class="zhuy" style="top:74px;">请填写公司名称</span>-->
+                </tr>
+                <tr>
+                    <td class="td01"><font>*</font>公司地址：</td>
+                    <td>
+                        <input type="hidden" id="areaId" name="areaId" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td01"><font>*</font>详细地址：</td>
+                    <td><input type="text" name="address" placeholder="请输入详细地址" style="width:294px;    float: left;"/></td><!--报错<span class="zhuy" style="    top: 139px;">请选择公司地址  </span>-->
+                </tr>
+                <tr>
+                    <<td class="td01"><font>*</font>营业执照地址：</td>
+                    <td><input type="file" name="productImage" value="上传有效证件"></td>
+                </tr>
+
+                <tr><td></td>
+                    <td style="font-size:12px;color:#999;    text-align: left;padding-bottom:40px;">
+                        营业执照、组织机构代码等、图片大小不超过8M</a></td></tr>
+                <tr><td></td>
+                    <td><button class="cez"><a href="javascript:void(0)" onclick="fnsubmit3()" style="padding-top:30px;">注 册</a></button>
+                        <!--<input type="submit" value="注册"/>--></td></tr>
+                <tr><td></td>
+                    <td>
+                        <i class="iconfont4">&#xe61b;</i><a th:href="@{/register}">个人用户注册</a></td></tr>
+            </table>
+
+</form>
+
+        </div>
+    </div>
+
+    <div style="height:55px;width:100%;display:block;"></div>
+    <div class="tjnav">
+        <ul>
+            <li style="margin-left:0px;"><a href="#"><img src="../img/fenxi.png" th:src="@{/assets/img/fenxi.png}" /></a><span><a href="#">分析软件</a></span></li>
+            <li><a href="#"><img src="../img/fxrj.png" th:src="@{/assets/img/fxrj.png}" /></a><span><a href="#">计划软件</a></span></li>
+            <li><a href="#"><img src="../img/3d.png" th:src="@{/assets/img/3d.png}"/></a><span><a href="#">3D打印</a></span></li>
+            <li><a href="#"><img src="../img/zhin.png" th:src="@{/assets/img/zhin.png}"/></a><span><a href="#">人工智能</a></span></li>
+            <li><a href="#"><img src="../img/robot.png" th:src="@{/assets/img/robot.png}"/></a><span><a href="#">导航/机器人</a></span></li>
+
+        </ul>
+
+    </div>
+</div>
+
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+
+<script >
+
+    //页面加载就调用
+    $(function(){
+
+        // 地区选择
+        $("#areaId").lSelect({
+            url: "[[@{/area/getAreas}]]"
+        });
+
+        var ip=returnCitySN["cip"];
+        $("#ip").val(ip);
+        var key="name";
+        var key2="pwd";
+        var cookie = document.cookie;
+
+        var arr = cookie.split(";");
+        var flag=0;
+        for(var i=0;i<arr.length;i++){
+
+            var newArr = arr[i].split("=");
+           // alert(newArr[0]);
+            if(newArr[0].trim()=="name"){
+
+                $("input[name='username']").val(newArr[1].trim());
+                flag+=1;
+                delCookie(newArr[0].trim());
+
+            }
+            if(newArr[0].trim()=="pwd"){
+
+                $("input[name='password']").val(newArr[1].trim());
+                flag+=1;
+                delCookie(newArr[0].trim());
+            }
+
+            if(flag==2){
+
+                break;
+            }
+
+
+        }
+
+
+    });
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg)) {
+            return unescape(arr[2]);
+        } else {
+            return null;
+        }
+    }
+    function delCookie(name) {
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var cval=getCookie(name);
+        if (cval!=null) {
+            document.cookie= name + "=" + cval + ";expires=" + exp.toGMTString();
+        }
+    }
+
+
+
+    function  fnsubmit3() {
+        var leix=$("select[name='regtype']").val();
+        if(leix==0){
+            alert("请选择注册类型");
+            return;
+        }
+        var code=$("input[name='creditCode']").val();
+        if(code==''||code==null){
+            alert("请填写统一社会信用代码");
+            return;
+        }
+        var company=$("input[name='company']").val();
+        if(company==''||company==null){
+            alert("请填写公司名称");
+            return;
+        }
+        var sheng=$("select[name='sheng']").val();
+        var shi=$("select[name='shi']").val();
+        var qu=$("select[name='area']").val();
+        if(sheng==''||sheng==0){
+            alert("请选择省份");
+            return;
+        }
+        if(shi==''||shi==0){
+            alert("请选择市");
+            return;
+        }
+        if(qu==''||qu==0){
+            alert("请选择区");
+            return;
+        }
+        var formData = new FormData($("#form")[0]);
+        $.ajax({
+            type:"post",
+            url:'[[@{/regSubmitQy}]]',
+
+            data:formData,
+            async: false,
+            cache: false, //上传文件不需要缓存
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            success:function(data){
+
+
+                if(data==1) {
+                    var tongfu= '[[@{/}]]';
+                    alert("注册成功");
+                    location.href =tongfu;
+
+                }
+                else
+                {
+                    alert("注册失败");
+                }
+
+
+            },error:function () {
+                alert("失败1111")
+            }
+        });
+    }
+
+
+
+
+
+</script>
+
+
+
+
+
+
+    </body>
+</html>

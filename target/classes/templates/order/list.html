@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的SP-普通商品订单</title>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+    <script type="text/javascript" src="../js/qiehuan.js" th:src="@{/assets/js/qiehuan.js}"></script>
+    <script src="../css/iconfont.js" language="javascript" th:href="@{/assets/css/iconfont.js}"></script>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/layer/layer.js}"></script>
+
+</head>
+<body>
+<header>
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}" href="#">首页</a>&gt;我的SP</div>
+    <div class="con_sp">
+
+        <style>
+            .sp_nav li.active {
+                background: url(../img/sp04.png);
+                background-repeat: no-repeat;
+                background-position: right 20px top 20px;
+                border-bottom: 1px solid #e6e6e6;
+            }
+
+        </style>
+
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+
+        <div class="con_right">
+
+        <form id="orderlistForm" th:action="@{/order/orderList}">
+            <input type="hidden" name="pageNum" id="pageNums" value="1"/><!--页码-->
+            <input type="hidden" name="pageSize" id="pageSize"  th:value="${pageSize}"/><!--每页显示条数-->
+            <input type="hidden" name="orderstatus" id="orderstatus" th:value="${orderstatus}"/>
+
+            <div class="chax"><h1>普通商品订单</h1>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="td01">订单编号：</td>
+                        <td class="td02"><input type="text" placeholder="请输入订单编号" name="ordersn" th:value="${ordersn}"></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="td01">订单时间：</td>
+                        <td> <span><input type="text" id="test1" name="begindate" placeholder="开始日期" th:value="${begindate}">
+                                <script src="../js/layDate-v5.0.9/laydate/laydate.js" th:src="@{/assets/js/layDate-v5.0.9/laydate/laydate.js}"></script><i style="float:left;padding:0px 10px;color:#333;">~</i>
+                            <input type="text" id="test2" placeholder="结束日期" name="enddate" th:value="${enddate}">
+                                <script>
+                                        //执行一个laydate实例
+                                        laydate.render({
+                                            elem: '#test1' //指定元素
+                                        });
+                                        laydate.render({
+                                            elem: '#test2' //指定元素
+                                        });
+                                        </script></span></td>
+                        <td><input type="button" name="Enter" value="查询" onclick="fnsearch()"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="cplist">
+                <div class="title">
+                    <li  onclick="fnChangeStates()"  id="JKDiv_DEF" class="Selected" th:class="${orderstatus==''?'Selected':''}">全部订单([[${orderStatus.total}]])</li>
+                    <li  onclick="fnChangeStates('payment_status')" th:class="${orderstatus=='payment_status'?'Selected':''}">待付款([[${orderStatus.paid}]])</li>
+                    <li  onclick="fnChangeStates('shipping_status')" th:class="${orderstatus=='shipping_status'?'Selected':''}">待收货([[${orderStatus.received}]])</li>
+                    <li  onclick="fnChangeStates('order_status2')" th:class="${orderstatus=='order_status2'?'Selected':''}">已完成([[${orderStatus.completed}]])</li>
+                    <li  onclick="fnChangeStates('order_status3')" th:class="${orderstatus=='order_status3'?'Selected':''}">已取消([[${orderStatus.cancelled}]])</li><a href="javascript:void(0)" onclick="fndel()"><i class="iconfont" >&#xe625;</i></a>
+                </div>
+
+                <div class="orderEach_title">
+                    <input type="checkbox" id="checkAll" onclick="checkAll2()">
+                    <span>订单详情</span>
+                    <span>收货人</span>
+                    <span>金额</span>
+                    <span>订单状态</span>
+                    <span>操作</span>
+                </div>
+
+                <div class="orderEach" th:each="order:${page.list}">
+                    <div class="orderEach_head">
+                        <div class="orderEach_head_time">
+                            <input type="checkbox" name="checkOne" th:value="${order.id}" />
+                            <span>[[${#dates.format(order.create_date,'yyyy-MM-dd HH:mm:ss')}]]</span>
+                            <span>订单号：<a th:href="@{/order/view(orderId=${order.id})}">[[${order.sn}]]</a></span>
+                        </div>
+                        <i class="iconfont" th:onclick="'javascript:deleteOrder(\''+${order.id}+'\')'">&#xe625;</i>
+                    </div>
+                    <div class="orderEach_main">
+                        <div class="orderEach_main_shopList">
+                            <div class="orderEach_main_shop" th:each="product:${order.orderProducts}">
+                                <th:block th:if="${product.is_marketable and product.status ==2}">
+                                    <th:block th:if="${product.is_add_service==1}">
+                                        <a th:href="@{/product/view(id=${product.id})}"><img th:src="@{${pathUrl+product.thumbnail}}" /></a>
+                                        <a class="orderEach_main_shopName" th:href="@{/product/view(id=${product.id})}">[[${product.name}]]</a>
+                                    </th:block>
+                                    <th:block th:if="${product.is_add_service==2}">
+                                        <a th:href="@{/product/addedvalue(id=${product.id})}"><img th:src="@{${pathUrl+product.thumbnail}}" /></a>
+                                        <a class="orderEach_main_shopName" th:href="@{/product/addedvalue(id=${product.id})}">[[${product.name}]]</a>
+                                    </th:block>
+                                    <th:block th:if="${product.is_add_service==3}">
+                                        <a th:href="@{/product/trainPackagesView(id=${product.id})}"><img th:src="@{${pathUrl+product.thumbnail}}" /></a>
+                                        <a class="orderEach_main_shopName" th:href="@{/product/trainPackagesView(id=${product.id})}">[[${product.name}]]</a>
+                                    </th:block>
+                                </th:block>
+
+                                <th:block th:if="${!product.is_marketable or product.status !=2}">
+                                    <a href="javascript:voic(0)"><span class="orderEach_main_lastCar"></span><img th:src="@{${pathUrl+product.thumbnail}}" /></a>
+                                    <a class="orderEach_main_shopName" href="javascript:voic(0)">[[${product.name}]]</a>
+                                </th:block>
+
+                                <span>
+                                    [[${product.purchase_name}]]
+                                </span>
+                                <span>
+                                    ×[[${product.quantity}]]
+                                </span>
+                                <th:block th:if="${order.payment_status==2 and product.quantity>product.return_quantity}">
+                                    <a th:href="@{/order/addApplicationCode(orderItemId=${product.oid})}" style="margin-left: 0">获取激活码</a>
+                                </th:block>
+
+                            </div>
+                        </div>
+                        <div class="orderEach_main_View" th:style="'height:'+${92*order.orderProducts.size()}+'px'">
+                            [[${order.consignee}]]
+                        </div>
+                        <div class="orderEach_main_View" th:style="'height:'+${92*order.orderProducts.size()}+'px'">
+                            &yen; [[${#numbers.formatDecimal(@orderSer.getAmount('__${order.id}__'),1,'COMMA',2,'POINT')}]]
+                        </div>
+                        <div class="orderEach_main_View" th:style="'height:'+${92*order.orderProducts.size()}+'px'">
+                            <span >[[${order.orderStatus}]]</span>
+                        </div>
+                        <div class="orderEach_main_View" th:style="'height:'+${92*order.orderProducts.size()}+'px'">
+                            <a th:href="@{/order/view(orderId=${order.id})}">订单详情</a>
+
+                            <th:block th:if="${order.payment_status == 0 and order.order_status == 0 }">
+                                <a th:href="@{/order/goPayment(orderId=${order.id})}" style="color: red;">去付款</a>
+                                <a style="cursor: pointer;" th:onclick="'javascript:editClearOrderID(\''+${order.id}+'\')'">取消订单</a>
+                            </th:block>
+                            <th:block th:if="${!order.is_make_invoice and order.payment_status == 2}">
+                                <a th:href="@{/orderInvoice/add(orderId=${order.id})}">索要发票</a>
+
+                            </th:block>
+                            <th:block th:if="${ order.payment_status == 2 and order.shipping_status == 2}">
+                                <a href="javaScript:void(0)" th:onclick="'javascript:receiving(\''+${order.id}+'\')'" >确认收货</a>
+                            </th:block>
+                            <!--<a th:href="@{/order/orderAftersales(orderId=${order.id})}">申请售后--></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="con" id="JKDiv_0">
+                    <div class="dingdan">
+                        <th:block th:if="${page.pages>1}">
+                            <!--分页开始-->
+                            <div id="PageNum">
+
+                                <th:block th:if="${page.pages<=6}">
+
+                                    <li  th:each="i:${#numbers.sequence(1,page.pages)}" th:class="${page.pageNum==i?'numb':''}">
+                                        <a th:href="'javascript: $.pageSkip(\''+${i}+'\');'">[[${i}]]</a>
+                                    </li>
+                                    <th:block th:if="${page.pageNum!=page.pages}">
+                                        <li>
+                                            <a th:href="'javascript: $.pageSkip(\''+${page.pageNum+1}+'\');'">
+                                                <i class="iconfont">&#xe638;</i>
+                                            </a>
+                                        </li>
+                                    </th:block>
+
+
+                                </th:block>
+
+                                <th:block th:if="${page.pages>6}">
+                                    <th:block th:if="${(page.pageNum+2)>=page.pages}">
+                                        <th:block th:if="${page.pageNum!=1}">
+                                            <li>
+                                                <a th:href="'javascript: $.pageSkip(\''+${page.pageNum-1}+'\');'">
+                                                    &lt;
+                                                </a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:if="${page.pageNum-2<=1}">
+                                            <li th:each="i:${#numbers.sequence(1,5)}" th:class="${page.pageNum==i?'numb':''}">
+                                                <a th:href="'javascript: $.pageSkip(\''+${i}+'\');'">[[${i}]]</a>
+                                            </li>
+                                        </th:block>
+                                        <th:block th:if="${(page.pageNum-2)>1}">
+                                            <th:block th:if="${(page.pageNum+2)>page.pages}">
+                                                <li th:each="i:${#numbers.sequence(page.pages-4,page.pages)}" th:class="${page.pageNum==i?'numb':''}">
+                                                    <a th:href="'javascript: $.pageSkip(\''+${i}+'\');'">[[${i}]]</a>
+                                                </li>
+                                            </th:block>
+                                            <th:block th:if="${(page.pageNum+2)<=page.pages}">
+                                                <li th:each="i:${#numbers.sequence(page.pageNum-2,page.pageNum+2)}" th:class="${page.pageNum==i?'numb':''}">
+                                                    <a th:href="'javascript: $.pageSkip(\''+${i}+'\');'">[[${i}]]</a>
+                                                </li>
+                                            </th:block>
+
+
+
+                                        </th:block>
+
+
+                                        <th:block th:if="${(page.pageNum)<page.pages}">
+                                            <li>
+                                                <a title="向后1页码" th:href="'javascript: $.pageSkip(\''+${page.pageNum+1}+'\');'">
+                                                    &gt;
+                                                </a>
+                                            </li>
+                                        </th:block>
+
+                                    </th:block>
+
+                                    <th:block th:if="${(page.pageNum+2)<page.pages}">
+                                        <th:block th:if="${page.pageNum!=1}">
+                                            <li>
+                                                <a th:href="'javascript: $.pageSkip(\''+${page.pageNum-1}+'\');'">
+                                                    &lt;
+                                                </a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:if="${page.pageNum-2<=1}">
+                                            <li th:each="i:${#numbers.sequence(1,5)}" th:class="${page.pageNum==i?'numb':''}">
+                                                <a th:href="'javascript: $.pageSkip(\''+${i}+'\');'">[[${i}]]</a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:if="${(page.pageNum-2)>1}">
+                                            <li th:each="i:${#numbers.sequence(page.pageNum-2,page.pageNum+2)}" th:class="${page.pageNum==i?'numb':''}">
+                                                <a th:href="'javascript: $.pageSkip(\''+${i}+'\');'">[[${i}]]</a>
+                                            </li>
+                                        </th:block>
+
+
+                                        <th:block th:if="${(page.pageNum)<page.pages}">
+                                            <li>
+                                                <a title="向后1页码" th:href="'javascript: $.pageSkip(\''+${page.pageNum+1}+'\');'">
+                                                    &gt;
+                                                </a>
+                                            </li>
+                                        </th:block>
+
+                                    </th:block>
+
+
+                                </th:block>
+
+
+                                <span id='go'>
+                                    <select onchange="chagePagesize()" id="pageSel">
+                                        <option value="10" th:selected="${pageSize==10}">10条/页</option>
+                                        <option value="20" th:selected="${pageSize==20}">20条/页</option>
+                                        <option value="50" th:selected="${pageSize==50}">50条/页</option>
+                                        <option value="100" th:selected="${pageSize==100}">100条/页</option>
+                                    </select>跳至
+                                    <input id="pageId" type="number" name="pageNames" th:value="${pageNames}" th:max="${page.pages}" th:min="1" required style="width:50px;height:30px;border:1px solid #e6e6e6;border-radius:4px;text-align: center;" value=""/> 页
+                                </span>
+                                <button onclick="gopage()">go</button>
+                            </div>
+                            <!--分页结束-->
+                        </th:block>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    var hl = $(".con_left").outerHeight();
+    var hr = $(".con_right").outerHeight();
+    var mh = Math.max(hl,hr);
+    $(".con_left").height(mh);
+    $(".con_right").height(mh);
+</script>
+<script>
+    var clearOrderId,clearOrderLayer;
+    $().ready(function() {
+
+        var $listForm = $("#orderlistForm");
+        var $pageNum = $("#pageNums");
+
+        // 上一页，下一页
+        $.pageSkip = function(pageNumber) {
+
+            $pageNum.val(pageNumber);
+            $listForm.submit();
+            return false;
+        }
+
+    });
+
+
+
+
+    function checkAll2(){
+        //1.获取编号前面的复选框
+        var checkAllEle = document.getElementById("checkAll");
+        //2.对编号前面复选框的状态进行判断
+        if(checkAllEle.checked==true){
+            //3.获取下面所有的复选框
+            var checkOnes = document.getElementsByName("checkOne");
+            console.log("123")
+            //4.对获取的所有复选框进行遍历
+            for(var i=0;i<checkOnes.length;i++){
+                //5.拿到每一个复选框，并将其状态置为选中
+                checkOnes[i].checked=true;
+            }
+        }else{
+            //6.获取下面所有的复选框
+            var checkOnes = document.getElementsByName("checkOne");
+            //7.对获取的所有复选框进行遍历
+            for(var i=0;i<checkOnes.length;i++){
+                //8.拿到每一个复选框，并将其状态置为未选中
+                checkOnes[i].checked=false;
+            }
+        }
+    }
+
+
+
+    function editClearOrderID(id) {
+        clearOrderId = id;
+        //自定页
+        clearOrderLayer = layer.open({
+            type: 1,
+            skin: 'layui-layer-demo', //样式类名
+            closeBtn: 1, //不显示关闭按钮
+            title: '选择取消原因', //不显示标题
+            area: ['420px', 'auto'], //宽高
+            anim: 2,
+            shadeClose: true, //开启遮罩关闭
+            content: '<div class="clearOrder">\n' +
+                '    <div class="clearOrderMain">\n' +
+                '        <span class="clearOrderMainActive" onclick="editClearOrderType(this)">地址信息填写错误</span>\n' +
+                '        <span onclick="editClearOrderType(this)">不想要了</span>\n' +
+                '        <span onclick="editClearOrderType(this)">商品错选/多选</span>\n' +
+                '        <span onclick="editClearOrderType(this)">商品无货</span>\n' +
+                '        <span onclick="editClearOrderType(this)">商品降价</span>\n' +
+                '        <span onclick="editClearOrderType(this)">没用/少用/错用优惠</span>\n' +
+                '    </div>\n' +
+                '    <div class="clearOrderBtn">\n' +
+                '        <button onclick="layer.closeAll()">再想想</button>\n' +
+                '        <button onclick="clearOrder()">提交</button>\n' +
+                '    </div>\n' +
+                '</div>'
+        });
+    }
+    function editClearOrderType(that) {
+        $(that).addClass("clearOrderMainActive");
+        $(that).siblings('span').removeClass("clearOrderMainActive");
+    }
+
+    //取消订单
+    function clearOrder() {
+        console.log(clearOrderId)
+        console.log();
+        var data={
+            id: clearOrderId,
+            message: $(".clearOrderMainActive").text()
+        }
+        $.ajax({
+            type:"POST",
+            url:'[[@{/order/updateOrder}]]',
+            data: JSON.stringify(data),
+            contentType: "application/json;charset=UTF-8",
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log(data);
+                if(data.status == 200){
+                    layer.closeAll();
+                    alert('取消成功！');
+                    location.reload();
+                }else{
+                    alert("取消失败！");
+                }
+
+            }
+
+        });
+    }
+
+    //确认收货
+    function receiving(id) {
+        console.log();
+        var data={
+            id: id
+        }
+        $.ajax({
+            type:"POST",
+            url:'[[@{/order/updateOrderReceiving}]]',
+            data: JSON.stringify(data),
+            contentType: "application/json;charset=UTF-8",
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log(data);
+                if(data.status == 200){
+                    layer.closeAll();
+                    alert('收货成功！');
+                    location.reload();
+                }else{
+                    alert("收货失败！");
+                }
+
+            }
+
+        });
+    }
+
+    function gopage() {
+        var $listForm = $("#orderlistForm");
+        var $pageNum = $("#pageNums");//第几页
+        var totalPage=[[${page.pages}]];
+        $pageNum.val($("#pageId").val());
+        if($("#pageId").val()>totalPage){
+            $pageNum.val(totalPage);
+            $("#pageId").val(totalPage)
+        }
+        if($("#pageId").val()<1){
+            $pageNum.val(1);
+            $("#pageId").val(1)
+        }
+
+        $listForm.submit();
+        return false;
+
+    }
+    function chagePagesize() {
+        var pageSel = $('#pageSel option:selected').val();
+
+        var $listForm = $("#orderlistForm");
+        $("#pageSize").val(pageSel);
+
+
+        $listForm.submit();
+        return false;
+
+
+    }
+    //更改状态
+    function fnChangeStates(orderstatus) {
+        $("#orderstatus").val(orderstatus);
+        $("#orderlistForm").submit();
+    }
+    //按订单编号查询
+    function fnsearch() {
+        $("#orderlistForm").submit();
+    }
+    //删除订单
+    function fndel() {
+        var checkOneLen=$("input[name='checkOne']:checked").length;
+        var ids="";
+        if(checkOneLen>0){
+            $("input[name='checkOne']:checked").each(function(){
+                var id=$(this).val();
+                ids += id + ",";
+            });
+        }
+        $.ajax({
+            type:"POST",
+            url:'[[@{/order/delete}]]',
+            data: JSON.stringify({ids:ids}),
+            dataType:"json",
+            contentType: "application/json;charset=UTF-8",//指定消息请求类型
+            async: false,
+            success:function (data) {
+                console.log(data);
+
+                if(data.status == '200'){
+                    alert("删除成功！");
+                    location.reload();
+                }else{
+                    alert("删除失败！");
+                }
+
+            }
+
+        });
+    }
+
+    function deleteOrder(id) {
+        var ids= id + ",";
+        $.ajax({
+            type:"POST",
+            url:'[[@{/order/delete}]]',
+            data: JSON.stringify({ids:ids}),
+            dataType:"json",
+            contentType: "application/json;charset=UTF-8",//指定消息请求类型
+            async: false,
+            success:function (data) {
+                console.log(data);
+                if(data.status == '200'){
+                    alert("删除成功！");
+                    location.reload();
+                }else{
+                    alert("删除失败！");
+                }
+
+            }
+
+        });
+    }
+
+    //头部购物车按钮
+    function goMyCart(userId) {
+        $("#myCartForm").submit();
+    }
+</script>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>
+

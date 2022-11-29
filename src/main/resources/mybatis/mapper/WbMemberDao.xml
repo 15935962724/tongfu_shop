@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.WbMemberDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.WbMember" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="idstr" property="idstr" jdbcType="VARCHAR" />
+    <result column="screen_name" property="screenName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="INTEGER" />
+    <result column="city" property="city" jdbcType="INTEGER" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="profile_image_url" property="profileImageUrl" jdbcType="VARCHAR" />
+    <result column="profile_url" property="profileUrl" jdbcType="VARCHAR" />
+    <result column="domain" property="domain" jdbcType="VARCHAR" />
+    <result column="weihao" property="weihao" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="followers_count" property="followersCount" jdbcType="INTEGER" />
+    <result column="friends_count" property="friendsCount" jdbcType="INTEGER" />
+    <result column="statuses_count" property="statusesCount" jdbcType="INTEGER" />
+    <result column="favourites_count" property="favouritesCount" jdbcType="INTEGER" />
+    <result column="created_at" property="createdAt" jdbcType="VARCHAR" />
+    <result column="following" property="following" jdbcType="BIT" />
+    <result column="allow_all_act_msg" property="allowAllActMsg" jdbcType="BIT" />
+    <result column="geo_enabled" property="geoEnabled" jdbcType="BIT" />
+    <result column="verified" property="verified" jdbcType="BIT" />
+    <result column="verified_type" property="verifiedType" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="allow_all_comment" property="allowAllComment" jdbcType="BIT" />
+    <result column="avatar_large" property="avatarLarge" jdbcType="VARCHAR" />
+    <result column="avatar_hd" property="avatarHd" jdbcType="VARCHAR" />
+    <result column="verified_reason" property="verifiedReason" jdbcType="VARCHAR" />
+    <result column="follow_me" property="followMe" jdbcType="BIT" />
+    <result column="online_status" property="onlineStatus" jdbcType="INTEGER" />
+    <result column="bi_followers_count" property="biFollowersCount" jdbcType="INTEGER" />
+    <result column="lang" property="lang" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, idstr, screen_name, name, province, city, location, description, url, profile_image_url, 
+    profile_url, domain, weihao, gender, followers_count, friends_count, statuses_count, 
+    favourites_count, created_at, following, allow_all_act_msg, geo_enabled, verified, 
+    verified_type, remark, allow_all_comment, avatar_large, avatar_hd, verified_reason, 
+    follow_me, online_status, bi_followers_count, lang, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tf_wb_member
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_wb_member
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.WbMember" >
+    insert into tf_wb_member (id, idstr, screen_name, 
+      name, province, city, 
+      location, description, url, 
+      profile_image_url, profile_url, domain, 
+      weihao, gender, followers_count, 
+      friends_count, statuses_count, favourites_count, 
+      created_at, following, allow_all_act_msg, 
+      geo_enabled, verified, verified_type, 
+      remark, allow_all_comment, avatar_large, 
+      avatar_hd, verified_reason, follow_me, 
+      online_status, bi_followers_count, lang, 
+      status)
+    values (#{id,jdbcType=BIGINT}, #{idstr,jdbcType=VARCHAR}, #{screenName,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, #{city,jdbcType=INTEGER}, 
+      #{location,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{profileImageUrl,jdbcType=VARCHAR}, #{profileUrl,jdbcType=VARCHAR}, #{domain,jdbcType=VARCHAR}, 
+      #{weihao,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{followersCount,jdbcType=INTEGER}, 
+      #{friendsCount,jdbcType=INTEGER}, #{statusesCount,jdbcType=INTEGER}, #{favouritesCount,jdbcType=INTEGER}, 
+      #{createdAt,jdbcType=VARCHAR}, #{following,jdbcType=BIT}, #{allowAllActMsg,jdbcType=BIT}, 
+      #{geoEnabled,jdbcType=BIT}, #{verified,jdbcType=BIT}, #{verifiedType,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{allowAllComment,jdbcType=BIT}, #{avatarLarge,jdbcType=VARCHAR}, 
+      #{avatarHd,jdbcType=VARCHAR}, #{verifiedReason,jdbcType=VARCHAR}, #{followMe,jdbcType=BIT}, 
+      #{onlineStatus,jdbcType=INTEGER}, #{biFollowersCount,jdbcType=INTEGER}, #{lang,jdbcType=VARCHAR}, 
+      #{status,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.WbMember" >
+    insert into tf_wb_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="idstr != null" >
+        idstr,
+      </if>
+      <if test="screenName != null" >
+        screen_name,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="profileImageUrl != null" >
+        profile_image_url,
+      </if>
+      <if test="profileUrl != null" >
+        profile_url,
+      </if>
+      <if test="domain != null" >
+        domain,
+      </if>
+      <if test="weihao != null" >
+        weihao,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="followersCount != null" >
+        followers_count,
+      </if>
+      <if test="friendsCount != null" >
+        friends_count,
+      </if>
+      <if test="statusesCount != null" >
+        statuses_count,
+      </if>
+      <if test="favouritesCount != null" >
+        favourites_count,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="following != null" >
+        following,
+      </if>
+      <if test="allowAllActMsg != null" >
+        allow_all_act_msg,
+      </if>
+      <if test="geoEnabled != null" >
+        geo_enabled,
+      </if>
+      <if test="verified != null" >
+        verified,
+      </if>
+      <if test="verifiedType != null" >
+        verified_type,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="allowAllComment != null" >
+        allow_all_comment,
+      </if>
+      <if test="avatarLarge != null" >
+        avatar_large,
+      </if>
+      <if test="avatarHd != null" >
+        avatar_hd,
+      </if>
+      <if test="verifiedReason != null" >
+        verified_reason,
+      </if>
+      <if test="followMe != null" >
+        follow_me,
+      </if>
+      <if test="onlineStatus != null" >
+        online_status,
+      </if>
+      <if test="biFollowersCount != null" >
+        bi_followers_count,
+      </if>
+      <if test="lang != null" >
+        lang,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="idstr != null" >
+        #{idstr,jdbcType=VARCHAR},
+      </if>
+      <if test="screenName != null" >
+        #{screenName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=INTEGER},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=INTEGER},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="profileImageUrl != null" >
+        #{profileImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="profileUrl != null" >
+        #{profileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null" >
+        #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="weihao != null" >
+        #{weihao,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="followersCount != null" >
+        #{followersCount,jdbcType=INTEGER},
+      </if>
+      <if test="friendsCount != null" >
+        #{friendsCount,jdbcType=INTEGER},
+      </if>
+      <if test="statusesCount != null" >
+        #{statusesCount,jdbcType=INTEGER},
+      </if>
+      <if test="favouritesCount != null" >
+        #{favouritesCount,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=VARCHAR},
+      </if>
+      <if test="following != null" >
+        #{following,jdbcType=BIT},
+      </if>
+      <if test="allowAllActMsg != null" >
+        #{allowAllActMsg,jdbcType=BIT},
+      </if>
+      <if test="geoEnabled != null" >
+        #{geoEnabled,jdbcType=BIT},
+      </if>
+      <if test="verified != null" >
+        #{verified,jdbcType=BIT},
+      </if>
+      <if test="verifiedType != null" >
+        #{verifiedType,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="allowAllComment != null" >
+        #{allowAllComment,jdbcType=BIT},
+      </if>
+      <if test="avatarLarge != null" >
+        #{avatarLarge,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarHd != null" >
+        #{avatarHd,jdbcType=VARCHAR},
+      </if>
+      <if test="verifiedReason != null" >
+        #{verifiedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="followMe != null" >
+        #{followMe,jdbcType=BIT},
+      </if>
+      <if test="onlineStatus != null" >
+        #{onlineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="biFollowersCount != null" >
+        #{biFollowersCount,jdbcType=INTEGER},
+      </if>
+      <if test="lang != null" >
+        #{lang,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.WbMember" >
+    update tf_wb_member
+    <set >
+      <if test="idstr != null" >
+        idstr = #{idstr,jdbcType=VARCHAR},
+      </if>
+      <if test="screenName != null" >
+        screen_name = #{screenName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=INTEGER},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=INTEGER},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="profileImageUrl != null" >
+        profile_image_url = #{profileImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="profileUrl != null" >
+        profile_url = #{profileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null" >
+        domain = #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="weihao != null" >
+        weihao = #{weihao,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="followersCount != null" >
+        followers_count = #{followersCount,jdbcType=INTEGER},
+      </if>
+      <if test="friendsCount != null" >
+        friends_count = #{friendsCount,jdbcType=INTEGER},
+      </if>
+      <if test="statusesCount != null" >
+        statuses_count = #{statusesCount,jdbcType=INTEGER},
+      </if>
+      <if test="favouritesCount != null" >
+        favourites_count = #{favouritesCount,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=VARCHAR},
+      </if>
+      <if test="following != null" >
+        following = #{following,jdbcType=BIT},
+      </if>
+      <if test="allowAllActMsg != null" >
+        allow_all_act_msg = #{allowAllActMsg,jdbcType=BIT},
+      </if>
+      <if test="geoEnabled != null" >
+        geo_enabled = #{geoEnabled,jdbcType=BIT},
+      </if>
+      <if test="verified != null" >
+        verified = #{verified,jdbcType=BIT},
+      </if>
+      <if test="verifiedType != null" >
+        verified_type = #{verifiedType,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="allowAllComment != null" >
+        allow_all_comment = #{allowAllComment,jdbcType=BIT},
+      </if>
+      <if test="avatarLarge != null" >
+        avatar_large = #{avatarLarge,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarHd != null" >
+        avatar_hd = #{avatarHd,jdbcType=VARCHAR},
+      </if>
+      <if test="verifiedReason != null" >
+        verified_reason = #{verifiedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="followMe != null" >
+        follow_me = #{followMe,jdbcType=BIT},
+      </if>
+      <if test="onlineStatus != null" >
+        online_status = #{onlineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="biFollowersCount != null" >
+        bi_followers_count = #{biFollowersCount,jdbcType=INTEGER},
+      </if>
+      <if test="lang != null" >
+        lang = #{lang,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tongfu.entity.WbMember" >
+    update tf_wb_member
+    set idstr = #{idstr,jdbcType=VARCHAR},
+      screen_name = #{screenName,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      province = #{province,jdbcType=INTEGER},
+      city = #{city,jdbcType=INTEGER},
+      location = #{location,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      profile_image_url = #{profileImageUrl,jdbcType=VARCHAR},
+      profile_url = #{profileUrl,jdbcType=VARCHAR},
+      domain = #{domain,jdbcType=VARCHAR},
+      weihao = #{weihao,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      followers_count = #{followersCount,jdbcType=INTEGER},
+      friends_count = #{friendsCount,jdbcType=INTEGER},
+      statuses_count = #{statusesCount,jdbcType=INTEGER},
+      favourites_count = #{favouritesCount,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=VARCHAR},
+      following = #{following,jdbcType=BIT},
+      allow_all_act_msg = #{allowAllActMsg,jdbcType=BIT},
+      geo_enabled = #{geoEnabled,jdbcType=BIT},
+      verified = #{verified,jdbcType=BIT},
+      verified_type = #{verifiedType,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      allow_all_comment = #{allowAllComment,jdbcType=BIT},
+      avatar_large = #{avatarLarge,jdbcType=VARCHAR},
+      avatar_hd = #{avatarHd,jdbcType=VARCHAR},
+      verified_reason = #{verifiedReason,jdbcType=VARCHAR},
+      follow_me = #{followMe,jdbcType=BIT},
+      online_status = #{onlineStatus,jdbcType=INTEGER},
+      bi_followers_count = #{biFollowersCount,jdbcType=INTEGER},
+      lang = #{lang,jdbcType=VARCHAR},
+      status = #{status,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.WbMember" >
+    update tf_wb_member
+    set idstr = #{idstr,jdbcType=VARCHAR},
+      screen_name = #{screenName,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      province = #{province,jdbcType=INTEGER},
+      city = #{city,jdbcType=INTEGER},
+      location = #{location,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      profile_image_url = #{profileImageUrl,jdbcType=VARCHAR},
+      profile_url = #{profileUrl,jdbcType=VARCHAR},
+      domain = #{domain,jdbcType=VARCHAR},
+      weihao = #{weihao,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      followers_count = #{followersCount,jdbcType=INTEGER},
+      friends_count = #{friendsCount,jdbcType=INTEGER},
+      statuses_count = #{statusesCount,jdbcType=INTEGER},
+      favourites_count = #{favouritesCount,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=VARCHAR},
+      following = #{following,jdbcType=BIT},
+      allow_all_act_msg = #{allowAllActMsg,jdbcType=BIT},
+      geo_enabled = #{geoEnabled,jdbcType=BIT},
+      verified = #{verified,jdbcType=BIT},
+      verified_type = #{verifiedType,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      allow_all_comment = #{allowAllComment,jdbcType=BIT},
+      avatar_large = #{avatarLarge,jdbcType=VARCHAR},
+      avatar_hd = #{avatarHd,jdbcType=VARCHAR},
+      verified_reason = #{verifiedReason,jdbcType=VARCHAR},
+      follow_me = #{followMe,jdbcType=BIT},
+      online_status = #{onlineStatus,jdbcType=INTEGER},
+      bi_followers_count = #{biFollowersCount,jdbcType=INTEGER},
+      lang = #{lang,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

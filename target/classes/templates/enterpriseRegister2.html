@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8"/>
+    <title>企业注册页</title>
+</head>
+
+<body>
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+<!--<script src="../js/jquery.cookie.js" language="javascript" th:src="@{/assets/js/jquery.cookie.js}"></script>-->
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+
+<!--弹窗特效-->
+<link rel="stylesheet" type="text/css" th:href="@{/assets/tanchuang/animate.min.css}">
+<script src="js/jquery-1.10.2.min.js" th:src="@{/assets/tanchuang/jquery-1.10.2.min.js}"></script>
+<link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+<script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+
+<!--三级联动插件-->
+<script th:src="@{/assets/js/lSelect.js}"></script>
+<style>
+
+    .reg .zc button, .reg .zc02 button {
+        height: 42px;
+        text-align: center;
+        padding: 5px 0px;
+        background: #007fdc;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+    }
+
+    .reg .zc button a, .reg .zc02 button a {
+        color: #Fff;
+    }
+
+    input[type="text"] {
+        width: 293px;
+        height: 42px;
+        float: left;
+    }
+
+    .step-index:after, .progress .pro-done .pro-line, .progress .pro-done .step-index:after { /*background:#007fdc*/
+    }
+
+    .td01 {
+        text-align: right;
+        padding-right: 15px;
+    }
+</style>
+
+<div id="Header">
+
+    <div class="ktou">
+        <div class="klogo"><img th:src="@{/assets/img/logo.jpg}"/></div>
+        <div class="kgouw">
+            <li><a href="">中文</a><i class="iconfont">&#xe641;</i><span
+                    style="float:right;    padding: 0px 10px;">|</span>
+                <ul class="gouw-son hidden">
+                    <li class=""><a href="#">中文</a></li>
+                    <li class=""><a href="#">EN</a></li>
+                </ul>
+            </li>
+            <li><a th:href="@{/}">返回首页</a></li>
+        </div>
+
+    </div>
+</div>
+<script>
+    function test() {
+        $('.gouw').children("li:has(ul)").hover(
+            function () {
+                //$(this).find("ul>li:last").addClass("li-last-s1");//给每个下拉菜单的最后一个li元素添加css样式，此处非必要
+                $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单
+            },
+            function () {
+                $(this).children("ul").hide();//隐藏下拉菜单
+            }
+        );
+    }
+
+</script>
+
+<script>
+    test();
+</script>
+
+<div class="log_con">
+    <div class="reg">
+        <div class="top"><span id="zh">注册SP会员账户</span><span id="zh1">已有账号？ <a href="#">立即登录</a></span></div>
+        <div class="progress">
+            <div class="pro-item pro-doing pro-item1">
+                <div class="pro-step">
+                    <span class="step-index">1</span>
+                    <p class="step-desc">填写手机号码</p></div>
+            </div>
+            <div class="pro-item pro-doing pro-item2">
+                <div class="pro-line"></div>
+                <div class="pro-step"><span class="step-index">2</span>
+                    <p class="step-desc">填写公司信息</p></div>
+            </div>
+            <div class="pro-item pro-undo pro-item3" style="padding-left: 145px;
+">
+                <div class="pro-line"></div>
+                <div class="pro-step"><span class="step-index">3</span>
+                    <p class="step-desc">注册完成</p></div>
+            </div>
+        </div>
+        <div class="zc02">
+            <form method="post" th:action="@{/regSubmitQy}" onsubmit="return checkFrom()" enctype="multipart/form-data">
+                <input type="hidden" name="username" th:value="${username}"/>
+                <input type="hidden" name="password" th:value="${password}"/>
+                <input type="hidden" name="ip" id="ip"/>
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="td01"><font>*</font>注册类型：</td>
+                        <td>
+                            <select name="regtype" style="width:332px;float:left;" id='regtype' required>
+                                <option value="0">选择类型</option>
+                                <option value="1">公司</option>
+                                <option value="2"><a href="reg_2-1.html">医院</a></option>
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="td01" nowrap="nowrap"><font>*</font>统一社会信用代码：</td>
+                        <td><input type="text" placeholder="请按营业执照填写" name="creditCode" required/></td>
+                        <!--报错<span class="zhuy">请填写统一社会信用代码 </span>-->
+                    </tr>
+                    <tr>
+                        <td class="td01"><font>*</font>公司名称：</td>
+                        <td><input type="text" placeholder="请按营业执照填写" name="company" required/></td>
+                        <!--报错<span class="zhuy" style="top:74px;">请填写正确的公司名称</span><span class="zhuy" style="top:74px;">请填写公司名称</span>-->
+                    </tr>
+                    <tr>
+                        <td class="td01"><font>*</font>公司地址：</td>
+                        <td>
+                            <input type="hidden" id="areaId" name="areaId" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td01"><font>*</font>详细地址：</td>
+                        <td><input type="text" name="address" placeholder="请输入详细地址" required
+                                   style="width:294px;    float: left;"/></td>
+                        <!--报错<span class="zhuy" style="    top: 139px;">请选择公司地址  </span>-->
+                    </tr>
+                    <tr>
+                        <td class="td01"><font>*</font>营业执照地址：</td>
+                        <td><input type="file" id="productImage" name="productImage" value="上传有效证件"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="font-size:12px;color:#999;    text-align: left;padding-bottom:40px;">
+                            营业执照、组织机构代码等、图片大小不超过8MB</a></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button style="cursor: pointer;" class="cez" type="submit">注 册</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <i class="iconfont4">&#xe61b;</i><a th:href="@{/register}">个人用户注册</a></td>
+                    </tr>
+                </table>
+
+            </form>
+
+        </div>
+    </div>
+
+    <div style="height:55px;width:100%;display:block;"></div>
+    <div class="tjnav">
+        <ul>
+            <li th:each="category:${categoryList}">
+                <a th:href="@{/category/list(parent=${category.id})}"><img th:src="@{${pathUrl+category.image}}" alt=""></a>
+                <span><a th:href="@{/category/list(parent=${category.id})}">[[${category.name}]]</a></span>
+            </li>
+        </ul>
+
+    </div>
+</div>
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script>
+    //页面加载就调用
+    $(function () {
+        // 地区选择
+        $("#areaId").lSelect({
+            url: "[[@{/area/getAreas}]]"
+        });
+        var ip = returnCitySN["cip"];
+        $('#ip').val(ip);
+    });
+
+
+    //提交校验
+    function checkFrom() {
+        var regtype = $('#regtype').val();
+        if (regtype == 0) {
+            $('#popup').html('请选择企业类型')
+            syalert.syopen('alert2');
+            return false;
+
+        }
+        var areaId = $('#areaId').val();
+        if (areaId == '') {
+            $('#popup').html('请选择公司地址')
+            syalert.syopen('alert2');
+            return false;
+
+        }
+        var size = $("#productImage")[0].files[0];
+        if (!size) {
+            $('#popup').html('请上传营业执照')
+            syalert.syopen('alert2');
+            return false;
+
+        } else {
+            size = $("#productImage")[0].files[0].size;
+            size = (size / (1024 * 1024)).toFixed(2);
+            if (size > 8) {
+                $('#popup').html('营业执照大于8MB,请重新上传!')
+                syalert.syopen('alert2');
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+</script>
+</body>
+</html>

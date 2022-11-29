@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.OrderDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.Order" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="amount_paid" property="amountPaid" jdbcType="DECIMAL" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="consignee" property="consignee" jdbcType="VARCHAR" />
+    <result column="coupon_discount" property="couponDiscount" jdbcType="DECIMAL" />
+    <result column="expire" property="expire" jdbcType="TIMESTAMP" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="freight" property="freight" jdbcType="DECIMAL" />
+    <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR" />
+    <result column="is_allocated_stock" property="isAllocatedStock" jdbcType="BIT" />
+    <result column="lock_expire" property="lockExpire" jdbcType="TIMESTAMP" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="offset_amount" property="offsetAmount" jdbcType="DECIMAL" />
+    <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+    <result column="payment_method_name" property="paymentMethodName" jdbcType="VARCHAR" />
+    <result column="payment_status" property="paymentStatus" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="point" property="point" jdbcType="BIGINT" />
+    <result column="promotion" property="promotion" jdbcType="VARCHAR" />
+    <result column="promotion_discount" property="promotionDiscount" jdbcType="DECIMAL" />
+    <result column="shipping_method_name" property="shippingMethodName" jdbcType="VARCHAR" />
+    <result column="shipping_status" property="shippingStatus" jdbcType="INTEGER" />
+    <result column="sn" property="sn" jdbcType="VARCHAR" />
+    <result column="tax" property="tax" jdbcType="DECIMAL" />
+    <result column="area" property="area" jdbcType="BIGINT" />
+    <result column="member" property="member" jdbcType="BIGINT" />
+    <result column="operator" property="operator" jdbcType="BIGINT" />
+    <result column="payment_method" property="paymentMethod" jdbcType="BIGINT" />
+    <result column="shipping_method" property="shippingMethod" jdbcType="BIGINT" />
+    <result column="evaluate" property="evaluate" jdbcType="INTEGER" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+    <result column="paid_date" property="paidDate" jdbcType="TIMESTAMP" />
+    <result column="refunded_date" property="refundedDate" jdbcType="TIMESTAMP" />
+    <result column="hospital" property="hospital" jdbcType="VARCHAR" />
+    <result column="delivery_corp" property="deliveryCorp" jdbcType="VARCHAR" />
+    <result column="delivery_sn" property="deliverySn" jdbcType="VARCHAR" />
+    <result column="is_member_delete" property="isMemberDelete" jdbcType="BIT" />
+    <result column="is_make_invoice" property="isMakeInvoice" jdbcType="BIT" />
+    <result column="type" property="type" jdbcType="BIGINT" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="case_status" property="caseStatus" jdbcType="INTEGER" />
+    <result column="order_invoice_id" property="orderInvoiceId" jdbcType="BIGINT" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="receiver_id" property="receiverId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, modify_date, address, amount_paid, area_name, consignee, coupon_discount,
+    expire, fee, freight, invoice_title, is_allocated_stock, lock_expire, memo, offset_amount,
+    order_status, payment_method_name, payment_status, phone, point, promotion, promotion_discount,
+    shipping_method_name, shipping_status, sn, tax, area, member, operator, payment_method,
+    shipping_method, evaluate, is_deleted, paid_date, refunded_date, hospital, delivery_corp,
+    delivery_sn, is_member_delete, is_make_invoice, type, email, case_status, order_invoice_id,
+    company_id, company_name, receiver_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByMember" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_order
+    where member = #{member,jdbcType=BIGINT}
+  </select>
+  <select id="selectOrderList" resultType="java.util.Map" parameterType="java.util.Map">
+
+    SELECT
+    O.*,
+    O.id as orderId,
+    I.name iname,
+    COALESCE(I.orderSumPrice,0) AS orderSumPrice ,
+    (
+    CASE
+    WHEN O.payment_status = 0 AND O.order_status = 0
+    THEN '待付款'
+    WHEN O.payment_status = 2 AND O.order_status = 1 AND shipping_status = 0
+    THEN '待发货'
+    WHEN O.payment_status = 2 AND O.shipping_status = 2
+    THEN '待收货'
+    WHEN O.payment_status = 2 AND O.order_status = 2 AND shipping_status = 5
+    THEN '已完成'
+    WHEN O.payment_status = 0 AND O.order_status = 3
+    THEN '已取消'
+    END
+    ) AS orderStatus
+    FROM
+    tf_order O LEFT JOIN
+    (SELECT
+    orders,
+    NAME,
+    SUM((price * quantity)) AS orderSumPrice
+    FROM
+    tf_order_item
+    GROUP BY orders) I
+    ON  O.id = I.orders where 1 = 1
+    <if test=" member != null ">
+      and O.member = #{member,jdbcType=BIGINT}
+    </if>
+    <if test=" paymentStatus != null ">
+      and O.payment_status = #{paymentStatus}
+    </if>
+    <if test=" shippingStatus != null ">
+      and O.shipping_status in
+      <foreach collection="shippingStatus" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+
+    </if>
+    <if test=" orderStatus != null ">
+      and O.order_status = #{orderStatus}
+    </if>
+    <if test=" ordersn != null and ordersn !=''">
+      and O.sn LIKE  CONCAT('%', #{ordersn}, '%')
+    </if>
+    <if test="begindate != null and enddate !=null ">
+      and O.create_date BETWEEN #{begindate,jdbcType=TIMESTAMP}  AND #{enddate,jdbcType=TIMESTAMP}
+    </if>
+    <if test=" isMemberDelete != null">
+      and O.is_member_delete = #{isMemberDelete}
+    </if>
+    and O.type != 2
+    group by O.id
+    order by O.create_date desc
+  </select>
+  <select id="selectAddedOrderList" resultType="java.util.Map" parameterType="java.util.Map">
+    SELECT
+    O.*,
+    O.id as orderId,
+    I.name iname,
+    COALESCE(I.orderSumPrice,0) AS orderSumPrice ,
+    (
+    CASE
+    WHEN O.payment_status = 0 AND O.order_status = 0
+    THEN '待付款'
+    WHEN O.payment_status = 2 AND O.order_status = 1 AND case_status = 0
+    THEN '待上传'
+    WHEN O.payment_status = 2 AND O.order_status = 1 and case_status = 1 AND shipping_status = 0
+    THEN '待发货'
+    WHEN O.payment_status = 2 AND O.shipping_status = 2
+    THEN '待收货'
+    WHEN O.payment_status = 2 AND O.order_status = 2 AND shipping_status = 5
+    THEN '已完成'
+    WHEN O.payment_status = 0 AND O.order_status = 3
+    THEN '已取消'
+    END
+    ) AS orderStatus
+    FROM
+    tf_order O LEFT JOIN
+    (SELECT
+    orders,
+    NAME,
+    SUM((price * quantity)) AS orderSumPrice
+    FROM
+    tf_order_item
+    GROUP BY orders) I
+    ON  O.id = I.orders where 1 = 1
+    <if test=" member != null ">
+      and O.member = #{member,jdbcType=BIGINT}
+    </if>
+    <if test=" paymentStatus != null ">
+      and O.payment_status = #{paymentStatus}
+    </if>
+    <if test=" caseStatus != null ">
+      and O.case_status = #{caseStatus}
+    </if>
+    <if test=" orderStatus != null ">
+      and O.order_status = #{orderStatus}
+    </if>
+    <if test=" ordersn != null and ordersn != '' ">
+      and O.sn like concat('%',#{ordersn},'%')
+    </if>
+    <if test=" begindate != null">
+      and O.create_date >=  #{begindate}
+    </if>
+    <if test=" enddate != null">
+      and O.create_date <![CDATA[<=]]>  #{enddate}
+    </if>
+    <if test=" type != null">
+      and O.type =  #{type}
+    </if>
+    <if test=" caseStatus != null">
+      and O.case_status =  #{caseStatus}
+    </if>
+    group by O.id ORDER BY O.create_date DESC
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    SELECT count(*) FROM tf_order
+    where 1=1
+    <if test=" member != null ">
+      and member = #{member,jdbcType=BIGINT}
+    </if>
+    <if test=" paymentStatus != null ">
+      and payment_status = #{paymentStatus}
+    </if>
+    <if test=" shippingStatus != null ">
+      and shipping_status in
+      <foreach collection="shippingStatus" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+
+    </if>
+    <if test=" orderStatus != null ">
+      and order_status = #{orderStatus}
+    </if>
+
+  </select>
+
+  <select id="selectAddedCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(*) FROM tf_order o,tf_order_item i,tf_product p
+    WHERE 1=1 and  o.id=i.orders AND i.product=p.id AND p.is_add_service=1
+    <if test=" member != null ">
+      and member = #{member,jdbcType=BIGINT}
+    </if>
+    <if test=" paymentStatus != null ">
+      and payment_status = #{paymentStatus}
+    </if>
+    <if test=" caseStatus != null ">
+      and case_status = #{caseStatus}
+    </if>
+    <if test=" orderStatus != null ">
+      and order_status = #{orderStatus}
+    </if>
+
+  </select>
+
+  <select id="getOrder" resultType="java.util.Map" parameterType="java.util.Map">
+    SELECT O.`id`,O.create_date,O.`sn`,O.consignee,O.`phone`,O.`shipping_method_name`,O.email,O.`area_name`,O.`address`,O.`amount_paid`,O.`payment_method_name`,O.`freight`,
+    O.`paid_date`,CASE OI.`type`
+      WHEN 1 THEN '普通电子发票'
+      WHEN 2 THEN '增值税专用发票'
+      ELSE  ''
+      END AS type,OI.`title`,OI.`pcontent` ,O.company_id
+    FROM tf_order O LEFT JOIN  `tf_order_invoice` OI ON O.`id` = OI.order_id WHERE O.id = #{orderId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectBySn" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from tf_order
+    where sn = #{sn,jdbcType=BIGINT}
+  </select>
+  <select id="selectOrderView" resultType="java.util.Map" parameterType="java.util.Map">
+           SELECT
+            thumbnail,
+            i.sn,
+            i.`name`,
+            quantity,
+            i.`price`,
+            (i.price * quantity) AS totalamount,
+            o.create_date,
+            o.`company_name` AS cname
+          FROM
+            tf_order o,
+            tf_order_item i
+          WHERE o.id = i.orders
+          AND o.id=#{orderid}
+  </select>
+
+  <select id="getOrderInvoice" resultType="java.util.Map" parameterType="java.util.Map">
+    SELECT O.id,O.create_date,O.sn,O.amount_paid, COALESCE(OI.type,0) type  , COALESCE(OI.is_make_invoice,0) is_make_invoice ,OI.id AS oi_id FROM tf_order O LEFT JOIN tf_order_invoice OI ON O.id = OI.order_id
+    WHERE O.payment_status = 2 and O.member =  #{memberId,jdbcType=BIGINT}
+  </select>
+
+
+  <select id="getOrderStatus" resultType="java.util.Map" parameterType="java.util.Map">
+          SELECT * FROM (
+            SELECT COUNT(id) total FROM tf_order WHERE type !=2 AND member =  #{member,jdbcType=BIGINT} AND is_member_delete = #{isMemberDelete}
+            ) A,(
+            SELECT COUNT(id) AS paid FROM tf_order WHERE  type !=2 AND member =  #{member,jdbcType=BIGINT} AND payment_status = 0 AND order_status = 0 AND is_member_delete = #{isMemberDelete}
+            ) B,(
+            SELECT COUNT(id) AS received FROM tf_order WHERE  type !=2 AND member =  #{member,jdbcType=BIGINT} AND payment_status = 2 AND shipping_status = 2 AND is_member_delete = #{isMemberDelete}
+            ) C,(
+            SELECT COUNT(id) AS completed FROM tf_order WHERE type !=2 AND member = #{member,jdbcType=BIGINT} AND order_status = 2 AND is_member_delete = #{isMemberDelete}
+            ) D,(
+            SELECT COUNT(id) AS cancelled FROM tf_order WHERE type !=2 AND member = #{member,jdbcType=BIGINT} AND order_status = 3 AND is_member_delete = #{isMemberDelete}
+          ) E
+  </select>
+
+  <select id="isProductPurchase" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+    SELECT COUNT(1) as count FROM tf_order_item OI LEFT JOIN tf_order O ON OI.`orders` = O.`id`
+    WHERE 1 = 1
+    <if test=" product != null ">
+      AND OI.product  = #{product}
+    </if>
+    <if test=" member != null ">
+      AND O.`member` = #{member}
+    </if>
+    AND payment_status = 2
+  </select>
+
+  <select id="getAddServiceOrderStatus" resultType="java.util.Map" parameterType="java.util.Map">
+      SELECT * FROM (
+      SELECT COUNT(1) AS count_order FROM tf_order WHERE TYPE = 2  AND member =  #{member,jdbcType=BIGINT} AND is_member_delete = #{isMemberDelete}
+      )A ,(
+      SELECT COUNT(1) AS stay_payment FROM tf_order WHERE TYPE = 2 AND payment_status = 0   AND member =  #{member,jdbcType=BIGINT} AND is_member_delete = #{isMemberDelete}
+      )B,(
+      SELECT COUNT(1) AS stay_upload FROM tf_order_item OI LEFT JOIN tf_order O ON OI.orders = O.id WHERE  O.TYPE = 2 AND O.payment_status = 2 AND O.case_status = 0 AND O.member =  #{member,jdbcType=BIGINT} AND O.is_member_delete = #{isMemberDelete}
+      )C,(
+      SELECT COUNT(1) AS cancel_order FROM tf_order WHERE TYPE = 2 AND order_status = 3  AND member =  #{member,jdbcType=BIGINT} AND is_member_delete = #{isMemberDelete}
+      )D
+  </select>
+
+  <select id="getOrders" resultType="java.util.Map" parameterType="java.util.Map">
+    SELECT id,company_id,company_name,sn  FROM tf_order WHERE
+    id in
+    <foreach collection="orderIds" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.Order" >
+    insert into tf_order (id, create_date, modify_date,
+      address, amount_paid, area_name,
+      consignee, coupon_discount, expire,
+      fee, freight, invoice_title,
+      is_allocated_stock, lock_expire, memo,
+      offset_amount, order_status, payment_method_name,
+      payment_status, phone, point,
+      promotion, promotion_discount, shipping_method_name,
+      shipping_status, sn, tax,
+      area, member, operator,
+      payment_method, shipping_method, evaluate,
+      is_deleted, paid_date, refunded_date,
+      hospital, delivery_corp, delivery_sn,
+      is_member_delete, is_make_invoice, type,
+      email, case_status, order_invoice_id,
+      company_id, company_name, receiver_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP},
+      #{address,jdbcType=VARCHAR}, #{amountPaid,jdbcType=DECIMAL}, #{areaName,jdbcType=VARCHAR},
+      #{consignee,jdbcType=VARCHAR}, #{couponDiscount,jdbcType=DECIMAL}, #{expire,jdbcType=TIMESTAMP},
+      #{fee,jdbcType=DECIMAL}, #{freight,jdbcType=DECIMAL}, #{invoiceTitle,jdbcType=VARCHAR},
+      #{isAllocatedStock,jdbcType=BIT}, #{lockExpire,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR},
+      #{offsetAmount,jdbcType=DECIMAL}, #{orderStatus,jdbcType=INTEGER}, #{paymentMethodName,jdbcType=VARCHAR},
+      #{paymentStatus,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{point,jdbcType=BIGINT},
+      #{promotion,jdbcType=VARCHAR}, #{promotionDiscount,jdbcType=DECIMAL}, #{shippingMethodName,jdbcType=VARCHAR},
+      #{shippingStatus,jdbcType=INTEGER}, #{sn,jdbcType=VARCHAR}, #{tax,jdbcType=DECIMAL},
+      #{area,jdbcType=BIGINT}, #{member,jdbcType=BIGINT}, #{operator,jdbcType=BIGINT},
+      #{paymentMethod,jdbcType=BIGINT}, #{shippingMethod,jdbcType=BIGINT}, #{evaluate,jdbcType=INTEGER},
+      #{isDeleted,jdbcType=BIT}, #{paidDate,jdbcType=TIMESTAMP}, #{refundedDate,jdbcType=TIMESTAMP},
+      #{hospital,jdbcType=VARCHAR}, #{deliveryCorp,jdbcType=VARCHAR}, #{deliverySn,jdbcType=VARCHAR},
+      #{isMemberDelete,jdbcType=BIT}, #{isMakeInvoice,jdbcType=BIT}, #{type,jdbcType=BIGINT},
+      #{email,jdbcType=VARCHAR}, #{caseStatus,jdbcType=INTEGER}, #{orderInvoiceId,jdbcType=BIGINT},
+      #{companyId,jdbcType=BIGINT}, #{companyName,jdbcType=VARCHAR}, #{receiverId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.Order" useGeneratedKeys="true" keyProperty="id">
+    insert into tf_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="amountPaid != null" >
+        amount_paid,
+      </if>
+      <if test="areaName != null" >
+        area_name,
+      </if>
+      <if test="consignee != null" >
+        consignee,
+      </if>
+      <if test="couponDiscount != null" >
+        coupon_discount,
+      </if>
+      <if test="expire != null" >
+        expire,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="freight != null" >
+        freight,
+      </if>
+      <if test="invoiceTitle != null" >
+        invoice_title,
+      </if>
+      <if test="isAllocatedStock != null" >
+        is_allocated_stock,
+      </if>
+      <if test="lockExpire != null" >
+        lock_expire,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="offsetAmount != null" >
+        offset_amount,
+      </if>
+      <if test="orderStatus != null" >
+        order_status,
+      </if>
+      <if test="paymentMethodName != null" >
+        payment_method_name,
+      </if>
+      <if test="paymentStatus != null" >
+        payment_status,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="promotion != null" >
+        promotion,
+      </if>
+      <if test="promotionDiscount != null" >
+        promotion_discount,
+      </if>
+      <if test="shippingMethodName != null" >
+        shipping_method_name,
+      </if>
+      <if test="shippingStatus != null" >
+        shipping_status,
+      </if>
+      <if test="sn != null" >
+        sn,
+      </if>
+      <if test="tax != null" >
+        tax,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="member != null" >
+        member,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="paymentMethod != null" >
+        payment_method,
+      </if>
+      <if test="shippingMethod != null" >
+        shipping_method,
+      </if>
+      <if test="evaluate != null" >
+        evaluate,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="paidDate != null" >
+        paid_date,
+      </if>
+      <if test="refundedDate != null" >
+        refunded_date,
+      </if>
+      <if test="hospital != null" >
+        hospital,
+      </if>
+      <if test="deliveryCorp != null" >
+        delivery_corp,
+      </if>
+      <if test="deliverySn != null" >
+        delivery_sn,
+      </if>
+      <if test="isMemberDelete != null" >
+        is_member_delete,
+      </if>
+      <if test="isMakeInvoice != null" >
+        is_make_invoice,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="caseStatus != null" >
+        case_status,
+      </if>
+      <if test="orderInvoiceId != null" >
+        order_invoice_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="receiverId != null" >
+        receiver_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="amountPaid != null" >
+        #{amountPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="areaName != null" >
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="consignee != null" >
+        #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="couponDiscount != null" >
+        #{couponDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="expire != null" >
+        #{expire,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceTitle != null" >
+        #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="isAllocatedStock != null" >
+        #{isAllocatedStock,jdbcType=BIT},
+      </if>
+      <if test="lockExpire != null" >
+        #{lockExpire,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="offsetAmount != null" >
+        #{offsetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentMethodName != null" >
+        #{paymentMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentStatus != null" >
+        #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=BIGINT},
+      </if>
+      <if test="promotion != null" >
+        #{promotion,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionDiscount != null" >
+        #{promotionDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="shippingMethodName != null" >
+        #{shippingMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingStatus != null" >
+        #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sn != null" >
+        #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="tax != null" >
+        #{tax,jdbcType=DECIMAL},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=BIGINT},
+      </if>
+      <if test="member != null" >
+        #{member,jdbcType=BIGINT},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=BIGINT},
+      </if>
+      <if test="paymentMethod != null" >
+        #{paymentMethod,jdbcType=BIGINT},
+      </if>
+      <if test="shippingMethod != null" >
+        #{shippingMethod,jdbcType=BIGINT},
+      </if>
+      <if test="evaluate != null" >
+        #{evaluate,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="paidDate != null" >
+        #{paidDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundedDate != null" >
+        #{refundedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hospital != null" >
+        #{hospital,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryCorp != null" >
+        #{deliveryCorp,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverySn != null" >
+        #{deliverySn,jdbcType=VARCHAR},
+      </if>
+      <if test="isMemberDelete != null" >
+        #{isMemberDelete,jdbcType=BIT},
+      </if>
+      <if test="isMakeInvoice != null" >
+        #{isMakeInvoice,jdbcType=BIT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=BIGINT},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="caseStatus != null" >
+        #{caseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderInvoiceId != null" >
+        #{orderInvoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null" >
+        #{receiverId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.Order" >
+    update tf_order
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="amountPaid != null" >
+        amount_paid = #{amountPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="areaName != null" >
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="consignee != null" >
+        consignee = #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="couponDiscount != null" >
+        coupon_discount = #{couponDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="expire != null" >
+        expire = #{expire,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="freight != null" >
+        freight = #{freight,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceTitle != null" >
+        invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="isAllocatedStock != null" >
+        is_allocated_stock = #{isAllocatedStock,jdbcType=BIT},
+      </if>
+      <if test="lockExpire != null" >
+        lock_expire = #{lockExpire,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="offsetAmount != null" >
+        offset_amount = #{offsetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null" >
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentMethodName != null" >
+        payment_method_name = #{paymentMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentStatus != null" >
+        payment_status = #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        point = #{point,jdbcType=BIGINT},
+      </if>
+      <if test="promotion != null" >
+        promotion = #{promotion,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionDiscount != null" >
+        promotion_discount = #{promotionDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="shippingMethodName != null" >
+        shipping_method_name = #{shippingMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingStatus != null" >
+        shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sn != null" >
+        sn = #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="tax != null" >
+        tax = #{tax,jdbcType=DECIMAL},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=BIGINT},
+      </if>
+      <if test="member != null" >
+        member = #{member,jdbcType=BIGINT},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=BIGINT},
+      </if>
+      <if test="paymentMethod != null" >
+        payment_method = #{paymentMethod,jdbcType=BIGINT},
+      </if>
+      <if test="shippingMethod != null" >
+        shipping_method = #{shippingMethod,jdbcType=BIGINT},
+      </if>
+      <if test="evaluate != null" >
+        evaluate = #{evaluate,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="paidDate != null" >
+        paid_date = #{paidDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundedDate != null" >
+        refunded_date = #{refundedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hospital != null" >
+        hospital = #{hospital,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryCorp != null" >
+        delivery_corp = #{deliveryCorp,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverySn != null" >
+        delivery_sn = #{deliverySn,jdbcType=VARCHAR},
+      </if>
+      <if test="isMemberDelete != null" >
+        is_member_delete = #{isMemberDelete,jdbcType=BIT},
+      </if>
+      <if test="isMakeInvoice != null" >
+        is_make_invoice = #{isMakeInvoice,jdbcType=BIT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=BIGINT},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="caseStatus != null" >
+        case_status = #{caseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderInvoiceId != null" >
+        order_invoice_id = #{orderInvoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null" >
+        receiver_id = #{receiverId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.Order" >
+    update tf_order
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      address = #{address,jdbcType=VARCHAR},
+      amount_paid = #{amountPaid,jdbcType=DECIMAL},
+      area_name = #{areaName,jdbcType=VARCHAR},
+      consignee = #{consignee,jdbcType=VARCHAR},
+      coupon_discount = #{couponDiscount,jdbcType=DECIMAL},
+      expire = #{expire,jdbcType=TIMESTAMP},
+      fee = #{fee,jdbcType=DECIMAL},
+      freight = #{freight,jdbcType=DECIMAL},
+      invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      is_allocated_stock = #{isAllocatedStock,jdbcType=BIT},
+      lock_expire = #{lockExpire,jdbcType=TIMESTAMP},
+      memo = #{memo,jdbcType=VARCHAR},
+      offset_amount = #{offsetAmount,jdbcType=DECIMAL},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      payment_method_name = #{paymentMethodName,jdbcType=VARCHAR},
+      payment_status = #{paymentStatus,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      point = #{point,jdbcType=BIGINT},
+      promotion = #{promotion,jdbcType=VARCHAR},
+      promotion_discount = #{promotionDiscount,jdbcType=DECIMAL},
+      shipping_method_name = #{shippingMethodName,jdbcType=VARCHAR},
+      shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      sn = #{sn,jdbcType=VARCHAR},
+      tax = #{tax,jdbcType=DECIMAL},
+      area = #{area,jdbcType=BIGINT},
+      member = #{member,jdbcType=BIGINT},
+      operator = #{operator,jdbcType=BIGINT},
+      payment_method = #{paymentMethod,jdbcType=BIGINT},
+      shipping_method = #{shippingMethod,jdbcType=BIGINT},
+      evaluate = #{evaluate,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      paid_date = #{paidDate,jdbcType=TIMESTAMP},
+      refunded_date = #{refundedDate,jdbcType=TIMESTAMP},
+      hospital = #{hospital,jdbcType=VARCHAR},
+      delivery_corp = #{deliveryCorp,jdbcType=VARCHAR},
+      delivery_sn = #{deliverySn,jdbcType=VARCHAR},
+      is_member_delete = #{isMemberDelete,jdbcType=BIT},
+      is_make_invoice = #{isMakeInvoice,jdbcType=BIT},
+      type = #{type,jdbcType=BIGINT},
+      email = #{email,jdbcType=VARCHAR},
+      case_status = #{caseStatus,jdbcType=INTEGER},
+      order_invoice_id = #{orderInvoiceId,jdbcType=BIGINT},
+      company_id = #{companyId,jdbcType=BIGINT},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

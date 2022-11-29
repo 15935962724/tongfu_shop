@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>购物车</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+
+</head>
+<body>
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+<div class="log_con" style="padding-top:0px;background:url(../img/bg04.jpg) repeat-x left top #fff;border-top: 1px solid #e6e6e6">
+
+    <!--  购物车暂无数据  -->
+    <th:block th:if="${totalNum<=0}">
+        <div class="notShop">
+            <img th:src="@{/assets/img/notshop.png}" />
+            <p>暂无商品,请前往<a th:href="@{/}">首页</a></p>
+        </div>
+    </th:block>
+
+
+    <th:block th:if="${totalNum>0}">
+        <div class="progress" style="width:795px;">
+            <div class="pro-item pro-doing pro-item1">
+                <div class="pro-step">
+                    <span class="step-index">1</span><p class="step-desc">添加购物车</p></div></div>
+            <div class="pro-item pro-undo pro-item2">
+                <div class="pro-line"></div><div class="pro-step"><span class="step-index">2</span><p class="step-desc">确认订单信息</p></div></div>
+            <div class="pro-item pro-undo pro-item3" style="padding-left: 155px;">
+                <div class="pro-line"></div><div class="pro-step"><span class="step-index">3</span><p class="step-desc">结算</p></div></div>
+            <div class="pro-item pro-undo pro-item4" style="    padding-left: 173px;">
+                <div class="pro-line" style="    left: 7px;"></div><div class="pro-step">
+                <span class="step-index">4</span><p class="step-desc">支付完成</p></div></div>
+        </div>
+
+
+        <!--  购物车商品列表  -->
+        <div class="gwlist" id="ptsp">
+            <p>商品清单</p>
+            <table width="100%" border="0"  cellpadding="0" cellspacing="0">
+                <tr>
+                    <td colspan="2" class="tr03" style="text-align: left;padding-left: 21px;"> <input type="checkbox" id="checkAll1" onclick="checkAll(this,'1')"/>&nbsp;&nbsp;&nbsp;&nbsp;全选</td>
+                    <td class="tr03" style="width:260px;">商品名称</td>
+                    <td class="tr03 td07">规格</td>
+                    <td class="tr03 td07">单价</td>
+                    <td class="tr03">数量</td>
+                    <td class="tr03 td07">小计</td>
+                    <td class="tr03 td07" style="width: 170px;">操作</td>
+                </tr>
+
+                <th:block th:each="cart:${carts}">
+                 <tbody class="viewClass">
+                    <th:block th:if="${cart.listMy.size()>0}">
+                        <tr>
+                            <td colspan="8" style="text-align: left">所属商家：<a style="cursor: pointer" target="_blank" th:href="@{/company/view(id=${cart.company_id})}" href="">[[${cart.name}]] <i class="iconfont">&#xe638;</i></a></td>
+                        </tr>
+                    </th:block>
+                    <th:block th:with="entrys=${cart.listMy}" >
+                        <tr th:each="cartItem:${entrys}">
+                            <td th:if="${(cartItem.status == 1 or cartItem.status == 3 or !cartItem.isMarketable or cartItem.purId == 0) and cartItem.isvalue !=3}">
+                                <input disabled type="checkbox" name="checkOne" class="" th:value="${cartItem.itemid}">
+                                <input type="hidden" name="" value=""/>
+                            </td>
+                            <td th:if="${(cartItem.status == 2 and cartItem.isMarketable and cartItem.purId != 0) or (cartItem.isvalue ==3)}">
+                                <input type="checkbox" name="checkOne" class="label1" onclick="clearShop(1)" th:value="${cartItem.itemid}" />
+                                <input type="hidden" name="isvalue" th:value="${cartItem.isvalue}"/>
+                            </td>
+                            <td th:if="${cartItem.status == 1 or cartItem.status == 3 or !cartItem.isMarketable}">
+                        <span id="tu">
+                            <span class="lastCar" th:if="${cartItem.status == 1 or cartItem.status == 3 or !cartItem.isMarketable or cartItem.purId == 0}">
+                            </span>
+                            <img th:src="@{${pathUrl+cartItem.image}}"/>
+                        </span>
+                            </td>
+
+
+                            <td th:if="${cartItem.status == 2 and cartItem.isMarketable}">
+                        <span id="tu">
+                            <span class="lastCar" th:if="${cartItem.status == 1 or cartItem.status == 3 or !cartItem.isMarketable or cartItem.purId == 0}">
+                            </span>
+
+                            <th:block th:if="${cartItem.isvalue==1}">
+                                <a target="_blank" th:href="@{/product/view(id=${cartItem.productId})}">
+                                    <img th:src="@{${pathUrl+cartItem.image}}"/>
+                                </a>
+                            </th:block>
+                             <th:block th:if="${cartItem.isvalue==2}">
+                                  <a target="_blank" th:href="@{/product/addedvalue(id=${cartItem.productId})}">
+                                       <img th:src="@{${pathUrl+cartItem.image}}"/>
+                                  </a>
+                             </th:block>
+                            <th:block th:if="${cartItem.isvalue==3}">
+                                <a target="_blank" th:href="@{/product/trainPackagesView(id=${cartItem.productId})}">
+                                    <img th:src="@{${pathUrl+cartItem.image}}"/>
+                                </a>
+                            </th:block>
+                        </span>
+                            </td>
+
+                            <td>
+                                <th:block th:if="${cartItem.status == 2 and cartItem.isMarketable}">
+                                    <th:block th:if="${cartItem.isvalue==1}">
+                                        <a target="_blank" th:href="@{/product/view(id=${cartItem.productId})}">
+                                            [[${cartItem.name}]]
+                                        </a>
+                                    </th:block>
+                                    <th:block th:if="${cartItem.isvalue==2}">
+                                        <a target="_blank" th:href="@{/product/addedvalue(id=${cartItem.productId})}">
+                                            [[${cartItem.name}]]
+                                        </a>
+                                    </th:block>
+                                    <th:block th:if="${cartItem.isvalue==3}">
+                                        <a target="_blank" th:href="@{/product/trainPackagesView(id=${cartItem.productId})}">
+                                            [[${cartItem.name}]]
+                                        </a>
+                                    </th:block>
+
+                                </th:block>
+
+                                <th:block  th:if="${cartItem.status == 1 or cartItem.status == 3 or !cartItem.isMarketable}">
+                                    [[${cartItem.name}]]
+                                </th:block>
+                            </td>
+                            <td>[[${cartItem.purchaseName}]]</td>
+                            <td>[[${#numbers.formatDecimal(cartItem.price,1,'COMMA',2,'POINT')}]]</td>
+                            <td style="width: 93px;*width: 193px;padding: 25px 50px;"><div class="sliang"><span th:onclick="'javascript:carjian(\''+${cartItem.cart}+'\',\''+${cartItem.purchaseId}+'\',this,\''+${cartItem.price}+'\')'" ><a href="javascript:void(0)">-</a></span><input name="goodsNum" th:onkeyup="'javascript:getNum(\''+${cartItem.cart}+'\',\''+${cartItem.purchaseId}+'\',this,\''+${cartItem.price}+'\')'" th:value="${cartItem.quantity}" /><span th:onclick="'javascript:carjia(\''+${cartItem.cart}+'\',\''+${cartItem.purchaseId}+'\',this,\''+${cartItem.price}+'\')'" ><a href="javascript:void(0)">+</a></span></div></td>
+                            <td th:text="${#numbers.formatDecimal(cartItem.price*cartItem.quantity,1,2)}"></td>
+
+                            <td><a th:onclick="'javascript:del(\''+${cartItem.cart}+'\',\''+${cartItem.purchaseId}+'\',this)'" href="javascript:void(0)">删除</a></td>
+                        </tr>
+                    </th:block>
+                </tbody>
+                </th:block>
+            </table>
+        </div>
+        <!--  购物车商品列表  -->
+    </th:block>
+    <div class="gwlist" id="zzfw">
+        <table width="100%" border="0"  cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="tr03" style="border-bottom:0px;">&nbsp;</td>
+                <td class="tr03" style="border-bottom:0px;">&nbsp;</td>
+                <td class="tr03" style="border-bottom:0px;">&nbsp;</td>
+                <td class="tr03" style="border-bottom:0px;">&nbsp;</td>
+                <td class="tr03" style="border-bottom:0px;">&nbsp;</td>
+                <td class="tr03" style="border-bottom:0px;text-align:right;">已选&nbsp;<span id="bians">0</span>&nbsp;件</td>
+                <td class="tr03" style="border-bottom:0px;width:160px;font-size:14px;"><span style="float:left;">合计：</span>¥<span id="bians2">0.00</span></td>
+                <td class="tr03" style="border-bottom:0px;"><button class="cez" onclick="jiesuan()" style="cursor: pointer">结算</button></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<form id="jiesuanForm" method="post" th:action="@{/cart/balance}">
+    <input type="hidden" name="cartItemIds" >
+    <input type="hidden" name="isaddedvalue" >
+</form>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+<script>
+    var amount=0;//价格
+    // 购物车增加
+    function carjia(cart,purchaseId,obj,price){
+        var num=parseInt($(obj).siblings("input").val());
+        $(obj).siblings("input").val(num+1);
+        changeCart(cart,purchaseId,num+1);//改变库中的数量
+        //计算小计并赋值
+        var amount=getAmount(price,num+1);
+        $(obj).parents("td").next().html(amount);
+        //显示结算部分
+        var totalNum=checkgetNum();
+        var totalAmount=checkgetAmount();
+        console.log(totalNum);
+        $("#bians").html(totalNum);
+        $("#bians2").html(totalAmount.toFixed(2));
+        //头部购物车数量改变
+        $(".ci-count").html($("input[name='checkOne']").size());
+
+    }
+    // 购物车减少
+    function carjian(cart,purchaseId,obj,price){
+        var num=parseInt($(obj).siblings("input").val());
+        if(num>1){
+            $(obj).siblings("input").val(num-1);
+            changeCart(cart,purchaseId,num-1);//改变库中的数量
+            //计算小计并赋值
+            var amount=getAmount(price,num-1);
+            $(obj).parents("td").next().html(amount);
+            //显示结算部分
+            var totalNum=checkgetNum();
+            var totalAmount=checkgetAmount();
+            console.log(totalNum);
+            $("#bians").html(totalNum);
+            $("#bians2").html(totalAmount.toFixed(2));
+            //头部购物车数量改变
+            $(".ci-count").html($("input[name='checkOne']").size());
+
+
+        }
+
+    }
+    function getNum(cart,purchaseId,obj,price) {
+        var num=parseInt($(obj).val());
+
+        console.log(num);
+        if(num < 1){
+            alert("购买数量不能为0！");
+            num = 1;
+        }
+        $(obj).val(num);
+        changeCart(cart,purchaseId,num);//改变库中的数量
+        //计算小计并赋值
+        var amount=getAmount(price,num);
+        $(obj).parents("td").next().html(amount);
+        //显示结算部分
+        var totalNum=checkgetNum();
+        var totalAmount=checkgetAmount();
+        console.log(totalNum);
+        $("#bians").html(totalNum);
+        $("#bians2").html(totalAmount.toFixed(2));
+        var goodsNum = $("input[name='goodsNum']");
+        var numberGoods = 0;
+        for(var i = 0; i < goodsNum.length; i++){
+            numberGoods += parseInt(goodsNum[i].value)
+        }
+        $(".ci-count").html(numberGoods);
+
+
+    }
+    //删除购物车项（如果项都删除完，则把购物车也删除）
+    function del(cart,purchaseId,obj) {
+        if(window.confirm('你确定要删除吗？')){
+            $.ajax({
+                type:"post",
+                url:'[[@{/cart/delCart}]]',
+                data:{cart:cart,purchaseid:purchaseId},
+                dataType:"json",
+                async: false,
+                success:function (data) {
+                    console.log("data"+data);
+                    //删除当前tr
+                    if($(obj).parents("tbody").find('tr').length == 2){
+                        $(obj).parents("tbody").remove();
+                    }else{
+                        $(obj).parents("tr").remove();
+                    }
+                    //显示结算部分
+                    var totalNum=checkgetNum();
+                    var totalAmount=checkgetAmount();
+                    console.log(totalNum);
+                    $("#bians").html(totalNum);
+                    $("#bians2").html(totalAmount.toFixed(2));
+                    $(".ci-count").html($("input[name='checkOne']").size());
+                }
+            });
+        }else{
+
+            return false;
+        }
+
+
+    }
+    //增加或减少购物车数量时更改库中的数量
+    function changeCart(cart,purchaseId,num) {
+        $.ajax({
+            type:"post",
+            url:'[[@{/cart/changeCart}]]',
+            data:{cart:cart,purchaseid:purchaseId,num:num},
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log("data"+data);
+
+            }
+        });
+    }
+    //购物车计算价格
+    function getAmount(price,num){
+        var amount=num*price;
+        console.log("amount="+num+"*"+price+"="+amount);
+        return amount.toFixed(2);
+    }
+    //购物车全选全不选
+    function checkAll(obj,type) {
+        console.log(type);
+        if($(obj).prop("checked")==true){
+            if(type == 1){
+                $("#ptsp").find('.label1').prop("checked",true);
+                $("#zzfw").find('.label1').prop("checked",false);
+                $("#zzfw").find('#checkAll2').prop("checked",false);
+            }else{
+                $("#zzfw").find('.label1').prop("checked",true);
+                $("#ptsp").find('.label1').prop("checked",false);
+                $("#ptsp").find('#checkAll1').prop("checked",false);
+            }
+            var totalNum=checkgetNum();
+            var totalAmount=checkgetAmount();
+            console.log(totalNum);
+            $("#bians").html(totalNum);
+            $("#bians2").html(totalAmount.toFixed(2));
+        }else{
+            if(type == 1){
+                $("#ptsp").find('.label1').prop("checked",false);
+            }else{
+                $("#zzfw").find('.label1').prop("checked",false);
+            }
+            var totalNum=checkgetNum();
+            var totalAmount=checkgetAmount();
+            console.log(totalNum);
+            $("#bians").html(totalNum);
+            $("#bians2").html(totalAmount.toFixed(2));
+
+        }
+
+    }
+
+    function clearShop(type){
+        if(type == 1){
+            $("#zzfw").find('.label1').prop("checked",false);
+            $("#zzfw").find('#checkAll2').prop("checked",false);
+        }else{
+            $("#ptsp").find('.label1').prop("checked",false);
+            $("#ptsp").find('#checkAll1').prop("checked",false);
+        }
+    }
+
+    $(function() {
+
+        $("input[name='checkOne']").click(function () {
+
+            var totalNum=checkgetNum();//选中的数量
+            var totalAmount=checkgetAmount();
+            console.log(totalAmount);
+            $("#bians").html(totalNum);
+            $("#bians2").html(totalAmount.toFixed(2));
+
+        });
+
+
+
+    });
+    //复选框获取数量
+    function checkgetNum() {
+
+        // var s = $("input[name='checkOne']");
+        // var totalNum=0;
+        // s.each(function (i) {
+        //     if (this.checked == true) {
+        //         var quantity=$(this).parents("tr").find(".sliang").find("input").val();
+        //         console.log(quantity)
+        //         totalNum+=parseInt(quantity);
+        //         //alert(quantity);
+        //     }
+        //
+        // });
+        // console.log(totalNum);
+
+        var totalNum= $("input:checked[name='checkOne']").size();
+        console.log(totalNum);
+        return totalNum;
+    }
+    //复选框获取金额
+    function checkgetAmount() {
+
+        var s = $("input[name='checkOne']");
+        var totalAmount=0;
+        s.each(function (i) {
+            if (this.checked == true) {
+                var jine=$(this).parents("tr").find("td").eq(6).html();
+                totalAmount+= parseInt(jine*100);
+            }
+
+        });
+        console.log(totalAmount);
+        return totalAmount/100;
+    }
+    //点击结算按钮
+    function jiesuan() {
+
+        if($("input[name='checkOne']:checked").size()>0){
+
+            //var s = $("input[name='checkOne']");
+            //判断要结算的商品中是否包含普通商品和增值服务商品，如果是，则不能同时提交。
+            var s = $("input[name='checkOne']:checked");
+            console.log("size=="+s.size())
+            var isvalue0;
+            for (var i = 0; i < s.size(); i++) {
+                var sinput = s[i];
+                //console.log("sinput==="+sinput.next().val());
+                if(i==0){
+                    isvalue0 = $(sinput).next().val();
+                    $("input[name='isaddedvalue']").val(isvalue0);
+                    console.log("isvalue0==="+isvalue0);
+                }else{
+                    var isvalue = $(sinput).next().val();
+                    console.log("isvalue1==="+isvalue);
+                    if(isvalue0 != 2 && isvalue == 2){
+                        alert("不能同时结算普通商品和增值服务产品！");
+                        return;
+                    }else if(isvalue0 == 2 && isvalue0 != isvalue){
+                        alert("不能同时结算普通商品和增值服务产品！");
+                        return;
+                    }
+                }
+
+
+            }
+            console.log("不执行了");
+            //判断结束
+            var pval="";
+            s.each(function (i) {
+                if (this.checked == true) {
+
+                    var purchase=$(this).val();
+                    pval+=purchase+",";
+                }
+
+            });
+            $("input[name='cartItemIds']").val(pval);
+            $("#jiesuanForm").submit();
+        }else{
+            alert("请选择需要结算的商品！");
+            return;
+        }
+
+
+    }
+
+
+</script>
+</body>
+</html>

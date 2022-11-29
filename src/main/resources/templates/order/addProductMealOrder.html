@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>确认订单信息</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+    <script type="text/javascript" src="../js/qiehuan.js" th:src="@{/assets/js/qiehuan.js}"></script></head>
+</head>
+<body>
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+
+<!--弹窗特效-->
+<link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+<script src="js/jquery-1.10.2.min.js" th:src="@{/assets/tanchuang/jquery-1.10.2.min.js}"></script>
+<link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+<script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+
+<script th:src="@{/assets/js/jquery-3.1.1.js}"></script>
+
+<!--我的sp鼠标悬浮下拉-->
+<script src="../js/swiper.min.js" th:src="@{/assets/js/memberView.js}"></script>
+
+<!--三级联动插件-->
+<script th:src="@{/assets/js/lSelect.js}"></script>
+
+
+
+
+
+
+<style>
+    body{position: relative;}
+    .dlhui{width: 335px;height: 42px;text-align: center;line-height: 32px;}
+    .dllan{width: 335px;height: 42px;text-align: center;line-height: 32px;background:#007fdc;border:0px;color:#fff;}
+
+    label{float: left;padding-left: 20px;}
+    .ynfa{border-bottom:0px;padding:10px;display:none;}
+    /*.ynfa{border-bottom:0px;padding:10px;}*/
+    .fplx{margin-left:80px;float:left;font-size:16px;color:#999;line-height:40px;}
+    .taitou{padding-left:20px;font-size:16px;color:#999;line-height:40px;float:left;}
+    .taitou a{color:#007fdc;}
+</style>
+
+
+<header>
+
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+</header>
+
+<div class="log_con" style="padding-top:0px;background:url(../img/bg04.jpg) repeat-x left top #fff;">
+    <div class="progress" style="width:795px;">
+        <div class="pro-item pro-doing pro-item1">
+            <div class="pro-step">
+                <span class="step-index">1</span>
+                <p class="step-desc">添加购物车</p></div>
+        </div>
+        <div class="pro-item pro-doing pro-item2">
+            <div class="pro-line"></div>
+            <div class="pro-step"><span class="step-index">2</span>
+                <p class="step-desc">确认订单信息</p></div>
+        </div>
+        <div class="pro-item pro-undo pro-item3" style="padding-left: 155px;">
+            <div class="pro-line"></div>
+            <div class="pro-step"><span class="step-index">3</span>
+                <p class="step-desc">结算</p></div>
+        </div>
+        <div class="pro-item pro-undo pro-item4" style="    padding-left: 173px;">
+            <div class="pro-line" style="    left: 7px;"></div>
+            <div class="pro-step">
+                <span class="step-index">4</span>
+                <p class="step-desc">支付完成</p></div>
+        </div>
+    </div>
+    <div class="gwlist">
+        <p>收货人信息<a href = "JavaScript:void(0)" onclick = "openDialog()">新增收货地址</a></p>
+        <!--添加收货地址div开始-->
+        <div id="light" class="fatc">
+            <div class="fatc_t">新增收货地址 <a href = "javascript:void(0)" onclick = "closeDialog(1)"><i class="iconfont">&#xe62f;</i></a></div>
+            <form id="addressForm" name="addressForm">
+                <input type="hidden" id="id">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tongy" style="width:602px;">
+                    <tr>
+                        <td class="td01"><font>*</font>收货人姓名：</td>
+                        <td class="td02"><input id="consignee" name="consignee" type="text" class="input" value="" size="20"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="td01"><font>*</font>地区：</td>
+                        <td class="td02" style="display: flex;">
+                            <input type="hidden" id="area" name="area"/>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td valign="top" class="td01">详细地址：</td>
+                        <td class="td02"><textarea id="address" name="address"></textarea> </td>
+                    </tr>
+                    <tr>
+                        <td class="td01"><font>*</font>手机号：</td>
+                        <td class="td02"><span style="width:306px;*width:326px;height:36px;border:1px solid #dadada;border-radius: 4px;color: #999;font-size: 16px;line-height: 36px;padding-left:20px;    display: inline-block;">
+                        <label class="select-country" country_id="+86" style="float:left;">+86<span class="iconfont" style="margin-left: 10px;    margin-left: 10px;font-size: 22px;color: #333;"></span></label>
+                        <span style="float:left;">|</span><input id="phone" name="phone" placeholder="请输入手机号" style="width:190px;*width: 204px;border: 0px;float: left;margin-top:6px;height:30px;line-height:30px;padding-left:14px;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td01"><font>*</font>邮箱：</td>
+                        <td class="td02"><input id="email" name="email" type="text" class="input" size="20"></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <!--<input name="sub" style="width: 335px;height: 42px;text-align: center;line-height: 32px;background:#007fdc;border:0px;color:#fff;" type="button" value="提交" onclick="subAddress()"/>-->
+                            <input name="sub" type="button" value="提交" onclick="subAddress()"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <!--添加收货地址div结束-->
+
+        <div id="fade" class="black_overlay"></div>
+        <script type="text/javascript">
+
+            function openDialog(){
+                document.getElementById('light').style.display='block';
+                document.getElementById('fade').style.display='block'
+            }
+            function closeDialog(){
+                document.getElementById('light').style.display='none';
+                document.getElementById('fade').style.display='none';
+
+
+            }
+        </script>
+        <!--收货地址列表-->
+        <div class="inner_width">
+            <div class="focus">
+                <ul>
+                    <li th:each="receiver:${listReceiver}" th:style="${receiver.isDefault?'':'display:none'}" th:id="${receiver.isDefault?'defID':''}">
+                        <a href="javascript:void(0)" th:id="${receiver.id}" th:onclick="'javascript:checkReceiver(this,\''+${receiver.id}+'\')'" >
+                            <span  id="ming"  th:text="${receiver.consignee}" th:styleappend="${receiver.isDefault}?'border:1px solid #fe943e;background:url('+@{/}+'assets/img/more.png) no-repeat right bottom #fff;':''"  >沈志萍</span>
+                        </a>
+                        <span id="namw" th:text="${receiver.consignee}">沈志萍</span>
+                        <span th:text="${receiver.areaName+receiver.address}">江苏省南京市鼓楼区丁家桥87号住院部7楼介入血管外科手术室</span>
+                        <span id="pho" th:text="${receiver.phone}">15335452626</span>
+                        <span id="email" th:text="${receiver.email}"></span>
+                        <span id="xiu" th:style="${receiver.isDefault?'display:none':'display:block'}"><a href="javascript:void(0)" th:onclick="'javascript:defaultAddress(\''+${receiver.id}+'\')'" >设为默认地址</a></span>
+                        <span id="xiu"><a href="javascript:void(0)" th:onclick="'javascript:updateAddress(\''+${receiver.id}+'\')'" >编辑</a></span>
+                        <span id="xiu"><a href="javascript:void(0)" th:onclick="'javascript:delAddress(\''+${receiver.id}+'\',this)'">删除</a></span>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="" id="stit">
+                <!--<img src="../img/shouqi.jpg" th:src="@{/assets/img/shouqi.jpg}">-->
+                <img src="../img/zhank.jpg" th:src="@{/assets/img/zhank.jpg}">
+            </div>
+        </div>
+        <div style="height:40px;width:100%;display:block;"></div>
+        <p>商品清单</p>
+        <table width="100%" border="0"  cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="tr03" style="width:190px;">图片</td>
+                <td class="tr03" style="width:320px;">商品名称</td>
+                <td class="tr03 td07" style="width:200px;">单价</td>
+                <td class="tr03" style="width:200px;">数量</td>
+                <td class="tr03 td07" style="width:200px;">小计</td>
+            </tr>
+            <tr th:each="myCart:${MyCart}">
+                <td><span id="tu"><img src="../img/gw01.png"  th:src="@{${pathUrl+myCart.image}}"/></span></td>
+                <td th:text="${myCart.name}">IQQA-3D肝脏评估和治疗计划辅助系统©</td>
+                <td>¥ [[${#numbers.formatDecimal(myCart.price,1,'COMMA',2,'POINT')}]] </td>
+                <td th:text="${myCart.quantity}">1</td>
+                <td th:text="${'¥'+#numbers.formatDecimal(myCart.price*myCart.quantity,1,2)}">￥200.00</td>
+            </tr>
+
+            <tr>
+                <td colspan="7" style="height:38px;padding: 0px;border:0px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="7" valign="bottom" style="height:140px;padding:5px;">  <p style=" float: left; ">发票信息：</p><span class="taitou">开企业抬头发票须填写纳税人识别号，以免影响报销</span></td>
+            </tr>
+
+
+            <tr>
+                <!--发票td开始-->
+                <td colspan="7" id="fptd0" style="border-bottom:0px;padding:10px;"><span style="float:left;" id="isNeedInvoice">是否开发票</span>
+
+                    <a id="shi" href = "JavaScript:void(0)" onclick = "openDialog1()">  <label><input name="Fruit" type="radio" value="true"/>是</label></a>
+                    <!--发票div开始-->
+                    <div id="light1" class="fatc">
+                        <div class="fatc_t">发票信息<a href = "javascript:void(0)" onclick = "closeDialog1(1)"><i class="iconfont">&#xe62f;</i></a></div>
+                        <div class="fatc_b">
+                            <div class="title">
+                                <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv2_',this)"   id="JKDiv2_DEF" class="Selected">电子发票</li>
+                                <li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv2_',this)" >增值税专用发票</li>
+                            </div>
+                            <div class="con"  id="JKDiv2_0">
+                                <!--电子发票表单-->
+                                <!--普通发票form开始-->
+                                <form  id="invoiceForm" name="invoiceForm" action="" method="get" style="float: left;padding-left: 30px;">
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td  valign="top" class="cb1" style="padding-top:20px;"><font>*</font>发票抬头：</td>
+                                            <td><input type="text"  id="title"  placeholder="请填写发票抬头" required></td>
+                                        </tr>
+                                        <tr >
+                                            <td class="cb1">纳税人识别号：</td>
+                                            <td><input type="text" id="taxpayerNo" placeholder="发票抬头为个人的话无需填写"  value="" required></td>
+                                        </tr>
+                                        <tr style="border-bottom:1px solid #e6e6e6;">
+                                            <td class="cb1"><font>*</font>发票内容：</td>
+                                            <td>
+                                                <input type="text" id="pcontent" placeholder="发票内容"  value="" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1"><font>*</font>收票人手机：</td>
+                                            <td><input type="text" id="pmobile" name="pmobile" placeholder="请填写手机号" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1"><font>*</font>收票人邮箱：</td>
+                                            <td><input type="text" id="pemail" placeholder="请填写邮箱" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="border-bottom:1px solid #e6e6e6;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="text-align:center;padding-top:30px;"><input type="button" value="保存" onclick="subPinvoice()">
+                                                <input name="重置" type="reset" value="取消" onclick="closeDialog1()"></td>
+                                        </tr>
+                                    </table>
+                                </form>
+                                <!--电子发票表单结束-->
+                            </div>
+                            <div class="con" id="JKDiv2_1" style="display:none;">
+                                <!--专票开始-->
+                                <form name="zinvoiceForm" id="zinvoiceForm">
+                                    <!--第一步-->
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="first">
+                                        <tr>
+                                            <td class="cb1"><font>*</font>开票方式：</td>
+                                            <td><a href="javascript:void(0)" onclick="checkZmode(this)"><input type="text" readonly value="订单完成后开票" ></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1"><font>*</font>发票内容：</td>
+                                            <td><a href="javascript:void(0)" onclick="checkZcontent(this)"><input type="text" id="content"  ></a>
+                                            </td>
+                                        <tr>
+                                            <td colspan="2" style="hegiht:30px;">   </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2"  style="border-bottom:1px solid #e6e6e6;padding-left:20px;"><div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i><span>2.填写或核对公司信息</span><i id="xian"></i><span>3.填写收票人信息</span> </div>
+                                                <p>发票将在订单完成之后7-15个工作日寄出</p></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2" style="text-align:center;">
+                                                <input name="重置" type="reset" value="取消" onclick="closeDialog1()" />
+                                                <input type="button" onclick="nextStep(2)" value="下一步" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!------第二步----------->
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="second" style="display:none">
+                                        <tr>
+                                            <td class="cb1"><font>*</font>开票方式：</td>
+                                            <td><input type="text" value="订单完成后开票" readonly class="dang"></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"  style="padding-left:20px;">
+                                                <div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i>
+                                                    <span id="fenb">2.填写或核对公司信息</span><i id="xians"></i><span>3.填写收票人信息</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1"><font>*</font>单位名称：</td>
+                                            <td><input  name="companyName" type="text"  ></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1"><font>*</font>纳税人识别码：</td>
+                                            <td><input type="text" name="taxpayerNo" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1"><font>*</font>注册地址：</td>
+                                            <td><input name="registerAddress" type="text" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1"><font>*</font>注册电话：</td>
+                                            <td><input name="registerMobile" type="text"  ></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1"><font>*</font>开户行：</td>
+                                            <td><input name="bank" type="text"  ></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1"><font>*</font>银行账户：</td>
+                                            <td><input name="bankAccount" type="text"  value=""></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2" style="text-align:center;border-top:1px solid #e6e6e6;">
+                                                <input name="重置" type="button" value="上一步" onclick="nextStep(1)" />
+                                                <input type="button" value="下一步" onclick="nextStep(3)" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!--第三步--->
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="third" style="display:none">
+                                        <tr>
+                                            <td class="cb1"><font>*</font>开票方式：</td>
+                                            <td><input type="text" value="订单完成后开票" class="dang"></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"  style="padding-left:20px;"><div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i><span id="fenb">2.填写或核对公司信息</span><i id="xians"></i><span id="fenb">3.填写收票人信息</span> </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1">收票人姓名：</td>
+                                            <td><input name="memberName" type="text" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1">收票人电话：</td>
+                                            <td><input id="zmobile" name="zmobile" type="text"  ></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cb1"><font>*</font>收票人省份：</td>
+                                            <td class="cb1" style="display: flex;padding-left: 50px;">
+                                                <input type="hidden" id="areaId" name="areaId"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        <tr>
+                                            <td class="cb1">收票人地址：</td>
+                                            <td><input name="address" type="text"  value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="text-align:center;border-top:1px solid #e6e6e6;">
+                                                <input name="重置" type="button" value="上一步" onclick="nextStep(2)" />
+                                                <input type="button" onclick="subZinvoice()" value="保存" />
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--发票div结束-->
+                    <div id="fade1" class="black_overlay"></div>
+                    <script type="text/javascript">
+
+                        function openDialog1(){
+                            document.getElementById('light1').style.display='block';
+                            console.log("l1:"+$("#light1").css("display"));
+                            document.getElementById('fade1').style.display='block';
+                            console.log("f1:"+$("#fade1").css("display"));
+                            $('#isMakeInvoice').val(true);
+                        }
+                        function closeDialog1(){
+                            document.getElementById('light1').style.display='none';
+                            document.getElementById('fade1').style.display='none'
+                            $('#isMakeInvoice').val(false);
+                        }
+                        //修改发票
+                        function editinvoice(){
+
+                            $("#light1").css('display','block');
+                            console.log("l1:"+$("#light1").css("display"));
+                            $("#fade1").css('display','block');
+                            console.log("f1:"+$("#fade1").css("display"));
+                            // document.getElementById('light1').style.display='';
+                            // document.getElementById('fade1').style.display='';
+                            $("#first").show();
+                            console.log("first:"+$("#first").css("display"));
+                            $("#second").hide();
+                            console.log("second:"+$("#second").css("display"));
+                            $("#third").hide();
+                            console.log("third:"+$("#third").css("display"));
+                        }
+
+                    </script>
+                    <a id="shi" href = "JavaScript:void(0)">
+                        <label id="fou"><input name="Fruit" type="radio" checked="checked" value="false" />否</label>
+                    </a>
+
+                    <!--发票form结束-->
+                    <div colspan="7" class="ynfa" >
+                        <span class="fplx">电子普通发票</span>   <span class="taitou">个人</span>   <span class="taitou"> 明细</span>     <span class="taitou" onclick = "editinvoice()">修改</span>
+                    </div>
+                </td>
+                <!--发票td结束-->
+            </tr>
+            <!--<tr>
+                <td colspan="7" style="    padding: 30px 0px 15px 10px;"><div id="stit1">使用Knowhow卡抵用<i class='iconfont'>&#xe602;</i></div></td></tr>
+            <tr>
+                <td colspan="7" style="padding:0px;"><div class="know">
+                    <div class="title">
+                        <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv_',this)" id="JKDiv_DEF" class="Selected">现用Knowhow卡</li>
+                        <li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv_',this)" >绑定Knowhow卡</li>
+                    </div>
+                    <div class="con" id="JKDiv_0">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="width:200px;text-align:right;">请输入Knowhow卡的密码：</td>
+                                <td><input type="text" /><i><img src="../img/cd02.jpg" th:src="@{/assets/img/cd02.jpg}"/></i><input type="text" /><i><img src="../img/cd02.jpg" th:src="@{/assets/img/cd02.jpg}"/></i><input type="text" /><i><img src="../img/cd02.jpg" th:src="@{/assets/img/cd02.jpg}"/></i><input type="text" /><button>确定</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="height:174px;">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background: #f8f8f8;height: 60px;line-height: 60px;">共使用了了<font>&nbsp;1&nbsp;</font> 张礼品卡，可优惠<font>&nbsp;¥0.00&nbsp;</font>元</td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="con" id="JKDiv_1" style="display:none;">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="width:200px;text-align:right;">请输入know-how卡卡号：</td>
+                                <td><input type="text" /><i><img src="../img/cd02.jpg" th:src="@{/assets/img/cd02.jpg}"/></i><input type="text" /><i><img src="../img/cd02.jpg" th:src="@{/assets/img/cd02.jpg}"/></i><input type="text" /><i><img src="../img/cd02.jpg" th:src="@{/assets/img/cd02.jpg}"/></i><input type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td style="width:200px;text-align:right;">请输入know-how卡卡密：</td>
+                                <td><input type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td style="width:200px;text-align:right;">验证码：</td>
+                                <td><input type="text" />   <img src="../img/yzm.jpg"  th:src="@{/assets/img/yzm.jpg}" style="float:left;margin-left:20px;"></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td><button>立即绑定</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="height: 42px;padding: 0px;">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background: #f8f8f8;height: 50px;line-height: 50px;">共使用了<font>&nbsp;1&nbsp;</font> 张礼品卡，可优惠<font>&nbsp;¥0.00&nbsp;</font>元</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                </td></tr>
+            <tr>
+                <td colspan="7" style="border-bottom:0px;text-align:right;padding:5px 18px 0px 0px;">金额抵用：<font style="padding-left:20px;"><b>￥0.00</b></font></td>  </tr>-->
+            <tr>
+                <td colspan="7" style="border-bottom:0px;text-align:right;padding:5px 18px 8px 0px;">已选：
+                    <font style="padding-left:40px;">
+                        <b id="numId" >[[${totalNum}]]</b>&nbsp;件
+                    </font>
+                </td>
+            </tr>
+            <tr>
+                <td class="tr03" colspan="7" style="border-bottom:0px;text-align:right;padding-right: 30px;">
+                    合计：<span id="bians"><b id="amountId"  th:text="${'¥'+totalAmount}">￥1000.00</b></span>
+                    <button class="cez" style="margin-left: 40px;width: 167px;font-weight: 500;cursor: pointer" onclick="subOrder()">提交订单</button>
+                </td>
+            </tr>
+        </table>
+        <style>
+            .gwlist table #bians{padding-left:10px;}
+            .know{width:1200px;border-left:1px solid #e6e6e6;border-right:1px solid #e6e6e6;}
+            .know .title{height:60px;display:block;background:#f5faff;}
+            .know .title li{cursor:pointer;float:left;width:242px;text-align:center;font-size:16px;color:#666;line-height:60px;}
+            .know .title .Selected{width:242px;text-align:center;background:#f8f8f8;color:#666;}
+            .know .con{height:310px;padding-top:27px;overflow:hiddden;}
+            .know .con table{border:0px;}
+            .know .con table td{padding:0px 0px 12px 20px;font-size:14px;color:#333;line-height:38px;height:38px;*height:50px;text-align:left;border:0px;}
+            .know .con table td input{width:100px;height:34px;border:1px solid #e6e6e6;border-radius:3px;background:#fff;font-size:14px;color:#333;float:left;text-align:center;}
+            .know .con table td input:hover{border:1px solid #006ab7;}
+            .know .con table td i{margin:18px 5px;font-size:20px;color:#e6e6e6;float:left;}
+            .know .con table td button{width:100px;height:36px;border-radius:3px;background:#007fdc;color:#fff;font-size:14px;border:0px;line-height: 29px;margin-left:30px;}
+            .know .con table td a{color:#007fdc;text-decoration: underline;padding-left:205px;}
+            .know .con font{#e06500;font-weight:600;}
+
+
+        </style>
+    </div>
+</div>
+<div class="tjnav" style="border-top:1px solid #dbedfa;padding-top:38px;">
+    <ul th:replace="~{foot_category::topbar}">
+    </ul>
+
+</div>
+
+<form name="orderForm" id="orderForm" method="post" th:action="@{/order/saveProducMealOrder}">
+    <input type="hidden" id="oreceiverId" name="oreceiverId" th:value="${receiverId}" ><!--收货地址，如果没有选择，则是默认的-->
+    <input type="hidden" id="orderInvoiceType" name="orderInvoiceType" value="1" ><!--发票类型 1普 2专 -->
+    <input type="hidden" id="isInvoice" name="issueInvoice" ><!--是否开具发票-->
+    <input type="hidden" id="productMealId" name="productMealId" th:value="${productMealId}"><!--购买套餐ID-->
+    <input type="hidden" id="orderInvoicePtitle" name="orderInvoicePtitle" ><!--发票抬头-->
+
+    <input type="hidden" id="orderInvoicePcontent" name="orderInvoicePcontent" ><!--发票内容-->
+    <input type="hidden" id="orderInvoicePemail" name="orderInvoicePemail" ><!--普通发票收件人邮箱-->
+    <input type="hidden" id="orderInvoicePidentityno" name="orderInvoicePidentityno" ><!--纳税人识别号-->
+    <input type="hidden" id="orderInvoiceZcompany" name="orderInvoiceZcompany" ><!--专票单位名称-->
+    <input type="hidden" id="orderInvoiceZidentityno" name="orderInvoiceZidentityno" ><!--专票纳税人识别号-->
+    <input type="hidden" id="orderInvoiceZregAddress" name="orderInvoiceZregAddress" ><!--专票单位注册地址-->
+    <input type="hidden" id="orderInvoiceZregmobile" name="orderInvoiceZregmobile" ><!--专票单位注册电话-->
+    <input type="hidden" id="orderInvoiceZbank" name="orderInvoiceZbank" ><!--专票单位开户银行-->
+    <input type="hidden" id="orderInvoiceZaccount" name="orderInvoiceZaccount" ><!--专票单位账户-->
+    <input type="hidden" id="orderInvoiceZname" name="orderInvoiceZname" ><!--专票收票人姓名-->
+    <input type="hidden" id="orderInvoiceZmobile" name="orderInvoiceZmobile" ><!--专票收票人电话-->
+    <input type="hidden" id="orderInvoiceZareaId" name="orderInvoiceZareaId" ><!--专票收票人省-->
+    <input type="hidden" id="orderInvoiceZaddress" name="orderInvoiceZaddress" ><!--专票收票人详细地址-->
+
+</form>
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+<script>
+    $(function () {
+
+
+        var shouqi="[[@{/}]]"+"assets/img/shouqi.jpg";
+        var zhank="[[@{/}]]"+"assets/img/zhank.jpg";
+        var flag = 1;
+        $("#stit1").click(function(){
+            $(".know").slideToggle();
+            if(flag==0){
+                $(this).html("使用Knowhow卡抵用<i class='iconfont'>&#xe602;</i>");
+                flag = 1;
+
+            }else{
+                $(this).html("使用Knowhow卡抵用<i class='iconfont'>&#xe603;</i>");
+                flag = 0;
+            }
+        })
+        $("#stit").click(function(){
+            //点击展开地址
+            //$(".focus").slideToggle();
+
+
+
+            if(flag==1){
+                $(this).html("<img src='"+shouqi+"'>");
+                var arr = $(".focus").find("li");
+                for (var i=0;i<arr.length;i++){
+                    var ali=arr[i];
+                    $(ali).show();
+                }
+                flag = 0;
+
+            }else{
+                //$(this).html("<img src='../img/zhank.jpg'>");
+                $(this).html("<img src='"+zhank+"'>");
+                var arr = $(".focus").find("li[id!='defID']");
+                for (var i=0;i<arr.length;i++){
+                    var ali=arr[i];
+                    $(ali).hide();
+                }
+                flag = 1;
+            }
+        })
+
+
+
+        // 收货地区选择
+        $("#area").lSelect({
+            url: "[[@{/area/getAreas}]]"
+        });
+
+        // 收票地区选择
+        $("#areaId").lSelect({
+            url: "[[@{/area/getAreas}]]"
+        });
+
+    })
+
+
+    function ChangeDiv(id,obj,_this) {
+        $('#'+obj+id).show();
+        $('#'+obj+id).siblings("div.con").hide();
+        $(_this).addClass("Selected")
+        $(_this).siblings("li").removeClass("Selected")
+        $('#orderInvoiceType').val(parseInt(id)+1);
+    }
+
+
+    //提交收货地址
+    function subAddress() {
+
+        //收货人姓名
+        if($('#consignee').val() == ""){
+            $('#popup').html("请输入收货人姓名！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+        //手机号
+        if($('#area').val() == ""){
+            $('#popup').html("请选择地址！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+
+        //手机号
+        if($('#phone').val() == ""){
+            $('#popup').html("请输入手机号！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+        //邮箱
+        if($('#email').val() == ""){
+            $('#popup').html("请输入邮箱！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+
+        //手机号验证
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+        if(!pattern.test($('#phone').val())){
+            $('#popup').html('手机号输入有误,请重新输入!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+
+        //邮箱验证
+        var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        if(!reg.test($('#email').val())){
+            $('#popup').html('邮箱输入有误,请重新输入!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+
+
+
+
+        var fields = $('#addressForm').serializeArray();
+        // console.log(data);
+        var obj = {}; //声明一个对象
+        $.each(fields, function(index, field) {
+            obj[field.name] = field.value; //通过变量，将属性值，属性一起放到对象中
+        })
+
+        var datas = JSON.stringify(obj);
+        // datas = $("#addressForm").serialize();
+        console.log(datas);
+        var url = '[[@{/receiver/saveReceiver}]]';
+        var id = $('#id').val();
+        if (id!=''){
+            url = '[[@{/receiver/updateReceiver}]]';
+        }
+
+        $.ajax({
+            type:"post",
+            contentType: "application/json",
+            url:url,
+            data:datas,
+            dataType: "json",
+            async: false,
+            success:function (data) {
+                alert("成功");
+                location.reload();
+            }
+        });
+    }
+    //修改收货地址回显数据
+    function updateAddress(id) {
+        openDialog();
+        $.ajax({
+            type:"post",
+            url:'[[@{/receiver/selReceiver}]]',
+            data:{receiverid:id},
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log(data);
+                $('#consignee').val(data.consignee);
+                $('#area').val(data.area);
+                $('#address').val(data.address);
+                $('#phone').val(data.phone);
+                $('#email').val(data.email);
+                $("#id").attr("name","id");
+                $('#id').val(data.id);
+                // $("#area").lSelect({
+                //     url: "[[@{/area/getAreas}]]"
+                // });
+
+            }
+        });
+    }
+    //设为默认地址
+    function defaultAddress(id) {
+        if(window.confirm('你确定要设为默认地址吗？')){
+            $.ajax({
+                type:"post",
+                url:'[[@{/receiver/defaultReceiver}]]',
+                data:{receiverId:id},
+                dataType:"json",
+                async: false,
+                success:function (data) {
+                    console.log("data"+data);
+                    location.reload();
+                }
+            });
+            //删除当前li
+            //$(obj).parents("li").remove();
+
+            return true;
+        }else{
+
+            return false;
+        }
+
+    }
+
+    //删除收货地址
+    function delAddress(id,obj) {
+
+        if(window.confirm('你确定要删除吗？')){
+            $.ajax({
+                type:"post",
+                url:'[[@{/receiver/delReceiver}]]',
+                data:{receiverId:id},
+                dataType:"json",
+                async: false,
+                success:function (data) {
+                    console.log("data"+data);
+
+                }
+            });
+            //删除当前li
+            $(obj).parents("li").remove();
+
+            return true;
+        }else{
+
+            return false;
+        }
+    }
+    //选择某个收货地址
+    function checkReceiver(obj,receiverId) {
+        // $(obj).children().addClass("receiverCls");
+
+        $(".focus ul li span").attr('style','');
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+        //alert($(obj).attr("id"));
+        $('#oreceiverId').val(receiverId);//给订单表的地址id传值
+
+
+    }
+
+    //普通发票确定
+    function subPinvoice() {
+        //发票抬头
+        if($('#title').val() == ""){
+            $('#popup').html("请输入发票抬头！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+        //手机号
+        if($('#pmobile').val() == ""){
+            $('#popup').html("请输入手机号！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+        //邮箱
+        if($('#pemail').val() == ""){
+            $('#popup').html("请输入邮箱！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+
+        //手机号验证
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+        if(!pattern.test($('#pmobile').val())){
+            $('#popup').html('手机号输入有误,请重新输入!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+
+        //邮箱验证
+        var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        if(!reg.test($('#pemail').val())){
+            $('#popup').html('邮箱输入有误,请重新输入!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+
+        $('#orderInvoicePtitle').val($('#title').val());//电子发票抬头
+        $('#orderInvoicePidentityno').val($('#taxpayerNo').val());//纳税人识别号
+        $('#orderInvoicePcontent').val($('#pcontent').val());//发票明细
+        $('#orderInvoiceZmobile').val($('#pmobile').val());//收票人电话
+        $('#orderInvoicePemail').val($('#pemail').val());//收票人邮箱
+        $('#light1').css("display","none");
+        $('#fade1').css("display","none");
+    }
+
+
+    // 增值税专票点击保存
+    function subZinvoice() {
+
+        //收票人姓名
+        if($("#zinvoiceForm input[name='memberName']").val() == ""){
+            $('#popup').html("请输入收票人姓名！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+        //收票人电话
+        if($("#zinvoiceForm input[name='zmobile']").val() == ""){
+            $('#popup').html("请输入收票人电话！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+        if(!pattern.test($("#zinvoiceForm input[name='zmobile']").val())){
+            $('#popup').html('手机号输入有误,请重新输入!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+        //收票人省份
+        if($("#zinvoiceForm input[name='areaId']").val() == ""){
+            $('#popup').html("请选择收票人省份！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+        //收票人地址
+        if($("#zinvoiceForm input[name='address']").val() == ""){
+            $('#popup').html("请输入收票人地址！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+
+        $('#orderInvoicePcontent').val($('#content').val());//发票内容
+        $('#orderInvoiceZcompany').val($("#zinvoiceForm input[name='companyName']").val());//专票单位名称
+        $('#orderInvoicePtitle').val($("#zinvoiceForm input[name='companyName']").val());//电子发票抬头
+        $('#orderInvoiceZidentityno').val($("#zinvoiceForm input[name='taxpayerNo']").val());//纳税人识别号
+        $('#orderInvoiceZregAddress').val($("#zinvoiceForm input[name='registerAddress']").val());//注册地址
+        $('#orderInvoiceZregmobile').val($("#zinvoiceForm input[name='registerMobile']").val());//注册电话
+        $('#orderInvoiceZbank').val($("#zinvoiceForm input[name='bank']").val());//开户行
+        $('#orderInvoiceZaccount').val($("#zinvoiceForm input[name='bankAccount']").val());//银行账户
+        $('#orderInvoiceZname').val($("#zinvoiceForm input[name='memberName']").val());//收票人姓名
+        $('#orderInvoiceZmobile').val($("#zmobile").val());//收票人电话
+        $('#orderInvoiceZareaId').val($("#areaId").val());//收票人地区
+        $('#orderInvoiceZaddress').val($("#zinvoiceForm input[name='address']").val());//收票人地址
+
+        // $('#light1').hide();
+        $('#light1').css("display","none");
+        $('#fade1').css("display","none");
+
+    }
+
+    //提交订单
+    function subOrder() {
+        var tf='[[@{/}]]';
+        $('#isInvoice').val($("input[name='Fruit']:checked").val());
+        if($("#oreceiverId").val() == ""){
+            $('#popup').html("请添加收货地址！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+        $("#orderForm").submit();
+
+    }
+
+
+    // //提交增值税专用发票
+    // function subZinvoice() {
+    //     $.ajax({
+    //         type:"post",
+    //         url:'[[@{/invoice/addZInvoice}]]',
+    //         data:$("#zinvoiceForm").serialize(),
+    //         dataType:"json",
+    //         async: false,
+    //         success:function (data) {
+    //             console.log("data"+data);
+    //             if(data.length>0){
+    //                 alert("成功");
+    //                 var needspan=$("#isNeedInvoice").find("#needspan");
+    //                 var needspan2="<span id='needspan' style='margin-left: 50px'>"+data[0]+"&nbsp"+data[1]+"&nbsp"+data[2]+"</span>";
+    //                 if(needspan){
+    //                     $(needspan).remove();
+    //                     $("#isNeedInvoice").append(needspan2);
+    //                 }else{
+    //                     $("#isNeedInvoice").append(needspan2);
+    //                 }
+    //                     closeDialog1(1);
+    //                     $("#orderForm input[name='invoiceType']").val(1);//增票
+    //                     $("#orderForm input[name='isInvoice']").val(1);//需要发票
+    //             }
+    //
+    //
+    //         }
+    //     });
+    // }
+    //专票选择开票方式
+    function checkZmode(obj) {
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+    }
+    //专票选择开票内容
+    function checkZcontent(obj) {
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+    }
+
+    //专票 下一步 上一步
+    function nextStep(step) {
+        if(step == 1){
+            $("#first").show();
+            $("#second").hide();
+            $("#third").hide();
+        }else if(step == 2){
+            $("#first").hide();
+            $("#second").show();
+            $("#third").hide();
+        }else if(step == 3){
+            //单位名称
+            if($("#zinvoiceForm input[name='companyName']").val() == ""){
+                $('#popup').html("请输入单位名称！");
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return false;
+            }
+            //纳税人识别码
+            if($("#zinvoiceForm input[name='taxpayerNo']").val() == ""){
+                $('#popup').html("请输入纳税人识别码！");
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return false;
+            }
+            //注册地址
+            if($("#zinvoiceForm input[name='registerAddress']").val() == ""){
+                $('#popup').html("请输入注册地址！");
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return false;
+            }
+            //注册电话
+            if($("#zinvoiceForm input[name='registerMobile']").val() == ""){
+                $('#popup').html("请输入注册电话！");
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return false;
+            }
+
+
+            //手机号验证
+            var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+            if(!pattern.test($("#zinvoiceForm input[name='registerMobile']").val())){
+                $('#popup').html('手机号输入有误,请重新输入!')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return false;
+            }
+            //开户行
+            if($("#zinvoiceForm input[name='bank']").val() == ""){
+                $('#popup').html("请输入开户行！");
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return false;
+            }
+            //银行账户
+            if($("#zinvoiceForm input[name='bankAccount']").val() == ""){
+                $('#popup').html("请输入银行账户！");
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return false;
+            }
+
+            $("#first").hide();
+            $("#second").hide();
+            $("#third").show();
+        }
+    }
+
+</script>
+</body>
+</html>

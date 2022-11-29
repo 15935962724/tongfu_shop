@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>媒体报道-[[${company.name}]]</title>
+</head>
+
+<body>
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/iconfont.css" th:href="@{/assets/css/iconfont.css}" type="text/css" />
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+<link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+<header>
+
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+</header>
+<script>
+    var btns =document.getElementById('btns');
+    var showid=document.getElementById('showid');
+    var colss=document.getElementById('colss');
+    if (btns && showid){
+        btns.onmouseover=function(){
+            showid.style.display='block';
+        }
+    }
+    if (colss && showid) {
+        colss.onclick=function(){
+            showid.style.display='none'
+        };
+    }
+    if (showid) {
+        document.onclick=function(){
+            showid.style.display='none';
+        };
+        if(showid.addEventListener)
+        {
+            showid.addEventListener('click',function(e){e.stopPropagation()},false)
+        }
+        else if(showid.attachEvent)
+        {
+            showid.attachEvent('click',function(e){e.stopPropagation()},false)
+        }
+    }
+
+</script>
+
+<div th:replace="/incloud/company:: middle"></div>
+
+<style>
+    .newlist ul li #right a:hover{color:#0781d9;}
+    .huod ul li table .neir .iconfont{margin-right:9px;color:#be147a;}
+</style>
+<div class="content" style="padding-bottom:50px;">
+    <form th:action="@{/media/list}" id="list">
+        <input type="hidden" name="id" th:value="${company.id}"/>
+        <input type="hidden" name="pageNum" id="pageNum" />
+        <div class="newlist">
+            <ul>
+
+
+                <li th:each="media:${page.list}">
+
+
+
+                    <a th:href="@{/media/view(companyId=${company.id},id=${media.id})}"><div class="huodImg" th:style="'background-image: url('+@{${path+media.logo}}+')'"></div></a>
+                    <div class="huodInfo">
+                        <a class="huodTitle" th:title="${media.title}" th:href="@{/media/view(companyId=${company.id},id=${media.id})}">[[${media.title}]]</a>
+                        <div class="huodMsg">
+                            时间：[[${#dates.format(media.create_date,'yyyy/MM/dd')}]]
+                        </div>
+                        <div class="huodMsg">
+                            来自：[[${media.datasource}]]
+                        </div>
+                    </div>
+
+                </li>
+
+            </ul>
+
+        </div>
+    </form>
+    <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+        <ul>
+            <li th:style="${page.pageNum==1?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum-1}+'\')'"><i class="iconfont"></i></li>
+            <li id="da" th:each="pg:${#numbers.sequence(1,page.pages)}" th:onclick="'javascript:fenye(\''+${pg}+'\')'" th:id="${pg==page.pageNum?'da':''}">[[${pg}]]</li>
+            <!--<li><a href="#">2</a></li>-->
+            <!--<li><a href="#">3</a></li>-->
+            <!--<li><a href="#">4</a></li>-->
+            <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum+1}+'\')'"><i class="iconfont"></i></li></ul>
+    </div>
+</div>
+<script>
+    function  fenye(num) {
+        var form = $("#list");
+        var pageNum = $("#pageNum");
+        pageNum.val(num);
+        form.submit();
+    }
+</script>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+</body>
+</html>
+

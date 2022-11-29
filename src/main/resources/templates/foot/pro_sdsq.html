@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>常见问题-授权问题</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+</head>
+<script src="../js/jquery-3.1.1.js" th:src="@{/assets/js/jquery-3.1.1.js}"></script>
+
+<body>
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css"  rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}"/>
+<script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+
+<div class="log_con" style="padding-top:0px;padding-bottom:50px;clear:both;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;<a href="javaScript:void (0);">我的SP</a></div>
+    <style>
+        .sp_nav li.active-none{border-bottom:0px;}
+        .sp_nav li>div{color:#aaa;}
+    </style>
+    <div class="con_sp">
+        <script>
+            $(function(){
+                $('.sp_nav .sp_nav-header-li-div').click(function(){
+                    if($(this).parent().hasClass('active')) {
+                        $(this).parent().removeClass('active').addClass("active-none");
+                    }else{
+                        $(this).parent().removeClass('active-none').addClass("active").siblings().removeClass('active').addClass("active-none");
+                        $(this).parent().siblings().find('.sp_nav-second-level li').removeClass('active1');
+                    }
+                });
+
+                $('.sp_nav-second-level li').click(function(){
+                    $(this).addClass('active1').siblings().removeClass('active1');
+                });
+            })
+        </script>
+
+        <div th:replace="/incloud/cjwtLeft:: left"></div>
+
+        <div class="con_right">
+            <div class="chax">
+                <div class="prob_s">
+                    <div class="prob_ss"><input type="text" value="输入问题关键词" /><button><i class="iconfont">&#xe639;</i>搜索</button></div>
+                </div>
+                <div class="prob_we">
+                    <span id="probt">多久可以收到授权？</span>
+                    <p>本站在收到您的款项当天确认您的定单并在收款后的 7-10个有效工作日以原厂实际订货为准发送授权并提供软件的售后服务与技术支持。
+                        如果您使用实时支付的银行卡或信用卡，支付成功后， 24 小时之内您将会收到本站的“付款确认通知”。请您在下定单时一定要留下真实准确的 E-Mail 信箱。</p>
+                    <p>使用其他支付方式，本站在收到您的款项后 24 小时之内确认您的定单。</p>
+                    <p>如果您使用邮局汇款的方式，则视邮局递送速度，一般在 2-3 个工作日收到，收到之后即时处理。如果汇款之后7个工作日未收到本站的处理信息，请来电垂询。</p>
+
+                </div>
+
+            </div></div>
+    </div>
+    <script type="text/javascript">
+        var hl = $(".con_left").outerHeight();
+        var hr = $(".con_right").outerHeight();
+        var mh = Math.max(hl,hr);
+        $(".con_left").height(mh);
+        $(".con_right").height(mh);
+    </script>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

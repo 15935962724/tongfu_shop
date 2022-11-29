@@ -1,0 +1,21 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<nav th:fragment="topbar">
+    <ul>
+        <!--<li style="margin-left:0px;"><a href="#"><img src="../img/fenxi.png" th:src="@{/assets/img/fenxi.png}"/></a><span><a href="#">分析软件</a></span></li>-->
+        <!--<li><a href="#"><img src="../img/fxrj.png" th:src="@{/assets/img/fxrj.png}"/></a><span><a href="#">计划软件</a></span></li>-->
+        <!--<li><a href="#"><img src="../img/3d.png" th:src="@{/assets/img/3d.png}"/></a><span><a href="#">3D打印</a></span></li>-->
+        <!--<li><a href="#"><img src="../img/zhin.png" th:src="@{/assets/img/zhin.png}"/></a><span><a href="#">人工智能</a></span></li>-->
+        <!--<li><a href="#"><img src="../img/robot.png" th:src="@{/assets/img/robot.png}"/></a><span><a href="#">导航/机器人</a></span></li>-->
+        <li th:each="category:${@productCategorys.getProductCategorys()}" th:style="${categoryStat.index==0?'margin-left:0px;':''}">
+            <a th:href="@{/category/list(parent=${category.id})}">
+                <img src="../img/fenxi.png"th:src="@{${pathUrl+category.image}}"/>
+            </a>
+            <span>
+                <a th:href="@{/category/list(parent=${category.id})}" th:text="${category.name}">分析软件</a>
+            </span>
+        </li>
+    </ul>
+</nav>
+</html>

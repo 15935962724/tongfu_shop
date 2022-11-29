@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tongfu.dao.PurchaseDao">
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.Purchase">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="orders" jdbcType="INTEGER" property="orders" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent" jdbcType="BIGINT" property="parent" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="type" jdbcType="BIGINT" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_date, modify_date, orders, name, parent, is_deleted, type, code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tf_purchase
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectPurchase" parameterType="java.util.Map" resultMap="BaseResultMap">
+   SELECT * FROM tf_purchase p INNER JOIN tf_product_purchase  t ON t.purchase_id=p.id WHERE t.product_id=#{productId}
+   <if test="parent!=null and parent!=0">
+     AND  p.parent = #{parent}
+   </if>
+    <if test="parent==0">
+      AND  p.parent is null
+    </if>
+
+  </select>
+  <select id="selectFangshi" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+    SELECT * FROM tf_purchase WHERE id IN(
+      SELECT parent FROM tf_product_purchase t INNER JOIN tf_purchase p ON t.purchase_id=p.id WHERE 1=1
+        <if test="productId!=null">
+         and t.product_id=#{productId}
+        </if>
+        <if test="type!=null">
+         and p.type=#{type}
+        </if>
+        )
+  ORDER BY orders
+  </select>
+  <select id="selectGuige" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT p.id AS pid,create_date,modify_date,p.orders AS porders,name,parent,is_deleted,type,CODE,t.id AS tid,t.orders AS torders,product_id,purchase_id,price FROM tf_purchase p INNER JOIN tf_product_purchase t ON p.id=t.purchase_id WHERE p.parent=${parent} AND t.product_id=${productId}
+  </select>
+
+  <select id="getPurchases" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT P.id, P.`name` FROM (
+    SELECT p.`id`,p.`name` ,p.`parent` FROM tf_product_purchase pu LEFT JOIN tf_purchase p ON pu.`purchase_id` = p.`id` WHERE product_id = ${productId}
+    ) A LEFT JOIN tf_purchase P ON A.parent = P.`id` GROUP BY P.`id`
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tf_purchase
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.Purchase">
+    insert into tf_purchase (id, create_date, modify_date, 
+      orders, name, parent, 
+      is_deleted, type, code)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{orders,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parent,jdbcType=BIGINT}, 
+      #{isDeleted,jdbcType=BIT}, #{type,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.Purchase">
+    insert into tf_purchase
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="orders != null">
+        orders,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parent != null">
+        parent,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orders != null">
+        #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parent != null">
+        #{parent,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.Purchase">
+    update tf_purchase
+    <set>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orders != null">
+        orders = #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parent != null">
+        parent = #{parent,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.Purchase">
+    update tf_purchase
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      orders = #{orders,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      parent = #{parent,jdbcType=BIGINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      type = #{type,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>

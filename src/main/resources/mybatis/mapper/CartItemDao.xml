@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.CartItemDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.CartItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="cart" property="cart" jdbcType="BIGINT" />
+    <result column="product" property="product" jdbcType="BIGINT" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+    <result column="product_purchase" property="productPurchase" jdbcType="BIGINT" />
+    <result column="is_addedvalue" property="isAddedvalue" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, modify_date, quantity, cart, product, is_deleted, product_purchase,
+    is_addedvalue
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_cart_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCartId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_cart_item
+    where cart = #{cart,jdbcType=BIGINT}
+  </select>
+  <!--根据购物车id和规格id查询-->
+  <select id="selectByCartPurchase" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_cart_item
+    where 1=1
+    <if test="cart!=null">
+      and cart = #{cart}
+    </if>
+    <if test="purchase!=null">
+      and product_purchase = #{purchase}
+    </if>
+  </select>
+  <!--查询我的购物车内容四表联查-->
+  <select id="selectMyCart" parameterType="java.util.HashMap" resultType="com.tongfu.entity.MyCart">
+    SELECT
+         p.id AS product_id,
+         p.`name`,
+         p.`image`,
+         p.`status`,
+         p.is_marketable ,
+         p.sn,
+         i.quantity,
+         i.`product`,
+         CASE p.is_add_service
+            WHEN 3 THEN p.price
+            ELSE COALESCE( pu.`price`,0)
+         END
+          AS price,
+         i.`product_purchase` AS purchaseId,
+         i.cart,
+         i.`id` itemid,
+         i.`is_addedvalue` isvalue,
+         co.`id` AS companyId,
+         co.`name` AS companyName,
+         IFNULL(pur.`name`,"-")  AS purchaseName,
+         COALESCE (pur.`id`,0) AS pur_id
+    FROM
+         tf_cart_item i
+        LEFT JOIN tf_cart c
+          ON c.id = i.cart
+        LEFT JOIN tf_product p
+          ON i.`product` = p.`id`
+        LEFT JOIN tf_product_purchase pu
+          ON p.`id` = pu.`product_id`
+          AND i.`product_purchase` = pu.`id`
+        LEFT JOIN tf_purchase pur
+          ON pur.`id` = pu.`purchase_id`
+        LEFT JOIN tf_company co
+          ON p.`company_id` = co.id
+    where 1 = 1
+    <if test="member!=null">
+      and c.member= #{member}
+    </if>
+    <if test="cartId!=null">
+      and i.cart = #{cartId}
+    </if>
+    <if test="isAddedvalue!=null">
+      and i.is_addedvalue in
+      <foreach collection="isAddedvalue" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="cartItemIds!=null">
+      and i.id in
+      <foreach collection="cartItemIds" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_cart_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.CartItem" >
+    insert into tf_cart_item (id, create_date, modify_date,
+      quantity, cart, product,
+      is_deleted, product_purchase, is_addedvalue
+      )
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP},
+      #{quantity,jdbcType=INTEGER}, #{cart,jdbcType=BIGINT}, #{product,jdbcType=BIGINT},
+      #{isDeleted,jdbcType=BIT}, #{productPurchase,jdbcType=BIGINT}, #{isAddedvalue,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.CartItem" >
+    insert into tf_cart_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="cart != null" >
+        cart,
+      </if>
+      <if test="product != null" >
+        product,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="productPurchase != null" >
+        product_purchase,
+      </if>
+      <if test="isAddedvalue != null" >
+        is_addedvalue,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="cart != null" >
+        #{cart,jdbcType=BIGINT},
+      </if>
+      <if test="product != null" >
+        #{product,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="productPurchase != null" >
+        #{productPurchase,jdbcType=BIGINT},
+      </if>
+      <if test="isAddedvalue != null" >
+        #{isAddedvalue,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.CartItem" >
+    update tf_cart_item
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="cart != null" >
+        cart = #{cart,jdbcType=BIGINT},
+      </if>
+      <if test="product != null" >
+        product = #{product,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="productPurchase != null" >
+        product_purchase = #{productPurchase,jdbcType=BIGINT},
+      </if>
+      <if test="isAddedvalue != null" >
+        is_addedvalue = #{isAddedvalue,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.CartItem" >
+    update tf_cart_item
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      quantity = #{quantity,jdbcType=INTEGER},
+      cart = #{cart,jdbcType=BIGINT},
+      product = #{product,jdbcType=BIGINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      product_purchase = #{productPurchase,jdbcType=BIGINT},
+      is_addedvalue = #{isAddedvalue,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

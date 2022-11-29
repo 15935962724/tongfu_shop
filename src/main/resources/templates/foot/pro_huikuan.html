@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>常见问题-银行转账</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script src="../js/jquery-3.1.1.js" th:src="@{/assets/js/jquery-3.1.1.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css"  rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}"/>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+</head>
+
+<body>
+
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+
+<div class="log_con" style="padding-top:0px;padding-bottom:50px;clear:both;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;<a href="javaScript:void(0);">我的SP</a></div>
+    <div class="con_sp">
+        <script>
+            $(function(){
+                $('.sp_nav .sp_nav-header-li-div').click(function(){
+                    if($(this).parent().hasClass('active')) {
+                        $(this).parent().removeClass('active').addClass("active-none");
+                    }else{
+                        $(this).parent().removeClass('active-none').addClass("active").siblings().removeClass('active').addClass("active-none");
+                        $(this).parent().siblings().find('.sp_nav-second-level li').removeClass('active1');
+                    }
+                });
+
+                $('.sp_nav-second-level li').click(function(){
+                    $(this).addClass('active1').siblings().removeClass('active1');
+                });
+            })
+        </script>
+        <style>
+            .sp_nav li.active-none{border-bottom:0px;}
+            .sp_nav li>div{color:#aaa;}
+        </style>
+        <div th:replace="/incloud/cjwtLeft:: left"></div>
+
+        <div class="con_right">
+            <div class="chax">
+                <div class="prob_s">
+                    <div class="prob_ss"><input type="text" value="输入问题关键词" /><button><i class="iconfont">&#xe639;</i>搜索</button></div>
+                </div>
+                <div class="prob_we">
+                    <span id="probt">汇款账户</span>
+                    <p>请您务必在汇款单的附言上注明您的定单号 , 如果您不注明定单号 , 我们收到之后也无法处理您的汇款。</p>
+                    <p>如果您采用的是邮政加密汇款 ( 自行通知方式 ), 请您在汇款之后务必将汇票号、密码、定单号告诉我们 , 否则我们无法到邮局取款。</p>
+                    <p></p>
+                    <p>邮局付款信息：中国邮政银行股份有限公司欣荣南大街支行</p>
+                    <p>公司名： 赛吉普兰（北京）信息技术有限公司</p>
+                    <p>地址：北京市大兴区西红门镇宏业路9号嘉悦广场6-501</p>
+                    <p>邮编：100076</p>
+
+
+                </div>
+            </div></div>
+    </div>
+    <script type="text/javascript">
+        var hl = $(".con_left").outerHeight();
+        var hr = $(".con_right").outerHeight();
+        var mh = Math.max(hl,hr);
+        $(".con_left").height(mh);
+        $(".con_right").height(mh);
+    </script>
+</div>
+<div id="Footer">
+    <div th:replace="~{foot::topbar}"></div>
+</div>
+</body>
+</html>

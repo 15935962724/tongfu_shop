@@ -1,0 +1,162 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<script type="text/javascript" src="../js/ljquery-1.9.js" th:src="@{/assets/js/ljquery-1.9.js}"></script>
+                <nav th:fragment="topbar">
+                    <div class="col-md-12">
+                        <a href="#">
+                            <div class="logo"></div>
+                        </a>
+                        <div class="nav">
+                            <ul>
+                                <li class="current">
+                                    <a href="#">首页2</a>
+                                </li>
+
+
+
+                                <!--<th:block th:with="entrys=${session.listcate0.values()}" >-->
+
+                                    <!--<th:block th:each="entry:${entrys}" >-->
+                                        <!--<p th:text="${entry.key()}"></p>-->
+                                        <!---->
+                                <!--<li th:each="list:${session.listcate0}" th:class="${listStat.index==0?'product_header':''}" >-->
+                                    <!--<a href="#" id="title0" th:text="${list}"></a>-->
+                                    <!--<section class="section dropmenu&#45;&#45;simple" style="margin-left: -17px;">-->
+                                        <!--<ul class="ul-menulist&#45;&#45;simple" th:id="${'ul'+listStat.index}">-->
+                                            <!--&lt;!&ndash;<li class="li-menulist" style="width: auto;"><a href="#">精英团队</a></li>&ndash;&gt;-->
+                                        <!--</ul>-->
+                                    <!--</section>-->
+                                <!--</li>-->
+
+                                        <!--&lt;!&ndash;<div class="form-group" th:each="pruch:${entry}" >&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<div class="custom-control custom-checkbox" style="margin-top: 10px;">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<input type="checkbox" class="custom-control-input" name="purchase" th:id="${pruch.id}">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<label class="custom-control-label" th:for="${pruch.id}" th:id="'customCheck'+${pruch.id}" th:text="${pruch.name}"></label>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<input type="number" placeholder="价格" th:id="'price'+${pruch.id}" style="width: 60px;">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                    <!--</th:block>-->
+                                <!--</th:block>-->
+
+                                <li th:each="list:${session.listcate0}" th:class="${listStat.index==0?'product_header':''}" >
+                                <a href="#" id="title0" th:each="entry : ${list}" th:text="${entry.key}"></a>
+                                    <section  class="section dropmenu--simple" style="margin-left: -17px;">
+
+                                            <ul class="ul-menulist--simple" >
+                                                <th:block th:each="entry1 : ${list}">
+                                                    <th:block th:with="entrys=${entry1.value}" >
+                                                        <li class="li-menulist" style="width: auto;" th:each="entry2 : ${entrys}"><a href="#" th:text="${entry2.name}"></a></li>
+                                                    </th:block>
+                                                </th:block>
+
+                                            </ul>
+
+
+
+                                    </section>
+
+                                </li>
+
+                                <!--/*@thymesVar id="listcate2" type=""*/-->
+
+
+
+                            </ul>
+                        </div>
+                        <script>
+                            $(function(){
+                                $(".search").click(function(){
+                                    $(".header").toggleClass("header-open");
+                                    $(this).toggleClass("on");
+                                });
+
+                            });
+                            function getCookie(name)
+                            {
+                                var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+                                if(arr != null) return unescape(arr[2]);
+                                return false;
+                            }
+
+                            function getChildMenu(obj,id,type){
+                                console.log("begin")
+                                if(type==2){
+                                    $.ajax({
+                                        type:"GET",
+                                        url:'[[@{/category/queryList}]]',
+                                        data:{parent:id,type:type,position:1},
+                                        dataType:"json",
+                                        async: false,
+                                        success:function(data){
+                                            var list=data.list;
+                                            var html = "";
+                                            if(list.length>0){
+
+                                                for (var i = 0;i<list.length;i++){
+
+
+                                                    html=html+"<li class=\"li-menulist\" style=\"width: auto;\">";
+                                                    html=html+"<a href=\"#\">";
+                                                    html=html+list[i].name;
+                                                    html=html+"</a>";
+                                                    html=html+"</li>";
+
+
+
+
+                                                }
+                                            }
+                                            console.log("end");
+
+                                            obj.append(html);
+                                            console.log("nihao");
+
+                                        }
+                                    });
+                                }
+
+                            }
+
+                        </script>
+                        <div class="user">
+                            <div class="search-box">
+                                <div class="search-input">
+                                    <i class="icon-sousuo" >&#xe639;</i>
+                                    <input type="text" name="Search" id="js-search-input-popup" class="js-search-input-popup" placeholder="搜索" />
+                                    <input type="search" class="btn" />
+                                </div>
+                            </div>
+                            <ul>
+                                <li class="search span" style="padding:0px;"><a><i class=" iconfont" style="font-size: 22px;">&#xe639;</i></a></li>
+                                <li><a href="#">我的SP<i class="iconfont">&#xe641;</i></a>
+
+                                    <section class="section dropmenu&#45;&#45;simple" style="margin-left: 3px;">
+                                        <ul class="ul-menulist&#45;&#45;simple">
+                                            <li class="li-menulist" style="width: auto;"><a href="#">我的资料</a></li>
+                                            <li class="li-menulist" style="width: auto;"><a href="#">我的订单</a></li>
+                                            <li class="li-menulist" style="width: auto;"><a href="#">Konwhow卡订单</a></li>
+                                            <li class="li-menulist" style="width: auto;"><a href="#">我的积分</a></li>
+                                            <li class="li-menulist" style="width: auto;"><a href="#">Konw-how卡</a></li>
+                                            <li class="li-menulist" style="width: auto;"><a href="#">修改密码</a></li>
+                                            <li class="li-menulist" style="width: auto;"><a href="#">我的发票</a></li>
+                                            <li class="li-menulist" style="width: auto;"><a href="#">增值服务</a></li>
+
+
+                                        </ul>
+                                    </section>
+
+                                </li>
+                                <li><a href="#" th:href="@{/denglu}">登录</a><a style="padding:0 3px;">|</a><a href="" th:href="@{/reg}">注册</a></li>
+                                <li style="padding-right:0px;"><a href="#" style="font-size:12px;">中文</a><a style="padding:0 3px;">|</a><a href="#" style="font-size:12px;">EN</a></li>
+
+                            </ul>
+                            <div class="border" style="z-index: -1;"></div>
+                        </div>
+                    </div>
+                </nav>
+
+
+
+
+</html>

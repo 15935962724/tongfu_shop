@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>学术活动-[[${company.name}]]</title>
+</head>
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/iconfont.css" th:href="@{/assets/css/iconfont.css}" type="text/css" />
+<link rel="stylesheet" href="../css/demo.css" th:href="@{/assets/css/demo.css}" type="text/css" />
+<link rel="stylesheet" href="../css/index-1.css" th:href="@{/assets/css/index-1.css}" type="text/css" />
+<link rel="stylesheet" href="../css/home.css" th:href="@{/assets/css/home.css}"  type="text/css" />
+<link rel="stylesheet" href="../css/slick.css" th:href="@{/assets/css/slick.css}" type="text/css" />
+<link rel="stylesheet" href="../css/slick-theme.css" th:href="@{/assets/css/slick-theme.css}" type="text/css" />
+<link rel="stylesheet" href="../css/2j.css" th:href="@{/assets/css/2j.css}" type="text/css" />
+<script type="text/javascript"  th:src="@{/assets/js/qrcode.js}"></script>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+<body>
+
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+<script>
+    var btns =document.getElementById('btns');
+    var showid=document.getElementById('showid');
+    var colss=document.getElementById('colss');
+    if (btns && showid){
+        btns.onmouseover=function(){
+            showid.style.display='block';
+        }
+    }
+    if (colss && showid) {
+        colss.onclick=function(){
+            showid.style.display='none'
+        };
+    }
+    if (showid) {
+        document.onclick=function(){
+            showid.style.display='none';
+        };
+        if(showid.addEventListener)
+        {
+            showid.addEventListener('click',function(e){e.stopPropagation()},false)
+        }
+        else if(showid.attachEvent)
+        {
+            showid.attachEvent('click',function(e){e.stopPropagation()},false)
+        }
+    }
+    /*
+    if (cook) {
+        if(cook.get("member"))
+        {
+
+        }else{
+            if(cook.get("autologin"))
+            {
+                mt.send("/Members.do?act=autologin",function(d)
+                    {
+                        parent.location = '/';
+                    }
+                );
+            }
+        }
+    }*/
+</script>
+
+<style>
+    .next .iconfont,.prev .iconfont{font-size:50px;}
+    .gsjs{width:1120px;*width:1200px;background:#ffff;margin:auto;-moz-box-shadow:0px 0px 12px #e1eefc; -webkit-box-shadow:0px 0px 12px #e1eefc; box-shadow:0px 0px 12px #e1eefc;padding:40px;text-align:left;}
+    .gsjs .text{font-size:14px;color:#333;line-height:160%;}
+    .gsjs .text p{padding-top:10px;text-align: justify;}
+    .gsjs img{padding:10px 0px;}
+
+</style>
+
+<div th:replace="/incloud/company:: middle"></div>
+
+<div style="height:68px;width:100%;display:block;background: #f5faff;"></div>
+<div class="content">
+
+    <div class="newsxx">
+        <div id="name">[[${learning.title}]]</div>
+        <div class="address">
+            <p>
+                <span>时间: [[${#dates.format(learning.holdingTime,'yyyy年MM月dd日')}]]</span>
+                <span>地点: [[${learning.address}]]</span>
+            </p>
+        </div>
+        <div class="target">
+            <th:block th:with="arrays=${#strings.arraySplit(learning.label,',')}">
+                <a th:href="@{/learning/list(id=${learning.companyId},keywords=${arrayS})}" th:each="arrayS:${arrays}" th:text="${arrayS}"></a>
+            </th:block>
+        </div>
+        <div id="text">
+            <p th:utext="${learning.content}"><br /></p>
+            <div class="codeQr">
+                <a><img th:src="@{/assets/img/enroll.png}" /></a>
+                <div id="code"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+</body>
+</html>
+<script>
+    var id = '[[${appId}]]';
+    var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+id+"&redirect_uri=http://www.surgi-plan.com/learning/signUp?learningId="+[[${learning.id}]]+"&response_type=code&scope=snsapi_userinfo";
+    $('#code').qrcode(url);
+</script>

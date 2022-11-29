@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>联系我们</title>
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/js/iconfont.js}"></script>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}">
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+
+</head>
+<body>
+<header>
+
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+</header>
+<div class="banner"><img src="../img/conus.jpg" th:src="@{/assets/img/conus.jpg}"/></div>
+
+<div class="conus">
+    <div class="conus_left">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr><td>&nbsp;</td>
+                <td class="fangs">联系方式</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="../img/conus2.png" th:src="@{/assets/img/conus2.png}" /></td>
+                <td><p>电话：010-68516190</p>
+                    <p>传真：010-68516190</p></td>
+            </tr>
+            <tr>
+                <td><img src="../img/conus3.png" th:src="@{/assets/img/conus3.png}" /></td>
+                <td>邮箱：sp@surgi-plan.com</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td class="fangs">公司地址</td>
+            </tr>
+            <tr>
+                <td><img src="../img/conus4.png" th:src="@{/assets/img/conus4.png}" /></td>
+                <td>北京市朝阳区樱花园28号楼</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>工作时间：9:00-18:00（工作日）</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td style="border-top:1px solid #e0e0e0" colspan="2">          <div class="account-login">
+                    <li class> <a href="javascript:" class="weixin-copy" id="wbtn"> <i class="iconfont1"></i></a>
+                        <ul class="gouw-son hidden">
+                            <li><img src="../img/conus5.jpg" height="91px" width="91px" th:src="@{/assets/img/wxQrcode.jpg}"  /><li></ul></li><script>
+                    function test(){
+                        $('.account-login').children("li:has(ul)").hover(
+                            function(){
+                                //$(this).find("ul>li:last").addClass("li-last-s1");//给每个下拉菜单的最后一个li元素添加css样式，此处非必要
+                                $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单
+                            },
+                            function(){
+                                $(this).children("ul").hide();//隐藏下拉菜单
+                            }
+                        );
+                    }
+
+                </script>
+                    <script>
+                        test();
+                    </script>             <li> <a href="javascript:" class="weixb" id="wbtn"><i class="iconfont3"></i></a></li>
+                    <li>  <a href="javascript:" onclick="showqq()" title="QQ" rel="nofollow" class="qzone"><i class="iconfont2"></i></a></li></div></td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="conus_right"><img src="../img/conus1.jpg" th:src="@{/assets/img/conus1.jpg}" /></div>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

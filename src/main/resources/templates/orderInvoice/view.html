@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的发票</title>
+    <script language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script th:src="@{/assets/css/iconfont.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/home.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <script th:src="@{/assets/js/jquery-3.1.1.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/qiehuan.js}"></script>
+
+    <!--弹窗特效-->
+    <link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+    <!--<script th:src="@{/assets/js/jquery-3.1.1.js}"></script>-->
+    <!--<script src="js/jquery-1.10.2.min.js" th:src="@{/assets/tanchuang/jquery-1.10.2.min.js}"></script>-->
+    <link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+    <script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+
+</head>
+<body>
+
+
+<!--语言切换-->
+<!--未登录-->
+<shiro:notAuthenticated>
+    <th:block th:replace="~{incloud/language::language}"></th:block>
+</shiro:notAuthenticated>
+<!--已登录-->
+<shiro:authenticated>
+    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+</shiro:authenticated>
+
+<div class="head">
+    <!--未登录-->
+    <div th:replace="~{head::topbar}"></div>
+    <!--已登录-->
+</div>
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;<a href="javaScript:void(0);">我的SP</a></div>
+    <div class="con_sp">
+        <style>
+            .sp_nav li.active{background: url(../img/sp04.png);background-repeat:no-repeat;background-position:right 20px top 20px;border-bottom:1px solid #e6e6e6;}
+            .sp_fap{width:973px;display: block;padding: 0px;float:right;}
+            .fap{width: 100%;background:#fff;     box-shadow: 0px -4px 12px 7px #d9e8f5;border-radius: 4px;padding-bottom:30px;}
+            .shengq{position: relative;top: -30px; box-shadow: 0px 9px 10px 5px #d0e0f3;}
+            .shengq a{color:#007fdc;}
+            .shengq p{line-height:200%;}
+            .con_right{width:990px;}
+
+        </style>
+
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+        <div class="con_right">
+            <div class="chax" style="overflow: hidden;padding:0px;">
+                <h1>发票详情</h1>
+                <div  class="fpxq">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td colspan="2" class="td11">发票信息　　　　订单号：[[${order.sn}]]</td>
+                        </tr>
+                        <tr>
+                            <td style="width:148px;*width:200px;">发票类型</td>
+                            <td>
+                                [[${orderInvoice.type==1?"普通电子发票":"增值税专用发票"}]]
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>发票内容</td>
+                            <td>[[${orderInvoice.pcontent}]]</td>
+                        </tr>
+                        <tr>
+                            <td>发票抬头</td>
+                            <td>[[${orderInvoice.title}]]</td>
+                        </tr>
+                        <tr>
+                            <td>纳税人识别号</td>
+                            <td>[[${orderInvoice.taxpayerNo}]]</td>
+                        </tr>
+                        <tr>
+                            <td>状态</td>
+                            <td>
+                                <th:block th:if="${orderInvoice.isMakeInvoice==1}">
+                                    待开
+                                </th:block>
+                                <th:block th:if="${orderInvoice.isMakeInvoice==2}">
+                                    已开
+                                </th:block>
+                                <th:block th:if="${orderInvoice.isMakeInvoice==3}">
+                                    拒开 [[${orderInvoice.message}]]
+                                </th:block>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <!--<table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-top:100px; text-align:center">-->
+                        <!--<tr class="td11">-->
+                            <!--<td style="text-align:center">发票代码</td>-->
+                            <!--<td style="text-align:center">发票号码</td>-->
+                            <!--<td style="text-align:center">微信扫码获取电子普通发票 </td>-->
+                            <!--<td style="text-align:center">下载电子普通发票</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="td12">0200015876544</td>-->
+                            <!--<td class="td12">电子普通发票</td>-->
+                            <!--<td class="td12"><img th:src="@{/assets/img/fpew.png}" /></td>-->
+                            <!--<td class="td12"><a href="#">下载电子普通发票</a></td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <script type="text/javascript">
+        //判断控制页面初始时左右的高度一致
+        var hl = $(".con_left").outerHeight(); //获取左侧left层的高度
+        var hr = $(".con_right").outerHeight(); //获取右侧right层的高度
+        var mh = Math.max(hl,hr); //比较hl与hr的高度，并将最大值赋给变量mh
+        $(".con_left").height(mh); //将left层高度设为最大高度mh
+        $(".con_right").height(mh); //将right层高度设为最大高度
+    </script>
+</div>
+</div>
+
+    <!--引用弹窗效果-->
+    <div th:replace="/incloud/alert:: alert"></div>
+    <!--引用页面脚部-->
+    <div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>
+

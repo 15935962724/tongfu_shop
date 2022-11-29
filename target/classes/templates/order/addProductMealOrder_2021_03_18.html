@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>确认订单信息</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+    <script type="text/javascript" src="../js/qiehuan.js" th:src="@{/assets/js/qiehuan.js}"></script></head>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <script src="../css/iconfont.js" language="javascript" th:href="@{/assets/css/iconfont.css}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+
+</head>
+<body>
+<style>
+    body{position: relative;}
+    .dlhui{width: 335px;height: 42px;text-align: center;line-height: 32px;}
+    .dllan{width: 335px;height: 42px;text-align: center;line-height: 32px;background:#007fdc;border:0px;color:#fff;}
+
+    label{float: left;padding-left: 20px;}
+    .ynfa{border-bottom:0px;padding:10px;display:none;}
+    /*.ynfa{border-bottom:0px;padding:10px;}*/
+    .fplx{margin-left:80px;float:left;font-size:16px;color:#999;line-height:40px;}
+    .taitou{padding-left:20px;font-size:16px;color:#999;line-height:40px;float:left;}
+    .taitou a{color:#007fdc;}
+</style>
+
+
+<header>
+
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+</header>
+
+<div class="log_con" style="padding-top:0px;background:url(../img/bg04.jpg) repeat-x left top #fff;">
+    <div class="progress" style="width:795px;">
+        <div class="pro-item pro-doing pro-item1">
+            <div class="pro-step">
+                <span class="step-index">1</span>
+                <p class="step-desc">添加购物车</p></div>
+        </div>
+        <div class="pro-item pro-doing pro-item2">
+            <div class="pro-line"></div>
+            <div class="pro-step"><span class="step-index">2</span>
+                <p class="step-desc">确认订单信息</p></div>
+        </div>
+        <div class="pro-item pro-undo pro-item3" style="padding-left: 155px;">
+            <div class="pro-line"></div>
+            <div class="pro-step"><span class="step-index">3</span>
+                <p class="step-desc">结算</p></div>
+        </div>
+        <div class="pro-item pro-undo pro-item4" style="    padding-left: 173px;">
+            <div class="pro-line" style="    left: 7px;"></div>
+            <div class="pro-step">
+                <span class="step-index">4</span>
+                <p class="step-desc">支付完成</p></div>
+        </div>
+    </div>
+    <div class="gwlist">
+        <p>收货人信息<a href = "JavaScript:void(0)" onclick = "openDialog()">新增收货地址</a></p>
+        <!--添加收货地址div开始-->
+        <div id="light" class="fatc">
+            <div class="fatc_t">新增收货地址 <a href = "javascript:void(0)" onclick = "closeDialog(1)"><i class="iconfont">&#xe62f;</i></a></div>
+            <form id="addressForm" name="addressForm" th:action="@{/receiver/saveReceiver}">
+                <input type="hidden" id="id" name="id" >
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tongy" style="width:602px;">
+                    <tr>
+                        <td class="td01"><font>*</font>收货人：</td>
+                        <td class="td02"><input name="consignee" type="text" class="input" value="" size="20"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="td01"><font>*</font>地址：</td>
+                        <td class="td02"><select name="sheng" style="width: 96px;float:left;">
+
+                        </select><select name="shi" style="width:96px;margin:0px 18px;">
+
+                        </select><select name="area" style="width: 96px;">
+
+                        </select></td>
+
+                    </tr>
+                    <tr>
+                        <td valign="top" class="td01">收货地址：</td>
+                        <td class="td02"><textarea name="address"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td class="td01"><font>*</font>手机号：</td>
+                        <td class="td02"><span
+                                style="width:306px;*width:326px;height:36px;border:1px solid #dadada;border-radius: 4px;color: #999;font-size: 16px;line-height: 36px;padding-left:20px;    display: inline-block;">
+                        <label class="select-country" country_id="+86" style="float:left;">+86<span class="iconfont"
+                                                                                                    style="margin-left: 10px;    margin-left: 10px;font-size: 22px;color: #333;"></span></label><span
+                                style="float:left;">|</span><input name="phone" placeholder="请输入手机号"
+                                                                   style="width:190px;*width: 204px;border: 0px;float: left;margin-top:6px;height:30px;line-height:30px;padding-left:14px;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td01"><font>*</font>邮箱：</td>
+                        <td class="td02"><input name="email" type="text" class="input" size="20"></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <!--<input name="sub" style="width: 335px;height: 42px;text-align: center;line-height: 32px;background:#007fdc;border:0px;color:#fff;" type="button" value="提交" onclick="subAddress()"/>-->
+                            <input name="sub" type="button" value="提交" onclick="subAddress()"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <!--添加收货地址div结束-->
+
+        <div id="fade" class="black_overlay"></div>
+        <script type="text/javascript">
+
+            function openDialog(){
+                document.getElementById('light').style.display='block';
+                document.getElementById('fade').style.display='block'
+            }
+            function closeDialog(){
+                $("#addressForm").attr('action','[[@{/receiver/saveReceiver}]]');
+                $('#id').val("");
+                document.getElementById('light').style.display='none';
+                document.getElementById('fade').style.display='none';
+                clearAddForm();//清空地址表单
+
+            }
+        </script>
+        <!--收货地址列表-->
+        <div class="inner_width">
+            <div class="focus">
+                <ul>
+                    <li th:each="receiver:${listReceiver}" th:style="${receiver.isDefault?'':'display:none'}" th:id="${receiver.isDefault?'defID':''}">
+                        <a href="javascript:void(0)" th:id="${receiver.id}" th:onclick="'javascript:checkReceiver(this,\''+${receiver.id}+'\')'" >
+                            <span  id="ming"  th:text="${receiver.consignee}" th:styleappend="${receiver.isDefault}?'border:1px solid #fe943e;background:url('+@{/}+'assets/img/more.png) no-repeat right bottom #fff;':''"  >沈志萍</span>
+                        </a>
+                        <span id="namw" th:text="${receiver.consignee}">沈志萍</span>
+                        <span th:text="${receiver.areaName+receiver.address}">江苏省南京市鼓楼区丁家桥87号住院部7楼介入血管外科手术室</span>
+                        <span id="pho" th:text="${receiver.phone}">15335452626</span>
+                        <span id="xiu" th:style="${receiver.isDefault?'display:none':'display:block'}"><a href="javascript:void(0)" th:onclick="'javascript:defaultAddress(\''+${receiver.id}+'\')'" >设为默认地址</a></span>
+                        <span id="xiu"><a href="javascript:void(0)" th:onclick="'javascript:updateAddress(\''+${receiver.id}+'\')'" >编辑</a></span>
+                        <span id="xiu"><a href="javascript:void(0)" th:onclick="'javascript:delAddress(\''+${receiver.id}+'\',this)'">删除</a></span>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="" id="stit">
+                <!--<img src="../img/shouqi.jpg" th:src="@{/assets/img/shouqi.jpg}">-->
+                <img src="../img/zhank.jpg" th:src="@{/assets/img/zhank.jpg}">
+            </div>
+        </div>
+        <!--收货地址列表结束-->
+        <script type="text/javascript">
+            $(window).load(function() {
+                var shouqi="[[@{/}]]"+"assets/img/shouqi.jpg";
+                var zhank="[[@{/}]]"+"assets/img/zhank.jpg";
+                var flag = 1;
+                $("#stit").click(function(){
+                    //点击展开地址
+                    //$(".focus").slideToggle();
+
+
+
+                    if(flag==1){
+                        $(this).html("<img src='"+shouqi+"'>");
+                        var arr = $(".focus").find("li");
+                        for (var i=0;i<arr.length;i++){
+                            var ali=arr[i];
+                            $(ali).show();
+                        }
+                        flag = 0;
+
+                    }else{
+                        //$(this).html("<img src='../img/zhank.jpg'>");
+                        $(this).html("<img src='"+zhank+"'>");
+                        var arr = $(".focus").find("li[id!='defID']");
+                        for (var i=0;i<arr.length;i++){
+                            var ali=arr[i];
+                            $(ali).hide();
+                        }
+                        flag = 1;
+                    }
+                })
+
+            })
+
+        </script>
+        <div style="height:40px;width:100%;display:block;"></div>
+        <p>商品清单</p>
+        <table width="100%" border="0"  cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="tr03" style="width:190px;">图片</td>
+                <td class="tr03" style="width:320px;">商品名称</td>
+                <td class="tr03 td07" style="width:200px;">单价</td>
+                <td class="tr03" style="width:200px;">数量</td>
+                <td class="tr03 td07" style="width:200px;">小计</td>
+            </tr>
+            <tr th:each="myCart:${MyCart}">
+                <td><span id="tu"><img src="../img/gw01.png"  th:src="@{${session.pathUrl+myCart.image}}"/></span></td>
+                <td th:text="${myCart.name}">IQQA-3D肝脏评估和治疗计划辅助系统©</td>
+                <td th:text="${'¥'+myCart.price}">￥200.00</td>
+                <td th:text="${myCart.quantity}">1</td>
+                <td th:text="${'¥'+#numbers.formatDecimal(myCart.price*myCart.quantity,1,2)}">￥200.00</td>
+            </tr>
+
+            <tr>
+                <td colspan="7" style="height:38px;padding: 0px;border:0px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="7" valign="bottom" style="height:140px;padding:5px;">  <p style=" float: left; ">发票信息：</p><span class="taitou">开企业抬头发票须填写纳税人识别号，以免影响报销</span></td>
+            </tr>
+
+
+            <tr>
+                <!--发票td开始-->
+                <td colspan="7" id="fptd0" style="border-bottom:0px;padding:10px;"><span style="float:left;" id="isNeedInvoice">是否开发票</span>
+
+                    <a id="shi" href = "JavaScript:void(0)" onclick = "openDialog1()">
+                        <label>
+                            <input name="Fruit" type="radio" value="true"/>是
+                        </label>
+                    </a>
+                    <!--发票div开始-->
+                    <div id="light1" class="fatc">
+                        <div class="fatc_t">发票信息<a href = "javascript:void(0)" onclick = "closeDialog1(1)"><i class="iconfont">&#xe62f;</i></a></div>
+                        <div class="fatc_b">
+                            <div class="title">
+                                <li id="JKDiv2_DEF" class="Selected">电子发票</li>
+                                <li >增值税专用发票</li>
+                            </div>
+                            <style>
+                                #shuih{display:none;}
+                            </style>
+                            <div class="con"  id="JKDiv2_0">
+                                <!--电子发票表单-->
+                                <!--普通发票form开始-->
+
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td  valign="top" class="cb1" style="padding-top:20px;"><font>*</font>发票抬头：</td>
+                                        <td>
+                                            <a href="javascript:void(0)" onclick="checkDZinvoice(this)">
+                                                <input type="text" id="dTitle" value="个人"  class="dang">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr id="shuih">
+                                        <td class="cb1"><font>*</font>纳税人识别号：</td>
+                                        <td><input type="text" id="dPidentityno" name="pidentityno" value="" th:value="${invoiceP.pidentityno}"></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #e6e6e6;">
+                                        <td class="cb1"><font>*</font>发票内容：</td>
+                                        <td>
+                                            <a href="javascript:void(0)" data_id="0" onclick="checkDZcontent(this)"><span class="fpan dang">明细</span></a>
+                                            <a href="javascript:void(0)" data_id="1" onclick="checkDZcontent(this)"><span class="fpan" >办公用品</span></a>
+                                            <a href="javascript:void(0)" data_id="2" onclick="checkDZcontent(this)"><span class="fpan" >电脑配件</span></a>
+                                            <a href="javascript:void(0)" data_id="3" onclick="checkDZcontent(this)"><span class="fpan" >耗材</span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cb1"><font>*</font>收票人手机：</td>
+                                        <td><input type="text"  id="pmobile" name="pmobile" th:value="${invoiceP.pmobile}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cb1"><font>*</font>收票人邮箱：</td>
+                                        <td><input type="text" id="pemail" name="pemail" th:value="${invoiceP.pemail}" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border-bottom:1px solid #e6e6e6;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:center;padding-top:30px;">
+                                            <input type="button" onclick="subPinvoice()" value="保存" >
+                                            <input name="重置" type="reset" value="取消" onclick="closeDialog1()"></td>
+                                    </tr>
+                                </table>
+                                <!--电子发票表单结束-->
+                            </div>
+                            <div class="con" id="JKDiv2_1" style="display:none;">
+                                    <!--第一步-->
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="first">
+                                    <tr>
+                                        <td class="cb1"><font>*</font>开票方式：</td>
+                                        <td>
+                                            <a href="javascript:void(0)"   onclick="checkDZinvoice(this)" >
+                                                <input type="text" readonly value="订单完成后开票" >
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cb1"><font>*</font>发票内容：</td>
+                                        <td style="    text-align: left;">
+                                            <a href="javascript:void(0)" onclick="checkDZinvoice(this)">
+                                                <input type="text" readonly value="明细"  style="    margin-left: 34px;">
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" style="hegiht:30px;">   </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2"  style="border-bottom:1px solid #e6e6e6;padding-left:20px;"><div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i><span>2.填写或核对公司信息</span><i id="xian"></i><span>3.填写收票人信息</span> </div>
+                                            <p>发票将在订单完成之后7-15个工作日寄出</p></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" style="text-align:center;"><input type="button" onclick="fnnext1()" value="下一步"><input name="重置" type="reset" value="取消" onclick="closeDialog1()"></td>
+                                    </tr>
+                                    </table>
+                                    <!------第二步----------->
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="second" style="display:none">
+                                        <tr>
+                                            <td class="cb1"><font>*</font>开票方式：</td>
+                                            <td><input type="text" value="订单完成后开票" class="dang"></td>
+                                        </tr>
+                                    <tr>
+                                        <td colspan="2"  style="padding-left:20px;"><div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i><span id="fenb">2.填写或核对公司信息</span><i id="xians"></i><span>3.填写收票人信息</span> </div>
+                                    </td>
+                                      </tr>
+                                        <tr>
+                                        <td class="cb1"><font>*</font>单位名称：</td>
+                                        <td><input id ="zcompany" name="zcompany" type="text" th:value="${invoiceZ.zcompany}" ></td>
+                                      </tr>
+                                            <tr>
+                                        <td class="cb1"><font>*</font>纳税人识别码：</td>
+                                        <td><input type="text" id="zidentityno" name="zidentityno"  value="" th:value="${invoiceZ.zidentityno}" ></td>
+                                      </tr>
+                                            <tr>
+                                        <td class="cb1"><font>*</font>注册地址：</td>
+                                        <td><input type="text" id="zregaddress" name="zregaddress" th:value="${invoiceZ.zregaddress}"></td>
+                                      </tr>
+                                            <tr>
+                                        <td class="cb1"><font>*</font>注册电话：</td>
+                                        <td><input id="zregmobile" name="zregmobile" type="text" th:value="${invoiceZ.zregmobile}"></td>
+                                      </tr>
+                                            <tr>
+                                        <td class="cb1"><font>*</font>开户行：</td>
+                                        <td><input id="zbank" name="zbank" type="text" th:value="${invoiceZ.zbank}"></td>
+                                      </tr>
+                                            <tr>
+                                        <td class="cb1"><font>*</font>银行账户：</td>
+                                        <td><input id="zaccount" name="zaccount" type="text"  value="" th:value="${invoiceZ.zaccount}"></td>
+                                      </tr>
+
+                                      <tr>
+                                        <td colspan="2" style="text-align:center;border-top:1px solid #e6e6e6;"><input type="button" value="下一步" onclick="fnnext2()"><input name="重置" type="reset" value="取消" onclick="closeDialog1()"></td>
+                                      </tr>
+                                    </table>
+                                    <!--第三步--->
+                                        <table width="100%" border="0" cellpadding="0" cellspacing="0" id="third" style="display:none">
+                                            <tr>
+                                                <td class="cb1"><font>*</font>开票方式：</td>
+                                                <td><input type="text" value="订单完成后开票" class="dang"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="padding-left:20px;">
+                                                    <div style="width:100%;overflow: hidden;"><span
+                                                            id="fenb">1.选择开票方式</span><i id="xians"></i><span id="fenb">2.填写或核对公司信息</span><i
+                                                            id="xians"></i><span id="fenb">3.填写收票人信息</span></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="cb1">收票人姓名：</td>
+                                                <td><input id="zname" name="zname" type="text" th:value="${invoiceZ.zname}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="cb1">收票人电话：</td>
+                                                <td><input id="zmobile" name="zmobile" type="text" th:value="${invoiceZ.zmobile}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="cb1"><font>*</font>收票人省份：</td>
+                                                <td class="cb1" style="text-align: inherit;">
+                                                    <select id="zsheng" name="zsheng"></select>
+                                                    <select id="zshi" name="zshi"></select>
+                                                    <select id="zarea" name="zarea"></select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="cb1">收票人地址：</td>
+                                                <td><input id="zaddress" name="zaddress" type="text" th:value="${invoiceZ.zaddress}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="text-align:center;border-top:1px solid #e6e6e6;">
+                                                    <input type="button" onclick="zpsubmit();" value="保存">
+                                                    <input name="重置" type="reset" value="取消" onclick="closeDialog1()">
+                                                </td>
+                                            </tr>
+                                        </table>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                        <!--发票div结束-->
+                    <div id="fade1" class="black_overlay"></div>
+                    <script type="text/javascript">
+
+                        function openDialog1(){
+                            document.getElementById('light1').style.display='block';
+                            console.log("l1:"+$("#light1").css("display"));
+                            document.getElementById('fade1').style.display='block';
+                            console.log("f1:"+$("#fade1").css("display"));
+                        }
+                        function closeDialog1(){
+                            document.getElementById('light1').style.display='none';
+                            document.getElementById('fade1').style.display='none'
+                        }
+                        //修改发票
+                        function editinvoice(){
+
+                            $("#light1").css('display','block');
+                            console.log("l1:"+$("#light1").css("display"));
+                            $("#fade1").css('display','block');
+                            console.log("f1:"+$("#fade1").css("display"));
+                            // document.getElementById('light1').style.display='';
+                            // document.getElementById('fade1').style.display='';
+                            $("#first").show();
+                            console.log("first:"+$("#first").css("display"));
+                            $("#second").hide();
+                            console.log("second:"+$("#second").css("display"));
+                            $("#third").hide();
+                            console.log("third:"+$("#third").css("display"));
+                        }
+
+                    </script>
+                    <label id="fou">
+                        <input name="Fruit" type="radio" value="false" checked="checked" />否
+                    </label>
+
+                    <!--发票form结束-->
+                    <div colspan="7" class="ynfa" >
+                        <span class="fplx">电子普通发票</span>   <span class="taitou">个人</span>   <span class="taitou"> 明细</span>     <span class="taitou" onclick = "editinvoice()">修改</span>
+                    </div>
+                </td>
+                <!--发票td结束-->
+            </tr>
+
+            <tr>
+                <td colspan="7" style="border-bottom:0px;text-align:right;padding:5px 18px 8px 0px;">已选：
+                    <font style="padding-left:40px;">
+                        <b id="numId" >[[${totalNum}]]</b>&nbsp;件
+                    </font>
+                </td>
+            </tr>
+            <tr>
+                <td class="tr03" colspan="7" style="border-bottom:0px;text-align:right;padding-right: 30px;">
+                    合计：<span id="bians"><b id="amountId"  th:text="${'¥'+totalAmount}">￥1000.00</b></span>
+                    <button class="cez" style="margin-left: 40px;width: 167px;font-weight: 500;" onclick="subOrder()">提交订单</button>
+                </td>
+            </tr>
+        </table>
+        <style>
+            .gwlist table #bians{padding-left:10px;}
+            .know{width:1200px;border-left:1px solid #e6e6e6;border-right:1px solid #e6e6e6;}
+            .know .title{height:60px;display:block;background:#f5faff;}
+            .know .title li{cursor:pointer;float:left;width:242px;text-align:center;font-size:16px;color:#666;line-height:60px;}
+            .know .title .Selected{width:242px;text-align:center;background:#f8f8f8;color:#666;}
+            .know .con{height:310px;padding-top:27px;overflow:hiddden;}
+            .know .con table{border:0px;}
+            .know .con table td{padding:0px 0px 12px 20px;font-size:14px;color:#333;line-height:38px;height:38px;*height:50px;text-align:left;border:0px;}
+            .know .con table td input{width:100px;height:34px;border:1px solid #e6e6e6;border-radius:3px;background:#fff;font-size:14px;color:#333;float:left;text-align:center;}
+            .know .con table td input:hover{border:1px solid #006ab7;}
+            .know .con table td i{margin:18px 5px;font-size:20px;color:#e6e6e6;float:left;}
+            .know .con table td button{width:100px;height:36px;border-radius:3px;background:#007fdc;color:#fff;font-size:14px;border:0px;line-height: 29px;margin-left:30px;}
+            .know .con table td a{color:#007fdc;text-decoration: underline;padding-left:205px;}
+            .know .con font{#e06500;font-weight:600;}
+
+
+        </style>
+        <script type="text/javascript">
+            $(window).load(function() {
+
+                var flag = 1;
+                $("#stit1").click(function(){
+                    $(".know").slideToggle();
+                    if(flag==0){
+                        $(this).html("使用Knowhow卡抵用<i class='iconfont'>&#xe602;</i>");
+                        flag = 1;
+
+                    }else{
+                        $(this).html("使用Knowhow卡抵用<i class='iconfont'>&#xe603;</i>");
+                        flag = 0;
+                    }
+                })
+
+            })
+
+        </script>
+    </div>
+</div>
+<div class="tjnav" style="border-top:1px solid #dbedfa;padding-top:38px;">
+    <ul th:replace="~{foot_category::topbar}">
+
+    </ul>
+
+</div>
+<form name="orderForm" id="orderForm" method="post" th:action="@{/order/saveProducMealOrder}">
+    <input type="hidden" id="oreceiverId" name="oreceiverId" th:value="${receiverId}" ><!--收货地址，如果没有选择，则是默认的-->
+    <input type="hidden" id="orderInvoiceType" name="orderInvoiceType" value="0" ><!--发票类型 0普 1专 -->
+    <input type="hidden" id="isInvoice" name="isInvoice" ><!--是否开具发票0不开具 1开具-->
+    <input type="hidden" id="productMealId" name="productMealId" th:value="${productMealId}"><!--购买套餐ID-->
+    <input type="hidden" id="orderInvoicePtype" name="orderInvoicePtype" value="0" ><!--普通发票类型0个人1单位 不存在单位和个人 -->
+    <input type="hidden" id="orderInvoicePtitle" name="orderInvoicePtitle" ><!--普通发票抬头-->
+
+    <input type="hidden" id="orderInvoicePcontent" name="orderInvoicePcontent" value="0" ><!--普通发票发票内容0：明细，1：办公用品，2：电脑配件，3：耗材-->
+    <input type="hidden" id="orderInvoicePmobile" name="orderInvoicePmobile" ><!--普通发票收件人电话-->
+    <input type="hidden" id="orderInvoicePemail" name="orderInvoicePemail" ><!--普通发票收件人邮箱-->
+    <input type="hidden" id="orderInvoicePidentityno" name="orderInvoicePidentityno" ><!--纳税人识别号-->
+    <input type="hidden" id="orderInvoiceZcompany" name="orderInvoiceZcompany" ><!--专票单位名称-->
+    <input type="hidden" id="orderInvoiceZidentityno" name="orderInvoiceZidentityno" ><!--专票纳税人识别号-->
+    <input type="hidden" id="orderInvoiceZregmobile" name="orderInvoiceZregmobile" ><!--专票单位注册地址-->
+    <input type="hidden" id="orderInvoiceZbank" name="orderInvoiceZbank" ><!--专票单位开户银行-->
+    <input type="hidden" id="orderInvoiceZaccount" name="orderInvoiceZaccount" ><!--专票单位账户-->
+    <input type="hidden" id="orderInvoiceZname" name="orderInvoiceZname" ><!--专票收票人姓名-->
+    <input type="hidden" id="orderInvoiceZmobile" name="orderInvoiceZmobile" ><!--专票收票人电话-->
+    <input type="hidden" id="orderInvoiceZsheng" name="orderInvoiceZsheng" ><!--专票收票人省-->
+    <input type="hidden" id="orderInvoiceZshi" name="orderInvoiceZshi" ><!--专票收票人市-->
+    <input type="hidden" id="orderInvoiceZarea" name="orderInvoiceZarea" ><!--专票收票人县(区)-->
+    <input type="hidden" id="orderInvoiceZaddress" name="orderInvoiceZaddress" ><!--专票收票人详细地址-->
+
+</form>
+<div th:replace="~{incloud/footer::footer}"></div>
+
+<script>
+    $(function () {
+        dataSource(0,0);
+        dataSourceInvoice(0,0);
+
+        $("#hide").click(function(){
+            $("#shuih").hide();
+        });
+        $("#show").click(function(){
+            $("#shuih").show();
+        });
+
+        //发票类型(电子发票or增值税发票)
+        $(".title li").click(function ()
+        {
+
+            //获取点击的元素给其添加样式，讲其兄弟元素的样式移除
+            $(this).addClass("Selected").siblings().removeClass("Selected");
+            //获取选中元素的下标
+            var index = $(this).index();
+            $(this).parent().siblings().children().eq(index).addClass("Selected")
+                .siblings().removeClass("Selected");
+            var lenth = $('.con').length;//
+
+            $('.con').eq(index).css({"display":"block"});
+            if(index==0){
+                $('.con').eq(index).next().css({"display":"none"});
+            }else {
+                $('.con').eq(index).prev().css({"display":"none"});
+            }
+
+            $('#orderInvoiceType').val(index);//发票类型：0普通，1增值税
+        });
+
+
+    })
+
+
+
+    //加载子集数据
+    function dataSource(e,id) {
+        // alert(id);
+        var sheng;
+        if(e==0){
+            sheng = $("select[name='sheng']");
+        }else if(e==1){
+            sheng=$("select[name='shi']");
+        }else if(e==2){
+            sheng=$("select[name='area']");
+        }
+
+        var html = "";
+
+        $.ajax({
+            type:"GET",
+            url:'[[@{/area/queryList}]]',
+            data:{parent:id},
+            dataType:"json",
+            async: false,
+            success:function(data){
+                if(data.length>0){
+                    html = html+ '<option value="0">--请选择--</option>';
+                    for (var i = 0;i<data.length;i++){
+                        html = html+ '<option data_value = "'+data[i].name+'," value="'+data[i].id+'">'+data[i].name+'</option>';
+                    }
+
+                }
+                sheng.append(html);
+            }
+        });
+
+    }
+    //加载发票省份子集数据
+    function dataSourceInvoice(e,id) {
+        // alert(id);
+        var sheng;
+        if(e==0){
+            sheng = $("select[name='zsheng']");
+        }else if(e==1){
+            sheng=$("select[name='zshi']");
+        }else if(e==2){
+            sheng=$("select[name='zarea']");
+        }
+
+        var html = "";
+
+        $.ajax({
+            type:"GET",
+            url:'[[@{/area/queryList}]]',
+            data:{parent:id},
+            dataType:"json",
+            async: false,
+            success:function(data){
+                if(data.length>0){
+                    html = html+ '<option value="0">--请选择--</option>';
+                    for (var i = 0;i<data.length;i++){
+                        html = html+ '<option data_value = "'+data[i].name+'," value="'+data[i].id+'">'+data[i].name+'</option>';
+                    }
+
+                }
+                sheng.append(html);
+            }
+        });
+
+    }
+
+    // 单击收货人地址下拉框调用
+    $(document).on('change','.td02 select',function(){
+        var id=$(this).val();
+        var name=$(this).attr("name");
+        $(this).next().html("");
+        if(name=="sheng"){
+            dataSource(1,id);
+
+        }else if(name=="shi"){
+            dataSource(2,id);
+        }
+
+
+    });
+    // 单击发票接收人地址下拉框调用
+    $(document).on('change','.cb1 select',function(){
+        var id=$(this).val();
+        var name=$(this).attr("name");
+        $(this).next().html("");
+        if(name=="zsheng"){
+            dataSourceInvoice(1,id);
+
+        }else if(name=="zshi"){
+            dataSourceInvoice(2,id);
+        }
+
+
+    });
+    //提交收货地址
+    function subAddress() {
+
+        var url = $('#addressForm').attr("action")
+        var datas = $("#addressForm").serializeArray();
+        var obj = {}; //声明一个对象
+        $.each(datas, function(index, data) {
+            obj[data.name] = data.value; //通过变量，将属性值，属性一起放到对象中
+        });
+        console.log(obj)
+
+        console.log(JSON.stringify(obj))
+
+        console.log(JSON.stringify(datas))
+        $.ajax({
+            type:"post",
+            url:url,
+            data:JSON.stringify(obj),
+            contentType: 'application/json',
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                clearAddForm();
+                console.log(data)
+                alert(data.msg);
+                location.reload();
+            }
+        });
+    }
+    //修改收货地址回显数据
+    function updateAddress(id) {
+        openDialog();
+        $("#addressForm").attr('action','[[@{/receiver/updateReceiver}]]');
+
+        $.ajax({
+            type:"post",
+            url:'[[@{/receiver/selReceiver}]]',
+            data:{receiverid:id},
+            dataType:"json",
+            async: false,
+            success:function (data) {
+
+                console.log(data);
+                $("#addressForm input[name='consignee']").val(data.consignee);
+                $("#addressForm select[name='sheng']").find("option[value = '"+data.sheng+"']").attr("selected","selected");
+                dataSource(1,data.sheng);
+                $("#addressForm select[name='shi']").find("option[value = '"+data.shi+"']").attr("selected","selected");
+                dataSource(2,data.shi);
+                $("#addressForm select[name='area']").find("option[value = '"+data.area+"']").attr("selected","selected");
+                $("#addressForm textarea[name='address']").html(data.address);
+                $("#addressForm input[name='phone']").val(data.phone);
+                $("#addressForm input[name='email']").val(data.email);
+                $("#addressForm input[name='id']").val(id);
+                // if(data.isDefault==true){
+                //     $("#addressForm input[name='isdefault']").prop("checked",true);
+                // }else{
+                //     $("#addressForm input[name='isdefault']").prop("checked",false);
+                // }
+            }
+        });
+    }
+    //设为默认地址
+    function defaultAddress(id) {
+        var uid="[[${session.UserId}]]";
+        if(window.confirm('你确定要设为默认地址吗？')){
+            $.ajax({
+                type:"post",
+                url:'[[@{/receiver/defaultReceiver}]]',
+                data:{receiverId:id,userId:uid},
+                dataType:"json",
+                async: false,
+                success:function (data) {
+                    console.log("data"+data);
+
+                    location.reload();
+                }
+            });
+            //删除当前li
+            //$(obj).parents("li").remove();
+
+            return true;
+        }else{
+
+            return false;
+        }
+    }
+    //清除收货地址模态框
+    function clearAddForm() {
+        //$("#addressForm input[name='userId']").val("");
+        $("#addressForm input[name='receiver']").val("");
+        $("#addressForm select[name='sheng'] option[value='0']").attr("selected", true);
+        $("#addressForm select[name='shi'] option[value='0']").attr("selected", true);
+        $("#addressForm select[name='area'] option[value='0']").attr("selected", true);
+        $("#addressForm textarea[name='address']").html("");
+        $("#addressForm input[name='mobile']").val("");
+        $("#addressForm input[name='email']").val("");
+        $("#addressForm input[name='receiverId']").val(0);
+        $("#addressForm input[name='isdefault']").prop("checked",false);
+        $("#addressForm input[name='isdefault']").val(false);
+    }
+    //删除收货地址
+    function delAddress(id,obj) {
+
+        if(window.confirm('你确定要删除吗？')){
+            $.ajax({
+                type:"post",
+                url:'[[@{/receiver/delReceiver}]]',
+                data:{receiverId:id},
+                dataType:"json",
+                async: false,
+                success:function (data) {
+                    console.log("data"+data);
+                }
+            });
+            //删除当前li
+            $(obj).parents("li").remove();
+
+            return true;
+        }else{
+
+            return false;
+        }
+    }
+    //选择某个收货地址
+    function checkReceiver(obj,receiverId) {
+       // $(obj).children().addClass("receiverCls");
+
+        $(".focus ul li span").attr('style','');
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+        //alert($(obj).attr("id"));
+        $("#orderForm input[name='oreceiverId']").val(receiverId);//给订单表的地址id传值
+
+
+    }
+    //提交订单
+    function subOrder() {
+
+        var oreceiverId = $('#oreceiverId').val();
+        if(oreceiverId==''){
+            alert('请填写收货人信息');
+        }
+
+       var isInvoice = $("input[name='Fruit']:checked").val();//是否开具发票  获取单选框选中的值
+       $('#isInvoice').val(isInvoice);  //是否开具发票提交值
+
+
+        var tf='[[@{/}]]';
+        //location.href=tf+"/toCeshi";
+        $("#orderForm").submit();
+
+    }
+    //普通发票选择个人或者单位
+    function checkDZinvoice(obj) {
+        // $(obj).children().addClass("receiverCls");
+        $("#hide").attr('style','');
+        $("#show").attr('style','');
+        $("#hide").removeClass("dang");
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+        var ival=$(obj).children().val();
+        if(ival=="个人"){
+            $("#invoiceForm input[name='ptype']").val(0);
+        }else{
+            $("#invoiceForm input[name='ptype']").val(1);
+        }
+
+    }
+
+    //普通发票选择内容
+    function checkDZcontent(obj) {
+
+        $(obj).parent().find("span").attr("style","");
+        $(obj).parent().find("span").removeClass("dang");
+
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+        var data_id = $(obj).attr('data_id');
+        console.log(data_id);
+        $('#orderInvoicePcontent').val(data_id);
+
+    }
+    //提交普通发票
+    function subPinvoice() {
+
+        var orderInvoicePtitle = $('#dTitle').val();//普通发票抬头
+        $('#orderInvoicePtitle').val(orderInvoicePtitle);
+        var pmobile = $('#pmobile').val();//普通发票联系电话
+        $('#orderInvoicePmobile').val(pmobile);
+        var pemail = $('#pemail').val();//普通发票接受邮箱
+        $('#orderInvoicePemail').val(pemail)
+        closeDialog1();
+    }
+
+    //专票提交
+    function zpsubmit(){
+
+        var zcompany = $('#zcompany').val();//专票公司抬头
+        $('#orderInvoiceZcompany').val(zcompany);//专票公司抬头
+
+        var zidentityno = $('#zidentityno').val();//专票纳税人识别号
+        $('#orderInvoiceZidentityno').val(zidentityno);
+
+        var zregaddress = $('#zregaddress').val();//专票公司注册地址
+        $('#orderInvoiceZregmobile').val(zregaddress);
+
+        var zregmobile = $('#zregmobile').val();//专票公司注册电话
+        $('#orderInvoiceZmobile').val(zregmobile);
+
+        var zbank = $('#zbank').val();//专票开户行
+        $('#orderInvoiceZbank').val(zbank);
+
+        var zaccount = $('#zaccount').val();//专票银行账户
+        $('#orderInvoiceZaccount').val(zaccount);
+
+        // $('#orderInvoiceZcompany').val(zcompany);
+
+        var zname = $('#zname').val();//专票收票人姓名
+        $('#orderInvoiceZname').val(zname);
+
+        var zmobile = $('#zmobile').val();//专票收票人电话
+        $('#orderInvoiceZmobile').val(zmobile);
+
+        var zsheng = $('#zsheng').val();//专票收票人省
+        $('#orderInvoiceZsheng').val(zsheng);
+
+        var zshi = $('#zshi').val();//专票收票人市
+        $('#orderInvoiceZshi').val(zshi);
+
+        var zarea = $('#zarea').val();//专票收票人区(县)
+        $('#orderInvoiceZarea').val(zarea);
+
+        var zaddress = $('#zaddress').val();//专票银行账户
+        $('#orderInvoiceZaddress').val(zaddress);
+
+        closeDialog1();
+
+    }
+
+    //专票选择开票方式
+    function checkZmode(obj) {
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+    }
+    //专票选择开票内容
+    function checkZcontent(obj) {
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+    }
+    //专票下一步1
+    function fnnext1() {
+        $("#first").hide();
+        $("#second").show();
+    }
+    //专票下一步2
+    function fnnext2() {
+        $("#second").hide();
+        $("#third").show();
+    }
+
+</script>
+</body>
+</html>

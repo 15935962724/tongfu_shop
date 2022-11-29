@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>关于我们</title>
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/js/iconfont.js}"></script>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}">
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+</head>
+<body>
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+<div class="banner"><img src="../img/abus.jpg" th:src="@{/assets/img/abus.jpg}"/></div>
+<th:block th:each="aboutus,aboutusStat:${aboutusList}">
+    <div th:class="${aboutusStat.index%2==0?'abus':'abus'}" class="abus" th:utext="${aboutus.content}" >
+    </div>
+
+</th:block>
+
+<!--<div style="width:100%;background:#eceff8;padding:20px 0px;">-->
+    <!--<div class="abus"><span id="bt">我们做什么？</span>-->
+        <!--<p>　　<img src="../img/abus4.png" th:src="@{/assets/img/abus4.png}"/>致力于为外科医生提供低成本、多种选择的软件授权应用模式。这种全新的应用模式可以为外科医生带来如下益处：</p>-->
+        <!--<p><img src="../img/abus2.jpg" th:src="@{/assets/img/abus2.jpg}"/></p>-->
+    <!--</div></div>-->
+<!--<div class="abus">-->
+    <!--<span id="bt">为什么选择我们？</span>-->
+    <!--<p>　　一直以来，外科医生都在不断追求手术效果以改善病人的生活质量。而对手术操作技巧和复杂术中局面的处理成为培养年轻外科医生的重要手段。但病人的个体差异和实践机会的不平衡往往令年轻外科医生面临巨大挑战。９０年代，随着计算机技术的快速发展，虚拟手术模拟成为现实并在临床开始应用于术前讨论和手术方案的制定，同时对临床教学和年轻医生的培养发挥积极的作用。</p>-->
+
+    <!--<p>　　手术计划软件，基于患者最新甚至实时的影像学数据(DR/CT/MR/PET或超声等)，对病灶及其周围组织进行数字减影、2D/3D重建、影像融合或组织标记，更重要的是，它能通过数字化的影像处理技术，实现组织容积透视成像并进行根据手术需要的组织分割，帮助外科医生更加详尽地了解病灶与周围临近的正常组织（血管、神经等）的生理解剖和病理学关系，从而指导外科医生在手术中的正确操作和判断，最大限度的减少手术对正常组织的损伤和激惹。经过多年临床的实践应用，制定合理的术前计划的确能够提高术者的术中操作和处理复杂情形的水平，从而为实现微创外科奠定科学的可评估的基础和客观标准。</p>-->
+    <!--<p>　　<img src="../img/abus4.png" th:src="@{/assets/img/abus4.png}" />专注为外科医生提供各种手术计划软件解决方案，为实现微创外科手术(Minimally Invasive Surgery)提供术前模拟，其创新的应用模式将给临床带来客观的评估体系。通过其提供的专家论坛平台,外科医生亦将更加开阔自己的视野，与更多同行交流实践体会和分享操作经验。更重要的是，可以无地域和等级地体验当今最先进和最新版本的手术计划应用软件技术。</p>-->
+    <!--<p>　　<img src="../img/abus4.png" th:src="@{/assets/img/abus4.png}"/>致力于为外科医生实现低成本、可下载的、根据病人个体差异应用的数字化手术计划解决方案。通过虚拟手术的实时模拟训练，提升外科医生的实际操作水平和面对复杂情况的处理能力；为手术流程数字化标准化提供理论基础，同时降低患者的整体医疗费用。</p>-->
+    <!--<p style="text-align:center;"><img src="../img/abus3.jpg" th:src="@{/assets/img/abus3.jpg}"/></p>-->
+    <!--<p></p>-->
+<!--</div>-->
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

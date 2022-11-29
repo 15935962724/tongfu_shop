@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>远程报告</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+    <script type="text/javascript" src="../js/qiehuan.js" th:src="@{/assets/js/qiehuan.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <script src="../css/iconfont.js" language="javascript" th:href="@{/assets/css/iconfont.js}"></script>
+
+
+
+</head>
+
+
+<body>
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+</header>
+
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}" >首页</a>&gt;<a href="javaScript:void (0);">我的SP</a></div>
+    <div class="con_sp">
+        <script>
+            $(function(){
+                $('.nav .nav-header-li-div').click(function(){
+                    if($(this).parent().hasClass('active')) {
+                        $(this).parent().removeClass('active').addClass("active-none");
+                    }else{
+                        $(this).parent().removeClass('active-none').addClass("active").siblings().removeClass('active').addClass("active-none");
+                        $(this).parent().siblings().find('.nav-second-level li').removeClass('active1');
+                    }
+                });
+
+                $('.nav-second-level li').click(function(){
+                    $(this).addClass('active1').siblings().removeClass('active1');
+                });
+            })
+        </script>
+        <style>
+            .nav .active{background: url(../img/sp04.png);background-repeat:no-repeat;background-position:right 20px top 20px;border-bottom:1px solid #e6e6e6;}
+
+        </style>
+
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+
+        <div class="con_right">
+
+            <div class="chax"><h1>远程报告</h1>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="td01">订单编号：</td>
+                        <td class="td02" style="width: 400px;"><input type="text" placeholder="请输入订单编号" ></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="td01">订单时间：</td>
+                        <td> <span><input type="text" id="test1" placeholder="开始日期">
+                                  <script src="../js/layDate-v5.0.9/laydate/laydate.js"></script><i style="float:left;padding:0px 10px;color:#333;">~</i><input type="text" id="test2" placeholder="结束日期">
+                                  <script>
+                                          //执行一个laydate实例
+                                          laydate.render({
+                                              elem: '#test1' //指定元素
+                                          });
+                                          laydate.render({
+                                              elem: '#test2' //指定元素
+                                          });
+                                          </script></span></td>
+                        <td><input type="submit" name="Enter" value="查询"></td>
+                    </tr>
+                </table>
+            </div>
+            <script>
+                function checkAll(){
+                    //1.获取编号前面的复选框
+                    var checkAllEle = document.getElementById("checkAll");
+                    //2.对编号前面复选框的状态进行判断
+                    if(checkAllEle.checked==true){
+                        //3.获取下面所有的复选框
+                        var checkOnes = document.getElementsByName("checkOne");
+                        //4.对获取的所有复选框进行遍历
+                        for(var i=0;i<checkOnes.length;i++){
+                            //5.拿到每一个复选框，并将其状态置为选中
+                            checkOnes[i].checked=true;
+                        }
+                    }else{
+                        //6.获取下面所有的复选框
+                        var checkOnes = document.getElementsByName("checkOne");
+                        //7.对获取的所有复选框进行遍历
+                        for(var i=0;i<checkOnes.length;i++){
+                            //8.拿到每一个复选框，并将其状态置为未选中
+                            checkOnes[i].checked=false;
+                        }
+                    }
+                }
+            </script>
+
+            <div class="cplist">
+                <div class="title">
+                    <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv_',5,this)"   id="JKDiv_DEF" class="Selected">全部报告(10)</li>
+                    <li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv_',5,this)" >待下载(2)</li>
+                    <li onMouseMove= "JavaScript:ChangeDiv('2','JKDiv_',5,this)" >待上传(3)</li>
+                    <li onMouseMove= "JavaScript:ChangeDiv('3','JKDiv_',5,this)" >待支付(1)</li>
+                    <li onMouseMove= "JavaScript:ChangeDiv('4','JKDiv_',5,this)" >已支付(2)</li>
+                    <li onMouseMove= "JavaScript:ChangeDiv('5','JKDiv_',5,this)" >已取消(2)</li><i class="iconfont">&#xe625;</i>
+                </div>
+                <style>
+                    .dingdan table td {padding:3px;}
+                    .dingdan table .fxk{width: 20px;padding: 3px 0px 3px 5px;
+                    }
+                    .dingdan table .bh{    width: 100px;}
+                    .dingdan table .name{width:178px;}
+                    .dingdan table .shr{width:80px;}
+                    .dingdan table .time{width:130px;}
+                    .dingdan table  #doll{color:#038200;}
+                </style>
+                <div class="con" id="JKDiv_0">
+                    <div class="dingdan">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <thead>
+                            <tr class="tr01">
+                                <td class="fxk"> <input type="checkbox" id="checkAll" onclick="checkAll()"/></td>
+                                <td nowrap="nowrap" class="xh">序号</td>
+                                <td class="bh">订单编号</td>
+                                <td class="name">报告名称</td>
+                                <td class="dool">推送时间</td>
+                                <td class="shr">预交付时间</td>
+                                <td class="time">操作</td>
+                                <td class="shr">收入</td>
+                                <td style="border-bottom:1px solid #e6e6e6;">状态</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>1</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">下载数据</a> │ 取消</td>
+                                <td>——</td>
+                                <td align="left">待下载</td>
+                            </tr>
+                            <tr class="sptd">
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>2</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">下载数据</a> │ 取消</td>
+                                <td>——</td>
+                                <td align="left">待下载</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>3</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">上传报告</a></td>
+                                <td>——</td>
+                                <td>待上传</td>
+                            </tr>
+                            <tr class="sptd">
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>4</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">上传报告</a></td>
+                                <td>——</td>
+                                <td>待上传</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>5</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">上传报告</a></td>
+                                <td>——</td>
+                                <td>待上传</td>
+                            </tr>
+                            <tr class="sptd">
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>6</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">查看报告</a> | <a href="#">修改报告</a></td>
+                                <td>——</td>
+                                <td><span id="hong">待付款</span></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>7</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">查看报告</a></td>
+                                <td><span id="doll">800.00</span></td>
+                                <td>已支付</td>
+                            </tr>
+                            <tr class="sptd">
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>8</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">查看报告</a></td>
+                                <td><span id="doll">800.00</span></td>
+                                <td>已支付</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>9</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td>——</td>
+                                <td>——</td>
+                                <td>已取消</td>
+                            </tr>
+                            <tr class="sptd">
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>10</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td>——</td>
+                                <td>——</td>
+                                <td>已取消</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <div id="PageNum">
+                            <li><a href="#" id="CBPrev"><i class="iconfont">&#xe68d;</i></a></li>
+                            <li class="numb">1</li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#" id="CBNext"><i class="iconfont">&#xe638;</i></a></li><span id='go'><select>
+                    <option>10条/页</option>
+                    <option value="0">1</option>
+                    <option value="1">2</option>
+                    <option value="2">3</option>
+                    <option value="3">4</option>
+                    <option value="4">5</option>
+                    </select>跳至 <input style="width:50px;height:30px;border:1px solid #e6e6e6;border-radius:4px;text-align: center;" value=""/> 页 </span> </div>
+                    </div>
+                </div>
+                <div class="con" id="JKDiv_1" style="display:none;">
+                    <div class="dingdan">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <thead>
+                            <tr class="tr01">
+                                <td class="fxk"> <input type="checkbox" id="checkAll" onclick="checkAll()"/></td>
+                                <td nowrap="nowrap" class="xh">序号</td>
+                                <td class="bh">订单编号</td>
+                                <td class="name">报告名称</td>
+                                <td class="dool">推送时间</td>
+                                <td class="shr">预交付时间</td>
+                                <td class="time">操作</td>
+                                <td class="shr">收入</td>
+                                <td style="border-bottom:1px solid #e6e6e6;">状态</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>1</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">下载数据</a> │ 取消</td>
+                                <td>——</td>
+                                <td align="left">待下载</td>
+                            </tr>
+                            <tr class="sptd">
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>2</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">下载数据</a> │ 取消</td>
+                                <td>——</td>
+                                <td align="left">待下载</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="con" id="JKDiv_2" style="display:none;">
+                    <div class="dingdan">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <thead>
+                            <tr class="tr01">
+                                <td class="fxk"> <input type="checkbox" id="checkAll" onclick="checkAll()"/></td>
+                                <td nowrap="nowrap" class="xh">序号</td>
+                                <td class="bh">订单编号</td>
+                                <td class="name">报告名称</td>
+                                <td class="dool">推送时间</td>
+                                <td class="shr">预交付时间</td>
+                                <td class="time">操作</td>
+                                <td class="shr">收入</td>
+                                <td style="border-bottom:1px solid #e6e6e6;">状态</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>1</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">上传报告</a></td>
+                                <td>——</td>
+                                <td>待上传</td>
+                            </tr>
+                            <tr class="sptd">
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>2</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">上传报告</a></td>
+                                <td>——</td>
+                                <td>待上传</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>3</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">上传报告</a></td>
+                                <td>——</td>
+                                <td>待上传</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="con" id="JKDiv_3" style="display:none;">
+                    <div class="dingdan">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <thead>
+                            <tr class="tr01">
+                                <td class="fxk"> <input type="checkbox" id="checkAll" onclick="checkAll()"/></td>
+                                <td nowrap="nowrap" class="xh">序号</td>
+                                <td class="bh">订单编号</td>
+                                <td class="name">报告名称</td>
+                                <td class="dool">推送时间</td>
+                                <td class="shr">预交付时间</td>
+                                <td class="time">操作</td>
+                                <td class="shr">收入</td>
+                                <td style="border-bottom:1px solid #e6e6e6;">状态</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>1</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">查看报告</a> | <a href="#">修改报告</a></td>
+                                <td>——</td>
+                                <td><span id="hong">待付款</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="con" id="JKDiv_4" style="display:none;">
+                    <div class="dingdan">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <thead>
+                            <tr class="tr01">
+                                <td class="fxk"> <input type="checkbox" id="checkAll" onclick="checkAll()"/></td>
+                                <td nowrap="nowrap" class="xh">序号</td>
+                                <td class="bh">订单编号</td>
+                                <td class="name">报告名称</td>
+                                <td class="dool">推送时间</td>
+                                <td class="shr">预交付时间</td>
+                                <td class="time">操作</td>
+                                <td class="shr">收入</td>
+                                <td style="border-bottom:1px solid #e6e6e6;">状态</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>1</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">查看报告</a></td>
+                                <td><span id="doll">800.00</span></td>
+                                <td>已支付</td>
+                            </tr>
+                            <tr class="sptd">
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>2</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td><a href="#">查看报告</a></td>
+                                <td><span id="doll">800.00</span></td>
+                                <td>已支付</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="con" id="JKDiv_5" style="display:none;">
+                    <div class="dingdan">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <thead>
+                            <tr class="tr01">
+                                <td class="fxk"> <input type="checkbox" id="checkAll" onclick="checkAll()"/></td>
+                                <td nowrap="nowrap" class="xh">序号</td>
+                                <td class="bh">订单编号</td>
+                                <td class="name">报告名称</td>
+                                <td class="dool">推送时间</td>
+                                <td class="shr">预交付时间</td>
+                                <td class="time">操作</td>
+                                <td class="shr">收入</td>
+                                <td style="border-bottom:1px solid #e6e6e6;">状态</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>1</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td>——</td>
+                                <td>——</td>
+                                <td>已取消</td>
+                            </tr>
+                            <tr class="sptd">
+                                <td><input type="checkbox" name="checkOne" class="label1"></td>
+                                <td>2</td>
+                                <td>PO1904080007</td>
+                                <td>IQQA肝脏手术计划远程报告</td>
+                                <td>2019-04-08 15:06</td>
+                                <td>2019-04-08</td>
+                                <td>——</td>
+                                <td>——</td>
+                                <td>已取消</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var hl = $(".con_left").outerHeight();
+    var hr = $(".con_right").outerHeight();
+    var mh = Math.max(hl,hr);
+    $(".con_left").height(mh);
+    $(".con_right").height(mh);
+</script>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>
+

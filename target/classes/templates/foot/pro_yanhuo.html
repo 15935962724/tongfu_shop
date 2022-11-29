@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>常见问题-配送方式</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+</head>
+<script src="../js/jquery-3.1.1.js" th:src="@{/assets/js/jquery-3.1.1.js}"></script>
+<body>
+
+
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css"  rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}"/>
+<link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+<header>
+
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+
+<div class="log_con" style="padding-top:0px;padding-bottom:50px;clear:both;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;<a href="javaScript:void (0);">我的SP</a></div>
+    <style>
+        .sp_nav li.active-none{border-bottom:0px;}
+        .sp_nav li>div{color:#aaa;}
+    </style>
+    <div class="con_sp">
+        <script>
+            $(function(){
+                $('.sp_nav .sp_nav-header-li-div').click(function(){
+                    if($(this).parent().hasClass('active')) {
+                        $(this).parent().removeClass('active').addClass("active-none");
+                    }else{
+                        $(this).parent().removeClass('active-none').addClass("active").siblings().removeClass('active').addClass("active-none");
+                        $(this).parent().siblings().find('.sp_nav-second-level li').removeClass('active1');
+                    }
+                });
+
+                $('.sp_nav-second-level li').click(function(){
+                    $(this).addClass('active1').siblings().removeClass('active1');
+                });
+            })
+        </script>
+
+        <div th:replace="/incloud/cjwtLeft:: left"></div>
+
+        <div class="con_right">
+            <div class="chax">
+                <div class="prob_s">
+                    <div class="prob_ss"><input type="text" value="输入问题关键词" /><button><i class="iconfont">&#xe639;</i>搜索</button></div>
+                </div>
+                <div class="prob_we">
+                    <span id="probt">验货签收</span>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        1.快递送货上门的订单
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        1)快递员会配合您打开包装验货（必须用小刀在粘贴胶带处整齐划开，不允许撕坏包装箱）。
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        2)验货须知：快递送货上门时，若商品包装上有“封签码”，需先签收后再开箱验货。
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        3)验货内容：包括商品及配件、商品数量、发货清单、发票（如有）、三包凭证（如有）等。
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        4)验货异常：验货后，若发现商品错发、商品少发、商品有表面质量等影响签收因素问题，可当场向送货员说明情况并拒签。
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        &nbsp;
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        2.邮局邮寄的订单
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        &nbsp;
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        1)请您一定要小心开包，以免尖锐物件损伤到包裹内的商品。
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        2)验货内容：包括商品及配件、商品数量、发货清单、发票（如有）、三包凭证（如有）等。
+                    </p>
+                    <p style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; vertical-align: baseline; line-height: 25.2px; color: rgb(84, 84, 84); font-family: &quot;Microsoft YaHei&quot;, Arial, &quot;Times New Roman&quot;, Times, serif; font-size: 14px; white-space: normal;">
+                        3)验货异常：若包装破损、商品错误、商品少发、商品存在表面质量问题等，您可以选择整单拒签；或是要求邮局开具相关证明后签收，然后登陆申请退货或申请换货。
+                    </p>
+                    <p>
+                        <br/>
+                    </p>
+
+
+                </div>
+            </div></div>
+    </div>
+    <script type="text/javascript">
+        var hl = $(".con_left").outerHeight();
+        var hr = $(".con_right").outerHeight();
+        var mh = Math.max(hl,hr);
+        $(".con_left").height(mh);
+        $(".con_right").height(mh);
+    </script>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

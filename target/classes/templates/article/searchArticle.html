@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>行业资讯</title>
+</head>
+<!-- CSS Files
+================================================== -->
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+<link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+
+<!--我的sp鼠标悬浮下拉-->
+<script src="../js/swiper.min.js" th:src="@{/assets/js/memberView.js}"></script>
+<style>
+
+    .jytd ul li .bt:hover {
+        color: #ff851e;
+        cursor: pointer;
+    }
+
+    .newlist ul li .bt a:hover {
+        color: #ff851e
+    }
+
+    .phlist ul li .bt a:hover {
+        color: #ff851e
+    }
+
+    .bannerbg:not(:first-child) {
+        display: none;
+    }
+
+    .section.footer .container .panel-body .cop ul li .item .logo {
+        cursor: default;
+    }
+
+    .slick-pass {
+        z-index: 999;
+    }
+
+    .smaller .nav ul li.login-button:hover a.btn-primary-line {
+        background-color: #fff;
+        background: -webkit-linear-gradient(left, #1171f4 0%, #468ff3 100%);
+        color: #fff;
+    }
+
+    .index-wrap .pro-wrap .sec-layer .sec-body .slider .slick-dots li button:before {
+        font-size: 6px;
+    }
+
+    .slick-dots, .slick-dots li button:before {
+        display: none;
+    }
+
+    .header .nav ul li button .iconfont {
+        font-size: 22px;
+    }
+
+    .icon-sousuo {
+        font-size: 22px;
+        position: absolute;
+        right: -77px;
+        top: 0;
+        z-index: 5;
+        background: url(../img/sousou.png);
+        background-repeat: no-repeat;
+        background-position: 0px 16px;
+        width: 40px;
+        height: 44px;
+    }
+    .seach .seach-select:hover ul {
+        height: 264px;
+        transition: all 0.5s ease 0s;
+    }
+
+</style>
+</head>
+
+<body>
+<header>
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{newhead::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+
+<div class="content" style="background:#fff;">
+    <section class="banner">
+        <div class="single-item slider">
+            <div class="bannerbg"th:each="adhead:${adListHead}">
+                <a th:href="@{${adhead.url}}" target="_blank">
+                    <img src="../img/fxban.jpg" th:src="@{${path+adhead.path}}"/>
+                </a>
+            </div>
+        </div>
+    </section>
+    <script src="../js/scripts.js" th:src="@{/assets/js/scripts.js}"></script>
+    <script src="../js/aitracker-min.js" th:src="@{/assets/js/aitracker-min.js}"></script>
+    <script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+    <script src="../js/slick.js" th:src="@{/assets/js/slick.js}"></script>
+    <script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>
+    <div id="Content1">
+
+        <script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+        <div class="hangy">
+            <!--精英团队-->
+            <form class="form" id ='form' th:action="@{/article/list}">
+                <input type="hidden" id="pageNum" name="pageNum">
+                <input type="hidden" name="category" th:value="${article_category}"/>
+                <div class="con" id="JKDiv_0">
+                    <div class="jytd">
+                        <ul>
+                            <li th:each="article:${page.list}">
+                                <a th:if="${article.tab} == 1" th:href="@{/article/view(category=${article.article_category},articleid=${article.id})}" target="_blank">
+                                    <span class="tu" th:style="'background-image: url('+@{${pathurl+article.image}}+')'"></span>
+                                </a>
+                                <a th:if="${article.tab} == 2" th:href="@{/learning/view(id=${article.id})}" target="_blank">
+                                    <span class="tu" th:style="'background-image: url('+@{${pathurl+article.image}}+')'"></span>
+                                </a>
+                                <a th:if="${article.tab} == 3" th:href="@{/journalism/view(category=${article.article_category},articleid=${article.id})}" target="_blank">
+                                    <span class="tu" th:style="'background-image: url('+@{${pathurl+article.image}}+')'"></span>
+                                </a>
+                                <div class="lt">
+                                    <div th:if="${article.tab} == 1" class="bt" th:text="${#strings.length(article.title)>22}? ${#strings.substring(article.title,0,22)} + '...' : ${article.title}"
+                                         th:onclick="|openHref(${article.article_category},${article.id})|"></div>
+                                    <div th:if="${article.tab} == 2" class="bt" th:text="${#strings.length(article.title)>22}? ${#strings.substring(article.title,0,22)} + '...' : ${article.title}"
+                                         th:onclick="|openLearning(${article.article_category},${article.id})|"></div>
+                                    <div th:if="${article.tab} == 3" class="bt" th:text="${#strings.length(article.title)>22}? ${#strings.substring(article.title,0,22)} + '...' : ${article.title}"
+                                         th:onclick="|openJournalism(${article.article_category},${article.id})|"></div>
+                                    <span class="daoy" th:text="${article.introduce}"></span>
+                                    <a th:if="${article.tab} == 1" th:href="@{/article/view(category=${article.article_category},articleid=${article.id})}">了解更多</a>
+                                    <a th:if="${article.tab} == 2" th:href="@{/learning/view(id=${article.id})}">了解更多</a>
+                                    <a th:if="${article.tab} == 3" th:href="@{/journalism/view(category=${article.article_category},articleid=${article.id})}">了解更多</a>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                    <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+                        <ul>
+                            <li th:style="${page.pageNum==1?'display:none':''}"
+                                th:onclick="'javascript:fenye(\''+${page.pageNum-1}+'\')'">
+                                <i class="iconfont">&#xe68d;</i>
+                            </li>
+                            <li id="da" th:each="pg:${#numbers.sequence(1,page.pages)}"
+                                th:id="${page.pageNum==pg?'da':''}" th:onclick="'javascript:fenye(\''+${pg}+'\')'">
+                                [[${pg}]]
+                            </li>
+
+                            <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}"
+                                th:onclick="'javascript:fenye(\''+${page.pageNum+1}+'\')'"><i
+                                    class="iconfont">&#xe638;</i></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+        <script>
+
+            var size = 75;
+            $('.hide-wrap .li-sec').hover(
+                function () {
+                    var span = $(this).find('.hide-span');
+                    if (span && span.length) {
+                        $(span).text($(span).attr('data'))
+                    }
+                },
+                function () {
+                    var span = $(this).find('.hide-span');
+                    if (span && span.length) {
+                        var data = $(span).attr('data');
+                        if (data.length > size) {
+                            $(span).text(data.substr(0, size) + '...')
+                        }
+                    }
+                }
+            );
+            $('.hide-span').each(function () {
+                var data = $(this).attr('data');
+                if (data.length > size) {
+                    $(this).text(data.substr(0, size) + '...')
+                }
+            });
+
+            function openHref(companyId, articleId) {
+                window.open('[[@{/}]]' + 'article/view?category=' + companyId + '&articleid=' + articleId);
+            }
+
+            function openLearning(companyId, articleId) {
+                window.open('[[@{/}]]' + 'learning/view?id=' + articleId);
+            }
+
+            function openJournalism(companyId, articleId) {
+                window.open('[[@{/}]]' + 'journalism/view?category=' + companyId + '&articleid=' + articleId);
+            }
+
+            function fenye(page) {
+                $("#pageNum").val(page);
+                $("#form").submit();
+            }
+        </script>
+
+
+    </div>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

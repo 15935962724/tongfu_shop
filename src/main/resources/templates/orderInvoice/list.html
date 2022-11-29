@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的发票</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+    <link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+    <link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+    <link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <script src="../js/jquery-3.1.1.js" th:src="@{/assets/js/jquery-3.1.1.js}"></script>
+    <script src="../js/qiehuan.js" type="text/javascript" th:src="@{/assets/js/qiehuan.js}"></script>
+
+
+    <!--弹窗特效-->
+    <link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+    <link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+    <script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+</head>
+<body>
+
+<!--语言切换-->
+<!--未登录-->
+<shiro:notAuthenticated>
+    <th:block th:replace="~{incloud/language::language}"></th:block>
+</shiro:notAuthenticated>
+<!--已登录-->
+<shiro:authenticated>
+    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+</shiro:authenticated>
+
+<div class="head">
+    <!--未登录-->
+    <div th:replace="~{head::topbar}"></div>
+    <!--已登录-->
+</div>
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;<a href="javaSript:void(0);">我的SP</a></div>
+    <div class="con_sp">
+        <style>
+            .sp_nav li.active{background: url(../img/sp04.png);background-repeat:no-repeat;background-position:right 20px top 20px;border-bottom:1px solid #e6e6e6;}
+            .sp_fap{width:973px;display: block;padding: 0px;float:right;}
+            .fap{width: 100%;background:#fff;     box-shadow: 0px -4px 12px 7px #d9e8f5;border-radius: 4px;padding-bottom:30px;}
+            .shengq{position: relative;top: -30px; box-shadow: 0px 9px 10px 5px #d0e0f3;}
+            .shengq a{color:#007fdc;}
+            .shengq p{line-height:200%;}
+            .con_right{width:990px;}
+
+        </style>
+
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+
+        <div class="con_right">
+            <div class="sp_fap">
+                <div class="fap">
+                    <h1>我的发票</h1>
+                    <div class="title">
+                        <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv_',2,this)" id="JKDiv_DEF" class="Selected">发票申请</li>
+                        <li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv_',2,this)" >增票资质</li>
+                        <li onMouseMove= "JavaScript:ChangeDiv('2','JKDiv_',2,this)" >发票帮助中心</li>
+                    </div>
+                </div>
+                <div class="con" id="JKDiv_0">
+                    <div class="shengq" style="position: relative;top:-30px;">
+                        <p>温馨提示：</p>
+                        <p>一、发票换开：</p>
+                        <p>1、订单完成后一年内可支持换开发票一次。 <br />
+                            2、增值税专用发票需将原票寄回Surgi-plan，邮寄地址详见收票人信息页。<br />
+                            3、不支持“企业抬头”变更。 </p>
+                        <p>二、补开发票规则： <br />
+                            1、增值税普通发票订单完成后1年内可补开发票，增值税专用发票订单完成10天后，1年内可以补开发票。</p>
+                        <p>三、企业发票：<br />
+                            1、增值税专用发票资质维护入口：我的-账户设置-增票资质。<br />
+                            2、企业用户集中开票，请联系客户经理或前往电脑端“我的SP-账户设置-企业发票”进行自主开票。 </p>
+                        </p>
+                    </div>
+                    <div style="height:20px;display:block;"></div>
+                    <form id="list" th:action="@{/orderInvoice/list}">
+                        <input type="hidden" name="pageNum" id="pageNum" >
+                        <input type="hidden" name="pageSize" id="pageSize" >
+                    <div class="fpdd" style="margin-bottom:0px;">
+                        <div class="bt">
+                            <li style="padding-left: 116px;text-align: left;width: 50%;box-sizing: border-box">订单详情</li>
+                            <li style="width: 10%;">价格</li>
+                            <li style="width: 15%;">发票类型</li>
+                            <li style="width: 10%;">状态</li>
+                            <li style="width: 15%;">操作</li></div>
+                        <ul>
+                            <li th:each="orderInvoice:${page.list}">
+                                <span id="dh">[[${#dates.format(orderInvoice.create_date,'yyyy-MM-dd HH:mm:ss')}]] 订单号：<a href="#">[[${orderInvoice.sn}]]</a></span>
+                                <div class="shopList">
+                                    <div class="shopListModel" th:each="orderitem:${orderInvoice.orderItems}">
+                                        <span id="ddtu"><img th:src="@{${pathUrl+orderitem.thumbnail}}" /></span>
+                                        <span id="ddbt"><a href="#">[[${orderitem.name}]]</a></span>
+                                        <span id="ddsl">x [[${orderitem.quantity}]]</span>
+                                    </div>
+                                </div>
+                                <span id="jg"> $[[${#numbers.formatDecimal(orderInvoice.amount_paid,1,'COMMA',2,'POINT')}]]</span>
+                                <span id="fplx">
+                                    <th:block th:if="${orderInvoice.type==0}">
+                                        -
+                                    </th:block>
+                                    <th:block th:if="${orderInvoice.type==1}">
+                                        普通电子发票
+                                    </th:block>
+                                    <th:block th:if="${orderInvoice.type==2}">
+                                        增值税专用发票
+                                    </th:block>
+                                </span>
+                                <th:block th:if="${orderInvoice.is_make_invoice==0}">
+                                    <span>未申请</span>
+                                </th:block>
+                                <th:block th:if="${orderInvoice.is_make_invoice==1}">
+                                    <span id="wk">待开</span>
+                                </th:block>
+                                <th:block th:if="${orderInvoice.is_make_invoice==2}">
+                                    <span id="yk">已开</span>
+                                </th:block>
+                                <th:block th:if="${orderInvoice.is_make_invoice==3}">
+                                    <span>拒开</span>
+                                </th:block>
+
+                                <span id="fpxq">
+                                    <th:block th:if="${orderInvoice.type==0}">
+                                        <a th:href="@{/orderInvoice/add(orderId=${orderInvoice.id})}"><input type="button" style="cursor: pointer;" value="发票申请" /></a>
+                                    </th:block>
+                                    <th:block th:if="${orderInvoice.type!=0}">
+                                        <a th:href="@{/orderInvoice/view(id=${orderInvoice.oi_id})}" >发票详情</a>
+                                    </th:block>
+                                </span>
+                            </li>
+
+                        </ul>
+                        <th:block th:if="${page.pages>1}">
+                        <div id="PageNum">
+                            <th:block th:if="${page.pageNum!=1}">
+                                <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum-1}+'\');'"><a id="CBPrev"><i class="iconfont">&#xe68d;</i></a></li>
+                            </th:block>
+
+                            <th:block  th:if="${page.pages > 5}">
+                                <li th:class="${page.pageNum == 1?'numb':''}" th:onclick="'javascript: $.pageSkip(\'1\');'"><a>1</a></li>
+                                <li th:if="${page.pageNum > 3}"><a>···</a></li>
+
+                                <th:block  th:if="${page.pageNum == 1}">
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum + 1}+'\');'"><a>[[${page.pageNum + 1}]]</a></li>
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum + 2}+'\');'"><a>[[${page.pageNum + 2}]]</a></li>
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum + 3}+'\');'"><a>[[${page.pageNum + 3}]]</a></li>
+                                </th:block>
+
+                                <th:block  th:if="${page.pageNum == 2}">
+                                    <li class="numb" th:onclick="'javascript: $.pageSkip(\''+${page.pageNum}+'\');'"><a>[[${page.pageNum}]]</a></li>
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum + 1}+'\');'"><a>[[${page.pageNum + 1}]]</a></li>
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum + 2}+'\');'"><a>[[${page.pageNum + 2}]]</a></li>
+                                </th:block>
+
+                                <th:block  th:if="${page.pageNum == page.pages - 1}">
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum - 2}+'\');'"><a>[[${page.pageNum - 2}]]</a></li>
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum - 1}+'\');'"><a>[[${page.pageNum - 1}]]</a></li>
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum}+'\');'" class="numb"><a>[[${page.pageNum}]]</a></li>
+                                </th:block>
+
+                                <th:block  th:if="${page.pageNum == page.pages}">
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum - 2}+'\');'"><a>[[${page.pageNum - 3}]]</a></li>
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum - 2}+'\');'"><a>[[${page.pageNum - 2}]]</a></li>
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum - 1}+'\');'"><a>[[${page.pageNum - 1}]]</a></li>
+                                </th:block>
+
+                                <th:block  th:if="${page.pageNum > 2 && page.pageNum < page.pages - 1}">
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum - 1}+'\');'"><a>[[${page.pageNum  - 1}]]</a></li>
+                                    <li class="numb" th:onclick="'javascript: $.pageSkip(\''+${page.pageNum}+'\');'"><a>[[${page.pageNum}]]</a></li>
+                                    <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum + 1}+'\');'"><a>[[${page.pageNum + 1}]]</a></li>
+                                </th:block>
+
+                                <li th:if="${page.pageNum < page.pages - 2}"><a>···</a></li>
+                                <li th:class="${page.pageNum == page.pages?'numb':''}" th:onclick="'javascript: $.pageSkip(\''+${page.pages}+'\');'"><a>[[${page.pages}]]</a></li>
+                            </th:block>
+
+                            <th:block  th:if="${page.pages <= 5}">
+                                <li th:class="${i==page.pageNum?'numb':''}" th:each="i:${#numbers.sequence(1,page.pages)}" th:onclick="'javascript: $.pageSkip(\''+${i}+'\');'"><a>[[${i}]]</a></li>
+                            </th:block>
+
+                            <th:block th:if="${page.pageNum!=page.pages}">
+                                <li th:onclick="'javascript: $.pageSkip(\''+${page.pageNum+1}+'\');'"><a id="CBNext"><i class="iconfont">&#xe638;</i></a></li>
+                            </th:block>
+
+
+                            <span id='go'>
+                                <select id="selectPageSize">
+                                    <option th:selected="${page.pageSize==10}" value="10">10条/页</option>
+                                    <option th:selected="${page.pageSize==20}" value="20">20条/页</option>
+                                    <option th:selected="${page.pageSize==50}" value="50">50条/页</option>
+                                </select>
+                            跳至 <input style="width:50px;height:30px;border:1px solid #e6e6e6;border-radius:4px;text-align: center;" onchange="$.pageSkip($(this).val())" value=""/> 页
+                            </span>
+                        </div>
+                        </th:block>
+                    </div>
+                    </form>
+                </div>
+                <div class="con" id="JKDiv_1" style="display:none;">
+                    <div class="shengq">
+                        <p style="color:#666;">我们会在一个工作日内完成审核工作。</p>
+                        <p style="color:#666;">1、注意有效增值税发票开票资质仅为一个。</p>
+                        <p style="color:#666;">2、发票常见问题查看<a>增票资质帮助</a>。</p>
+                        <p>3、页面信息仅供增值税专用发票-资质审核使用，切勿进行支付相关业务，谨防上当受骗。 </p>
+                    </div>
+                    <div style="height:20px;"></div>
+                    <div class="bingli" style="margin-bottom:0px;">
+                        <h1>填写增票资质信息</h1>
+                        <input type="hidden" id="id" name="id" th:value="${invoice.id}">
+                        <table width="100%" border="0">
+                            <tr>
+                                <td class="IDh"><font>*</font>单位名称：</td>
+                                <td><input name="companyName" type="text" th:value="${invoice.companyName}" /></td>
+                            </tr>
+                            <tr>
+                                <td class="IDh"><font>*</font>纳税人识别码：</td>
+                                <td><input name="taxpayerNo"  th:value="${invoice.taxpayerNo}" type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td class="IDh"><font>*</font>注册地址：</td>
+                                <td><input name="registerAddress" type="text" th:value="${invoice.registerAddress}"  /></td>
+                            </tr>
+                            <tr>
+                                <td class="IDh"><font>*</font>注册电话：</td>
+                                <td><input name="registerMobile" th:value="${invoice.registerMobile}" type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td class="IDh"><font>*</font>开户银行：</td>
+                                <td><input name="bank" type="text" th:value="${invoice.bank}" />
+                            </tr>
+                            <tr>
+                                <td class="IDh"><font>*</font>银行账户：</td>
+                                <td><input name="bankAccount" type="text" th:value="${invoice.bankAccount}" /></td>
+                            </tr>
+
+
+                            <tr>
+                                <td class="IDh"></td>
+                                <td>
+                                    <p>
+                                        <input type="checkbox" style="vertical-align: middle;margin-top: 2px;margin-right:8px;float:left;" value="false" name="remember" onchange="editAgree(this)" />
+                                        我已阅读并同意<a onclick="syalert.syopen('zizhiAlert')">《增票资质确认书》</a>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="IDh"></td>
+                                <td>
+                                    <button class="postZengzhiInfo" style="background-color: #c0c0c0;color: #333;" onclick="postFapiaoInfo()">提交</button>
+                                    <button class="cez1">取消</button>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+                <div class="con" id="JKDiv_2" style="display:none;">
+                    <div class="shengq">
+                        <p>温馨提示：</p>
+                        <p>一、增值税发票几天可以收到？增值税发票几天可以收到？<br />
+                            您好，如您的订单满足增值税发票开具条件，我们一般会在订单完成后3-4个工作日开具并寄出，寄出后您可以通过订单详情信息中查看到邮寄单号，还请您注意查看。 <br />
+                            第三方商家出售的商品，由卖家直接开具发票，具体发票事宜可咨询商家。<br />
+                            备注：大促、雨雪天气等不可抗力因素的情况下除外，请以订单详情信息中邮寄单号物流信息为准。
+                        </p>
+                        <p>二、增票资质信息填写错误如何处理？ <br />
+                            1、若您需要将已存在的增票资质信息全部变更：您可以点击“个人中心”-“我的发票”，点击“修改”按钮，然后重新修改新的资质信息，收到您的开票资料后，我们将会尽快安排给予审核；<br/>
+                            2、若您的增票已经开出：您需联系SP平台客服，将发票寄回，SP平台将开具您修改后的正确增票。<br />
+                            3、若增票资质未审核通过，请在“个人中心”-“我的发票”删除后重新填写增票资质信息；
+                        </p>
+                        <p>三、增值税发票可以开具什么内容？<br />
+                            您好，增值税发票内容只能开具明细。
+                        </p>
+                        <p>四、什么是增值税普通发票（电子发票）？<br />
+                            您好，增值税普通发票（电子）是指在购销商品、提供或者接受服务以及从事其他经营活动中，开具、收取的以电子方式存储的收付款凭证，京东开具的增值税普通发票（电子）均为真实有效的合法发票。其法律效力、基本用途、基本使用规定等与税务机关监制的增值税普通发票（纸质）相同，可作为用户报销、维权、保修的有效凭据。请见《国家税务总局公告2015年第84号》。
+                        </p>
+                        <p>五、电子发票通过什么方式发到顾客手中？<br />
+                            订单完成24小时后（月初1日-6日48小时后），您可登陆京东个人账户，在我的订单-查看发票中，页面最下方点击查看发票或发送至您的邮箱内。
+                        </p>
+                        <p>六、订单开具了电子发票，如何办理退换货？<br />
+                            售后退换流程和原有流程一样 。<br />
+                            选择了电子发票的用户，如果是整个订单的商品退货，则无需退回电子发票，会直接将电子发票做冲红（原电子发票显示无效）处理；如果是同一订单的部分商品退货，则会将原电子发票做冲红处理，并对未发生退货的商品重新自动开具电子发票；如果对商品申请了换货处理，则原电子发票依然有效。
+                        </p>
+                        <p>七、订单开具了电子发票，申请部分退货，发票如何处理？<br />
+                            开具电子发票的订单申请部分退货，原电子发票会通过系统自动冲红（原电子发票显示无效），并对未发生退货的商品重新自动开具电子发票。如整单退货，则我司将原电子发票做冲红处理（原电子发票显示无效）。
+                        </p>
+                        <p>八、一个订单能否开具多张发票？<br />
+                            您好，一般情况下一张订单只能开具一张发票，但是订单购买多个商品，且发票开具内容为明细，一张发票无法全部开具的情况下，可能是会分开开具成一张以上的发票的。具体以您的订单和实际收到的发票为准。
+                        </p>
+                    </div>
+
+                    <div style="height:20px;display:block;"></div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        console.log('[[${page}]]')
+        $().ready(function() {
+            var $listForm = $("#list");
+            var $pageNum = $("#pageNum");
+            var $pageSize = $("#pageSize");
+            var $selectPageSize = $("#selectPageSize");
+
+            // 上一页，下一页
+            $.pageSkip = function(pageNumber) {
+                if(pageNumber > 0){
+                    $pageNum.val(pageNumber);
+                    $listForm.submit();
+                }
+                return false;
+            }
+
+            // 每页显示
+            $selectPageSize.bind("change", function () {
+                var  $this = $("#selectPageSize option:selected");
+                $pageSize.val($this.val());
+                $pageNum.val("1");
+                $listForm.submit();
+                return false;
+            });
+
+        });
+
+
+        //判断控制页面初始时左右的高度一致
+        var hl = $(".con_left").outerHeight(); //获取左侧left层的高度
+        var hr = $(".con_right").outerHeight(); //获取右侧right层的高度
+        var mh = Math.max(hl,hr); //比较hl与hr的高度，并将最大值赋给变量mh
+        $(".con_left").height(mh); //将left层高度设为最大高度mh
+        $(".con_right").height(mh); //将right层高度设为最大高度
+
+
+        /*切换tab页*/
+        function ChangeDiv(divId, divName, zDivCount, obj) {
+            $("#" + divName + divId).siblings("div.con").hide();
+            $("#" + divName + divId).show();
+            $(obj).siblings("li").removeClass('Selected');
+            $(obj).addClass('Selected');
+        }
+
+
+        function editAgree(that) {
+            console.log()
+            if($(that).is(":checked")){
+                $(".postZengzhiInfo").css({
+                    "background-color": "#007fdc",
+                    "color": "#fff",
+                    "cursor": "pointer"
+                })
+                $(that).val("true")
+            }else{
+                $(".postZengzhiInfo").css({
+                    "background-color": "#c0c0c0",
+                    "color": "#333",
+                    "cursor": "auto"
+                })
+                $(that).val("false")
+            }
+        }
+
+        function postFapiaoInfo() {
+            var reg_tel = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+            if(!$("input[name='remember']").is(":checked")){
+                $("#popup").text("请同意《增票资质确认书》！");
+                syalert.syopen('alert2');
+                return false;
+            }
+            if($("input[name='companyName']").val() == ""){
+                $("#popup").text("请输入单位名称！");
+                syalert.syopen('alert2');
+                return false;
+            }
+            if($("input[name='taxpayerNo']").val() == ""){
+                $("#popup").text("请输入纳税人识别码！");
+                syalert.syopen('alert2');
+                return false;
+            }
+            if($("input[name='registerAddress']").val() == ""){
+                $("#popup").text("请输入注册地址！");
+                syalert.syopen('alert2');
+                return false;
+            }
+            if($("input[name='registerMobile']").val() == ""){
+                $("#popup").text("请输入注册电话！");
+                syalert.syopen('alert2');
+                return false;
+            }
+            if(!reg_tel.test($("input[name='registerMobile']").val())){
+                $("#popup").text("请输入正确的注册电话！");
+                syalert.syopen('alert2');
+                return false;
+            }
+            if($("input[name='bank']").val() == ""){
+                $("#popup").text("请输入开户银行！");
+                syalert.syopen('alert2');
+                return false;
+            }
+            if($("input[name='bankAccount']").val() == ""){
+                $("#popup").text("请输入银行账户！");
+                syalert.syopen('alert2');
+                return false;
+            }
+            var DATA = {};
+            if ($("#id").val() == ""){
+                DATA = {
+                    companyName: $("input[name='companyName']").val(),
+                    taxpayerNo: $("input[name='taxpayerNo']").val(),
+                    registerAddress: $("input[name='registerAddress']").val(),
+                    registerMobile: $("input[name='registerMobile']").val(),
+                    bank: $("input[name='bank']").val(),
+                    bankAccount: $("input[name='bankAccount']").val(),
+                    type:1
+                }
+            }else{
+                DATA = {
+                    id:$("#id").val(),
+                    companyName:$("input[name='companyName']").val(),
+                    taxpayerNo:$("input[name='taxpayerNo']").val(),
+                    registerAddress:$("input[name='registerAddress']").val(),
+                    registerMobile:$("input[name='registerMobile']").val(),
+                    bank:$("input[name='bank']").val(),
+                    bankAccount:$("input[name='bankAccount']").val(),
+                    type:1
+                }
+            }
+            console.log(DATA);
+            $.ajax({
+                type: "POST",
+                url: '[[@{/invoice/save}]]',
+                contentType: "application/json;charset=UTF-8",//指定消息请求类型
+                data:JSON.stringify(DATA),
+                dataType:"json",
+                async: false,
+                success:function(data){
+                    $("#popup").text("提交成功！");
+                    syalert.syopen('alert2')
+                }
+            });
+
+
+        }
+
+
+
+    </script>
+</div>
+</div>
+
+
+
+<!-- 消息弹窗 -->
+<div class="sy-alert sy-alert-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="alert" sy-mask="true" id="zizhiAlert">
+    <div class="sy-title">申请开具增值税专用发票确认书</div>
+    <div class="sy-content" style="text-align: left">
+        <p>根据国家税法及发票管理相关规定，任何单位和个人不得要求他人为自己开具与实际经营业务情况不符的增值税专用发票【包括并不限于</p>
+        <p>（1）在没有货物采购或者没有接受应税劳务的情况下要求他人为自己开具增值税专用发票；</p>
+        <p>（2）虽有货物采购或者接受应税劳务但要求他人为自己开具数量或金额与实际情况不符的增值税专用发票】，否则属于“虚开增值税专用发票”。</p>
+        <p>我已充分了解上述各项相关国家税法和发票管理规定，并确认仅就我司实际购买商品或服务索取发票。</p>
+        <p>如我司未按国家相关规定申请开具或使用增值税专用发票，由我司自行承担相应法律后果。</p>
+    </div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('zizhiAlert')">确定</button>
+    </div>
+</div>
+
+
+
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+
+</body>
+</html>
+

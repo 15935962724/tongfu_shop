@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>供应商详情页中间部分</title>
+</head>
+
+<body>
+
+<!--产品详情页中间部分-->
+<footer th:fragment="middle" style="background-color: #f5faff;">
+    <script th:src="@{/assets/js/jquery.qrcode.min.js}"></script>
+    <div class="banner">
+      <img class="banner_logo" onerror="this.src='../assets/img/gslogo.jpg'" th:src="@{${path+company.logo}}"/>
+      <img onerror="this.src='../assets/img/gsbanner.jpg'" th:src="@{${path+company.backgroundimg}}"/>
+    </div>
+    <div class="spModel">
+        <div class="qrcode">
+            <div id="guanwang" class="spblue"></div>
+            <div class="spred"><span>官网<br/>二维码</span></div>
+            <div class="spred"><span>公众号<br/>二维码</span></div>
+            <div id="gongzhonghao" class="spblue">
+                <img width="70px" height="70px" th:src="@{${path+company.qrCode}}" />
+            </div>
+        </div>
+        <div class="qrcodeText"><img th:src="@{/assets/img/icon.png}"/>了解更多</div>
+    </div>
+    <script>
+        $('#guanwang').qrcode({
+            render: "canvas", //也可以替换为table
+            width: 70,
+            height: 70,
+            background: "#fff",
+            text: "[[${company.url}]]"
+        });
+    </script>
+  <div class="company">
+    <div class="title">
+      <li th:class="${active==1}?'Selected':''">
+        <a th:href="@{/company/view(id=${company.id})}">公司简介</a>
+      </li>
+      <li th:class="${active==2}?'Selected':''">
+        <a th:href="@{/company/gotoproduct(id=${company.id})}">产品目录</a>
+      </li>
+      <li th:class="${active==3}?'Selected':''">
+        <a  th:href="@{/company/gotonews(id=${company.id})}">新闻动态</a>
+      </li>
+      <li th:class="${active==4}?'Selected':''">
+        <a th:href="@{/learning/list(id=${company.id})}">学术活动</a>
+      </li>
+      <li th:class="${active==5}?'Selected':''">
+        <a th:href="@{/media/list(id=${company.id})}">媒体报道</a>
+      </li>
+      <li th:class="${active==6}?'Selected':''">
+        <a th:href="@{/company/gotoexhibition(id=${company.id})}">会议展览</a>
+      </li>
+
+    </div>
+  </div>
+
+
+
+</footer>
+
+
+</body>
+</html>

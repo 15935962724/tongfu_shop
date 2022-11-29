@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>页面底部</title>
+</head>
+
+<body>
+<nav th:fragment="footer">
+    <link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
+    <div id="Footer">
+        <div class="foot">
+            <span class="Le">Surgi-plan.com Copyright © All Rights Reserved 2006-2023
+                <!--京ICP备20011436号-1-->
+              <a href="https://beian.miit.gov.cn" target="_blank">京ICP备17046258号</a>
+
+            </span>
+            <div class="internetLink">
+                <ul class="social-icons pull-right">
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100085095332538">
+                            <i class="fa fa-facebook codeIcon" style="color: #fff"></i>
+                            <!--<div class="codeView">
+                                <div></div>
+                                <img src=""/>
+                            </div>-->
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/lucy88853123" target="_blank">
+                            <i class="fa fa-twitter codeIcon" style="color: #fff"></i>
+                            <!--<div class="codeView">
+                                <div></div>
+                                <img src=""/>
+                            </div>-->
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                            <i class="fa fa-youtube-square codeIcon" style="color: #fff"></i>
+                            <div class="codeView">
+                                <div></div>
+                                <img src=""/>
+                            </div>
+                        </a>
+                    </li>
+                    <li><i class="fa fa-weixin codeIcon" style="color: #fff"></i>
+                        <div class="codeView">
+                            <div></div>
+                            <img th:src="@{/assets/img/wxQrcode.jpg}"/>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/zhangyuanjingwen86/" target="_blank">
+                            <i class="fa fa-linkedin-square codeIcon" style="color: #fff"></i>
+                            <!--<div class="codeView">
+                                <div></div>
+                                <img src=""/>
+                            </div>-->
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <span class="RI">
+              <a th:href="@{/gotoaboutus}">关于我们</a>
+              <a th:href="@{/gotocontact}">联系我们</a>
+              <a th:href="@{/shengming}">网站声明</a>
+              <a th:href="@{/gotoproblem}">常见问题</a>
+            </span>
+        </div>
+        <!--          <div class="customerService">-->
+        <!--            <div class="customerService_Title">-->
+        <!--              <img th:src="@{/assets/img/icon.png}" />在线客服-->
+        <!--            </div>-->
+        <!--            <div class="customerService_List">-->
+        <!--              <ul>-->
+        <!--                <li>在线客服</li>-->
+        <!--                <li><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=646252438&site=qq&menu=yes"><img th:src="@{/assets/img/favicon.png}" />在线咨询</a></li>-->
+        <!--                <li><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=646252438&site=qq&menu=yes"><img th:src="@{/assets/img/favicon.png}" />商务咨询</a></li>-->
+        <!--                <li><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=646252438&site=qq&menu=yes"><img th:src="@{/assets/img/favicon.png}" />技术咨询</a></li>-->
+        <!--                <li><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=646252438&site=qq&menu=yes"><img th:src="@{/assets/img/favicon.png}" />售后咨询</a></li>-->
+        <!--              </ul>-->
+        <!--            </div>-->
+        <!--            <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=646252438&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:646252438:52" alt="点击这里给我发消息" title="点击这里给我发消息"/></a>-->
+    </div>
+</nav>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>收货地址</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script src="../js/jquery-3.1.1.js" th:src="@{/assets/js/jquery-3.1.1.js}"></script>
+
+    <!--弹窗特效-->
+    <link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+    <!--<script th:src="@{/assets/js/jquery-3.1.1.js}"></script>-->
+    <!--<script src="js/jquery-1.10.2.min.js" th:src="@{/assets/tanchuang/jquery-1.10.2.min.js}"></script>-->
+    <link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+    <script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+
+    <!--三级联动插件-->
+    <script th:src="@{/assets/js/lSelect.js}"></script>
+
+</head>
+
+<body>
+
+<header>
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}" >首页</a>&gt;<a href="javaScript:void (0);">我的SP</a></div>
+    <div class="con_sp">
+
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+
+        <div class="con_right">
+            <div class="chax">
+                <h1>收货地址</h1>
+                <div class="shou">
+                    <form method="post" id="receive" onsubmit="return checkFrom()" th:action="@{/receiver/save}">
+                        <input type="hidden" id="id" name="id">
+                        <table width="100%" border="0">
+                            <tr>
+                                <td class="left"><font>*</font>收货人：</td>
+                                <td><input id="consignee" name="consignee" required/></td>
+                            </tr>
+                            <tr>
+                                <td class="left"><font>*</font>收货地区：</td>
+                                <td>
+                                    <input type="hidden" id="areaId" name="area" title="" value="" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <font>*</font>医院名称：
+                                </td>
+                                <td style="position: relative">
+                                    <input type="hidden" id="hospitalId" name="hospitalId">
+                                    <input name="hospital" id="hospitalName" type="text" class="input" placeholder="请输入医院名称" autocomplete="off" size="20" list="hospitalList" onchange="inputSelect()" required/>
+                                    <datalist id="hospitalList" style="display:none;">
+                                    </datalist>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left"><font>*</font>收货地址：</td>
+                                <td><textarea id="address" name="address" placeholder="" required></textarea></td>
+                            </tr>
+                            <tr>
+                                <td class="left"><font>*</font>手机号码：</td>
+                                <td><input id="phone" name="phone" type="text" class="phone" required/></td>
+                            </tr>
+                            <tr>
+                                <td class="left"><font>*</font>邮箱：</td>
+                                <td><input id="email" name="email" type="email" required/></td>
+                            </tr>
+                            <tr>
+                                <td class="left"></td>
+                                <td>
+                                    <th:block th:if="${list.size()}<9">
+                                        <button type="submit">保存</button>
+                                    </th:block>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <style>
+                    .chax table td button {
+                        width: 89px;
+                        height: 28px;
+                        background: #cacaca;
+                        text-align: center;
+                        font-size: 14px;
+                        color: #fff;
+                        line-height: 28px;
+                        border: 0px;
+                        border-radius: 3px;
+                    }
+
+                    .chax table td button:hover {
+                        background: #007fdc;
+                        border: 0px;
+                    }
+
+                    .chax table td button a {
+                        color: #fff;
+                    }
+                </style>
+                <div class="table_add">
+                    <span style="color: red;">已保存[[${list.size()}]]条地址，还能保存[[${9-list.size()}]]条地址</span>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="    padding-top: 0px;">
+                        <tr class="tr01">
+                            <td style="border-right:0px;width:115px;*width:135px;text-align:center;">收货人</td>
+                            <td style="border-right:0px;width:115px;*width:135px;text-align:center;">邮箱</td>
+                            <td style="border-right:0px;width:340px;*width:360px;text-align:center;">收货地址</td>
+                            <td style="border-right:0px;width:340px;*width:360px;text-align:center;">医院</td>
+                            <td style="border-right:0px;width:113px;*width:133px;text-align:center;">手机号码</td>
+                            <td style="    text-align: center;">操作</td>
+                        </tr>
+                        <tr th:each="receiver:${list}">
+                            <td th:text="${receiver.consignee}"></td>
+                            <td th:text="${receiver.email}"></td>
+                            <td th:text="${receiver.areaName+receiver.address}"></td>
+                            <td th:text="${receiver.hospital}"></td>
+                            <td th:text="${receiver.phone}"></td>
+                            <td class="moadd">
+                                <div>
+                                    <a href="javaScript:void(0);" th:onclick="'javascript:fnedit(\''+${receiver.id}+'\')'">修改</a>|
+                                    <a href="javaScript:void(0);" th:onclick="'javascript:delAddress(\''+${receiver.id}+'\',this)'">删除</a>
+                                </div>
+                                <th:block th:if="${receiver.isDefault==false}">
+                                    <button class="mrdd"
+                                            th:onclick="'javascript:defaultAddress(\''+${receiver.id}+'\')'">默认地址
+                                    </button>
+                                </th:block>
+
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+<script type="text/javascript">
+    var hl = $(".con_left").outerHeight();
+    var hr = $(".con_right").outerHeight();
+    var mh = Math.max(hl,hr);
+    $(".con_left").height(mh);
+    $(".con_right").height(mh);
+    $(function() {
+
+        // 地区选择
+        $("#areaId").lSelect({
+            url: "[[@{/area/getAreas}]]"
+        });
+
+        $("select[name='area_select']").on('change',function () {
+            console.log(111);
+            getHospitalList();
+        });
+
+
+    });
+
+    //选择地区获取医院列表
+    function getHospitalList() {
+        var ID = $("#areaId").val();
+        console.log(ID);
+        $("#hospitalList").empty();
+        var html = '';
+        $.ajax({
+            type: "POST",
+            // contentType: "application/json",
+            url: '[[@{/product/hospitals}]]',
+            data:{
+                areaId: ID
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data.data.length);
+                var datas = data.data;
+
+                for(var i = 0; i < datas.length; i++){
+                    html += '<option value="'+datas[i].name+'" data_id ="'+datas[i].id+'"></option>'
+                };
+
+            }
+        });
+        $("#hospitalList").append(html);
+    }
+
+    //下拉选择医院赋值
+    function inputSelect() {
+        var input_select = $("#hospitalName").val();
+        var option_length = $("option").length;
+        var option_id = '';
+        for (var i = 0; i < option_length; i++) {
+            var option_value = $("option").eq(i).attr('value');
+            if (input_select == option_value) {
+                option_id = $("option").eq(i).attr('data_id');
+                break;
+            }
+        }
+        console.log(input_select, option_length, option_id);
+        $('#hospitalId').val(option_id);
+    }
+
+    //校验表单提交
+    function checkFrom() {
+
+        var areaId = $('#areaId').val();
+
+        if(areaId==''){
+            $('#phone').val('');
+            $('#popup').html('请选择地区!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+
+        var phone = $('#phone').val();
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+        if(!pattern.test($.trim(phone))){
+            $('#phone').val('');
+            $('#popup').html('手机号输入有误,请重新输入!!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+
+        var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        if(!reg.test($.trim($('#email').val()))){
+            $('#email').val('');
+            $('#popup').html('邮箱输入有误,请重新输入!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+    }
+
+
+
+
+    //修改地址
+    function fnedit(receiverId){
+
+        $.ajax({
+            type:"POST",
+            url:'[[@{/receiver/selReceiver}]]',
+            dataType: "json",
+            data:{receiverid:receiverId},
+            success:function (data) {
+                console.log(data);
+                $("#id").val(data.id);
+                $("#consignee").val(data.consignee);
+                $("#areaId").val(data.area);
+                $("#areaId").attr("title",data.tree_path);
+
+                $("#hospitalName").val(data.hospital);
+                $("#address").html(data.address);
+                $("#phone").val(data.phone);
+                $("#email").val(data.email);
+                getChangeSelect(data.tree_path);
+                // 地区选择
+                $("#areaId").lSelect({
+                    url: "[[@{/area/getAreas}]]"
+                });
+
+                var url = 'receiver/update';
+                $("#receive").attr('action','[[@{/}]]'+url);    //通过jquery为action属性赋值
+
+
+
+                $("select[name='area_select']").on('change',function () {
+                    console.log(111);
+                    getHospitalList();
+                });
+            }
+        });
+    }
+
+
+    function getChangeSelect(ID) {
+        $("#hospitalList").empty();
+        var ID = ID.split(',');
+        var html = '';
+        $.ajax({
+            type: "POST",
+            // contentType: "application/json",
+            url: '[[@{/product/hospitals}]]',
+            data:{
+                areaId: ID[1]
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data.data.length);
+                var datas = data.data;
+
+                for(var i = 0; i < datas.length; i++){
+                    html += '<option value="'+datas[i].name+'" data_id ="'+datas[i].id+'"></option>'
+                };
+
+            }
+        });
+        $("#hospitalList").append(html);
+    }
+
+    //删除地址
+    function delAddress(recieverid,obj) {
+        if(window.confirm('你确定要删除吗？')){
+            $.ajax({
+                type:"post",
+                url:'[[@{/receiver/delReceiver}]]',
+                data:{receiverId:recieverid},
+                dataType:"json",
+                async: false,
+                success:function (data) {
+                    console.log("data"+data);
+                    location.reload();
+                }
+            });
+            //删除当前tr
+            //$(obj).parents("tr").remove();
+
+            return true;
+        }else{
+
+            return false;
+        }
+    }
+
+    //设为默认地址
+    function defaultAddress(id) {
+
+        if(window.confirm('你确定要设为默认地址吗？')){
+            $.ajax({
+                type:"post",
+                url:'[[@{/receiver/defaultReceiver}]]',
+                data:{receiverId:id},
+                dataType:"json",
+                async: false,
+                success:function (data) {
+                    console.log("data"+data);
+                    window.location.reload();//刷新当前页面
+                }
+            });
+
+
+            return true;
+        }else{
+
+            return false;
+        }
+
+
+    }
+
+    //弹窗确定关闭效果
+    function ok(id){
+        syalert.syhide(id);
+    }
+
+
+</script>
+</body>
+</html>

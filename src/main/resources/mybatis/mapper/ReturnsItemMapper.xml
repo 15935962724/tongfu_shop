@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.ReturnsItemMapper" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.ReturnsItem" >
+    <result column="sn" property="sn" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="returns" property="returns" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="com.tongfu.entity.ReturnsItem" >
+    insert into tf_returns_item (sn, name, quantity, 
+      returns)
+    values (#{sn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{returns,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.ReturnsItem" >
+    insert into tf_returns_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sn != null" >
+        sn,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="returns != null" >
+        returns,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sn != null" >
+        #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="returns != null" >
+        #{returns,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

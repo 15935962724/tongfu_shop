@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.CommitteeApplyDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.CommitteeApply" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="member" property="member" jdbcType="BIGINT" />
+    <result column="website" property="website" jdbcType="VARCHAR" />
+    <result column="meetname" property="meetname" jdbcType="VARCHAR" />
+    <result column="begin_hold_date" property="beginHoldDate" jdbcType="TIMESTAMP" />
+    <result column="end_hold_date" property="endHoldDate" jdbcType="TIMESTAMP" />
+    <result column="area" property="area" jdbcType="BIGINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="contract" property="contract" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="BIGINT" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, modify_date, member, website, meetname, begin_hold_date, end_hold_date, 
+    area, address, contract, amount, status, message
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tf_committee_apply
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_committee_apply
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.CommitteeApply" >
+    insert into tf_committee_apply (id, create_date, modify_date, 
+      member, website, meetname, 
+      begin_hold_date, end_hold_date, area, 
+      address, contract, amount, 
+      status, message)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{member,jdbcType=BIGINT}, #{website,jdbcType=VARCHAR}, #{meetname,jdbcType=VARCHAR}, 
+      #{beginHoldDate,jdbcType=TIMESTAMP}, #{endHoldDate,jdbcType=TIMESTAMP}, #{area,jdbcType=BIGINT}, 
+      #{address,jdbcType=VARCHAR}, #{contract,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{status,jdbcType=BIGINT}, #{message,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.CommitteeApply" >
+    insert into tf_committee_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="member != null" >
+        member,
+      </if>
+      <if test="website != null" >
+        website,
+      </if>
+      <if test="meetname != null" >
+        meetname,
+      </if>
+      <if test="beginHoldDate != null" >
+        begin_hold_date,
+      </if>
+      <if test="endHoldDate != null" >
+        end_hold_date,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="contract != null" >
+        contract,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="member != null" >
+        #{member,jdbcType=BIGINT},
+      </if>
+      <if test="website != null" >
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="meetname != null" >
+        #{meetname,jdbcType=VARCHAR},
+      </if>
+      <if test="beginHoldDate != null" >
+        #{beginHoldDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endHoldDate != null" >
+        #{endHoldDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contract != null" >
+        #{contract,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.CommitteeApply" >
+    update tf_committee_apply
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="member != null" >
+        member = #{member,jdbcType=BIGINT},
+      </if>
+      <if test="website != null" >
+        website = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="meetname != null" >
+        meetname = #{meetname,jdbcType=VARCHAR},
+      </if>
+      <if test="beginHoldDate != null" >
+        begin_hold_date = #{beginHoldDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endHoldDate != null" >
+        end_hold_date = #{endHoldDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contract != null" >
+        contract = #{contract,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIGINT},
+      </if>
+      <if test="message != null" >
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.CommitteeApply" >
+    update tf_committee_apply
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      member = #{member,jdbcType=BIGINT},
+      website = #{website,jdbcType=VARCHAR},
+      meetname = #{meetname,jdbcType=VARCHAR},
+      begin_hold_date = #{beginHoldDate,jdbcType=TIMESTAMP},
+      end_hold_date = #{endHoldDate,jdbcType=TIMESTAMP},
+      area = #{area,jdbcType=BIGINT},
+      address = #{address,jdbcType=VARCHAR},
+      contract = #{contract,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=BIGINT},
+      message = #{message,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

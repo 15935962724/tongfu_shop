@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>增值服务</title>
+</head>
+
+<script>
+    var _width = $(window).width(); // 获取浏览器宽度
+    if(_width<=1200){ // 当屏幕宽度小于等1200
+        $(".header").hide(); // div1隐藏
+        $(".div2").show(); // div2显示
+    }else{ // 反之
+        $(".div2").hide(); // div2隐藏
+        $(".header").show(); // div1显示
+    }
+</script>
+<!-- CSS Files
+================================================== -->
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+<link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+
+
+<!--我的sp鼠标悬浮下拉-->
+<script src="../js/swiper.min.js" th:src="@{/assets/js/memberView.js}"></script>
+<body>
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+    <script>
+        function test(){
+            $('.nav,.gou').children("li:has(ul)").hover(
+                function(){
+                    //$(this).find("ul>li:last").addClass("li-last-s1");//给每个下拉菜单的最后一个li元素添加css样式，此处非必要
+                    $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单
+                },
+                function(){
+                    $(this).children("ul").hide();//隐藏下拉菜单
+                }
+            );
+        }
+
+    </script>
+    <script>
+        test();
+    </script>
+</header>
+<!-- content begin -->
+<div class="content" style="background:#fff;">
+
+    <section class="banner">
+        <div class="single-item slider">
+
+            <div class="bannerbg" th:each="ad:${adListHead}">
+                <a th:href="@{${ad.url}}">
+                <img src="../img/knowb.jpg" th:src="@{${path+ad.path}}"/>
+                </a>
+            </div>
+            <!--<div class="bannerbg">-->
+                <!--<img src="../img/knowb.jpg" />-->
+            <!--</div>-->
+        </div>
+    </section>
+    <div id="Content1">
+        <script>
+            $(function(){
+                $('.nav2 .nav2-header-li-div').click(function(){
+                    if($(this).parent().hasClass('act')) {
+                        $(this).parent().removeClass('act').addClass("act-none");
+                    }else{
+                        $(this).parent().removeClass('act-none').addClass("act").siblings().removeClass('act').addClass("act-none");
+                        $(this).parent().siblings().find('.nav2-second-level li').removeClass('act1');
+                    }
+                });
+
+                $('.nav2-second-level li').click(function(){
+                    $(this).addClass('act1').siblings().removeClass('act1');
+                });
+            })
+        </script>
+
+
+        <div class="zzfw_nav">
+            <div class="sidebar-collapse">
+                <ul class="nav2 metismenu" id="side-menu" style="">
+                    <th:block th:each="cate:${categorylist}">
+                        <li class="act" th:class="${cate.name==categoryName?'act':'act-none'}">
+                            <div class="nav2-header-li-div"><span class="nav2-label"><a href="2j_Konw how.html" th:text="${cate.name}">创新应用模式</a></span></div>
+                            <ul class="nav2-second-level">
+                                <th:block th:with="entrys=${articleMap[cate.name]}">
+                                    <li th:each="article:${entrys}" th:class="${article.title==title?'act1':''}"><a href="3j_Khshouq.html" th:text="${article.title}" th:href="@{/article/knowhowlist(category=${article.article_category},id=${article.id})}">按客户端授权购买</a></li>
+                                    <!--<li><a href="3j_Khshijian.html">按使用时间授权</a></li>-->
+                                    <!--<li><a href="3j_Khcishu.html">按使用次数授权</a></li>-->
+                                </th:block>
+                            </ul>
+                        </li>
+                    </th:block>
+                    <!--<li class="act">-->
+                        <!--<div class="nav2-header-li-div"><span class="nav2-label"><a href="2j_Konw how.html">创新应用模式</a></span></div>-->
+                        <!--<ul class="nav2-second-level">-->
+                            <!--<li><a href="3j_Khshouq.html">按客户端授权购买</a></li>-->
+                            <!--<li><a href="3j_Khshijian.html">按使用时间授权</a></li>-->
+                            <!--<li><a href="3j_Khcishu.html">按使用次数授权</a></li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--<li class="act-none">-->
+                        <!--<div class="nav2-header-li-div"><span class="nav2-label">灵活培训方式</span></div>-->
+                        <!--<ul class="nav2-second-level">-->
+                            <!--<li><a href="3j_Khycpx.html">远程培训</a></li>-->
+                            <!--<li><a href="3j_Khxcpx.html">现场培训</a></li>-->
+                            <!--<li><a href="3j_Khruanj.html">软件教程</a></li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--<li class="act-none">-->
+                        <!--<div class="nav2-header-li-div"><span class="nav2-label">Know-how卡</span></div>-->
+                        <!--<ul class="nav2-second-level">-->
+                            <!--<li><a href="3j_Khscard.html">实体卡</a></li>-->
+                            <!--<li><a href="3j_Khdcard.html">电子卡</a></li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--<li class="act-none">-->
+                        <!--<div class="nav2-header-li-div"><span class="nav2-label">常见问题</span></div>-->
+                    <!--</li>-->
+
+                </ul>
+
+            </div>
+        </div>
+        <div class="zzfw_right" style="width:920px;">
+            <span class="ktit" th:text="${title}">创新应用模式</span>
+            <div class="cxyy" th:utext="${content}">
+                <!--<li>-->
+                    <!--<img src="../img/know01.jpg" />-->
+                    <!--<span id="daoyu">无论何时何地，无论资金多少，无论规模大小，这里总有一种购买方式可以满足您的需求。更重要的是，您可以与前沿技术保持同步。-->
+    <!--体验更多样，应用更方便，表现更卓越！-->
+    <!--</span></li>-->
+                <!--<li>-->
+                    <!--<img src="../img/know02.jpg" />-->
+                    <!--<span id="daoyu">为了帮助更多的外科医生了解先进的手术工具对临床的价值，我们与越来越多的软件开发商合作推出免费“申请演示”服务。如果您对感兴趣的软件中某个功能想做深入了解，可以在线提交试用申请。我们将安排专职人员对您的需求进行评估，并为您预约演示时间。</span></li>-->
+                <!--<li>-->
+                    <!--<img src="../img/know03.jpg" />-->
+                    <!--<span id="daoyu">为了让更多的医生了解分析和计划软的临床价值，越来越多的软件开发商推出“先试用，后付费”的模式。外科医生、放射科医师，甚至内科大夫得以成为最大的目标群体；他们通过这种全新的模式，可以充分体验不同软件在实际工作中的益处。</span></li>-->
+            </div>
+        </div>
+    </div>
+    <script src="../js/slick.js" th:src="@{/assets/js/slick.js}"></script>
+    <script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>
+
+</div>
+
+<div id="Footer">
+    <div class="foot"><span class="Le">Surgi-plan.com Copyright © All Rights Reserved 2006-2023 <a href="">京ICP备17046258号</a></span>
+        <span class="RI"><a href="#">关于我们</a><a href="#">联系我们</a><a href="#">网站声明</a><a href="#">常见问题</a>
+    </span></div>
+</div>
+</div>
+</body>
+</html>

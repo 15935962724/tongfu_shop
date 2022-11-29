@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>申请码</title>
+    <script type="text/javascript" th:src="@{/assets/js/jquery.js}"></script>
+    <script language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script th:src="@{/assets/css/iconfont.js}"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/home.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <!--<script th:src="@{/assets/js/jquery-3.1.1.js}"></script>-->
+    <script type="text/javascript" th:src="@{/assets/js/qiehuan.js}"></script>
+
+    <!--弹窗特效-->
+    <link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+    <link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+    <script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+
+    <!--三级联动插件-->
+    <script th:src="@{/assets/js/lSelect.js}"></script>
+
+</head>
+
+<body>
+
+<!--语言切换-->
+<!--未登录-->
+<shiro:notAuthenticated>
+    <th:block th:replace="~{incloud/language::language}"></th:block>
+</shiro:notAuthenticated>
+<!--已登录-->
+<shiro:authenticated>
+    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+</shiro:authenticated>
+
+<div class="head">
+    <!--未登录-->
+    <div th:replace="~{head::topbar}"></div>
+    <!--已登录-->
+</div>
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;<a href="javaScript:void(0);">我的SP</a></div>
+    <div class="con_sp">
+
+        <style>
+            nav.navbar-default{min-height:747px;}
+            .bingli{min-height:697px;}
+            .bingli table td select{width:326px;    font-size: 16px;}
+            .bingli table td input{width:306px;*width:326px;}
+            input[value="明细"]{width: 80px;font-size:16px;color:#333;    text-align: center;border:1px solid #e6e6e6;}
+            input[value="明细"]:hover{border:1px solid #006ab7;}
+            .bingli table td{font-size:16px;}
+            .bingli table td .cez1{margin-top: 30px;}
+            .nav .active{background: url(../img/sp04.png);background-repeat:no-repeat;background-position:right 20px top 20px;border-bottom:1px solid #e6e6e6;}
+            .zhuanInvoice{
+                display: none;
+            }
+        </style>
+        <style>
+            .code{
+                display: flex;
+                flex-direction: column;
+                height: 500px;
+                padding: 50px 0;
+            }
+            .code>p{
+                font-size: 20px;
+                font-weight: bold;
+                color: #666;
+                margin-bottom: 40px;
+                text-align: center;
+            }
+            .code>button{
+                width: 300px;
+                height: 60px;
+                font-size: 20px;
+                color: #fff;
+                background: #044694;
+                border: 0;
+                border-radius: 5px;
+                cursor: pointer;
+                margin: 0 auto;
+            }
+            .input{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 40px;
+            }
+            .input>span{
+                font-size: 20px;
+                color: #595959;
+            }
+            .input>textarea{
+                padding: 20px;
+                width: 600px;
+                height: 200px;
+                font-size: 20px;
+                color: #595959;
+                outline: none;
+                border: 1px solid #595959;
+                border-radius: 5px;
+                resize: none;
+            }
+            .orderInfo{
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                font-size: 22px;
+                padding: 50px 40px 0;
+                color: #333;
+            }
+            .orderInfo>span{
+                margin-right: 20px;
+            }
+        </style>
+
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+
+        <div class="con_right">
+            <div class="bingli" style="margin-bottom:0px;">
+
+                <div class="orderInfo">
+                    <span>订单号：[[${order.sn}]]</span><span>商品名称：[[${orderItem.fullName}]]</span>
+                </div>
+
+                <div class="code">
+                    <p>
+                        请下载软件获取申请码后，在输入框中输入您的申请码，点击按钮获取激活文件
+                    </p>
+                    <div class="input">
+                        <!--<span>申请码：</span>-->
+                        <textarea id="val" type="text" placeholder="请输入您的申请码"></textarea>
+                    </div>
+                    <button onclick="code()">获取激活文件</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var type = 1;
+    getHeight();
+    // 地区选择
+    $("#areaId").lSelect({
+        url: "[[@{/area/getAreas}]]"
+    });
+
+    function getHeight() {
+        //判断控制页面初始时左右的高度一致
+        var hl = $(".con_left").outerHeight(); //获取左侧left层的高度
+        var hr = $(".con_right").outerHeight(); //获取右侧right层的高度
+        var mh = Math.max(hl,hr); //比较hl与hr的高度，并将最大值赋给变量mh
+        $(".con_left").height(mh); //将left层高度设为最大高度mh
+        $(".con_right").css("min-height",mh); //将right层高度设为最大高度
+    }
+
+    function code(){
+        var val = $("#val").val();
+        console.log(val)
+        if(val == ''){
+            alert('请输入您的申请码！');
+        }else{
+            $.ajax({
+                url: '[[@{/order/applicationCode}]]',
+                type: 'post',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    code: val,
+                    orderItemId: [[${orderItem.id}]]
+                }),
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.status==200){
+                        console.log(res);
+                        alert('激活文件已发送到您账号的绑定邮箱！');
+                        $("#val").val('');
+                    } else {
+                        console.log(res);
+                        alert('提交申请码失败，请重新输入！');
+                        $("#val").val('');
+                    }
+
+                }
+            });
+
+        }
+    }
+
+</script>
+
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>
+
+

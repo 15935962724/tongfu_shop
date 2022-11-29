@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>[[${exhibition.title}]]</title>
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}">
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script src="../js/swiper.min.js" th:src="@{/assets/js/memberView.js}"></script>
+</head>
+
+
+</head>
+
+<body>
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+
+<div th:replace="/incloud/company:: middle"></div>
+
+<div style="height:68px;width:100%;display:block;background: #f5faff;"></div>
+
+<div class="content">
+
+    <div class="newsxx">
+        <div id="name">[[${exhibition.title}]]</div>
+        <div class="shij">举办时间：[[${#dates.format(exhibition.createDate,'yyyy-MM-dd')}]]          地址：[[${exhibition.address}]]　　　</div>
+        <div id="text">
+            <p th:utext="${exhibition.content}"><br /></p>
+
+        </div>
+
+
+    </div>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

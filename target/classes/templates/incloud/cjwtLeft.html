@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard Template for Bootstrap</title>
+</head>
+<body>
+<nav th:fragment="left">
+    <div class="con_left" style="height: auto">
+        <div class="sp_navbar-default">
+            <span class="ans">常见问题</span>
+            <ul class="sp_nav metismenu" id="side-menu" style="">
+                <li th:class="${type eq 'gotoproblemsqff'|| type eq 'gotoproblemsqhs' || type eq 'gotoproblemhqsq' || type eq 'gotoproblemsdsq' || type eq 'gotoproblem' }?'active':'active-none'">
+                    <div class="sp_nav-header-li-div">
+                      <i class="iconfont">&#xe617;</i>
+                      <span class="sp_nav-label"><a href="2j_problem.html" th:href="@{/gotoproblem}">授权问题</a></span>
+                    </div>
+                    <ul class="sp_nav-second-level"> <!--class="active1"-->
+                        <li th:class="${type eq 'gotoproblemsqff'}?'active1'"><a href="2j_pro_sqff.html"
+                                                                                 th:href="@{/gotoproblemsqff}">什么是按授权付费？</a>
+                        </li>
+                        <li th:class="${type eq 'gotoproblemsqhs'}?'active1'"><a href="2j_pro_sqhs.html"
+                                                                                 th:href="@{/gotoproblemsqhs}">哪种授权合适您？</a>
+                        </li>
+                        <li th:class="${type eq 'gotoproblemhqsq'}?'active1'"><a href="2j_pro_hqsq.html"
+                                                                                 th:href="@{/gotoproblemhqsq}">如何获得授权码？</a>
+                        </li>
+                        <li th:class="${type eq 'gotoproblemsdsq'}?'active1'"><a href="2j_pro_sdsq.html"
+                                                                                 th:href="@{/gotoproblemsdsq}">多久可以收到授权？</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li th:class="${type eq 'gotoanquan'|| type eq 'gotowangyin' || type eq 'gotoyinhang' || type eq 'gotohuikuan' || type eq 'gotofapiao' || type eq 'gotoproblemfkfs' }?'active':'active-none'">
+                    <div class="sp_nav-header-li-div"><i class="iconfont" style="ont-size: 18px;">&#xe61c;</i><span
+                            class="sp_nav-label"><a href="2j_pro_fukfs.html"
+                                                    th:href="@{/gotoproblemfkfs}">付款方式</a></span></div>
+                    <ul class="sp_nav-second-level">
+                        <li th:class="${type eq 'gotoanquan'}?'active1'"><a href="2j_pro_anquan.html"
+                                                                            th:href="@{/gotoanquan}">安全保障</a></li>
+                        <li th:class="${type eq 'gotowangyin'}?'active1'"><a href="2j_pro_wagyin.html"
+                                                                             th:href="@{/gotowangyin}">网银支付</a></li>
+                        <li th:class="${type eq 'gotoyinhang'}?'active1'"><a href="2j_pro_yinhang.html"
+                                                                             th:href="@{/gotoyinhang}">银行转账</a></li>
+                        <li th:class="${type eq 'gotohuikuan'}?'active1'"><a href="2j_pro_huikuan.html"
+                                                                             th:href="@{/gotohuikuan}">汇款账号</a></li>
+                        <li th:class="${type eq 'gotofapiao'}?'active1'"><a href="2j_pro_fapiao.html"
+                                                                            th:href="@{/gotofapiao}">发票声明</a></li>
+                    </ul>
+                </li>
+
+                <li th:class="${type eq 'gotognpy'|| type eq 'gotoems' || type eq 'gotoyanhuo' || type eq 'gotoptkd'|| type eq 'gotopsfs'}?'active':'active-none'">
+                    <div class="sp_nav-header-li-div"><i class="iconfont">&#xe621;</i><a href="2j_pro_peisfs.html"
+                                                                                         th:href="@{/gotopsfs}"><span
+                            class="sp_nav-label">配送方式</span></a></div>
+                    <ul class="sp_nav-second-level">
+                        <li th:class="${type eq 'gotognpy'}?'active1'"><a href="2j_pro_gnpy.html"
+                                                                          th:href="@{/gotognpy}">国内平邮</a></li>
+                        <li th:class="${type eq 'gotoems'}?'active1'"><a href="2j_pro_ems.html" th:href="@{/gotoems}">EMS快递</a>
+                        </li>
+                        <li th:class="${type eq 'gotoyanhuo'}?'active1'"><a href="2j_pro_yanhuo.html"
+                                                                            th:href="@{/gotoyanhuo}">验货签收</a></li>
+                        <li th:class="${type eq 'gotoptkd'}?'active1'"><a href="2j_pro_ptkd.html"
+                                                                          th:href="@{/gotoptkd}">普通快递</a></li>
+                    </ul>
+                </li>
+
+                <li th:class="${type eq 'gotothzc'|| type eq 'gotosqth' || type eq 'gotothjd' || type eq 'gototkfs' || type eq 'gotoshouhou' }?'active':'active-none'">
+                    <div class="sp_nav-header-li-div"><i class="iconfont" style="font-size: 22px;">&#xe61d;</i><a
+                            href="2j_pro_shouhou.html" th:href="@{/gotoshouhou}"><span class="sp_nav-label">售后服务</span></a>
+                    </div>
+                    <ul class="sp_nav-second-level">
+                        <li th:class="${type eq 'gotothzc'}?'active1'"><a href="2j_pro_thzc.html"
+                                                                          th:href="@{/gotothzc}">退换货政策说明</a></li>
+                        <li th:class="${type eq 'gotosqth'}?'active1'"><a href="2j_pro_sqth.html"
+                                                                          th:href="@{/gotosqth}">如何申请退换货</a></li>
+                        <li th:class="${type eq 'gotothjd'}?'active1'"><a href="2j_pro_thjd.html"
+                                                                          th:href="@{/gotothjd}">退换货进度查询</a></li>
+                        <li th:class="${type eq 'gototkfs'}?'active1'"><a href="2j_pro_tkfs.html"
+                                                                          th:href="@{/gototkfs}">退款方式和时间</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+</body>
+</html>

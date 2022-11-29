@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>登录</title>
+
+</head>
+
+<body>
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+<link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<link href="../css/lpassnumberbind.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/lpassnumberbind.css}"/>
+<link href="../css/singer.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/singer.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link rel="stylesheet" href="../css/swiper.min.css" type="text/css" th:href="@{/assets/css/swiper.min.css}"/>
+
+
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+
+<!--弹窗特效-->
+<link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+<script src="js/jquery-1.10.2.min.js" th:src="@{/assets/tanchuang/jquery-1.10.2.min.js}"></script>
+<link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+<script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+<script src="../js/swiper.min.js" th:src="@{/assets/js/swiper.min.js}"></script>
+<!--qq登录js-->
+<script type="text/javascript"  charset="utf-8" src="http://connect.qq.com/qc_jssdk.js" data-appid="102013202" data-redirecturi="http://www.surgi-plan.com/showQQAccount"></script>
+
+
+<style>
+    .log_co{margin: auto;
+        width: 1200px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;}
+    .log_co .swiper-container{
+        margin: 0;
+        width: 766px;
+        overflow: hidden;
+    }
+    #nc_1_captcha_input {border: solid 1px #999;}
+</style>
+
+<style>
+    .covers{width:190px;margin:30px auto;text-align:center;font-size:14px;color:#999;line-height:180%;}
+    .covers img{margin-bottom:20px;display:block;}
+    .js-ipt-h input {
+        margin-bottom: 20px;
+        padding: 5px;
+        font-size: 14px;
+        border: 1px solid #E8E7E4;
+        background: #F4F4F2;
+        border-radius: 4px;
+    }
+    .js-ipt-h button {
+        width: 125px;
+        height: 42px;
+        text-align: center;
+        padding: 5px 0px;
+        background: #007fdc;
+        color: #fff;
+        border: 0px;
+        border-radius: 4px;
+        margin: 10px 0px 0px 15px;
+    }
+    #dlhui{width: 335px;height: 42px;text-align: center;line-height: 32px;}
+    #dllan{width: 335px;height: 42px;text-align: center;line-height: 32px;background:#007fdc;border:0px;color:#fff;}
+</style>
+<script type='text/javascript'>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+        _vds.push(['setAccountId', 'bd647439edc1d679']);
+        _vds.push(['trackBot', false]);
+        (function() {
+            var vds = document.createElement('script');
+            vds.type='text/javascript';
+            vds.async = true;
+            vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(vds, s);
+        })();
+    })();
+</script>
+<link href="../css/lpasslogin.css" th:href="@{/assets/css/lpasslogin.css}" rel="stylesheet" type="text/css" >
+<div id="Header">
+
+    <div class="ktou">
+        <div class="klogo">
+        <a th:href="@{/}">
+            <img th:src="@{/assets/img/testLogo.jpg}" style="height:75px;"/>
+        </a>
+        </div>
+        <div class="kgouw">
+            <li><a href="">中文</a><i class="iconfont">&#xe641;</i><span
+                    style="float:right;    padding: 0px 10px;">|</span>
+                <ul class="gouw-son hidden">
+                    <li class=""><a href="#">中文</a></li>
+                    <li class=""><a href="#">EN</a></li>
+                </ul>
+            </li>
+            <li><a th:href="@{/}">返回首页</a></li>
+        </div>
+
+    </div>
+</div>
+<script>
+    function test(){
+        $('.gouw').children("li:has(ul)").hover(
+            function(){
+                //$(this).find("ul>li:last").addClass("li-last-s1");//给每个下拉菜单的最后一个li元素添加css样式，此处非必要
+                $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单
+            },
+            function(){
+                $(this).children("ul").hide();//隐藏下拉菜单
+            }
+        );
+    }
+
+</script>
+
+<script>
+    test();
+</script>
+<div class="log_con">
+    <div class="log_co">
+
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide" th:each="adhead:${list}">
+                    <a href="#" th:href="@{${adhead.url}}" target="_blank">
+                        <img src="../img/banner1.jpg" th:src="@{${pathUrl+adhead.path}}"/>
+                    </a>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <script>
+            var mySwiper = new Swiper('.swiper-container', {
+                autoplay: true, //可选选项，自动滑动
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable :true,
+                }
+            });
+        </script>
+
+        <div class="login-box module-l-static" id="login-box">
+
+<!--            <div class="login-switch">-->
+<!--                <div class="icon-l static-l"></div>-->
+<!--                <div class="icon-l quick-l"></div>-->
+<!--            </div>-->
+
+            <div class="l-static">
+                <div class="l-tab-covers">
+                    <div class="l-tab-list current">密码登录</div>
+                    <div class="l-tab-list">验证码登录</div>
+                </div>
+                <div class="static-module-covers">
+                    <div class="pass-login-covers">
+                        <form th:action="@{/loginSubmit}" method="post" >
+                            <input type="hidden" id="ip" name="ip"/>
+                            <input type="hidden" name="redirectUrl" th:value="${redirectUrl}"><br />
+                            <input class="input_login" placeholder="邮箱/用户名"  name="username"><br />
+                            <input class="input_login" placeholder="请输入密码" maxlength="16" name="password" type="password"><br />
+                            <input type="submit" name="Enter" value="登 录" style="cursor:pointer" id="dllan">
+                        </form>
+                        <div class="sms-login-tip">
+                            <p th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+                        </div>
+                        <div class="password"><span class="left">
+                        <input id="coks" type="checkbox" style="vertical-align: middle;"  value="on" name="remember"><label class="logintip" for="coks">下次自动登录</label> </span>
+                        <span class="right"><a th:href="@{/forgetPassword}">忘记密码？</a><span style="margin:0px 8px;">|</span><a th:href="@{/register}">注 册</a>
+                        </span>
+
+                    </div>
+                    </div>
+                    <div class="sms-login-covers hide" style="display: none;">
+                        <form th:action="@{/codeSubmit}" method="post">
+                            <input type="hidden" name="redirectUrl" th:value="${redirectUrl}"><br />
+
+                            <div id="pho">
+                                <div class="register-select">
+                                    <span class="registerType">手机</span>
+                                    <ul>
+                                        <li class="registerActive" onclick="editRegisterType(this,'1','手机')">手机</li>
+                                        <li onclick="editRegisterType(this,'2','e-mail')">e-mail</li>
+                                    </ul>
+                                </div>
+                                <input placeholder="请输入注册账号" type="text" id="phone" name="phone" />
+                            </div>
+                            <!--报错<span class="baoc">请输入正确的手机号</span>-->
+
+                            <input class="input_login" type="text" name="code" placeholder="输入验证码" style="width:180px;float:left;">
+                            <!--<input type="button" value="发送验证码" style="cursor: pointer;" onclick="settime(this)">-->
+                            <button style="cursor: pointer;" type="button" id="sendCode" onclick="settime();" >发送验证码</button>
+                            <input type="submit" name="Enter" value="登 录" style="cursor:pointer;background: #0d78e4;color: #fff">
+                        </form>
+                        <div class="sms-login-tip">
+                            <p th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+                        </div>
+                        <div class="password">
+                            <span class="left">
+                                <input type="checkbox" style="vertical-align: middle;" value="on" name="remember">
+                                <label class="logintip" >下次自动登录</label>
+                            </span>
+                            <span class="right">
+                                <a th:href="@{/forgetPassword}">忘记密码？</a>   |
+                                <a th:href="@{/register}">注 册</a>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="con1">
+                    <span class="third-account">第三方账号登录</span>
+                    <div class="account-login">
+                        <a th:href="'https://open.weixin.qq.com/connect/qrconnect?appid=wxeac83e2c01eaedad&redirect_uri=http://www.surgi-plan.com/showBindWeChatAccount&response_type=code&scope=snsapi_login&state='+${redirectUrl}" class="weixin-copy"><i class="iconfont1">&#xe764;</i></a>
+                        <a th:href="'https://api.weibo.com/oauth2/authorize?redirect_uri=http://www.surgi-plan.com/showBindWbAccount&client_id=3691378023&state='+${redirectUrl}"  class="weixb"><i class="iconfont3">&#xe61e;</i></a>
+                        <a th:href="'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=102013202&scope=get_user_info&redirect_uri=http://www.surgi-plan.com/showQQAccount&state='+${redirectUrl}" id="qqLogin" title="QQ" rel="nofollow" class="qzone"><i class="iconfont2">&#xe659;</i></a></div>
+                </div>
+            </div>
+            <div class="l-quick" style="diaplay:none;">
+                <div class="l-title-covers">
+                    <div class="l-title-h2">微信二维码登录</div>
+                </div>
+                <div class="covers">
+                    <img src="../img/erwei.jpg">
+                    <p>请使用微信扫描二维码登录</p>
+                    <p>“SP”</p>
+                </div>
+                <div class="wx_login_links">
+                    <a href="javascript:;" target="_blank" class="pass-login-tab">密码登录</a>  &nbsp;|&nbsp;  <a href="/regPhone.do?appId=1006" target="_blank">注册新帐号</a>
+                </div>
+            </div>
+            <!-- <p class="member-login">会员登录</p> -->
+        </div>
+    </div>
+    <div class="h40"></div>
+    <div class="tjnav">
+        <ul>
+            <li th:each="category:${categoryList}">
+                <a th:href="@{/category/list(parent=${category.id})}" ><img th:src="@{${pathUrl+category.image}}" alt="" ></a>
+                <span><a th:href="@{/category/list(parent=${category.id})}">[[${category.name}]]</a></span>
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+
+<script type="text/javascript" src="../js/ljquery-1.9.js" th:src="@{/assets/js/ljquery-1.9.js}"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script th:inline="javascript" type="text/javascript">
+    var registerType = 1;
+    $(function () {
+        var ip=returnCitySN["cip"];
+        $("#ip").val(ip);
+    })
+    // 微信登录，账号登录，图标切换事件
+    $('.login-switch .icon-l').on('click', function () {
+        if ($(this).hasClass('static-l')) {
+            $('.login-box').addClass('module-l-quick').removeClass('module-l-static')
+
+        } else {
+            $('.login-box').addClass('module-l-static').removeClass('module-l-quick')
+        }
+    })
+    //   密码，手机 登录TAB切换
+    $('.l-tab-covers .l-tab-list').on('click', function () {
+        var thisIndex = $(this).index();
+        $(this).addClass('current').siblings('.l-tab-list').removeClass('current');
+        $('.static-module-covers > div[class*="login-covers"]').hide();
+        $('.static-module-covers > div[class*="login-covers"]').eq(thisIndex).show();
+        // parent.reinitIframe()
+    })
+
+
+    // 密码，手机登录切换事件
+    $('.pass-login-tab').on('click', function () {
+        $('.login-box').addClass('module-l-static').removeClass('module-l-quick');
+        $('.l-tab-covers .l-tab-list:first').addClass('current').siblings('.l-tab-list').removeClass('current');
+        $('.static-module-covers > div[class*="login-covers"]').hide();
+        $('.static-module-covers > div[class*="login-covers"]:first').show();
+    })
+
+
+    function editRegisterType(_this,value,text) {
+        $(_this).siblings().removeClass("registerActive");
+        $(_this).addClass("registerActive");
+        $(".registerType").text(text);
+        registerType = value;
+    }
+
+    //发送验证码倒计时
+    var countdown = 60;
+    function senCode() {
+        if (countdown == 0) {
+            // obj.removeAttribute("disabled");
+            // $("#sendCode").attr("disabled", "true");
+
+            $("#sendCode").removeAttr("disabled");
+            $('#sendCode').css({'background':'#007fdc'});
+            $('#sendCode').css({'color':'#fff'});
+            $('#sendCode').text('发送验证码');
+            // obj.value="免费获取验证码";
+            countdown = 60;
+            return;
+        } else {
+            // obj.setAttribute("disabled", true);
+            $("#sendCode").attr("disabled", "disabled");
+            $('#sendCode').text(countdown+'后重新发送');
+            $('#sendCode').css({'background':'#bbb'});
+            $('#sendCode').css({'color':'#fff'});
+            // obj.value="重新发送(" + countdown + ")";
+            countdown--;
+        }
+        setTimeout(function() {
+                senCode() }
+            ,1000);
+    }
+
+
+    //绑定账号发送验证码
+    function getBindcode() {
+        var phone = $('#bindphone').val();
+            if(phone==''){
+                $('#popup').html('请输入手机号')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return;
+            }
+            if(phone.length!=11){
+                $('#mobile').val('');
+                $('#popup').html('手机号输入有误')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return;
+            }
+            var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+            console.log(!pattern.test($.trim(phone)))
+            if(pattern.test($.trim(phone))==false){
+                $('#mobile').val('');
+                $('#popup').html('手机号输入有误,请重新输入!')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return;
+            }
+            var url = [[@{/sendCode}]];
+
+        var data = "{\"phone\":\""+phone+"\",\"templateid\":\"247796\"}";
+        console.log(2);
+        $.ajax({
+            type:"POST",
+            contentType: "application/json",
+            url: url,
+            data:data,//手机号+短信模板id
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log(data);
+                if(data.status==200){
+                    console.log(data)
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                    sendbindCode();
+                }else {
+                    console.log(data)
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                }
+
+            }
+        });
+
+
+    }
+
+
+    //绑定账号发送验证码倒计时
+    var countBindtime = 60;
+    function sendbindCode() {
+        if (countBindtime == 0) {
+            $("#sendbindCode").attr("onclick","getBindcode()");
+            $('#sendbindCode').css({'background':'#007fdc'});
+            $('#sendbindCode').css({'color':'#f9fafc'});
+            $('#sendbindCode').text('发送验证码');
+            countBindtime = 60;
+            return;
+        } else {
+            $("#sendbindCode").removeAttr("onclick");
+            $('#sendbindCode').text(countBindtime+'后重新发送');
+            $('#sendbindCode').css({'background':'#E8E7E4'});
+            $('#sendbindCode').css({'color':'#333'});
+            countBindtime--;
+        }
+        setTimeout(function() {
+                sendbindCode() }
+            ,1000);
+    }
+
+    //绑定账号提交
+    function postBindphone() {
+
+        var phone = $('#bindphone').val();
+        if(phone==''){
+            $('#popup').html('请输入手机号')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+        if(phone.length!=11){
+            $('#mobile').val('');
+            $('#popup').html('手机号输入有误')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+        console.log(!pattern.test($.trim(phone)))
+        if(pattern.test($.trim(phone))==false){
+            $('#mobile').val('');
+            $('#popup').html('手机号输入有误,请重新输入!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+        if($("#bindCode").val() == ''){
+            $('#popup').html('请输入验证码')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+        $("#bindAccount").submit();
+    }
+
+
+
+
+    //单击发送验证码按钮
+    function settime() {
+
+        var phone = $('#phone').val();
+        if(registerType == 1){
+            if(phone==''){
+                $('#popup').html('请输入手机号')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return;
+            }
+            if(phone.length!=11){
+                $('#mobile').val('');
+                $('#popup').html('手机号输入有误')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return;
+            }
+            var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+            console.log(!pattern.test($.trim(phone)))
+            if(pattern.test($.trim(phone))==false){
+                $('#mobile').val('');
+                $('#popup').html('手机号输入有误,请重新输入!')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return;
+            }
+            var url = [[@{/sendCode}]];
+        }else if(registerType == 2){
+            if(phone==''){
+                $('#popup').html('请输入邮箱')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return;
+            }
+            var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            if(!reg.test(phone)){
+                $('#mobile').val('');
+                $('#popup').html('邮箱输入有误,请重新输入!')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return;
+            }
+            var url = [[@{/sendCodeEmail}]];//邮箱验证码发送接口
+        }
+
+        var data = "{\"phone\":\""+phone+"\",\"templateid\":\"247796\",\"email\":\""+phone+"\"}";
+        $.ajax({
+            type:"POST",
+            contentType: "application/json",
+            url: url,
+            data:data,//手机号+短信模板id
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log(data)
+                if(data.status==200){
+                    console.log(data)
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                    senCode();
+
+                }else {
+                    console.log(data)
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                }
+
+            }
+        });
+
+
+    }
+
+    //弹窗确定关闭效果
+    function ok(id){
+        syalert.syhide(id);
+    }
+
+
+
+</script>
+
+
+</html>

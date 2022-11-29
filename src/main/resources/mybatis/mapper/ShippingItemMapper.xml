@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.ShippingItemMapper" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.ShippingItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="sn" property="sn" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="shipping" property="shipping" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, modify_date, sn, name, quantity, shipping
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tf_shipping_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_shipping_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.ShippingItem" >
+    insert into tf_shipping_item (id, create_date, modify_date, 
+      sn, name, quantity, 
+      shipping)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{sn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{shipping,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.ShippingItem" >
+    insert into tf_shipping_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="sn != null" >
+        sn,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="shipping != null" >
+        shipping,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sn != null" >
+        #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="shipping != null" >
+        #{shipping,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="insertSelectiveMap" parameterType="java.util.HashMap">
+    insert into tf_shipping_item (create_date, modify_date,
+    name, quantity, sn,shipping)
+    values
+    <foreach collection="shippingItemList" item="item" index="index" separator=",">
+      (#{item.createDate,jdbcType=TIMESTAMP}, #{item.modifyDate,jdbcType=TIMESTAMP},
+      #{item.name,jdbcType=VARCHAR}, #{item.quantity,jdbcType=INTEGER}, #{item.sn,jdbcType=VARCHAR},
+      #{shipping,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.ShippingItem" >
+    update tf_shipping_item
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sn != null" >
+        sn = #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="shipping != null" >
+        shipping = #{shipping,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.ShippingItem" >
+    update tf_shipping_item
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      sn = #{sn,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      shipping = #{shipping,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

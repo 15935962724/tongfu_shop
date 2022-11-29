@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>常见问题-配送方式</title>
+
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+</head>
+<script src="../js/jquery-3.1.1.js" th:src="@{/assets/js/jquery-3.1.1.js}"></script>
+<body>
+
+
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css"  rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}"/>
+<link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+<header>
+
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+
+<div class="log_con" style="padding-top:0px;padding-bottom:50px;clear:both;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;<a href="javaScript:void(0);">我的SP</a></div>
+    <style>
+        .sp_nav li.active-none{border-bottom:0px;}
+        .sp_nav li>div{color:#aaa;}
+    </style>
+    <div class="con_sp">
+        <script>
+            $(function(){
+                $('.sp_nav .sp_nav-header-li-div').click(function(){
+                    if($(this).parent().hasClass('active')) {
+                        $(this).parent().removeClass('active').addClass("active-none");
+                    }else{
+                        $(this).parent().removeClass('active-none').addClass("active").siblings().removeClass('active').addClass("active-none");
+                        $(this).parent().siblings().find('.sp_nav-second-level li').removeClass('active1');
+                    }
+                });
+
+                $('.sp_nav-second-level li').click(function(){
+                    $(this).addClass('active1').siblings().removeClass('active1');
+                });
+            })
+        </script>
+
+        <div th:replace="/incloud/cjwtLeft:: left"></div>
+
+        <div class="con_right">
+            <div class="chax">
+                <div class="prob_s">
+                    <div class="prob_ss"><input type="text" value="输入问题关键词" /><button><i class="iconfont">&#xe639;</i>搜索</button></div>
+                </div>
+                <div class="prob_we">
+                    <span id="probt">EMS快递</span>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在国家法律法规允许的范围内，我们会使用EMS等快递运送物品。</p>
+                    <p></p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;药品需要符合GSP条件的仓储设施，以及满足温控运输和冷链运输需求的车辆。全程需要遵守药品安全性、监管性和可追溯性的要求。随着中国基本药物制度的推行，医药行业更加重视物流服务商的配送能力。中国邮政速递物流公司借助于符合GSP规范的药品仓库、药品温控运输和冷链运输配送能力、以及全程可视化的跟踪查询体系，为医药行业提供从医药原材料入厂物流、药品仓储运输至药品医院配送全过程的物流服务。</p>
+
+                </div>
+            </div></div>
+    </div>
+    <script type="text/javascript">
+        var hl = $(".con_left").outerHeight();
+        var hr = $(".con_right").outerHeight();
+        var mh = Math.max(hl,hr);
+        $(".con_left").height(mh);
+        $(".con_right").height(mh);
+    </script>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

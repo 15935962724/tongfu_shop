@@ -1,0 +1,61 @@
+.section.dropmenu-wrap {
+  display:none;
+}
+/* header .nav li:hover .section.dropmenu--simple{
+  display: block !important;
+} */
+.login-button:hover a {
+    border-bottom: 3px solid #fff;
+    color: #fff;
+}
+.login-button .dropmenu--simple {
+    margin-left: 25px;
+    width: 150px;
+}
+
+.section.dropmenu--simple {
+  display: none;
+  margin-top: 0;
+}
+.section.dropmenu--simple .ul-menulist--simple .li-menulist {
+    height: auto;
+    padding: 0;
+}
+.section.dropmenu--simple .ul-menulist--simple .li-menulist a {
+    display: block;
+    padding: 14px 30px 14px 20px;
+}
+.pro-wrap .pro-menu--simple .ul-menulist--simple .li-menulist {
+    padding-left: 0 !important;
+}
+.pro-wrap .pro-menu--simple .ul-menulist--simple .li-menulist a {
+    padding-left: 24px;
+    display: block;
+}
+.header .nav ul li a.btn-primary-line {
+    width: 150px;
+}
+
+.pro-wrap .pro-menu--simple .aizhenduan i {
+    font-size: 16px;
+    margin-right: 0;
+}
+.pro-wrap .pro-menu--simple .aizhenduan a {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #333;
+}
+.pro-wrap .pro-menu--simple .aizhenduan.actived a {
+    color: #2487ec;
+}
+.pro-wrap .pro-menu--simple .aizhenduan:hover i, .pro-wrap .pro-menu--simple .aizhenduan:hover a {
+    color: #2487ec !important;
+}
+.smaller .nav ul li.current a {
+    border-bottom: 0px;
+}
+
+.ul-menulist--simple .more {
+  margin-bottom: 30px;
+}

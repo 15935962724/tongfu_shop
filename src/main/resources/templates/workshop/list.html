@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>研讨会</title>
+</head>
+<script>
+    var _width = $(window).width(); // 获取浏览器宽度
+    if(_width<=1200){ // 当屏幕宽度小于等1200
+        $(".header").hide(); // div1隐藏
+        $(".div2").show(); // div2显示
+    }else{ // 反之
+        $(".div2").hide(); // div2隐藏
+        $(".header").show(); // div1显示
+    }
+</script>
+<!-- CSS Files
+================================================== -->
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.js}"></script>
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+<link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+<script type="text/jscript" src="../js/qiehuan.js" th:src="@{/assets/js/qiehuan.js}"></script>
+<script src="../js/slick.js" th:src="@{/assets/js/slick.js}"></script>
+<script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+<body>
+<header>
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+<!-- content begin -->
+<div class="content" style="background:#f5faff;">
+
+    <section class="banner">
+        <div class="single-item slider">
+
+            <div class="bannerbg">
+                <img src="../img/ythb.jpg" />
+            </div>
+            <div class="bannerbg">
+                <img src="../img/ythb.jpg" />
+            </div>
+        </div>
+    </section>
+<form th:action="@{/workshop/list}" id="list">
+    <input type="hidden" id="pageNum" name="pageNum">
+    <input type="hidden" name="type" th:value="${type}"/><!--会议类型-->
+    <input type="hidden" name="keywords" th:value="${keywords}"/><!--关键字-->
+    <input type="hidden" name="years" th:value="${years}"/><!--年-->
+    <input type="hidden" name="months" th:value="${months}"/><!--月-->
+    <input type="hidden" name="iscarefully" th:value="${iscarefully}"/><!--精选-->
+    <input type="hidden" name="holddate" th:value="${holddate}"/><!--日期-->
+    <input type="hidden" name="letter" th:value="${letter}"/><!--字母-->
+    <div class="yth">
+        <div class="seach"><button type="button" onclick="search(this)"><i class="iconfont">&#xe639;</i></button><input type="text" th:value="${keywords}" placeholder="请输入关键词搜索研讨会、培训班、会议" name="q">
+        </div>
+        <div class="tit">
+            <div class="title">
+                <li onclick="fnworkshop(1,this)"   id="JKDiv_DEF" class="Selected" th:class="${type==1?'Selected':''}">研讨会(128)</li>
+                <li  onclick="fnworkshop(2,this)"   th:class="${type==2?'Selected':''}">|　培训班(20) </li>
+                <li  onclick="fnworkshop(3,this)"  th:class="${type==3?'Selected':''}">|　会议(28)</li>
+                <!--<li onMouseMove="JavaScript:ChangeDiv('0','JKDiv_',2,this)"   id="JKDiv_DEF" class="Selected">研讨会(128)</li>-->
+                <!--<li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv_',2,this)" >|　培训班(20) </li>-->
+                <!--<li onMouseMove= "JavaScript:ChangeDiv('2','JKDiv_',2,this)" >|　会议(28)</li>-->
+            </div>
+            <div class="tit_right">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td nowrap="nowrap">日期</td>
+                        <td><select name="leix" style="margin-right:20px;width:130px;" onchange="fnchange(this)">
+                            <option value="0" th:selected="${ymstr==0?true:false}">请选择日期</option>
+                            <option value="1" th:each="ym:${listYM}" th:text="${ym}" th:value="${ym}" th:selected="${ymstr==ym?true:false}">2019年9月</option>
+                            <!--<option value="2">2019年8月</option>-->
+                            <!--<option value="3">2019年7月</option>-->
+                            <!--<option value="4">2019年6月</option>-->
+                            <!--<option value="5">2019年5月</option>-->
+                            <!--<option value="6">2019年4月</option>-->
+                        </select></td>
+                        <td nowrap="nowrap">排序</td>
+                        <td><select name="leix" style="width: 118px;" onchange="fnorder(this)">
+                            <option value="0">相关度</option>
+                            <option value="1" th:selected="${iscarefully==1?true:false}">精选</option>
+                            <option value="2" th:selected="${holddate==1?true:false}">日期</option>
+                            <option value="3" th:selected="${letter==1?true:false}">字母</option>
+                        </select></td>
+                    </tr>
+                </table>
+            </div>
+
+
+        </div>
+        <div class="con" id="JKDiv_0">
+            <div class="yanth">
+                <ul>
+                    <li th:each="workshop:${page.list}">
+                        <div class="left"><span id="bt"><a href="#" th:href="@{/workshop/view(workshopid=${workshop.id})}">[[${workshop.title}]]</a></span>
+                            <span id="daoy"><a href="#" th:text="${workshop.introducer}">改善肝脏服务质量（IQILS）认证计划正在举行针对注册IQILS服务的网络研讨会。</a></span></div>
+                        <div class="right"></div>
+
+                        <div id="zuo">
+                            <span id="tub"><img src="../img/riliblue.png" th:src="@{/assets/img/riliblue.png}"/></span>
+                            <span id="huymc" th:text="${workshop.publisher}">商务会议Skype</span>
+                            <span id="time" th:text="${workshop.holding_time}">2019年9月24日</span>
+                        </div>
+
+                    </li>
+
+
+                </ul></div>
+            <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+                <ul>
+                    <li th:style="${page.pageNum==1?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum-1}+'\')'"><i class="iconfont">&#xe68d;</i></li>
+                    <li id="da" th:each="pg:${#numbers.sequence(1,page.pages)}" th:id="${pg==page.pageNum?'da':''}">
+                        <a th:text="${pg}" th:href="'javascript:fenye(\''+${pg}+'\')'"></a>
+                    </li>
+                    <!--<li><a href="#">2</a></li>-->
+                    <!--<li><a href="#">3</a></li>-->
+                    <!--<li><a href="#">4</a></li>-->
+                    <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum+1}+'\')'" ><i class="iconfont">&#xe638;</i></li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</form>
+</div>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+<script>
+    //点击类别
+    function fnworkshop(type,obj){
+        $("#list input[name='keywords']").val("");
+        var sli = $(obj).siblings();
+        $(sli).removeClass("Selected");
+
+        $(obj).addClass("Selected");
+
+        $("#list input[name='type']").val(type);
+        $("#list").submit();
+
+
+    }
+    //分页
+    function fenye(pageNumber) {
+        $("#list input[name='pageNum']").val(pageNumber);
+        $("#list").submit();
+        return false;
+    }
+
+    //按关键字查询
+    function search(obj) {
+        var search = $(obj).next().val();
+        $("#list input[name='keywords']").val(search);
+        $("#list").submit();
+    }
+    //按年月查询
+    function fnchange(obj) {
+        var val = $(obj).val();
+        if(val!='0'){
+            var years = val.substring(0,4);
+            var nian = val.indexOf("年");
+            var yue = val.indexOf("月");
+            var months = val.substring(nian+1,yue);
+            console.log("years=="+years);
+            console.log("months==="+months);
+            $("#list input[name='years']").val(years);
+            $("#list input[name='months']").val(months);
+            $("#list").submit();
+        }else{
+            $("#list input[name='years']").val(0);
+            $("#list input[name='months']").val(0);
+            $("#list").submit();
+        }
+    }
+    //排序
+    function fnorder(obj) {
+        var val = $(obj).val();
+        //1精选
+        if(val == 1){
+            $("#list input[name='iscarefully']").val(1);
+            $("#list input[name='holddate']").val(0);
+            $("#list input[name='letter']").val(0);
+        }else if(val == 2){
+            //2日期
+            $("#list input[name='iscarefully']").val(0);
+            $("#list input[name='holddate']").val(1);
+            $("#list input[name='letter']").val(0);
+        }else if(val==3){
+            //3字母
+            $("#list input[name='iscarefully']").val(0);
+            $("#list input[name='holddate']").val(0);
+            $("#list input[name='letter']").val(1);
+        }else{
+            $("#list input[name='iscarefully']").val(0);
+            $("#list input[name='holddate']").val(0);
+            $("#list input[name='letter']").val(0);
+        }
+        $("#list").submit();
+
+    }
+
+</script>
+</body>
+</html>

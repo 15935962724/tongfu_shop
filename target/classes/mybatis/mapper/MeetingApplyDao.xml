@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.MeetingApplyDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.MeetingApply" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="member" property="member" jdbcType="BIGINT" />
+    <result column="website" property="website" jdbcType="VARCHAR" />
+    <result column="meetname" property="meetname" jdbcType="VARCHAR" />
+    <result column="begin_hold_date" property="beginHoldDate" jdbcType="TIMESTAMP" />
+    <result column="end_hold_date" property="endHoldDate" jdbcType="TIMESTAMP" />
+    <result column="area" property="area" jdbcType="BIGINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="invitation" property="invitation" jdbcType="VARCHAR" />
+    <result column="traffic" property="traffic" jdbcType="BIGINT" />
+    <result column="sailtype" property="sailtype" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="card_id" property="cardId" jdbcType="VARCHAR" />
+    <result column="gostation" property="gostation" jdbcType="VARCHAR" />
+    <result column="arrivestation" property="arrivestation" jdbcType="VARCHAR" />
+    <result column="gotime" property="gotime" jdbcType="TIMESTAMP" />
+    <result column="backtime" property="backtime" jdbcType="TIMESTAMP" />
+    <result column="isstay" property="isstay" jdbcType="BIT" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="BIGINT" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, modify_date, member, website, meetname, begin_hold_date, end_hold_date,
+    area, address, invitation, traffic, sailtype, name, phone, email, card_id, gostation,
+    arrivestation, gotime, backtime, isstay, amount, status, message
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_meeting_apply
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_meeting_apply
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.MeetingApply" >
+    insert into tf_meeting_apply (id, create_date, modify_date,
+      member, website, meetname,
+      begin_hold_date, end_hold_date, area,
+      address, invitation, traffic,
+      sailtype, name, phone,
+      email, card_id, gostation,
+      arrivestation, gotime, backtime,
+      isstay, amount, status,
+      message)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP},
+      #{member,jdbcType=BIGINT}, #{website,jdbcType=VARCHAR}, #{meetname,jdbcType=VARCHAR},
+      #{beginHoldDate,jdbcType=TIMESTAMP}, #{endHoldDate,jdbcType=TIMESTAMP}, #{area,jdbcType=BIGINT},
+      #{address,jdbcType=VARCHAR}, #{invitation,jdbcType=VARCHAR}, #{traffic,jdbcType=BIGINT},
+      #{sailtype,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, #{gostation,jdbcType=VARCHAR},
+      #{arrivestation,jdbcType=VARCHAR}, #{gotime,jdbcType=TIMESTAMP}, #{backtime,jdbcType=TIMESTAMP},
+      #{isstay,jdbcType=BIT}, #{amount,jdbcType=DECIMAL}, #{status,jdbcType=BIGINT},
+      #{message,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.MeetingApply" >
+    insert into tf_meeting_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="member != null" >
+        member,
+      </if>
+      <if test="website != null" >
+        website,
+      </if>
+      <if test="meetname != null" >
+        meetname,
+      </if>
+      <if test="beginHoldDate != null" >
+        begin_hold_date,
+      </if>
+      <if test="endHoldDate != null" >
+        end_hold_date,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="invitation != null" >
+        invitation,
+      </if>
+      <if test="traffic != null" >
+        traffic,
+      </if>
+      <if test="sailtype != null" >
+        sailtype,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="cardId != null" >
+        card_id,
+      </if>
+      <if test="gostation != null" >
+        gostation,
+      </if>
+      <if test="arrivestation != null" >
+        arrivestation,
+      </if>
+      <if test="gotime != null" >
+        gotime,
+      </if>
+      <if test="backtime != null" >
+        backtime,
+      </if>
+      <if test="isstay != null" >
+        isstay,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="member != null" >
+        #{member,jdbcType=BIGINT},
+      </if>
+      <if test="website != null" >
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="meetname != null" >
+        #{meetname,jdbcType=VARCHAR},
+      </if>
+      <if test="beginHoldDate != null" >
+        #{beginHoldDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endHoldDate != null" >
+        #{endHoldDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="invitation != null" >
+        #{invitation,jdbcType=VARCHAR},
+      </if>
+      <if test="traffic != null" >
+        #{traffic,jdbcType=BIGINT},
+      </if>
+      <if test="sailtype != null" >
+        #{sailtype,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null" >
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="gostation != null" >
+        #{gostation,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivestation != null" >
+        #{arrivestation,jdbcType=VARCHAR},
+      </if>
+      <if test="gotime != null" >
+        #{gotime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backtime != null" >
+        #{backtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isstay != null" >
+        #{isstay,jdbcType=BIT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.MeetingApply" >
+    update tf_meeting_apply
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="member != null" >
+        member = #{member,jdbcType=BIGINT},
+      </if>
+      <if test="website != null" >
+        website = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="meetname != null" >
+        meetname = #{meetname,jdbcType=VARCHAR},
+      </if>
+      <if test="beginHoldDate != null" >
+        begin_hold_date = #{beginHoldDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endHoldDate != null" >
+        end_hold_date = #{endHoldDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="invitation != null" >
+        invitation = #{invitation,jdbcType=VARCHAR},
+      </if>
+      <if test="traffic != null" >
+        traffic = #{traffic,jdbcType=BIGINT},
+      </if>
+      <if test="sailtype != null" >
+        sailtype = #{sailtype,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null" >
+        card_id = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="gostation != null" >
+        gostation = #{gostation,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivestation != null" >
+        arrivestation = #{arrivestation,jdbcType=VARCHAR},
+      </if>
+      <if test="gotime != null" >
+        gotime = #{gotime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backtime != null" >
+        backtime = #{backtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isstay != null" >
+        isstay = #{isstay,jdbcType=BIT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIGINT},
+      </if>
+      <if test="message != null" >
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.MeetingApply" >
+    update tf_meeting_apply
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      member = #{member,jdbcType=BIGINT},
+      website = #{website,jdbcType=VARCHAR},
+      meetname = #{meetname,jdbcType=VARCHAR},
+      begin_hold_date = #{beginHoldDate,jdbcType=TIMESTAMP},
+      end_hold_date = #{endHoldDate,jdbcType=TIMESTAMP},
+      area = #{area,jdbcType=BIGINT},
+      address = #{address,jdbcType=VARCHAR},
+      invitation = #{invitation,jdbcType=VARCHAR},
+      traffic = #{traffic,jdbcType=BIGINT},
+      sailtype = #{sailtype,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      gostation = #{gostation,jdbcType=VARCHAR},
+      arrivestation = #{arrivestation,jdbcType=VARCHAR},
+      gotime = #{gotime,jdbcType=TIMESTAMP},
+      backtime = #{backtime,jdbcType=TIMESTAMP},
+      isstay = #{isstay,jdbcType=BIT},
+      amount = #{amount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=BIGINT},
+      message = #{message,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

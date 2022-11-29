@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>首页</title>
+
+</head>
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery-1.8.3.min.js}"></script>
+<script>
+    var _width = $(window).width(); // 获取浏览器宽度
+    if(_width<=1200){ // 当屏幕宽度小于等1200
+        $(".header").hide(); // div1隐藏
+        $(".div2").show(); // div2显示
+    }else{ // 反之
+        $(".div2").hide(); // div2隐藏
+        $(".header").show(); // div1显示
+    }
+</script>
+<!-- CSS Files
+================================================== -->
+<link rel="stylesheet" href="../css/common.css" th:href="@{/assets/css/common.css}" type="text/css">
+<link rel="stylesheet" href="../css/common-add.css" th:href="@{/assets/css/common-add.css}" type="text/css" />
+<link rel="stylesheet" href="../css/reset.css" th:href="@{/assets/css/reset.css}" type="text/css" />
+<link rel="stylesheet" href="../css/home.css" th:href="@{/assets/css/home.css}" type="text/css" />
+<style>
+    .footer .cf {
+        margin-left: -30px;
+    }
+    .section.footer .container .panel-body .cop ul li .item .logo.logo-health {
+        margin-left: 40px;
+    }
+</style>
+
+<script>
+    var _mtac = {};
+    (function() {
+        var mta = document.createElement("script");
+        mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+        mta.setAttribute("name", "MTAH5");
+        mta.setAttribute("sid", "500609824");
+
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(mta, s);
+    })();
+</script>
+<link rel="stylesheet" href="../css/iconfont.css" th:href="@{/assets/css/iconfont.css}" type="text/css" />
+<link rel="stylesheet" href="../css/demo.css" th:href="@{/assets/css/demo.css}" type="text/css" />
+<link rel="stylesheet" href="../css/index-1.css" th:href="@{/assets/css/index-1.css}" type="text/css" />
+<link rel="stylesheet" href="../css/slick.css" th:href="@{/assets/css/slick.css}" type="text/css" />
+<link rel="stylesheet" href="../css/slick-theme.css" th:href="@{/assets/css/slick-theme.css}" type="text/css" />
+<link rel="stylesheet" href="../css/swiper.min.css" th:href="@{/assets/css/swiper.min.css}">
+<link rel="stylesheet" href="../css/style.css" th:href="@{/assets/css/style.css}">
+<script src="../js/jquery-k.js" th:src="@{/assets/js/jquery-k.js}"></script>
+<script src="../js/jquery-k-ui.js" th:src="@{/assets/js/jquery-k-ui.js}"></script>
+<script th:src="@{/assets/js/jquery-2.2.js}"></script>
+<style>
+    .content{background:#fff;}
+    .bannerbg:not(:first-child) {
+        display:none;
+    }
+    .section.footer .container .panel-body .cop ul li .item .logo {
+        cursor: default;
+    }
+    .slick-pass {
+        z-index: 999;
+    }
+
+    .smaller .nav ul li.login-button:hover a.btn-primary-line {
+        background-color: #fff;
+        background: -webkit-linear-gradient(left, #1171f4 0%, #468ff3 100%);
+        color: #fff;
+    }
+    .index-wrap .pro-wrap .sec-layer .sec-body .slider .slick-dots li button:before {
+        font-size: 6px;
+    }
+    .slick-dots,.slick-dots li button:before{display:none;}
+    .header .nav ul li button .iconfont{font-size:22px;}
+    .icon-sousuo{font-size:22px;position: absolute;right: -77px;top:0;z-index:5;
+        background:url(assets/img/sousou.png); background-repeat: no-repeat;
+        background-position: 0px 16px; width: 40px; height: 44px; }
+
+</style>
+</head>
+
+<body id="homepage">
+<div id="wrapper" class="index-wrap">
+    <div class="page-overlay">
+    </div>
+    <header class="header">
+        <div class="container">
+            <div class="row">
+
+                <!--已登录-->
+                <shiro:authenticated>
+                    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+                </shiro:authenticated>
+
+
+                <!--未登录-->
+                <shiro:notAuthenticated>
+                    <div th:replace="~{head::topbar}"></div>
+                </shiro:notAuthenticated>
+
+                <script>
+                    var btns =document.getElementById('btns');
+                    var showid=document.getElementById('showid');
+                    var colss=document.getElementById('colss');
+                    if (btns && showid){
+                        btns.onmouseover=function(){
+                            showid.style.display='block';
+                        }
+                    }
+                    if (colss && showid) {
+                        colss.onclick=function(){
+                            showid.style.display='none'
+                        };
+                    }
+                    if (showid) {
+                        document.onclick=function(){
+                            showid.style.display='none';
+                        };
+                        if(showid.addEventListener)
+                        {
+                            showid.addEventListener('click',function(e){e.stopPropagation()},false)
+                        }
+                        else if(showid.attachEvent)
+                        {
+                            showid.attachEvent('click',function(e){e.stopPropagation()},false)
+                        }
+                    }
+
+                </script>
+            </div>
+        </div></header>
+</div></div>
+
+<!-- content begin -->
+<div class="content">
+
+    <section class="banner">
+        <div class="single-item slider">
+
+
+            <div class="bannerbg" th:each="ad :${adlist}">
+
+                <a href="#" th:href="${ad.url}" target="_blank">
+                    <img src="../img/banner1.jpg" th:src="${pathUrl+ad.path}" />
+                </a>
+            </div>
+
+
+
+        </div>
+    </section>
+    <!-- 浮动块 -->
+    <div class="fg">
+        <ul class="blocks">
+            <li th:each="category:${categoryList}">
+                <div class="fg_g_y">
+                    <img src="../img/fenxi.png" alt="" th:src="@{/assets/img/fenxi.png}">
+                    <span th:text="${category.name}">aaa</span>
+                </div>
+                <div class="popup">
+                    <div class="fg_g_no">
+                        <span class="fg_g_no_tit" th:text="${category.name}">bbb</span>
+                        <p th:text="${category.seoDescription}">ccc</p>
+                        <a th:href="@{/category/list(parent=${category.id})}">查看更多</a>
+                    </div>
+                </div>
+            </li>
+            <!--<li>
+                <div class="fg_g_y">
+                    <img src="../img/fxrj.png" alt="" th:src="@{/assets/img/fxrj.png}">
+                    <span>计划软件</span>
+                </div>
+                <div class="popup">
+                    <div class="fg_g_no">
+                        <span class="fg_g_no_tit">计划软件</span>
+                        <p>方案个性化<br>治疗个体化</p>
+                        <a href="">查看更多</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="fg_g_y">
+                    <img src="../img/3d.png" alt="" th:src="@{/assets/img/3d.png}">
+                    <span>3D打印</span>
+                </div>
+                <div class="popup">
+                    <div class="fg_g_no">
+                        <span class="fg_g_no_tit">3D打印</span>
+                        <p>眼见为实<br />个性化定制</p>
+                        <a href="">查看更多</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="fg_g_y">
+                    <img src="../img/zhin.png" alt=""  th:src="@{/assets/img/zhin.png}">
+                    <span>人工智能</span>
+                </div>
+                <div class="popup">
+                    <div class="fg_g_no">
+                        <span class="fg_g_no_tit">人工智能</span>
+                        <p>数据驱动<br>虚拟与现实交互</p>
+                        <a href="">查看更多</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="fg_g_y">
+                    <img src="../img/robot.png" alt=""  th:src="@{/assets/img/robot.png}">
+                    <span>导航/机器人</span>
+                </div>
+                <div class="popup">
+                    <div class="fg_g_no">
+                        <span class="fg_g_no_tit">导航/机器人</span>
+                        <p>精准更精准<br>化繁为简</p>
+                        <a href="">查看更多</a>
+                    </div>
+                </div>
+            </li>-->
+        </ul>
+    </div>
+    <!-- 浮动块结束 -->
+    <!-- 研讨会/培训 -->
+    <div class="content1">
+        <div class="yth_tit">研讨会/培训</div>
+        <div class="swiper-container" id="swiper1">
+            <div class="swiper-wrapper">
+                <!--<div class="swiper-slide"><img src="../img/images/yth6_03.jpg" alt="" th:src="@{/assets/img/images/yth6_03.jpg}"></div>
+                <div class="swiper-slide"><img src="../img/images/yth6_03.jpg" alt="" th:src="@{/assets/img/images/yth6_03.jpg}"></div>
+                <div class="swiper-slide"><img src="../img/images/yth6_03.jpg" alt="" th:src="@{/assets/img/images/yth6_03.jpg}"></div>-->
+                <div class="swiper-slide" th:each="ad2:${adlist2}">
+                   <a th:href="${ad2.url}" target="_blank"><img src="../img/images/yth6_03.jpg" alt="" th:src="${pathUrl+ad2.path}"></a></div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+        <script src="../js/swiper.min.js" th:src="@{/assets/js/swiper.min.js}"></script>
+        <script>
+            var swiper = new Swiper('#swiper1', {
+                pagination: {
+                    el: '#swiper1 .swiper-pagination',
+                    clickable: true,
+                    renderBullet: function (index, className) {
+                        return '<span class="' + className + '">' + (index + 1) + '</span>';
+                    },
+                },
+                navigation: {
+                    nextEl: '#swiper1 .swiper-button-next',
+                    prevEl: '#swiper1 .swiper-button-prev',
+                },
+            });
+            $('#swiper1').mouseenter(function(){
+                $(this).find('.swiper-button-prev,.swiper-button-next').show();
+            }).mouseleave(function(){
+                $(this).find('.swiper-button-prev,.swiper-button-next').hide();
+            });
+        </script>
+        <div class="yth_more">
+            <a href="">更多内容</a>
+        </div>
+    </div>
+    <!-- 研讨会结束 -->
+    <style>
+        .swiper-container .swiper-button-next2,.swiper-container .swiper-button-prev2{display:none;}
+        .swiper-container .swiper-button-next,.swiper-container .swiper-button-prev{display:none;}
+        #swiper2 .swiper-pagination-bullets{ bottom:0px;left: 0; width: 100%;background:none;	}
+        #swiper2 .swiper-wrapper{position: relative;
+            z-index: 1;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-transition-property: -webkit-transform;
+            transition-property: -webkit-transform;
+            -o-transition-property: transform;
+            transition-property: transform;
+            transition-property: transform,-webkit-transform;
+            -webkit-box-sizing: content-box;
+            box-sizing: content-box;}
+        #swiper2 .swiper-pagination-bullets .swiper-pagination-bullet{width:56px;}
+        #swiper2 .swiper-pagination-bullets .swiper-pagination-bullet-active{width:56px;background:url('[[@{/}]]/assets/img/hy01.jpg') no-repeat;}
+    </style>
+    <!-- 会议 -->
+    <div class="hy">
+        <div class="yth_tit">会议</div>
+        <div class="swiper-container" id="swiper2">
+            <div class="swiper-wrapper">
+                <!-- <div class="swiper-slide"><img src="../img/toystory.jpg" alt="" th:src="@{/assets/img/toystory.jpg}" ></div>
+                 <div class="swiper-slide"><img src="../img/toystory.jpg" alt="" th:src="@{/assets/img/toystory.jpg}"></div>
+                 <div class="swiper-slide"><img src="../img/toystory.jpg" alt="" th:src="@{/assets/img/toystory.jpg}"></div>-->
+                <div class="swiper-slide" th:each="ad3:${adlist3}">
+                    <a th:href="${ad3.url}" target="_blank"><img src="../img/toystory.jpg" alt="" th:src="${pathUrl+ad3.path}" ></a>
+                </div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination swiper-pagination2"></div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next2"></div>
+            <div class="swiper-button-prev2"></div>
+        </div>
+        <script>
+            var swiper = new Swiper('#swiper2', {
+                pagination: {
+                    el: '#swiper2 .swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '#swiper2 .swiper-button-next2',
+                    prevEl: '#swiper2 .swiper-button-prev2',
+                },
+
+            });
+            $('#swiper2').mouseenter(function(){
+                $(this).find('.swiper-button-prev2,.swiper-button-next2').show();
+            }).mouseleave(function(){
+                $(this).find('.swiper-button-prev2,.swiper-button-next2').hide();
+            });
+        </script>
+    </div>
+    <!-- 会议结束 -->
+
+
+    <script src="../js/scripts.js"  th:src="@{/assets/js/scripts.js}"></script>
+    <script src="../js/aitracker-min.js" th:src="@{/assets/js/aitracker-min.js}"></script>
+    <script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+
+    <script src="../js/slick.js" th:src="@{/assets/js/slick.js}"></script>
+    <script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>
+
+</div>
+
+<div id="Footer">
+    <div class="foot"><span class="Le">Surgi-plan.com Copyright © All Rights Reserved 2006-2023 <a href="">京ICP备17046258号</a></span>
+        <span class="RI"><a href="#">关于我们</a><a href="#">联系我们</a><a href="#">网站声明</a><a href="#">常见问题</a>
+</span></div>
+</div>
+</div>
+<script>
+    $(function(){
+        console.log("开始")
+
+        var cookie=getCookie("title0");
+        //var cookie2=decodeURIComponent(cookie);
+
+        var cookie2=unescape(decodeURI(cookie));
+        console.log("cookie2============"+cookie2);
+    })
+    function getCookie(name)
+    {
+        var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+        if(arr != null) return unescape(arr[2]);
+        return false;
+    }
+</script>
+</body>
+</html>

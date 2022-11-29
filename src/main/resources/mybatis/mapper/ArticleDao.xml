@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.ArticleDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.Article" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="hits" property="hits" jdbcType="BIGINT" />
+    <result column="is_publication" property="isPublication" jdbcType="BIT" />
+    <result column="is_top" property="isTop" jdbcType="BIT" />
+    <result column="seo_description" property="seoDescription" jdbcType="VARCHAR" />
+    <result column="seo_keywords" property="seoKeywords" jdbcType="VARCHAR" />
+    <result column="seo_title" property="seoTitle" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="article_category" property="articleCategory" jdbcType="BIGINT" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="datasource" property="datasource" jdbcType="VARCHAR" />
+    <result column="orders" property="orders" jdbcType="VARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    <result column="expert_name" property="expertName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.tongfu.entity.Article" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, modify_date, author, hits, is_publication, is_top, seo_description,
+    seo_keywords, seo_title, title, article_category, is_deleted, image, datasource,
+    orders, introduce, expert_name
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tf_article
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectArticle" resultType="java.util.Map" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tf_article
+    where 1=1
+    <if test="category != null">
+      and article_category = #{category,jdbcType=BIGINT}
+    </if>
+    <if test="id != null and id != 0">
+      and id = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="keywords != null">
+      and  (seo_keywords LIKE '%${keywords}%' or title like '%${keywords}%')
+    </if>
+    order by create_date DESC
+  </select>
+
+  <select id="getArticle" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+      SELECT tf_product_category.`id` AS category_id,tf_product_category.`name` AS category_name, tf_article.`id`,
+      tf_article.`title`,tf_article.`image`,tf_article.`introduce`,tf_article.`expert_name`
+       FROM tf_article INNER JOIN (
+    SELECT  MAX(create_date) AS create_date ,article_category ,id FROM tf_article GROUP BY article_category
+    ) AS info ON tf_article.`article_category` = info.article_category AND tf_article.`create_date` = info.create_date
+    INNER JOIN tf_product_category  ON tf_article.`article_category` = tf_product_category.`id` AND tf_product_category.`parent` = 1
+     WHERE 1 = 1
+    <if test="category != null">
+      AND tf_article.`article_category` = #{category}
+    </if>
+  </select>
+
+  <select id="getSearchArticle" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+      SELECT id,image,title,content,seo_keywords,introduce, article_category,'1' AS tab FROM tf_article WHERE article_category = ${category} AND ( title LIKE '%${keywords}%' OR content LIKE '%${keywords}%' OR seo_keywords LIKE '%${keywords}%' )
+        <if test="category == 6">
+        UNION
+        SELECT id,logo,title,content,label,introduce,'6' AS article_category,'2' AS tab FROM tf_learning WHERE title LIKE '%${keywords}%' OR content LIKE '%${keywords}%' OR label LIKE '%${keywords}%'
+        </if>
+        <if test="category == 7">
+          UNION
+          SELECT id,logo,title,content,keyWord,title,'7' AS article_category ,'3' AS tab FROM tf_journalism WHERE title LIKE '%${keywords}%' OR content LIKE '%${keywords}%' OR keyWord LIKE '%${keywords}%'
+        </if>
+  </select>
+  <select id="getIndexArticle" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+        SELECT A.id, A.`title`,B.name ,a.`article_category` FROM tf_article A LEFT JOIN (
+        SELECT a.`article_category`,MAX(a.create_date) AS create_date,pc.`name`  FROM tf_article a LEFT JOIN tf_product_category pc ON a.`article_category` = pc.`id` WHERE pc.`parent` = 1 GROUP BY a.`article_category`
+        ) B ON A.`article_category` = B.article_category WHERE A.`create_date` = B.create_date ORDER BY a.`article_category`
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_article
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.Article" >
+    insert into tf_article (id, create_date, modify_date,
+      author, hits, is_publication,
+      is_top, seo_description, seo_keywords,
+      seo_title, title, article_category,
+      is_deleted, image, datasource,
+      orders, introduce, expert_name,
+      content)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP},
+      #{author,jdbcType=VARCHAR}, #{hits,jdbcType=BIGINT}, #{isPublication,jdbcType=BIT},
+      #{isTop,jdbcType=BIT}, #{seoDescription,jdbcType=VARCHAR}, #{seoKeywords,jdbcType=VARCHAR},
+      #{seoTitle,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{articleCategory,jdbcType=BIGINT},
+      #{isDeleted,jdbcType=BIT}, #{image,jdbcType=VARCHAR}, #{datasource,jdbcType=VARCHAR},
+      #{orders,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, #{expertName,jdbcType=VARCHAR},
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.Article" >
+    insert into tf_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="hits != null" >
+        hits,
+      </if>
+      <if test="isPublication != null" >
+        is_publication,
+      </if>
+      <if test="isTop != null" >
+        is_top,
+      </if>
+      <if test="seoDescription != null" >
+        seo_description,
+      </if>
+      <if test="seoKeywords != null" >
+        seo_keywords,
+      </if>
+      <if test="seoTitle != null" >
+        seo_title,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="articleCategory != null" >
+        article_category,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="datasource != null" >
+        datasource,
+      </if>
+      <if test="orders != null" >
+        orders,
+      </if>
+      <if test="introduce != null" >
+        introduce,
+      </if>
+      <if test="expertName != null" >
+        expert_name,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null" >
+        #{hits,jdbcType=BIGINT},
+      </if>
+      <if test="isPublication != null" >
+        #{isPublication,jdbcType=BIT},
+      </if>
+      <if test="isTop != null" >
+        #{isTop,jdbcType=BIT},
+      </if>
+      <if test="seoDescription != null" >
+        #{seoDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="seoKeywords != null" >
+        #{seoKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="seoTitle != null" >
+        #{seoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="articleCategory != null" >
+        #{articleCategory,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="datasource != null" >
+        #{datasource,jdbcType=VARCHAR},
+      </if>
+      <if test="orders != null" >
+        #{orders,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="expertName != null" >
+        #{expertName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.Article" >
+    update tf_article
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null" >
+        hits = #{hits,jdbcType=BIGINT},
+      </if>
+      <if test="isPublication != null" >
+        is_publication = #{isPublication,jdbcType=BIT},
+      </if>
+      <if test="isTop != null" >
+        is_top = #{isTop,jdbcType=BIT},
+      </if>
+      <if test="seoDescription != null" >
+        seo_description = #{seoDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="seoKeywords != null" >
+        seo_keywords = #{seoKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="seoTitle != null" >
+        seo_title = #{seoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="articleCategory != null" >
+        article_category = #{articleCategory,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="datasource != null" >
+        datasource = #{datasource,jdbcType=VARCHAR},
+      </if>
+      <if test="orders != null" >
+        orders = #{orders,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        introduce = #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="expertName != null" >
+        expert_name = #{expertName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tongfu.entity.Article" >
+    update tf_article
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      author = #{author,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=BIGINT},
+      is_publication = #{isPublication,jdbcType=BIT},
+      is_top = #{isTop,jdbcType=BIT},
+      seo_description = #{seoDescription,jdbcType=VARCHAR},
+      seo_keywords = #{seoKeywords,jdbcType=VARCHAR},
+      seo_title = #{seoTitle,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      article_category = #{articleCategory,jdbcType=BIGINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      image = #{image,jdbcType=VARCHAR},
+      datasource = #{datasource,jdbcType=VARCHAR},
+      orders = #{orders,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      expert_name = #{expertName,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.Article" >
+    update tf_article
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      author = #{author,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=BIGINT},
+      is_publication = #{isPublication,jdbcType=BIT},
+      is_top = #{isTop,jdbcType=BIT},
+      seo_description = #{seoDescription,jdbcType=VARCHAR},
+      seo_keywords = #{seoKeywords,jdbcType=VARCHAR},
+      seo_title = #{seoTitle,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      article_category = #{articleCategory,jdbcType=BIGINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      image = #{image,jdbcType=VARCHAR},
+      datasource = #{datasource,jdbcType=VARCHAR},
+      orders = #{orders,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      expert_name = #{expertName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

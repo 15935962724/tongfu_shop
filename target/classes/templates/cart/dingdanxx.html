@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>确认订单信息</title>
+    <script src="../js/huaceng.js" th:src="@{/assets/js/huaceng.js}" language="javascript"></script>
+    <script type="text/javascript" th:src="@{/assets/js/jquery.min.js}" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+    <script type="text/javascript" src="../js/qiehuan.js" th:src="@{/assets/js/qiehuan.js}"></script>
+</head>
+<body>
+<link href="../css/home.css" th:href="@{/assets/css/home.css}" type="text/css"  rel="stylesheet" />
+<link href="../css/index.css" th:href="@{/assets/css/index.css}" rel="stylesheet" type="text/css">
+<link href="../css/demo.css" th:href="@{/assets/css/demo.css}"  rel="stylesheet" type="text/css">
+<link href="../css/iconfont.css" th:href="@{/assets/css/iconfont.css}"  rel="stylesheet" type="text/css">
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.css}"  language="javascript"></script>
+<style>
+    body{position: relative;}
+</style>
+<div id="Header">
+
+    <div class="tou1">
+        <div class="logo"><img src="../img/logo.png" /></div>
+        <div class="nar">
+            <li><a href="">首 页</a></li>
+            <li><a href="">行业资讯</a><ul>
+                <li class=""><a href="#">精英团队</a></li>
+                <li class=""><a href="#">高端访谈</a></li>
+                <li class=""><a href="#">学术活动</a></li>
+                <li class=""><a href="#">行业新闻</a></li>
+                <li class=""><a href="#">国际前沿</a></li>
+                <li class=""><a href="#">精品文章</a></li>
+            </ul></li>
+            <li><a href="">分析软件</a></li>
+            <li><a href="">计划软件</a></li>
+            <li><a href="">增值服务</a>
+                <ul style="width:200px;">
+                    <li class=""><a href="#">影像后处理远程报告服务</a></li>
+                    <li class=""><a href="#">个性化3D打印定制服务</a></li>
+                    <li class=""><a href="#">临床科研立项合作服务</a></li>
+                    <li class=""><a href="#">继续医学教育项目</a></li>
+                    <li class=""><a href="#">E-Turnkey Solution</a></li>
+                    <li class=""><a href="#">专题研讨会外包服务</a></li>
+                </ul></li>
+            <li><a href="">Konw how</a>
+                <ul>
+                    <li class=""><a href="#">创新应用模式</a></li>
+                    <li class=""><a href="#">Pay-Per-Case</a></li>
+                    <li class=""><a href="#">远程培训</a></li>
+                    <li class=""><a href="#">现场培训</a></li>
+                    <li class=""><a href="#">如何利用软件教程</a></li>
+                    <li class=""><a href="#">常见问题解答</a></li>
+                    <li class=""><a href="#">Know-how卡</a></li>
+                </ul></li></div>
+        <div class="nav_g"><li style="padding:0px;"><form name="searchform1" action="#">
+            <button type="submit"><span class="iconfont">&#xe639;</span></button>
+        </form></li>
+            <li><i class="iconfont">&#xe641;</i><a href="">jetzhang</a>
+                <ul>
+                    <li class=""><a href="#">账户信息</a></li>
+                    <li class=""><a href="#">退出</a></li>
+
+                </ul></li>
+
+            <li><i class="iconfont">&#xe641;</i><a href="">我的SP</a>
+                <ul>
+                    <li class=""><a href="#">我的订单</a></li>
+                    <li class=""><a href="#">know-how卡</a></li>
+                    <li class=""><a href="#">我的积分</a></li>
+                    <li class=""><a href="#">我的发票</a></li>
+                    <li class=""><a href="#">常见问题</a></li>
+                </ul></li>
+            <li style="padding-right:5px;"> <i class="iconfont" id="gou">&#xe70b;</i><i class="ci-count" id="shopping-amount">1</i></li>
+            <li class="wen"><a href="">中文&nbsp;&nbsp;|</a></li>
+            <li class="wen" style="padding-right:0px;">
+                <a href="">EN</a>
+            </li>
+        </div>
+
+    </div>
+</div>
+<script>
+    function test(){
+        $('.nar,.nav_g').children("li:has(ul)").hover(
+            function(){
+                //$(this).find("ul>li:last").addClass("li-last-s1");//给每个下拉菜单的最后一个li元素添加css样式，此处非必要
+                $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单
+            },
+            function(){
+                $(this).children("ul").hide();//隐藏下拉菜单
+            }
+        );
+    }
+
+</script>
+
+<script>
+    test();
+</script>
+<div class="log_con" style="padding-top:0px;background:url(../img/bg04.jpg) repeat-x left top #fff;">
+    <div class="progress" style="width:795px;">
+        <div class="pro-item pro-doing pro-item1">
+            <div class="pro-step">
+                <span class="step-index">1</span><p class="step-desc">添加购物车</p></div></div>
+        <div class="pro-item pro-doing pro-item2">
+            <div class="pro-line"></div><div class="pro-step"><span class="step-index">2</span><p class="step-desc">确认订单信息</p></div></div>
+        <div class="pro-item pro-undo pro-item3" style="padding-left: 155px;"><div class="pro-line"></div><div class="pro-step"><span class="step-index">3</span><p class="step-desc">结算</p></div></div>
+        <div class="pro-item pro-undo pro-item4" style="    padding-left: 173px;">
+            <div class="pro-line" style="    left: 7px;"></div><div class="pro-step">
+            <span class="step-index">4</span><p class="step-desc">支付完成</p></div></div>
+    </div>
+    <div class="gwlist">
+        <p>收货人信息<a href = "JavaScript:void(0)" onclick = "openDialog()">新增收获地址</a></p>
+        <div id="light" class="fatc">
+            <div class="fatc_t">新增收获地址 <a href = "javascript:void(0)" onclick = "closeDialog(1)"><i class="iconfont">&#xe62f;</i></a></div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tongy" style="width:602px;">
+                <tr>
+                    <td class="td01"><font>*</font>收货人：</td>
+                    <td class="td02"><input name="111" type="text" class="input" value="" size="20"></td>
+                </tr>
+
+                <tr>
+                    <td class="td01"><font>*</font>所在地：</td>
+                    <td class="td02"><select name="leix" style="width: 96px;float:left;">
+                        <option value="0">省/份</option>
+                        <option value="1">天津市</option>
+                        <option value="2">山东省</option>
+                        <option value="3">河北省</option>
+                    </select><select name="leix" style="width:96px;margin:0px 18px;">
+                        <option value="0">区/县</option>
+                        <option value="1">东城区</option>
+                        <option value="2">西城区</option>
+                        <option value="3">海淀区</option>
+                        <option value="4">丰台区</option>
+                        <option value="5">朝阳区</option>
+                        <option value="6">昌平区</option>
+                        <option value="7">房山区</option>
+                        <option value="8">通州区</option>
+                    </select><select name="leix" style="width: 96px;">
+                        <option value="0">街道</option>
+                        <option value="1">街道1</option>
+                        <option value="2">街道2</option>
+                        <option value="3">街道3</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td valign="top" class="td01">收货地址：</td>
+                    <td class="td02"><textarea name=""></textarea> </td>
+                </tr>
+                <tr>
+                    <td class="td01"><font>*</font>手机号：</td>
+                    <td class="td02"><span style="width:306px;*width:326px;height:36px;border:1px solid #dadada;border-radius: 4px;color: #999;font-size: 16px;line-height: 36px;padding-left:20px;    display: inline-block;"><label class="select-country" country_id="+86" style="float:left;">+86<span class="iconfont" style="margin-left: 10px;    margin-left: 10px;font-size: 22px;color: #333;"></span></label><span style="float:left;">|</span><input placeholder="请输入手机号" style="width:190px;*width: 204px;border: 0px;float: left;margin-top:6px;height:30px;line-height:30px;padding-left:14px;"></span></td>
+                </tr>
+                <tr>
+                    <td class="td01"><font>*</font>邮箱：</td>
+                    <td class="td02"><input name="111" type="text" class="input" size="20"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input name="sub" type="submit" value="提交" /></td>
+                </tr>
+            </table>
+        </div>
+        <div id="fade" class="black_overlay"></div>
+        <script type="text/javascript">
+            $(function(){
+            })
+            function openDialog(){
+                document.getElementById('light').style.display='block';
+                document.getElementById('fade').style.display='block'
+            }
+            function closeDialog(){
+                document.getElementById('light').style.display='none';
+                document.getElementById('fade').style.display='none'
+            }
+        </script>
+        <div class="inner_width">
+            <div class="focus">
+                <ul>
+                    <li><span id="ming">沈志萍</span><span id="namw">沈志萍</span><span>江苏省南京市鼓楼区丁家桥87号住院部7楼介入血管外科手术室</span><span id="pho">15335452626</span><span id="danwei">东南大学附属中大医院</span><span id="keshi">肿瘤化疗与放射病科</span><span></span>
+                    </li>
+                    <li id="shub"><span id="ming">李强</span><span id="namw">沈志萍</span><span>江苏省南京市鼓楼区丁家桥87号住院部7楼介入血管外科手术室</span><span id="pho">15335452626</span><span id="danwei">东南大学附属中大医院</span><span id="keshi">肿瘤化疗与放射病科</span><span id="xiu"><a href="#">修改地址</a></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="" id="stit"><img src="../img/shouqi.jpg"></div>
+        </div>
+        <script type="text/javascript">
+            $(window).load(function() {
+
+                var flag = 1;
+                $("#stit").click(function(){
+                    $(".focus").slideToggle();
+                    if(flag==0){
+                        $(this).html("<img src='../img/shouqi.jpg'>");
+                        flag = 1;
+
+                    }else{
+                        $(this).html("<img src='../img/zhank.jpg'>");
+                        flag = 0;
+                    }
+                })
+
+            })
+
+        </script>
+        <div style="height:40px;width:100%;display:block;"></div>
+        <p>商品清单</p>
+        <table width="100%" border="0"  cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="tr03" style="width:190px;">图片</td>
+                <td class="tr03" style="width:320px;">商品名称</td>
+                <td class="tr03 td07" style="width:200px;">单价</td>
+                <td class="tr03" style="width:200px;">数量</td>
+                <td class="tr03 td07" style="width:200px;">小计</td>
+            </tr>
+            <tr>
+                <td><span id="tu"><img src="../img/gw01.png" /></span></td>
+                <td>IQQA-3D肝脏评估和治疗计划辅助系统©</td>
+                <td>￥200.00</td>
+                <td>1</td>
+                <td>￥200.00</td>
+            </tr>
+            <tr>
+                <td><span id="tu"><img src="../img/gw01.png" /></span></td>
+                <td>IQQA-3D肝脏评估和治疗计划辅助系统©</td>
+                <td>￥200.00</td>
+                <td>1</td>
+                <td>￥200.00</td>
+            </tr>
+            <tr>
+                <td colspan="7" style="height:38px;padding: 0px;border:0px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="7" valign="bottom" style="height:140px;padding:5px;">  <p>发票信息：</p></td>
+            </tr>
+            <tr>
+                <td colspan="7" style="border-bottom:0px;padding:10px;"><span style="float:left;">是否开发票</span> <form action="" method="get" style="float: left;padding-left: 30px;">
+                    <a href = "JavaScript:void(0)" onclick = "openDialog1()">  <label><input name="Fruit" type="radio" value=""/>是</label></a>
+                    <div id="light1" class="fatc">
+                        <div class="fatc_t">发票信息           <a href = "javascript:void(0)" onclick = "closeDialog1(1)"><i class="iconfont">&#xe62f;</i></a></div>
+                        <div class="fatc_b">
+                            <div class="title">
+                                <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv2_',1,this)"   id="JKDiv2_DEF" class="Selected">电子发票</li>
+                                <li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv2_',1,this)" >增值税专用发票</li>
+                            </div>
+                            <style>
+                                #shuih{display:none;}
+                            </style>
+                            <div class="con"  id="JKDiv2_0">
+                                <script type="text/javascript">
+                                    $(document).ready(function(){
+                                        $("#hide").click(function(){
+                                            $("#shuih").hide();
+                                        });
+                                        $("#show").click(function(){
+                                            $("#shuih").show();
+                                        });
+                                    });
+                                </script>
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td  rowspan="2" valign="top" class="cb1" style="padding-top:20px;"><font>*</font>发票抬头：</td>
+                                        <td><input type="text"  value="个人"  class="dang" id="hide"></td></tr>
+                                    <tr>
+                                        <td><input type="text"  value="新增单位发票" class="danwei" id="show"> </td>
+                                    </tr>
+                                    <tr id="shuih">
+                                        <td class="cb1"><font>*</font>纳税人识别号：</td>
+                                        <td><input type="text"  value="" ></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #e6e6e6;">
+                                        <td class="cb1"><font>*</font>发票内容：</td>
+                                        <td><span class="fpan dang">明细</span>
+                                            <span class="fpan" >办公用品</span>
+                                            <span class="fpan" >电脑配件</span>
+                                            <span class="fpan" >耗材</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cb1"><font>*</font>收票人手机：</td>
+                                        <td><input type="text"  value="" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cb1"><font>*</font>收票人邮箱：</td>
+                                        <td><input type="text"  value="" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border-bottom:1px solid #e6e6e6;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:center;padding-top:30px;"><input type="button" value="保存"><input name="重置" type="reset" value="取消"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="con" id="JKDiv2_1" style="display:none;">
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td class="cb1"><font>*</font>开票方式：</td>
+                                        <td><input type="text" value="订单完成后开票" ></td>
+                                    </tr>
+                                    <!--第一步-->
+                                    <tr>
+                                        <td class="cb1"><font>*</font>发票内容：</td>
+                                        <td style="    text-align: left;"><input name="明细" type="submit" value="明细"  style="    margin-left: 34px;">
+                                        </td>
+                                    <tr>
+                                        <td colspan="2" style="hegiht:30px;">   </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2"  style="border-bottom:1px solid #e6e6e6;padding-left:20px;"><div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i><span>2.填写或核对公司信息</span><i id="xian"></i><span>3.填写收票人信息</span> </div>
+                                            <p>发票将在订单完成之后7-15个工作日寄出</p></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" style="text-align:center;"><input type="button" value="下一步"><input name="重置" type="reset" value="取消"></td>
+                                    </tr>
+                                    <!------第二步----------->
+                                    <!--<tr>
+                                        <td colspan="2"  style="padding-left:20px;"><div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i><span id="fenb">2.填写或核对公司信息</span><i id="xians"></i><span>3.填写收票人信息</span> </div>
+                                    </td>
+                                      </tr>
+                                              <tr>
+                                        <td class="cb1"><font>*</font>单位名称：</td>
+                                        <td><input type="text"  value="" ></td>
+                                      </tr>
+                                            <tr>
+                                        <td class="cb1"><font>*</font>纳税人识别码：</td>
+                                        <td><input type="text"  value="" ></td>
+                                      </tr>
+                                            <tr>
+                                        <td class="cb1"><font>*</font>注册地址：</td>
+                                        <td><input type="text"  value="" ></td>
+                                      </tr>
+                                            <tr>
+                                        <td class="cb1"><font>*</font>注册电话：</td>
+                                        <td><input type="text"  value="" ></td>
+                                      </tr>
+                                            <tr>
+                                        <td class="cb1"><font>*</font>开户行：</td>
+                                        <td><input type="text"  value="" ></td>
+                                      </tr>
+                                            <tr>
+                                        <td class="cb1"><font>*</font>银行账户：</td>
+                                        <td><input type="text"  value="" ></td>
+                                      </tr>
+
+                                      <tr>
+                                        <td colspan="2" style="text-align:center;border-top:1px solid #e6e6e6;"><input type="button" value="下一步"><input name="重置" type="reset" value="取消"></td>
+                                      </tr>-->
+
+                                    <!--第三步--->
+                                    <!-- <tr>
+                                        <td colspan="2"  style="padding-left:20px;"><div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i><span id="fenb">2.填写或核对公司信息</span><i id="xians"></i><span id="fenb">3.填写收票人信息</span> </div>
+                                    </td>
+                                      </tr>
+                                              <tr>
+                                        <td class="cb1">收票人姓名：</td>
+                                        <td><input type="text"  value="" ></td>
+                                      </tr>
+                                               <tr>
+                                        <td class="cb1">收票人电话：</td>
+                                        <td><input type="text"  value="" ></td>
+                                      </tr>
+                                                <tr>
+                                        <td class="cb1">收票人地址：</td>
+                                        <td><input type="text"  value="" ></td>
+                                      </tr>
+                                     <tr>
+                                        <td colspan="2" style="text-align:center;border-top:1px solid #e6e6e6;"><input type="button" value="保存"><input name="重置" type="reset" value="取消"></td>
+                                      </tr>-->
+                                </table></div>
+
+                        </div>
+                    </div>
+                    <div id="fade1" class="black_overlay"></div>
+                    <script type="text/javascript">
+                        $(function(){
+                        })
+                        function openDialog1(){
+                            document.getElementById('light1').style.display='block';
+                            document.getElementById('fade1').style.display='block'
+                        }
+                        function closeDialog1(){
+                            document.getElementById('light1').style.display='none';
+                            document.getElementById('fade1').style.display='none'
+                        }
+                    </script>
+                    <label><input name="Fruit" type="radio" value="" checked="checked"/>否</label></form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7" style="    padding: 30px 0px 15px 10px;"><div id="stit1">使用Knowhow卡抵用<i class='iconfont'>&#xe602;</i></div></td></tr>
+            <tr>
+                <td colspan="7" style="padding:0px;"><div class="know">
+                    <div class="title">
+                        <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv_',1,this)"   id="JKDiv_DEF" class="Selected">现用Knowhow卡</li>
+                        <li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv_',1,this)" >绑定Knowhow卡</li>
+                    </div>
+                    <div class="con" id="JKDiv_0">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="width:200px;text-align:right;">请输入Knowhow卡的密码：</td>
+                                <td><input type="text" /><i><img src="../img/cd02.jpg" /></i><input type="text" /><i><img src="../img/cd02.jpg" /></i><input type="text" /><i><img src="../img/cd02.jpg" /></i><input type="text" /><button>确定</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="height:174px;">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background: #f8f8f8;height: 60px;line-height: 60px;">共使用了了<font>&nbsp;1&nbsp;</font> 张礼品卡，可优惠<font>&nbsp;¥0.00&nbsp;</font>元</td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="con" id="JKDiv_1" style="display:none;">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="width:200px;text-align:right;">请输入know-how卡卡号：</td>
+                                <td><input type="text" /><i><img src="../img/cd02.jpg" /></i><input type="text" /><i><img src="../img/cd02.jpg" /></i><input type="text" /><i><img src="../img/cd02.jpg" /></i><input type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td style="width:200px;text-align:right;">请输入know-how卡卡密：</td>
+                                <td><input type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td style="width:200px;text-align:right;">验证码：</td>
+                                <td><input type="text" />   <img src="../img/yzm.jpg" style="float:left;margin-left:20px;"></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td><button>立即绑定</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="height: 42px;padding: 0px;">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background: #f8f8f8;height: 50px;line-height: 50px;">共使用了<font>&nbsp;1&nbsp;</font> 张礼品卡，可优惠<font>&nbsp;¥0.00&nbsp;</font>元</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                </td></tr>
+            <tr>
+                <td colspan="7" style="border-bottom:0px;text-align:right;padding:5px 18px 0px 0px;">金额抵用：<font style="padding-left:20px;"><b>￥0.00</b></font></td>  </tr>
+            <tr>
+                <td colspan="7" style="border-bottom:0px;text-align:right;padding:5px 18px 8px 0px;">已选：<font style="padding-left:40px;"><b>2</b>&nbsp;件</font></td></tr>
+            <tr>
+                <td class="tr03" colspan="7" style="border-bottom:0px;text-align:right;padding-right: 30px;">合计：<span id="bians"><b>￥1000.00</b></span><button class="cez" style="margin-left: 40px;width: 167px;font-weight: 500;">提交订单</button></td>
+            </tr>
+        </table>
+        <style>
+            .gwlist table #bians{padding-left:10px;}
+            .know{width:1200px;border-left:1px solid #e6e6e6;border-right:1px solid #e6e6e6;}
+            .know .title{height:60px;display:block;background:#f5faff;}
+            .know .title li{cursor:pointer;float:left;width:242px;text-align:center;font-size:16px;color:#666;line-height:60px;}
+            .know .title .Selected{width:242px;text-align:center;background:#f8f8f8;color:#666;}
+            .know .con{height:310px;padding-top:27px;overflow:hiddden;}
+            .know .con table{border:0px;}
+            .know .con table td{padding:0px 0px 12px 20px;font-size:14px;color:#333;line-height:38px;height:38px;*height:50px;text-align:left;border:0px;}
+            .know .con table td input{width:100px;height:34px;border:1px solid #e6e6e6;border-radius:3px;background:#fff;font-size:14px;color:#333;float:left;text-align:center;}
+            .know .con table td input:hover{border:1px solid #006ab7;}
+            .know .con table td i{margin:18px 5px;font-size:20px;color:#e6e6e6;float:left;}
+            .know .con table td button{width:100px;height:36px;border-radius:3px;background:#007fdc;color:#fff;font-size:14px;border:0px;line-height: 29px;margin-left:30px;}
+            .know .con table td a{color:#007fdc;text-decoration: underline;padding-left:205px;}
+            .know .con font{#e06500;font-weight:600;}
+
+
+        </style>
+        <script type="text/javascript">
+            $(window).load(function() {
+
+                var flag = 1;
+                $("#stit1").click(function(){
+                    $(".know").slideToggle();
+                    if(flag==0){
+                        $(this).html("使用Knowhow卡抵用<i class='iconfont'>&#xe602;</i>");
+                        flag = 1;
+
+                    }else{
+                        $(this).html("使用Knowhow卡抵用<i class='iconfont'>&#xe603;</i>");
+                        flag = 0;
+                    }
+                })
+
+            })
+
+        </script>
+    </div>
+</div>
+<div class="tjnav" style="border-top:1px solid #dbedfa;padding-top:38px;">
+    <ul>
+        <li style="margin-left:0px;"><a href="#"><img src="../img/fenxi.png" /></a><span><a href="#">分析软件</a></span></li>
+        <li><a href="#"><img src="../img/fxrj.png" /></a><span><a href="#">计划软件</a></span></li>
+        <li><a href="#"><img src="../img/3d.png"/></a><span><a href="#">3D打印</a></span></li>
+        <li><a href="#"><img src="../img/zhin.png" /></a><span><a href="#">人工智能</a></span></li>
+        <li><a href="#"><img src="../img/robot.png" /></a><span><a href="#">导航/机器人</a></span></li>
+
+    </ul>
+
+</div>
+<div id="Footer">
+    <div class="foot"><span class="Le">Surgi-plan.com Copyright © All Rights Reserved 2006-2023 <a href="">京ICP备17046258号</a></span>
+        <span class="RI"><a href="#">关于我们</a><a href="#">联系我们</a><a href="#">网站声明</a><a href="#">常见问题</a>
+        </span></div></div>
+</body>
+</html>

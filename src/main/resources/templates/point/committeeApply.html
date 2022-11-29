@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>学术组委会赞助申请</title>
+    <script type="text/javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/accordion.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <script language="javascript" th:href="@{/assets/css/iconfont.js}"></script>
+    <script th:src="@{/assets/js/layDate-v5.0.9/laydate/laydate.js}"></script>
+
+    <!--弹窗特效-->
+    <link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+    <!--<script th:src="@{/assets/js/jquery-3.1.1.js}"></script>-->
+    <!--<script src="js/jquery-1.10.2.min.js" th:src="@{/assets/tanchuang/jquery-1.10.2.min.js}"></script>-->
+    <link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+    <script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+    <!--三级联动插件-->
+    <script th:src="@{/assets/js/lSelect.js}"></script>
+    <style>
+        .chax table td input{font-size:14px;color:#999;}
+    </style>
+</head>
+<body>
+
+
+<!--语言切换-->
+<!--未登录-->
+<shiro:notAuthenticated>
+    <th:block th:replace="~{incloud/language::language}"></th:block>
+</shiro:notAuthenticated>
+<!--已登录-->
+<shiro:authenticated>
+    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+</shiro:authenticated>
+
+<div class="head">
+    <!--未登录-->
+    <div th:replace="~{head::topbar}"></div>
+    <!--已登录-->
+</div>
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}">首页</a>><a href="javaScript:void(0);">我的SP</a></div>
+    <div class="con_sp">
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+
+        <div class="con_right">
+            <div class="chax">
+                <h1>学术组委会赞助申请<span style="font-weight:500;float:right;padding-right:40px;">当前可用积分：<span id="orage"><b>[[${member.point}]]</b></span></span></h1>
+
+                <form method="post" onsubmit="return checkFrom()" th:action="@{/committeeApply/save}"  enctype="multipart/form-data">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td colspan="2"><h5>会议信息</h5></td>
+                    </tr>
+                    <tr>
+                        <td class="td16">会议网址：</td>
+                        <td><input type="text" name="website" placeholder="请填写会议官方网站" required   /></td>
+                    </tr>
+                    <tr>
+                        <td class="td16">会议名称：</td>
+                        <td><input type="text" name="meetname" placeholder="请填写会议名称" required /></td>
+                    </tr>
+                    <tr>
+                        <td class="td16">举办时间：</td>
+                        <td><input type="text" style="width: 120px;" name="beginHoldDateText" class="dates" required >
+                            <i style="float:left;background:#dadada;width:16px;height:1px;margin:19px 10px 0px 10px;"></i>
+                            <input type="text" style="width: 120px;" name="endHoldDateText" class="dates" required>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td16">会议地点：</td>
+                        <td>
+                           <input type="hidden" id="areaId" name="area" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><input type="text" name="address" placeholder="请输入详细地址" required /></td>
+                    </tr>
+
+                    <tr>
+                        <td class="td16">合同：</td>
+                        <td><input name="contractImg" type="file" /><p style="font-size:12px;color:#999;float: left;padding-left: 30px;">JPEG、PNG格式文件，需加盖会议组织机构公章。</p></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><h5>会议信息</h5></td>
+                    </tr>
+                    <tr>
+                        <td class="td16" style="padding-bottom:30px;">申请金额：</td>
+                        <td style="padding-bottom:30px;"><input type="number" min="1" name="amount" placeholder="请填写会议申请金额" required /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="td17"><input id="agree" type="checkbox">
+                            <label class="label1"></label>
+                            我已阅读并同意<a href="#">《服务条款》</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button type="submit" id="register" style="cursor: pointer;background: #f4f4f2;color: #1D222D;">提交申请</button></td>
+                    </tr>
+                </table>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+<script type="text/javascript">
+    var hl = $(".con_left").outerHeight();
+    var hr = $(".con_right").outerHeight();
+    var mh = Math.max(hl,hr);
+    $(".con_left").height(mh);
+    $(".con_right").height(mh);
+
+    $(function() {
+        // 地区选择
+        $("#areaId").lSelect({
+            url: "[[@{/area/getAreas}]]"
+        });
+
+        //日历输入框遍历循环创建实例
+        $('.dates').each(function(){
+            laydate.render({
+                elem: this
+            });
+        });
+
+
+        //服务条款
+        $('#agree').click(function () {
+            var agree =$(this).prop("checked");
+            if(agree){
+                $("#register").removeAttr("disabled");
+                $('#register').css({'background':'#007fdc'});
+                $('#register').css({'color':'#f9fafc'});
+            }else {
+                $("#register").attr("disabled", "disabled");
+                $('#register').css({'background':'#E8E7E4'});
+                $('#register').css({'color':'#333'});
+            }
+
+        });
+
+
+    });
+
+
+    //校验表单提交
+    function checkFrom() {
+
+        var areaId = $('#areaId').val();
+
+        if(areaId==''){
+            $('#popup').html('请选择地区!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+
+        return true;
+
+
+    }
+
+    //弹窗确定关闭效果
+    function ok(id){
+        syalert.syhide(id);
+    }
+
+
+</script>
+
+</body>
+</html>
+

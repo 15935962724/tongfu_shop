@@ -1,0 +1,48 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.tongfu.email.wangyi.EmailInformationProperties",
+      "name": "emailinformation",
+      "type": "com.tongfu.email.wangyi.EmailInformationProperties"
+    },
+    {
+      "sourceType": "com.tongfu.config.DruidConfig",
+      "name": "spring.datasource",
+      "sourceMethod": "druid()",
+      "type": "javax.sql.DataSource"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.tongfu.email.wangyi.EmailInformationProperties",
+      "name": "emailinformation.dev-test-pro-system",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tongfu.email.wangyi.EmailInformationProperties",
+      "name": "emailinformation.ip-address",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tongfu.email.wangyi.EmailInformationProperties",
+      "name": "emailinformation.my-email-s-m-t-p-host",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tongfu.email.wangyi.EmailInformationProperties",
+      "name": "emailinformation.service-send-email-account",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tongfu.email.wangyi.EmailInformationProperties",
+      "name": "emailinformation.service-send-email-password",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "server.prot",
+      "description": "A description for 'server.prot'",
+      "type": "java.lang.String"
+    }
+  ]
+}

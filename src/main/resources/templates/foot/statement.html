@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>网站声明</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+    <link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}" />
+    <link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+    <link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <script src="../js/jquery-3.1.1.js" th:src="@{/assets/js/jquery-3.1.1.js}"></script>
+    <script src="../js/qiehuan.js" type="text/javascript" th:src="@{/assets/js/qiehuan.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+
+</head>
+
+<body>
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj" style="width: 1200px"><a th:href="@{/}" >首页</a>&gt;<a href="#">页脚菜单</a>&gt;<a href="#">网站声明</a></div>
+    <style>
+        .shengm{width:1200px;margin:auto;-moz-box-shadow:0px 0px 20px #e6eff9; -webkit-box-shadow:0px 0px 20px #e6eff9; box-shadow:0px 0px 20px #e6eff9;background: #fff;}
+        .shengm .title{display:flex;justify-content: center;align-items: center;width:100%;padding: 20px 0;background: #f9f9f9;}
+        .shengm .title li{display:flex;justify-content: center;align-items: center;cursor:pointer;height:40px;font-size:16px;color:#666;padding:0px 30px;border-radius: 10px}
+        .shengm .title .Selected{color:#fff;background-color: #00aef0}
+
+        .shengm .con{padding:20px;overflow:hiddden;}
+        .shengm .text{padding:20px;display:block;font-size:16px;color:#333;line-height:180%;text-align:left;}
+        .shengm .text p{text-indent:2em;padding:8px 0;}
+        .shengm .text h6{font-size:24px;color:#333;text-align:center;display:block;font-weight:bolder;padding-bottom:30px;}
+
+    </style>
+    <div class="shengm">
+
+        <div class="title">
+            <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv_',2,this)" id="JKDiv_DEF" th:class="${type==1?'Selected':''}">平台隐私声明</li>
+            <li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv_',2,this)" th:class="${type==2?'Selected':''}" >注册免责条款</li>
+        </div>
+        <div class="con" id="JKDiv_0">
+            <div class="text">
+                <h6>平台隐私声明</h6>
+                <p>我们十分重视你的隐私。 本隐私声明阐述了&ldquo;SurgiPlan&rdquo;处理的个人数据以及 &ldquo;SurgiPlan&rdquo;处理个人数据的方式和目的。</p>
+
+                <p>&ldquo;SurgiPlan&rdquo;提供了多种产品，其中包括用于帮助在全球范围内运营企业的医学智能AI(但不限于)产品、医生在医院使用的软件，以及开发人员用于创建和托管下一代产品的服务。 本声明中所提到的&ldquo;SurgiPlan&rdquo;产品包括&ldquo;SurgiPlan&rdquo; 服务、网站、应用、软件、服务器和设备。</p>
+
+                <p>请阅读本隐私声明中特定于产品的详细信息，这些详细信息提供了其他相关信息。 此声明适用于&ldquo;SurgiPlan&rdquo;与你之间的互动、下列&ldquo;SurgiPlan&rdquo;产品以及显示此声明的其他&ldquo;SurgiPlan&rdquo;产品。</p>
+
+                <p><strong>Cookie</strong></p>
+
+                <p>&ldquo;SurgiPlan&rdquo;站点使用 Cookie - Cookie 是放置在设备上的小文本文件，域中放置 Cookie 的 Web 服务器稍后可以检索这些小文本文件。 我们使用 Cookie 来存储你的首选项和设置、帮助登录、提供定向广告，以及分析站点运行。</p>
+
+                <p><strong>联系我们</strong></p>
+
+                <p>如果你有隐私担忧、投诉或问题要询问&ldquo;SurgiPlan&rdquo;首席隐私官或数据保护专员，请通过&nbsp;客服电话或&ldquo;www. SurgiPlan.com&rdquo;联系我们。</p>
+
+                <p><strong>我们收集的个人数据</strong></p>
+
+
+                <p>出于下述各种目的，包括高效运营以及为你提供最佳产品体验，&ldquo;SurgiPlan&rdquo; 会收集你向我们提供的数据、你与 &ldquo;SurgiPlan&rdquo; 之间的互动数据以及平台使用数据。 你直接提供部分此类数据，例如当你创建 &ldquo;SurgiPlan&rdquo;帐户、管理组织的许可帐户、向&rdquo;SurgiPlan&rdquo;提交搜索查询、注册 &ldquo;SurgiPlan&rdquo;活动联系我们获得支持时。 其他数据则由我们通过你与产品的交互、对产品的使用和体验以及相关通信收集而来。</p>
+
+                <p>出于下述各种目的，我们会凭借各种法律理由和许可（&ldquo;法律依据&rdquo;）来处理数据，这些依据包括征得你的同意、平衡合法利益、有必要签订和执行合同以及履行法律义务。</p>
+
+                <p>我们还从第三方获取数据。 我们保护根据本声明中描述的惯例以及数据源所施加的任何其他限制从第三方获取的数据。 这些第三方源随着时间的推移而变化，并且包含：</p>
+
+                <ul>
+                    <li>数据经纪人，我们通过他们购买统计数据来补充我们收集的数据。</li>
+                    <li>向他人提供用户生成的内容（例如本地商业评论或公共社交媒体帖子）的服务。</li>
+                    <li>通信服务，包括电子邮件提供商和社交网络（前提是你允许我们访问你在此类第三方服务或网络上的数据）。</li>
+                    <li>帮助我们确定你的设备位置的服务提供商。</li>
+                    <li>合作伙伴，我们与这些合作伙伴一起提供联合品牌服务或参与联合市场营销活动。</li>
+                    <li>公开提供的源，例如开放式政府数据库。</li>
+                </ul>
+
+                <p>对于你使用的技术和共享的数据，你可以做出不同的选择。 当我们请求你提供个人数据时，你可以拒绝。 我们的很多产品都需要你提供某些个人数据，以便运行并向你提供服务。 如果你选择不提供某个产品或功能所需的数据，则无法运行和使用该产品或功能。 同样，如果我们需要依法收集个人数据，或者需要与你签订合同或对你履行合同，但你没有提供数据，那么我们将无法签订合同；或者如果这在涉及到你正使用的现有产品，那么我们可能必须暂停或取消你的使用权。 如果属于上述情况，我们将通知你。 在不强制要求提供数据的情况下，如果你选择不共享个人数据，那么你将无法使用需要提供此类数据的功能（如个性化功能）。</p>
+
+                <p><strong>我们收集的数据取决于你与 &ldquo;SurgiPlan&rdquo;互动的环境、你所做的选择（包括你的隐私设置）、你所使用的产品和功能、你的位置以及适用法律.</strong></p>
+
+                <p>我们收集的数据可能包括以下各项：</p>
+
+                <p><strong>姓名和联系人数据. </strong>你的姓氏和名字、电子邮件地址、工作科室、通信地址、电话号码以及其他类似的联系人数据。</p>
+
+                <p><strong>凭据. </strong>密码、密码提示以及用于验证和帐户访问的类似安全信息。</p>
+
+                <p><strong>统计数据. </strong>与你有关的数据，如你的年龄、性别、所在国家/地区和首选语言。</p>
+
+                <p><strong>付款数据. </strong>处理付款所需的数据，如你的付款方式号码（如微信账户、支付宝、信用卡卡号），以及与你的付款方式相关的安全码。</p>
+
+                <p><strong>订阅和授权数据. </strong>有关你的订阅、许可证和其他权利的信息。</p>
+
+                <p><strong>交互. </strong>有关你的 &ldquo;SurgiPlan&rdquo;产品使用情况的数据。 在某些情况下，如搜索查询时，此类数据由你出于使用产品的目的而提供。 在其他情况下，如报告错误时，此类数据由我们生成。 其他交互数据示例包括：</p>
+
+                <ul>
+                    <li><strong>设备和使用情况数据. </strong>有关你的设备以及你所使用的产品和功能的数据，包括有关你的硬件和软件、我们的产品性能以及你的设置的信息。 例如：
+
+                        <ul style="list-style-type:circle">
+                            <li><strong>付款和帐户历史记录。</strong>有关你购买的商品以及与帐户关联的活动的数据。</li>
+                            <li><strong>浏览历史记录。</strong>有关你访问的网页的数据。</li>
+                            <li><strong>设备、连接性和配置数据。</strong>有关你的设备、设备配置和附近网络的数据。例如，有关操作系统和设备上安装的其他软件（包括产品密钥）的数据。此外还有 IP 地址、设备标识符（例如适用于手机的 IMEI 号码）、区域和语言设置及有关设备附近的 WLAN 访问点的信息。</li>
+                            <li><strong>错误报告和性能数据。</strong>有关产品性能和你所遇到的任何问题的数据，包括错误报告。错误报告（有时称为&ldquo;故障转储&rdquo;）可能包括与错误相关的软件或硬件的详细信息、发生错误时打开的文件的内容，以及与设备上的其他软件有关的数据。</li>
+                            <li><strong>疑难解答和帮助数据。</strong>你在联系 &ldquo;SurgiPlan&rdquo; 寻求帮助时提供的数据，如你使用的产品和其他可帮助我们提供支持的详细信息。例如，联系人或身份验证数据、与&rdquo;SurgiPlan&rdquo;之间的聊天以及其他通信的内容、关于设备以及你所使用的帮助查询相关产品的状况数据。当你联系我们时，如为寻求客户支持而联系我们时，与我们代表之间的电话对话或聊天会话可能会被监视和记录。</li>
+                        </ul>
+                    </li>
+                    <li><strong>兴趣和爱好. </strong>关于你的兴趣和爱好的数据，如你关注的软、硬件、你首选的行业资讯等除你明确提供的数据外，我们还可能根据所收集的其他数据推断或得出你的兴趣和爱好。</li>
+                    <li><strong>内容使用数据. </strong>你通过我们的平台访问的媒体内容（如电视、视频、音频、文本书籍、应用）相关信息。</li>
+                    <li><strong>搜索和命令. </strong>将 &ldquo;SurgiPlan&rdquo;平台内的产品与搜索功能或相关生产力功能配合使用时的搜索查询和命令。</li>
+                    <li><strong>语音数据. </strong>你的语音数据，如你口头进行的搜索查询或口头下达的命令，可能包括背景声音。</li>
+                    <li><strong>文本和键入数据. </strong>文本和键入数据以及相关信息。 例如，当我们收集数据时，也会收集有关工具在设备上的放置位置信息。</li>
+                    <li><strong>图像. </strong>图像和相关信息，如图片元数据。 例如，我们会收集你在使用图像支持服务时提供的图像。</li>
+                    <li><strong>联系人以及与你的关系. 有</strong>关联系人和关系的数据（如果你使用产品与其他人共享信息、管理联系人、与其他人交流或提高工作效率）。</li>
+                    <li><strong>社交数据. </strong>有关你、其他人和组织之间的关系和互动的信息，例如与人员和组织相关的参与类型（例如喜欢、不喜欢、事件等）。</li>
+                    <li><strong>位置数据. </strong>有关你的设备位置的数据（可能是精确数据，也可能是模糊数据）。 例如，我们使用全球导航卫星系统 (GNSS)（例如 GPS）收集位置数据，并收集关于附近的移动基站和 WLAN 热点的数据。 也可以根据设备的 IP 地址或帐户配置文件中表示设备所在位置的较模糊数据（如所在城市或邮编）来推断位置。</li>
+                    <li><strong>其他输入. </strong>如果你使用 Spend，有必要我们将会在你的指示下，我们还会收集信用卡发卡行提供的财务交易数据来提供服务。</li>
+                </ul>
+
+                <p><strong>内容. </strong>你输入、上传、接收、创建和控制的文件和数据包的内容。 例如，如果你将数据传输给&rdquo;SurgiPlan&rdquo;平台用于获得增值服务（如远程报告服务、3D打印服务），则我们需要收集该文件的内容以向你和软件供应商/指定的顾问成员显示此文件。</p>
+
+                <p><strong>反馈和评价. </strong>你提供给我们的信息、你发送给我们的消息内容，例如反馈、调查数据和你写的使用评价。</p>
+
+                <p>以下产品特定部分描述适用于使用这些产品的数据收集惯例。</p>
+
+                <p><a name="mainhowweusepersonaldatamodule"></a><strong>我们如何使用个人数据</strong></p>
+
+                <p>&ldquo;SurgiPlan&rdquo;使用我们收集的数据为你提供丰富的交互式体验。 我们使用数据的典型目的包括：</p>
+
+                <ul>
+                    <li>提供我们的产品，包括进行更新、保护和疑难解答，以及提供支持。 在需要使用数据来提供服务或执行你请求的交易时，还包括共享数据。</li>
+                    <li>改进和开发我们的产品。</li>
+                    <li>个性化我们的产品并提出建议。</li>
+                    <li>向你进行前沿科技、行业资讯、培训学习和营销方式，其中包括发送销售信息、进行定向广告/文献以及为你提供相关优惠。</li>
+                    <li>我们还使用数据来运营业务，其中包括分析我们的绩效、遵守法律义务、壮大员工队伍以及进行调查。</li>
+                    <li>为了实现这些目标，我们会合并从不同环境中收集的数据。但是，我们采用了内置技术和程序保障措施，专门用于在法律要求的情况下防止特定的数据结合。 例如，在法律要求的情况下，我们将你未进行身份验证（未登录）时从你那里收集的数据与任何可直接标识你的帐户信息（例如你的姓名、电子邮件地址或电话号码）分开保存。</li>
+                    <li>我们处理关于你的个人数据时，必先取得你的同意并且/或者在必要时提供你使用的产品、运营我们的业务、履行我们的合同和法律义务、保护我们系统和客户的安全，或履行本部分和本隐私声明的<a href="https://privacy.microsoft.com/zh-cn/privacystatement#mainreasonswesharepersonaldatamodule" target="_blank">我们共享个人数据的原因</a>部分中所述的 &ldquo;SurgiPlan&rdquo;的其他合法利益。</li>
+                    <li>关于处理目的的详细信息：</li>
+                    <li>用户体验改进。&nbsp;我们使用数据不断改进我们的服务，包括添加新的特性或功能。 例如，我们使用错误报告改进安全功能、使用必应中的搜索查询和点击率来提高搜索结果的相关性、使用用法数据确定哪些新功能优先。</li>
+                    <li>个性化设置。&nbsp;许多产品包括个性化功能，例如用于提高效率和增加交互的建议。 这些功能使用自动化流程根据我们所具有的关于你的数据（例如我们对你的推断以及你的产品使用情况、活动、兴趣和位置）来定制你的使用体验。</li>
+                    <li>产品激活。&nbsp;&rdquo;SurgiPlan&rdquo;作为第三方软件（但不限于）应用平台提供多个软件的浏览及销售激活码，&rdquo;SurgiPlan&rdquo;与软件（但不限于）供应商共同使用数据（例如，设备和应用程序类型、位置和独特的设备、应用程序、网络和订阅标识符）来激活需要激活的产品。</li>
+                    <li>平台开发。&nbsp;我们使用数据来升级平台。 例如，我们使用通常已去除身份识别的数据，以更好地了解客户对平台的使用需求，这些需求可能会影响平台的开发。</li>
+                    <li>客户支持。&nbsp;我们使用数据来解决和诊断产品问题，并提供其他客户关怀和支持服务。</li>
+                    <li>安全。&nbsp;我们使用数据来保护我们的平台和客户的安全。 我们的安全功能和产品可以中断恶意软件的操作。</li>
+                    <li>相关产品/服务。&nbsp;&rdquo;SurgiPlan&rdquo; 使用数据为你提供有关我们产品的重要相关信息。 我们会分析各种来源的数据，以预测你最感兴趣且与你最相关的信息，并以多种方式向你提供这些信息。 例如，我们可能会预测你的阅读及浏览兴趣并告诉你有关你可能喜欢的新行业信息。</li>
+                    <li>广告。&nbsp;&rdquo;SurgiPlan&rdquo;不会使用你在电子邮件、咨询、或语音邮件中所说的内容或你的文件、照片或其他个人文件来针对你投放广告。我们可能会使用自动化流程来帮助进行与你更相关的广告。 有关如何在广告中使用你的数据的详细信息，请参阅本隐私声明的<a href="https://privacy.microsoft.com/zh-cn/privacystatement#mainadvertisingmodule" target="_blank">广告</a>部分。</li>
+                    <li>进行商务交易。&nbsp;我们使用数据来执行你与我们的交易。 例如，我们会处理付款信息以向客户提供产品订阅，并使用联系信息交付从 &ldquo;SurgiPlan&rdquo;平台中购买的商品。</li>
+                    <li>报告和业务运营。&nbsp;我们使用数据来分析我们的运营情况，并执行商业智能。 这样，我们就能够制定明智的决策并制定业务绩效报告。</li>
+                    <li>保护权利和财产。&nbsp;我们使用数据来检测和防止欺诈、解决纠纷、履行协议，并保护我们的财产。我们可能会使用自动化流程来检测和阻止侵犯我们和其他人的权利的活动，如欺诈。</li>
+                    <li>合法性。&nbsp;我们会依法处理数据。我们还会处理联系人信息和凭据，以帮助客户行使他们的数据保护权利。</li>
+                    <li>研究。我们会出于公共利益和科学目的而使用数据进行研究，但会通过相应的技术和组织措施来保护个人的权利和自由。</li>
+                    <li>我们共享个人数据的原因</li>
+                    <li>我们在征得你同意后，或以完成某些交易/提供你请求或授权的产品为必要前提，共享你的个人数据。 例如，你告知我们与第三方共享你的信息时，我们才会这样做。</li>
+                    <li>遵循适用法律或响应有效法律程序，包括执法机关或者其他政府机关。</li>
+                    <li>保护我们的客户，例如防止垃圾邮件或欺诈产品用户的企图，或帮助防止死亡或严重人身伤害。</li>
+                    <li>运行和维护平台的安全，包括防止或阻止攻击我们的计算机系统或网络。</li>
+                    <li>保护 &ldquo;SurgiPlan&rdquo;的权利或财产，包括履行约束服务使用条款 - 但是，如果我们收到信息，表明有人正使用我们的服务交易盗取的 &ldquo;SurgiPlan&rdquo; 知识或实际财产，我们不会亲自检查客户的私密内容，但可能会交由执法部门处理。</li>
+                    <li>请注意，我们的某些产品包含指向第三方产品的链接，其隐私策略与 &ldquo;SurgiPlan&rdquo; 的隐私策略不同。 如果你向其中任意产品提供个人数据，你的数据由他们的隐私策略管辖。</li>
+                    <li><a name="mainhowtoaccesscontrolyourdatamodule"></a>&nbsp;</li>
+                    <li>你也可以反对或限制 &ldquo;SurgiPlan&rdquo; 使用你的个人数据。 例如，你可以随时反对我们出于以下目的或在以下情况下使用你的个人数据：</li>
+                    <li>出于直接营销目的。</li>
+                    <li>我们为公共利益或追求我们或第三方的合法利益而执行任务。</li>
+                </ul>
+
+                <p><a name="maincookiessimilartechnologiesmodule"></a><strong>Cookie </strong><strong>和类似技术</strong></p>
+
+                <p>Cookie 是放置在设备上的小型文本文件，用于存储数据，域中放置 Cookie 的 Web 服务器可以调用这些数据。 这些数据通常包含一串唯一标识你的计算机的数字和字母，但是也可以包含其他信息。 一些 Cookie 由代表我们行事的第三方进行放置。 我们使用 Cookie 和类似技术来存储和遵守你的偏好和设置、使你能够登录、提供基于兴趣的广告、打击欺诈行为、分析我们产品的性能以及实现下述其他合法目的。</p>
+
+                <p>我们对 Cookie 和类似技术的使用</p>
+
+                <p>&ldquo;SurgiPlan&rdquo;将 Cookie 和类似技术用于实现多个目标，具体取决于环境或产品，包括：</p>
+
+                <ul>
+                    <li><strong>存储你的偏好和设置. </strong>我们使用 Cookie 将你的偏好和设置存储在你的设备上，并增强你的体验。 例如，如果登陆你的账户来获取 &ldquo;SurgiPlan&rdquo; 平台上的行业资讯，那么根据你的设置，我们会在 Cookie 中存储此数据，因此当你返回站点时将看到相关的医学前沿信息及相关领域的广告。 如果使用 Cookie 保存你的偏好（例如你的首选语言），则不必重复设置你的偏好。 如果你选择退出基于兴趣的广告，我们将使用你的设备上的 Cookie 来存储你选择退出的偏好。</li>
+                    <li><strong>登录和验证. </strong>我们使用 Cookie 来验证你的身份。 当你使用个人 &ldquo;SurgiPlan&rdquo; 帐户登录网站时，我们会将一个唯一 ID 号和登录时间存储在你设备上的加密 Cookie 中。 通过使用此 Cookie，你可以直接从该站点上的一个页面移动到另一个页面，而不必在每个页面上重新登录。 你也可以保存登录信息，以免每次返回站点时都需要登录。</li>
+                    <li><strong>安全性. </strong>我们使用 Cookie 来处理信息，以帮助我们保护我们的产品，并检测欺诈和滥用行为。</li>
+                    <li><strong>存储你提供给网站的信息. </strong>我们使用 Cookie 来记住你共享的信息。 如果你向 &ldquo;SurgiPlan&rdquo;提供信息，例如在 &ldquo;SurgiPlan&rdquo; 网站上将产品添加到购物车时，那么我们会将数据存储在 Cookie 中以记住该信息。</li>
+                    <li><strong>社交媒体. </strong>我们的部分网站会收集社交媒体 Cookie，包括使登录社交媒体服务的用户能够通过该服务共享内容的 Cookie。</li>
+                    <li><strong>反馈. </strong>&ldquo;SurgiPlan&rdquo;使用 Cookie 以使你能够在网站上提供反馈。</li>
+                    <li><strong>基于兴趣的广告. </strong>&ldquo;SurgiPlan&rdquo;使用 Cookie 来收集有关你的在线活动的数据并发现你的兴趣所在，以便我们提供与你相关度最高的广告。 你可以根据本隐私声明的&nbsp;<a href="https://privacy.microsoft.com/zh-cn/privacystatement#mainhowtoaccesscontrolyourdatamodule" target="_blank">如何访问和控制你的个人数据</a>&nbsp;部分中的所述内容选择不再从 &ldquo;SurgiPlan&rdquo; 接收基于兴趣的广告。</li>
+                    <li><strong>显示广告. </strong>&ldquo;SurgiPlan&rdquo; 使用 Cookie 来记录点击某个广告的访问者数量，并记录你所看过的广告，例如，用于避免你重复看到相同的广告。</li>
+                    <li><strong>分析. </strong>我们使用第一方和第三方 Cookie 和其他标识符来收集用法和性能数据。 例如，我们可能使用 Cookie 来计算网页或者服务的独立访客的人数，以及开发关于我们的产品运营的其他统计资料。</li>
+                    <li><strong>性能. </strong>&ldquo;SurgiPlan&rdquo;使用 Cookie 来了解和改进我们产品的性能。 例如，我们使用 Cookie 收集有助于负载平衡的数据；这有助于确保我们的网站保持正常运行。</li>
+                </ul>
+
+                <p>下面列出了一些我们常用的 Cookie。 此列表并不详尽，而是旨在阐述我们通常设置 Cookie 的主要目的。 如果你访问我们的一个网站，该站点将设置以下部分或所有 Cookie：</p>
+
+                <ul>
+                    <li><strong>MUID</strong><strong>、MC1 和 MSFPC。&nbsp;</strong>标识访问 &ldquo;SurgiPlan&rdquo; 站点的唯一 Web 浏览器。 这些 Cookie 可用于广告、站点分析和其他运营目的。</li>
+                    <li><strong>ANON</strong><strong>。&nbsp;</strong>包含 ANID，即派生自你的 &ldquo;SurgiPlan&rdquo;帐户的唯一标识符，可用于广告、个性化和运营目的。 如果你已选择将退出行为与你的 &ldquo;SurgiPlan&rdquo; 帐户相关联，那么它也用来保存你退出 &ldquo;SurgiPlan&rdquo; 基于兴趣的广告的选择。</li>
+                    <li><strong>CC</strong><strong>。&nbsp;</strong>包含通过你的 IP 地址确定的国家/地区代码。</li>
+                    <li><strong>PPAuth</strong><strong>、MSPAuth、MSNRPSAuth、KievRPSAuth、WLSSC、MSPProf。</strong>&nbsp;当你通过你的 &ldquo;SurgiPlan&rdquo; 帐户登录时，帮助验证你的身份。</li>
+                    <li><strong>MC0</strong><strong>。&nbsp;</strong>检测浏览器中是否启用了 Cookie。</li>
+                    <li><strong>MS0</strong><strong>。</strong>标识特定会话。</li>
+                    <li><strong>NAP</strong><strong>。</strong>基于你的 &ldquo;SurgiPlan&rdquo; 帐户个人资料，包含你的国家/地区、邮政编码、年龄、性别、语言和职业（如果已知）的加密版本。</li>
+                    <li><strong>MH</strong><strong>。&nbsp;</strong>显示在 &ldquo;SurgiPlan&rdquo; 与广告商合作的联合品牌站点上。 此 Cookie 可识别广告厂商，从而选择正确的广告。</li>
+                    <li><strong>childinfo</strong><strong>、kcdob、kcrelid、kcru、pcfm。</strong>包含 &ldquo;SurgiPlan&rdquo; 帐户在其页面中使用的与子帐户相关的信息。</li>
+                    <li><strong>MR</strong><strong>。&nbsp;</strong>用于收集分析用途的信息。</li>
+                    <li><strong>x-ms-gateway-slice</strong><strong>。</strong>标识用于负载均衡的网关。</li>
+                    <li><strong>TOptOut</strong><strong>。</strong>记录你不接收 &ldquo;SurgiPlan&rdquo; 递送的基于兴趣的广告的决定。</li>
+                </ul>
+
+                <p>除了 &ldquo;SurgiPlan&rdquo; 会在你访问我们的网站时设置 Cookie 之外，第三方也可能在你访问 &ldquo;SurgiPlan&rdquo; 站点时设置 Cookie。 例如：</p>
+
+                <ul>
+                    <li>我们所聘请的代表我们提供服务（例如站点分析）的公司会在你访问我们的站点时放置 Cookie。</li>
+                    <li>在 &ldquo;SurgiPlan&rdquo; &nbsp;站点上提供视频或新闻等内容或广告的公司会自行放置 Cookie。 这些公司根据其隐私策略使用他们处理的数据，这些策略可能允许这些公司跨网站、应用或在线服务收集和合并有关你的活动的信息。</li>
+                </ul>
+
+                <p><strong>如何控制 Cookie</strong></p>
+
+                <p>大多数 Web 浏览器自动接受 Cookie，但会提供允许你阻止或删除 Cookie 的控件。 请参考你的浏览器的隐私或帮助文档，以查找在其他浏览器中阻止或删除 Cookie 的说明。</p>
+
+                <p>&ldquo;SurgiPlan&rdquo;平台的某些功能依赖 Cookie。 如果选择阻止 Cookie，你将无法登录或使用某些功能，并且依赖于 Cookie 的偏好将会丢失。 如果你选择删除 Cookie，由这些 Cookie 控制的所有设置和首选项（包括广告首选项）都会被删除，并且将需要重新创建。</p>
+
+                <p><strong>我们对 Web 信号和分析服务的使用</strong></p>
+
+                <p>某些 &ldquo;SurgiPlan&rdquo;网页包含称为 Web 信号的电子标签，可用于帮助在我们的网站上提供 Cookie、对访问过这些网站的用户进行计数和提供合作品牌产品。 我们还会在电子通信中包含 Web 信号或类似技术，以确定你是否已打开它并对其进行操作。</p>
+
+                <p>除了将 Web 信号放置在我们自己的网站上外，我们有时还与其他公司合作，以将我们的 Web 信号放置到其网站或广告中。 这有助于我们统计在&rdquo;SurgiPlan&rdquo; 网站上出现多少次单击广告的行为才会在广告厂商的网站上产生一次购买行为或其他操作。</p>
+
+                <p>最后，&rdquo;SurgiPlan&rdquo;通常包括 Web 信号或来自第三方分析提供商的类似技术，帮助我们编制关于我们促销市场活动或其他运营效果的汇总统计信息。这些技术让分析提供商能够在你的设备上设置或读取他们自己的 Cookie 或其他标识符，利用 Cookie 或其他标识符，他们可以跨应用程序、网站或其他产品收集与你的在线活动有关的信息。但是，我们禁止这些分析提供商在我们的站点上使用 Web 信号来收集或访问可以直接识别你的信息（如你的姓名或电子邮件地址）。</p>
+
+                <p><strong>其他类似技术</strong></p>
+
+                <p>除了标准的 Cookie 和 Web 信号，我们的产品也可以使用其他类似技术来存储和读取你计算机上的数据文件。 通过在本机存储特定文件，可以保留你的首选项，或者提高速度和性能。 但是，如同标准 Cookie，这些技术也可以存储你计算机的唯一标识符，以便通过其追踪行为。 这些技术包括&ldquo;本地共享对象&rdquo;（或&ldquo;Flash Cookie&rdquo;）和 Silverlight 应用程序存储。</p>
+
+                <p><strong>&ldquo;</strong><strong>本地共享对象</strong><strong>&rdquo;</strong><strong>或者</strong><strong>&ldquo;Flash Cookie&rdquo;</strong><strong>。</strong>&nbsp;使用 Adobe Flash 技术的网站可以使用&ldquo;本地共享对象&rdquo;或者&ldquo;Flash Cookie&rdquo;在你的计算机上存储数据。 若要了解如何管理或阻止 Flash Cookie，请转到&nbsp;<a href="http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager.html" target="_blank">Flash Player 帮助页面</a>。</p>
+
+                <p><strong>你的组织提供的产品 &ndash; 最终用户通知</strong></p>
+
+                <p>如果你使用 &ldquo;SurgiPlan&rdquo;平台或使用电子邮件地址访问 &ldquo;SurgiPlan&rdquo;平台的产品，并且该产品或电子邮件地址是你所属组织（例如你的单位或学校）提供的，则该组织可以：</p>
+
+                <ul>
+                    <li>控制和管理你的 &ldquo;SurgiPlan&rdquo;产品和产品帐户，包括控制产品或产品帐户的隐私相关设置。</li>
+                    <li>访问和处理你的数据，包括交互数据、诊断数据和与 &ldquo;SurgiPlan&rdquo; 产品和产品帐户关联的通信和文件的内容。</li>
+                </ul>
+
+                <p>如果你无法访问你的企业或学校帐户（例如，如果发生工作变更），则在你使用过你的企业或学校帐户登录到产品的情况下，你可能无法访问此类产品以及与这些产品关联的内容，包括你为自己获取的产品或内容。</p>
+
+                <p>许多 &ldquo;SurgiPlan&rdquo; 平台产品供学校和单位之类的组织使用。如果组织为你提供了 &ldquo;SurgiPlan&rdquo;平台 产品的访问权限，则使用 &ldquo;SurgiPlan&rdquo;平台时应遵守贵组织的政策（如果有）。 你应该向组织管理员提出隐私查询要求，包括任何行使数据保护权利的请求。 当你使用 &ldquo;SurgiPlan&rdquo;平台中的社交功能时，你网络中的其他用户可能会看到你的某些活动。 若要了解有关社交功能和其他功能的详细信息，请查看特定于 &ldquo;SurgiPlan&rdquo;平台的文档或帮助内容。 客户的隐私或安全政策可能与本隐私声明中阐述的隐私或安全政策有所不同，&rdquo;SurgiPlan&rdquo;对客户的隐私或安全政策不负任何责任。</p>
+
+                <p><strong>&ldquo;SurgiPlan&rdquo;</strong><strong>帐户</strong></p>
+
+                <p>使用 &ldquo;SurgiPlan&rdquo;帐户，你可以登录 &ldquo;SurgiPlan&rdquo;平台以及选定 &ldquo;SurgiPlan&rdquo;合作伙伴的产品。 与 &ldquo;SurgiPlan&rdquo;帐户关联的个人数据包括凭据、姓名和联系人数据、付款数据、设备和使用情况数据、你的联系人、有关你的活动的信息，以及你的兴趣和爱好。 登录到你的 &ldquo;SurgiPlan&rdquo;帐户后，可以跨产品和设备实现个性化和一致体验，使你能够使用云数据存储并使用存储在你 &ldquo;SurgiPlan&rdquo;帐户中的付款方式付款，还可启用其他功能。 有三种类型的 &ldquo;SurgiPlan&rdquo; 帐户：</p>
+
+                <ul>
+                    <li>当你创建与个人电子邮件地址相关的自己的 &ldquo;SurgiPlan&rdquo;帐户时，我们将该帐户称为个人 &ldquo;SurgiPlan&rdquo; 帐户。</li>
+                    <li>当你或你的组织（例如单位或学校）创建与该组织提供的电子邮件地址相关的 &ldquo;SurgiPlan&rdquo; 帐户时，我们将该帐户称为单位或学校帐户。</li>
+                    <li>当你或你的服务提供商（例如有线电视或 Internet 服务提供商）创建与你的电子邮件地址（包含服务提供商的域）相关的 &ldquo;SurgiPlan&rdquo;帐户时，我们将该帐户称为第三方帐户。</li>
+                </ul>
+
+                <p><strong>个人 &ldquo;SurgiPlan&rdquo; 帐户. </strong>与你的个人 &ldquo;SurgiPlan&rdquo; 帐户关联的数据以及使用这些数据的方式取决于你使用该帐户的方式。</p>
+
+                <ul>
+                    <li><strong>创建你的</strong> &ldquo;SurgiPlan&rdquo; <strong>帐户</strong>. 创建你的个人 &ldquo;SurgiPlan&rdquo; 帐户时，我们将请求你提供某些个人数据，并分配一个唯一的 ID 号，用于识别你的帐户和相关信息。 尽管某些产品（如涉及到支付的服务）要求提供真名，你可以在不提供真名的情况下登录和使用其他 &ldquo;SurgiPlan&rdquo; 平台。 你提供的一些数据（如你的显示名称、电子邮件地址和电话号码）可用于帮助别人找到你并与你在 &ldquo;SurgiPlan&rdquo;平台内建立联系。请注意，如果你使用企业或学校电子邮件地址创建个人 &ldquo;SurgiPlan&rdquo;帐户，则你的企业或学校可以访问你的数据。 在某些情况下，你需要将电子邮件地址更改为个人电子邮件地址，以便继续访问面向消费者的产品。</li>
+                    <li><strong>登录到</strong><strong> &ldquo;SurgiPlan&rdquo; </strong><strong>帐户</strong>. 当你登录你的 &ldquo;SurgiPlan&rdquo; 帐户时，我们将创建你的登录记录，其中包括日期和时间、关于所登录产品的信息、你的登录名、分配给你的帐户的唯一号码、分配给你的设备的唯一标识符、你的 IP 地址以及你的操作系统和浏览器版本。</li>
+                    <li><strong>登录到</strong> &ldquo;SurgiPlan&rdquo; <strong>产品</strong>. 登录到你的帐户可以提高帐户的个性化水平，提供跨产品和设备的无缝和一致体验，使你能够访问和使用云数据存储并使用存储在你 &ldquo;SurgiPlan&rdquo; 帐户中的付款方式付款，还可启用其他增强的功能和设置。 登录到帐户后，你将保持登录状态，直到注销为止。 当你登录时，某些产品将显示你的姓名或用户名以及你的个人资料照片（如果你已添加到个人资料）作为你使用 &ldquo;SurgiPlan&rdquo;平台的一部分，包括你的通信、社交互动和公开邮件。</li>
+                    <li><strong>登录第三方产品</strong>. 如果你使用 &ldquo;SurgiPlan&rdquo; 帐户登录第三方产品，则将根据第三方的隐私策略与第三方共享数据。 该第三方也将收到分配到你的帐户的版本号（你每次更改你的登录数据时，都会分配一个新的版本号）；以及描述你的帐户是否已停用的信息。 如果你共享你的个人资料数据，则当你登录到该第三方产品时，第三方可能会显示你的姓名或用户名和个人资料照片（如果你已向个人资料添加照片）。 如果你选择使用你的 &ldquo;SurgiPlan&rdquo;帐户向第三方商家付款，&rdquo;SurgiPlan&rdquo;平台 将根据需要把你 &ldquo;SurgiPlan&rdquo; 帐户中存储的信息传递给第三方或其供应商（例如付款处理商），以处理付款和完成订单（如姓名、信用卡卡号、帐单和送货地址，以及相关联系人信息）。 第三方可根据其惯例和策略使用或共享其在你登录或购物时收到的数据。&nbsp;<strong>你应该仔细查看你登录的每个产品的隐私声明以及每个你通过其进行购买的商家，以确定它将如何使用收集到的数据。</strong></li>
+                </ul>
+
+                <p><strong>单位或学校帐户. </strong>与单位或学校帐户相关的数据及其使用方式通常与使用和收集与个人 &ldquo;SurgiPlan&rdquo; 帐户相关的数据方式类似。</p>
+
+                <p>如果你的单位或学校使用 Azure Active Directory (AAD) 管理它向你提供的帐户，</p>
+
+                <p>如果你使用单位或学校帐户登录到 &ldquo;SurgiPlan&rdquo; 平台，请注意：</p>
+
+                <ul>
+                    <li>与你的电子邮件地址相关的域的所有者可以控制和管理你的帐户，并访问和处理你的数据，包括你的通信和文件的内容，还包括贵组织提供给你的产品以及你自己获得的产品中存储的数据。</li>
+                    <li>你对这些产品的使用需要遵守你的组织的相关政策（如果有）。 在选择使用工作或学校帐户登录你自己获取的产品之前，你应该考虑组织的策略，以及是否适合允许组织访问你的数据。</li>
+                    <li>如果你无法访问你的单位或学校帐户（例如，你改变了单位），则在你使用过你的单位或学校帐户登录到产品的情况下，你可能无法访问产品，包括与你为自己获取的那些产品关联的内容。</li>
+                    <li>你的组织的隐私或安全政策可能与 &ldquo;SurgiPlan&rdquo;的有所不同，&rdquo;SurgiPlan&rdquo; 对客户的隐私或安全政策不负任何责任。</li>
+                    <li>如果你的组织正在管理你对 &ldquo;SurgiPlan&rdquo; 平台的使用，请向你的管理员提出隐私查询要求，包括任何行使数据主体权利的请求.</li>
+                    <li>第三方帐户. 与第三方 &ldquo;SurgiPlan&rdquo;帐户相关的数据及其使用方式通常与使用和收集与个人 &ldquo;SurgiPlan&rdquo; 帐户相关的数据类似。 你的服务提供商控制你的帐户，并且可以访问或删除你的帐户。<strong>&nbsp;你应该仔细查看第三方向你提供的条款，以了解它可使用你的帐户执行哪些操作。</strong></li>
+                </ul>
+
+                <p><strong>其他重要隐私信息</strong></p>
+
+                <p>你可以在下面找到其他隐私信息，例如我们保护数据的方式、我们处理数据的位置以及我们保留数据的期限。 你可以在&nbsp;<a href="https://privacy.microsoft.com/" target="_blank">&ldquo;SurgiPlan&rdquo; </a>隐私上找到有关 &ldquo;SurgiPlan&rdquo; 以及我们致力于保护你的隐私的详细信息。</p>
+
+                <p><strong>个人数据安全</strong></p>
+
+                <p>&ldquo;SurgiPlan&rdquo; 致力于保护你的个人数据的安全。 我们采用各种安全技术和步骤来帮助保护你的个人数据，以防在未经授权的情况下擅自访问、使用或披露此类数据。 例如，我们将你的个人数据存储在位于受控场所的计算机系统中，并限制这些系统的访问权限。 当我们在 Internet 上传送高度机密的数据（例如信用卡号或密码）时，我们使用加密技术来保护这些信息的安全。 &ldquo;SurgiPlan&rdquo; 会遵守适用的数据保护法律，包括适用的安全漏洞通知法律。</p>
+
+                <p><strong>我们对个人数据的保留</strong></p>
+
+                <p>只要出于提供产品和完成你所请求的事务或其他合法目的（如遵守法律义务、解决纠纷和履行协议），&rdquo;SurgiPlan&rdquo; 将根据需要保留个人数据。 由于这些需求可能会因不同的数据类型、我们与你之间的互动背景或你的产品使用情况而异，因此实际保留期可能会有很大差异。</p>
+
+                <p>用于确定保留期的其他条件包括：</p>
+
+                <ul>
+                    <li><strong>客户提供、创建或维护数据时，是否期望我们将这些数据保留到客户确定要将其删除为止？&nbsp;</strong></li>
+                    <li><strong>个人数据是否属于敏感类型？&nbsp;</strong>如果是，通常将采用缩短的保留时间。</li>
+                    <li><strong>用户是否同意延长保留期？</strong>如果是，我们将根据你的同意保留数据。</li>
+                    <li><strong>&ldquo;SurgiPlan&rdquo; </strong><strong>是否具有保留或删除该数据的法律、合同或类似义务？</strong>&nbsp;示例可包括适用管辖区的强制数据保留法律，保留调查相关数据或保留以用于诉讼用途的数据的政府命令。 相反，如果法律要求我们删除不合法的内容，我们将执行此操作。</li>
+                </ul>
+
+                <p><strong>广告</strong></p>
+
+                <p>通过广告，我们可以提供、支持和改进我们的某些服务。 &ldquo;SurgiPlan&rdquo;不会使用你在电子邮件、聊天、视频通话或语音邮件中所说的内容或你的文件、照片或其他个人文件来针对你投放广告。 我们使用下述其他数据在我们的平台中和第三方资产上投放广告。</p>
+
+                <p>你所看到的广告可能是基于我们所处理的关于你的数据（例如你的兴趣和爱好、位置、交易、你使用我们平台的方式、你的搜索查询或你所查看的内容）而选择的。 例如，如果你在 &ldquo;SurgiPlan&rdquo;平台 上查看有关手术规划的内容，那么我们可能会显示有关手术规划软件的广告；如果你在&rdquo;SurgiPlan&rdquo;平台上搜索&ldquo;肺结节筛查&rdquo;，则你可能会在搜索结果中看到关于肺结节筛查软件的广告。</p>
+
+                <p>你所看到的广告也可能基于一段时间内所了解到的关于你的其他信息来选择（利用来自我们站点以及广告厂商和合作伙伴的站点和应用的统计数据、位置数据、搜索查询、兴趣和爱好、用法数据）。 在此声明中，我们将这些广告称为&ldquo;基于兴趣的广告&rdquo;。 例如，如果你在 &ldquo;SurgiPlan&rdquo;平台 上查看3D打印内容，则可能会在 我的SP中看到3D打印为感兴趣频道。 为提供基于兴趣的广告，当你的浏览器与我们的网站交互时，我们将位于你设备上的 Cookie 与我们收集的信息（如 IP 地址）结合使用。 如果你选择退出接收基于兴趣的广告，我们将不会使用与这些 Cookie 关联的数据。</p>
+
+                <ul>
+                    <li><strong>数据保留. 针对基于兴趣的广告，我们保留数据的时间不会超过 13 个月，除非你同意我们延长。</strong></li>
+                    <li><strong>销售记录：根据中华人民共和国《医疗器械网络销售监督管理办法》记录应当保存至医疗器械有效期后2年；无有效期的，保存时间不得少于5年，植入类医疗器械交易信息应当永久保存。</strong></li>
+                    <li><strong>数据共享. 在某些情况下，我们与广告厂商共享关于在其站点或广告中收集的数据的报告。</strong></li>
+                </ul>
+
+                <p><strong>其它广告公司收集的数据</strong>. 广告厂商有时可能在他们的广告（由我们显示）中包含自己的（或他们其他广告合作伙伴的）Web 信号，以便设置并读取他们自己的 Cookie。 此外，&rdquo;SurgiPlan&rdquo; 还与第三方广告公司合作来帮助提供部分广告服务，我们还允许其他第三方广告公司在我们的站点上显示广告。 这些第三方可能在你的计算机中植入 Cookie，并在各个网站或在线服务上收集有关你的在线活动的数据。</p>
+
+                <p><strong>对于本隐私声明的更改</strong></p>
+
+                <p>我们会在必要时更新本隐私声明以增加透明度或更加积极地响应：</p>
+
+                <ul>
+                    <li>客户、监管机构、行业或其他利益相关方的反馈。</li>
+                    <li>我们的服务变更。</li>
+                    <li>我们的数据处理活动或策略的变更。</li>
+                </ul>
+
+                <p>在发布本隐私声明的更改时，我们将修订本隐私声明顶部的&ldquo;最后更新日期&rdquo;并在更改历史记录页面中介绍更改。 如果声明中有重要的更改，例如更改了处理个人数据的目的，从而与最初收集数据的目的不一致，那么我们会在更改生效前通过在显著位置发布有关这些更改的通知或通过直接向你发送通知来通知你。 我们鼓励你定期查看本隐私声明，以便了解 &ldquo;SurgiPlan&rdquo; 如何保护你的信息。</p>
+
+                <p><strong>如何联系我们</strong></p>
+
+                <p>如果你有隐私担忧、投诉或问题要询问&rdquo;SurgiPlan&rdquo;首席隐私官或数据保护专员，请通过&nbsp;客服电话联系我们。 我们将在 30 天内对你的问题或担忧给予答复。 你也可以向数据保护机构或其他具有管辖权的官员提出疑虑或投诉。</p>
+
+                <p>如果你有个人 &ldquo;SurgiPlan&rdquo;帐户密码问题，请访问&nbsp;www.&rdquo;SurgiPlan&rdquo;.com</p>
+
+
+            </div>
+
+
+        </div>
+        <div class="con" id="JKDiv_1" style="display:none;">
+            <div class="text">
+            <h6><strong>免责条款</strong></h6>
+
+            <p>&nbsp;&nbsp;&nbsp; 欢迎阅读&quot;SurgiPlan.com&quot;服务条款协议(下称&quot;本协议&quot;)。本协议阐述之条款和条件适用于您使用&quot; SurgiPlan.com &quot;网站所提供的各种服务(下称&quot;服务&quot;)。</p>
+
+            <p><strong>1</strong><strong>、接受条款。</strong></p>
+
+            <p>当您进入本网站，即表示您同意自己已与&ldquo;SurgiPlan.com&rdquo;订立本协议，且您将受本协议的条款和条件约束。&ldquo;SurgiPlan.com&rdquo;可随时自行全权决定更改&quot;条款&quot;。如&quot;条款&quot;有任何变更，&ldquo;SurgiPlan.com&rdquo;将在其网站上刊载公告，不再另行通知。如您不同意相关变更，必须停止使用&quot;服务&quot;。经修订的&quot;条款&quot;一经在&ldquo;SurgiPlan.com&rdquo;公布后，立即自动生效。您登录或继续使用&quot;服务&quot;将表示您接受经修订的&quot;条款&quot;。除另行明确声明外，任何使&quot;服务&quot;范围扩大或功能增强的新内容均受本协议约束。除非&ldquo;SurgiPlan.com&rdquo;的授权高层管理人员签订书面协议，本协议不得另行作出修订。</p>
+
+            <p><strong>2</strong><strong>、谁可使用&ldquo;SurgiPlan.com&rdquo;的&quot;服务&quot;。</strong></p>
+
+            <p>&quot;服务&quot;仅供能够根据相关法律订立具有法律约束力的合约的个人或单位主体（如：医院）使用。因此，您的年龄必须在十八周岁或以上，才可使用本网站服务。如不符合本项条件，请勿使用&quot;服务&quot;。&ldquo;SurgiPlan.com&rdquo;可随时自行全权决定拒绝向任何人士提供&quot;服务&quot;。&quot;服务&quot;不会提供给被暂时或永久中止资格的&ldquo;SurgiPlan.com&rdquo;会员。</p>
+
+            <p><strong>3</strong><strong>、您的资料。</strong></p>
+
+            <p>&quot;您的资料&quot;包括您在注册、交易过程中、在任何公开信息场合或通过任何电子邮件形式，向网站或其他用户提供的任何资料，包括数据、文本、照片、图画、影像、词句或其他材料。</p>
+
+            <p>您应对&quot;您的资料&quot;负全部责任(上传图片时系统自动加上的水印仅说明该图片曾经上传于本网站)，而本网站仅作为您在网上发布和刊登&quot;您的资料&quot;的被动渠道。但是，倘若本网站认为&quot;您的资料&quot;可能使本网站承担任何法律或道义上的责任，或可能使本网站 (全部或部份地) 失去本网站的互联网服务供应商或其他供应商的服务，或您未在&ldquo;SurgiPlan.com&rdquo;规定的期限内登录或再次登录网站，则本网站可自行全权决定对&quot;您的资料&quot;采取本网站认为必要或适当的任何行动，包括但不限于删除该类资料。</p>
+
+            <p>您特此保证，您对提交给&ldquo;SurgiPlan.com&rdquo;的&quot;您的资料&quot;拥有全部权利，包括全部版权。您确认，&ldquo;SurgiPlan.com&rdquo;没有责任去认定或决定您提交给本网站的资料哪些是应当受到保护的，对享有&quot;服务&quot;的其他用户使用&quot;您的资料&quot;，本网站也不必负责。</p>
+
+            <p><strong>4-1</strong><strong>、注册义务。</strong></p>
+
+            <p>如您在&ldquo;SurgiPlan.com&rdquo;注册，您同意：</p>
+
+            <p>(a) 根据&ldquo;SurgiPlan.com&rdquo;网址所刊载的会员资料表格的要求，提供关于您或贵单位的真实、准确、完整和反映当前情况的资料；</p>
+
+            <p>(b) 维持并及时更新会员资料，使其保持真实、准确、完整和反映当前情况。倘若您提供任何不真实、不准确、不完整或不能反映当前情况的资料，或&ldquo;SurgiPlan.com&rdquo;有合理理由怀疑该等资料不真实、不准确、不完整或不能反映当前情况，&ldquo;SurgiPlan.com&rdquo;有权暂停或终止您的注册身份及资料，并拒绝您在目前或将来对&quot;服务&quot;(或其任何部份) 以任何形式使用。如您代表单位主体（如：医院）或其他法律主体在本网站登记，则您声明和保证，您有权使该公司或其他法律主体受本协议&quot;条款&quot;约束。</p>
+
+            <p><strong>4-2</strong><strong>、会员注册名、密码和保密。</strong></p>
+
+            <p>在登记过程中，您将选择会员注册名和密码。您须自行负责对您的会员注册名和密码保密，且须对您在会员注册名和密码下发生的所有活动承担责任。您同意：</p>
+
+            <p>(a) 如发现任何人未经授权使用您的会员注册名或密码，或发生违反保密规定的任何其他情况，立即通知&ldquo;SurgiPlan.com&rdquo;；</p>
+
+            <p>&nbsp;(b) 确保您在每个上网时段结束时，以正确步骤离开网站。&ldquo;SurgiPlan.com&rdquo;不能也不会对因您未能遵守本款规定而发生的任何损失或损毁负责。</p>
+
+            <p><strong>5</strong><strong>、终止或访问限制。</strong></p>
+
+            <p>您同意，&ldquo;SurgiPlan.com&rdquo;可自行全权决定以任何理由 (包括但不限于&ldquo;SurgiPlan.com&rdquo;认为您已违反本协议的字面意义和精神，或以不符合本协议的字面意义和精神的方式行事) 终止您的&quot;服务&quot;密码、账户 (或其任何部份) 或您对&quot;服务&quot;的使用，并删除和丢弃您在使用&quot;服务&quot;中提交的的&quot;您的资料&quot;。&ldquo;SurgiPlan.com&rdquo;同时可自行全权决定，在发出通知或不发出通知的情况下，随时停止提供&quot;服务&quot;或其任何部份。您同意，根据本协议的任何规定终止您使用&quot;服务&quot;之措施可在不发出事先通知的情况下实施，并承认和同意，&ldquo;SurgiPlan.com&rdquo;可立即使您的账户无效，或撤销您的账户以及在您的账户内的所有相关资料和档案，和/或禁止您进一步接入该等档案或&quot;服务&quot;。帐号终止后，&ldquo;SurgiPlan.com&rdquo;没有义务为您保留原帐号中或与之相关的任何信息，或转发任何未曾阅读或发送的信息给您或第三方。此外，您同意，&ldquo;SurgiPlan.com&rdquo;不会就终止您接入&quot;服务&quot;而对您或任何第三者承担任何责任。第7、8、9和16各条应在本协议终止后继续有效。</p>
+
+            <p><strong>6</strong><strong>、违反规则会有什么后果？ </strong></p>
+
+            <p>在不限制其他补救措施的前提下，发生下述任一情况，本网站可立即发出警告，暂时中止、永久中止或终止您的会员资格，删除您在网站上展示的任何资料：</p>
+
+            <p>(i) 您违反本协议；</p>
+
+            <p>(ii) 本网站无法核实或鉴定您向本网站提供的任何资料；</p>
+
+            <p>(iii) 本网站相信您的行为可能会使您、本网站用户或通过本网站或本网站提供服务的第三者服务供应商发生任何法律责任。在不限制任何其他补救措施的前提下，倘若发现您从事涉及本网站的诈骗活动，&ldquo;SurgiPlan.com&rdquo;可暂停或终止您的账户。</p>
+
+            <p><strong>7</strong><strong>、服务&quot;按现状&quot;提供。 </strong></p>
+
+            <p>本网站会尽一切努力使您在使用&ldquo;SurgiPlan.com&rdquo;的过程中得到乐趣。遗憾的是，本网站不能随时预见到任何技术上的问题或其他困难。该等困难可能会导致数据损失或其他服务中断。为此，您明确理解和同意，您使用&quot;服务&quot;的风险由您自行承担。&quot;服务&quot;以&quot;按现状&quot;和&quot;按可得到&quot;的基础提供。&ldquo;SurgiPlan.com&rdquo;明确声明不作出任何种类的所有明示或暗示的保证，包括但不限于关于适销性、适用于某一特定用途和无侵权行为等方面的保证。&ldquo;SurgiPlan.com&rdquo;对下述内容不作保证：</p>
+
+            <p>(i)&quot;服务&quot;会符合您的要求；</p>
+
+            <p>(ii)&quot;服务&quot;不会中断，且适时、安全和不带任何错误；</p>
+
+            <p>(iii) 通过使用&quot;服务&quot;而可能获取的结果将是准确或可信赖的；</p>
+
+            <p>(iv) 您通过&quot;服务&quot;而购买或获取的任何产品、服务、资料或其他材料的质量将符合您的预期。您从&ldquo;SurgiPlan.com&rdquo;或通过或从&quot;服务&quot;获取的任何口头或书面意见或资料，均不产生未在本协议内明确载明的任何保证。</p>
+
+            <p><strong>8</strong><strong>、责任范围。</strong></p>
+
+            <p>您明确理解和同意，&ldquo;SurgiPlan.com&rdquo;不对因下述任一情况而发生的任何损害赔偿承担责任，包括但不限於利润、商誉、使用、数据等方面的损失或其他无形损失的损害赔偿 (无论&ldquo;SurgiPlan.com&rdquo;是否已被告知该等损害赔偿的可能性)：</p>
+
+            <p>(i) 使用或未能使用&quot;服务&quot;；</p>
+
+            <p>(ii) 因通过或从&quot;服务&quot;购买或获取任何产品或服务；</p>
+
+            <p>(iii) 未经批准接入或更改您的传输资料或数据；</p>
+
+            <p>(iv) 任何第三者对&quot;服务&quot;的声明或关於&quot;服务&quot;的行为；</p>
+
+            <p>(v) 因任何原因而引起的与&quot;服务&quot;有关的任何其他事宜，包括疏忽。</p>
+
+            <p><strong>9</strong><strong>、赔偿。</strong></p>
+
+            <p>您同意，因您违反本协议或经在此提及而纳入本协议的其他文件，或因您违反了法律或侵害了第三方的权利，而使第三方对&ldquo;SurgiPlan.com&rdquo;及其董事、职员、代理人提出索赔要求（包括司法费用和其他专业人士的费用），您必须赔偿给山水旅游黄页及其董事、职员、代理人，使其等免遭损失。</p>
+
+            <p><strong>10</strong><strong>、遵守法律。 </strong></p>
+
+            <p>您应遵守与您使用&quot;服务&quot;，以及与您购买和任何产品以及提供信息有关的所有相关的法律、法规、条例和规章。</p>
+
+            <p><strong>11</strong><strong>、无代理关系。</strong></p>
+
+            <p>您与&ldquo;SurgiPlan.com&rdquo;仅为独立订约人关系。本协议无意结成或创设任何代理、合伙、合营、雇用与被雇用或特许权授予与被授予关系。</p>
+
+            <p><strong>12</strong><strong>、链接。</strong></p>
+
+            <p>&quot;服务&quot;或第三者均可提供与其他网站或资源的链接。由于&ldquo;SurgiPlan.com&rdquo;并不控制该等网站和资源，您承认并同意，&ldquo;SurgiPlan.com&rdquo;并不对该等外在网站或资源的可用性负责，且不认可该等网站或资源上或可从该等网站或资源获取的任何内容、宣传、产品、服务或其他材料，也不对其等负责或承担任何责任。您进一步承认和同意，对于任何因使用或信赖从此类网站或资源上获取的此类内容、宣传、产品、服务或其他材料而造成（或声称造成）的任何直接或间接损失，&ldquo;SurgiPlan.com&rdquo;均不承担责任。</p>
+
+            <p><strong>13</strong><strong>、通知。</strong></p>
+
+            <p>除非另有明确规定，任何通知应以电子邮件形式发送。就您而言，发送到您在登记过程中向&ldquo;SurgiPlan.com&rdquo;提供的电子邮件地址，或有关方指明的该等其他地址。在电子邮件发出二十四 (24) 小时后，通知应被视为已送达，除非发送人被告知相关电子邮件地址已作废。</p>
+
+            <p><strong>14</strong><strong>、不可抗力。</strong></p>
+
+            <p>对于因本网站合理控制范围以外的原因，包括但不限於自然灾害、罢工或骚乱、物质短缺或定量配给、暴动、战争行为、政府行为、通讯或其他设施故障或严重伤亡事故等，致使本网站延迟或未能履约的，&ldquo;SurgiPlan.com&rdquo;不对您承担任何责任。</p>
+
+            <p><strong>15</strong><strong>、转让。</strong></p>
+
+            <p>&ldquo;SurgiPlan.com&rdquo;转让本协议无需经您同意。</p>
+
+            <p><strong>16</strong><strong>、其他规定。</strong></p>
+
+            <p>本协议构成您和&ldquo;SurgiPlan.com&rdquo;之间的全部协议，规定了您对&quot;服务&quot;的使用，并取代您和&ldquo;SurgiPlan.com&rdquo;先前订立的任何书面或口头协议。本协议各方面应受中华人民共和国大陆地区法律的管辖。倘若本协议任何规定被裁定为无效或不可强制执行，该项规定应被撤销，而其余规定应予执行。条款标题仅为方便参阅而设，并不以任何方式界定、限制、解释或描述该条款的范围或限度。本网站未就您或其他人士的某项违约行为采取行动，并不表明本网站撤回就任何继后或类似的违约事件采取行动的权利。</p>
+
+            <p><strong>17</strong><strong>、仲裁。</strong></p>
+
+            <p>因本协议或本网站服务所引起或与其有关的任何争议应提交北京市仲裁委员会，并根据其适用的仲裁规则进行仲裁裁决。任何该等争议应单独地仲裁，不得与任何其他方的争议在任何仲裁中合并处理。仲裁应在北京市进行，而仲裁裁决可提交对其有管辖权的任何法院予以强制执行。您或&ldquo;SurgiPlan.com&rdquo;在仲裁进行期间，可向本地区具有管辖权的法院寻求为保护您或&ldquo;SurgiPlan.com&rdquo;的权利或财产所需的任何临时或初步补救措施，包括但不限于财产保全或证据保全措施。</p>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+    </div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>
+<script>
+    /*切换tab页*/
+    function ChangeDiv(divId, divName, zDivCount, obj) {
+        $("#" + divName + divId).siblings("div.con").hide();
+        $("#" + divName + divId).show();
+        $(obj).siblings("li").removeClass('Selected');
+        $(obj).addClass('Selected');
+    }
+</script>

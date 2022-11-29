@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>产品列表</title>
+</head>
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+<link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+<body>
+
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+<script>
+    var btns =document.getElementById('btns');
+    var showid=document.getElementById('showid');
+    var colss=document.getElementById('colss');
+    if (btns && showid){
+        btns.onmouseover=function(){
+            showid.style.display='block';
+        }
+    }
+    if (colss && showid) {
+        colss.onclick=function(){
+            showid.style.display='none'
+        };
+    }
+    if (showid) {
+        document.onclick=function(){
+            showid.style.display='none';
+        };
+        if(showid.addEventListener)
+        {
+            showid.addEventListener('click',function(e){e.stopPropagation()},false)
+        }
+        else if(showid.attachEvent)
+        {
+            showid.attachEvent('click',function(e){e.stopPropagation()},false)
+        }
+    }
+
+</script>
+
+<div th:replace="/incloud/company:: middle"></div>
+
+<style>
+    .cplib{width:1200px;margin:auto;}
+    .cp_bt{width:100%;background:url(../img/cpb.png) no-repeat left center;height:40px;line-height:40px;font-size:18px;color:#333;text-align:left;padding-left:10px;clear:both;}
+</style>
+<div style="height:68px;width:100%;display:block;background: #f5faff;"></div>
+<div class="content" style="padding-bottom:50px;">
+<form th:action="@{/company/gotoproduct}"  id="list" >
+    <input type="hidden" id="pageNum" name="pageNum">
+    <input type="hidden" name="parent" th:value="${parent}">
+    <input type="hidden" name="id" th:value="${company.id}">
+    <div class="cplb_list">
+        <div class="cp_bt" th:text="${parentCategory}">计划软件</div>
+        <ul>
+            <li th:each="product:${page.list}">
+                <span id="dianp"><a href="#" th:href="@{/company/gotocompany(id=${companyObj.id})}"><img src="../img/list_dp.jpg" th:src="@{${path+product.logo}}"/></a></span>
+                <span id="photo"><a href="#" th:href="@{/product/view(id=${product.id})}"><img src="../img/list_cp.jpg" th:src="@{${path+product.image}}"/></a></span>
+                <span id="cpbt"><a href="#" th:href="@{/product/view(id=${product.id})}" th:text="${product.name}">Intelerad Image FusionTM</a></span>
+                <div class="daoyu" th:text="${#strings.substring(product.introduction,0,30)}">Intelerad 的 Image Fusion™ 模块提供了先进的定量追踪的病人病变历史跨不同方式。完全集成到你的阅读和报告工作流，该模块使进行解释和审查。
+                </div>
+                <div class="sbhs"><span><a href="#" th:href="@{/company/gotocompany(id=${companyObj.id})}"><img src="../img/sbhs.jpg" th:src="@{${path+product.logo}}"/></a></span><a href="#"><i class="iconfont" id="gou">&#xe70b;</i></a></div>
+
+            </li>
+
+        </ul>
+
+
+    </div>
+
+    <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+        <ul>
+            <li th:style="${page.pageNum==1?'display:none':''}" th:onclick="'javascript:$.pageSkip(\''+${page.pageNum-1}+'\')'"><i class="iconfont" ></i></li>
+            <li id="da" th:each="pg:${#numbers.sequence(1,page.pages)}" th:id="${pg==page.pageNum?'da':''}" th:onclick="'javascript:$.pageSkip(\''+${pg}+'\')'" th:text="${pg}">1</li>
+            <!--<li><a href="#">2</a></li>-->
+            <!--<li><a href="#">3</a></li>-->
+            <!--<li><a href="#">4</a></li>-->
+            <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}" th:onclick="'javascript:$.pageSkip(\''+${page.pageNum+1}+'\')'" ><i class="iconfont"></i></li></ul>
+    </div>
+</form>
+    <form action="/cart/addCart" th:action="@{/cart/addCart}" METHOD="post" id="form">
+        <input type="hidden" name="productid" id="productid">
+        <input type="hidden" name="purchaseid" id="purchaseid">
+        <input type="hidden" name="num" id="numVal">
+        <input type="hidden" name="userId" id="userId">
+    </form>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.daoyu').hover(function() {
+                $("#sbhs").css('display', 'block');
+            }, function() {
+                $("#sbhs").css('display', 'none');
+            });
+            $("#sbhs").hover(function() {
+                $(this).css('display', 'block');
+            }, function() {
+                $(this).css('display', 'none');
+            });
+
+
+        })
+        $(function(){
+            //分页部分
+            var $listForm = $("#list");
+            var $pageNum = $("#pageNum");
+            // 上一页，下一页
+            $.pageSkip = function(pageNumber) {
+                $pageNum.val(pageNumber);
+                $listForm.submit();
+
+            }
+        })
+        //加入购物车按钮
+        function fncart(productid) {
+            //var tongfu=[[${session.pathUrl}]];
+            var tongfu='[[@{/}]]';
+            var num= 1;
+
+            var productid=[[${product.id}]];//产品id
+            $("#productid").val(productid);
+            $("#purchaseid").val(purchaseid);
+            $("#numVal").val(num);
+            $("#userId").val(userId);
+
+            //$("#form").submit();
+            $.ajax({
+                type:"post",
+                url:'[[@{/cart/addCart}]]',
+                data:$("#form").serialize(),
+                dataType:"json",
+                async: false,
+                success:function (data) {
+                    console.log(data);
+
+                    if(data>0){
+                        alert("添加购物车成功！");
+                        $(".ci-count").html(data);
+                    }else{
+                        alert("添加购物车失败！");
+                    }
+
+                }
+            });
+        }
+    </script>
+</div>
+</div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+</body>
+</html>

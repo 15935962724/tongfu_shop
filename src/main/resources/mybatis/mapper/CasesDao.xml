@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.CasesDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.Cases" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="patientid" property="patientid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="BIGINT" />
+    <result column="hospital" property="hospital" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="doctor" property="doctor" jdbcType="VARCHAR" />
+    <result column="delivery_date" property="deliveryDate" jdbcType="TIMESTAMP" />
+    <result column="discuss_date" property="discussDate" jdbcType="TIMESTAMP" />
+    <result column="datafiles" property="datafiles" jdbcType="VARCHAR" />
+    <result column="member" property="member" jdbcType="BIGINT" />
+    <result column="orderid" property="orderid" jdbcType="BIGINT" />
+    <result column="company" property="company" jdbcType="BIGINT" />
+    <result column="receiver" property="receiver" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.tongfu.entity.CasesWithBLOBs" extends="BaseResultMap" >
+    <result column="diagnosis" property="diagnosis" jdbcType="LONGVARCHAR" />
+    <result column="demand" property="demand" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, createdate, modify_date, patientid, name, area, hospital, department, doctor, 
+    delivery_date, discuss_date, datafiles, member, orderid, company, receiver
+  </sql>
+  <sql id="Blob_Column_List" >
+    diagnosis, demand
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tf_cases
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_cases
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.CasesWithBLOBs" >
+    insert into tf_cases (id, createdate, modify_date, 
+      patientid, name, area, 
+      hospital, department, doctor, 
+      delivery_date, discuss_date, datafiles, 
+      member, orderid, company, 
+      receiver, diagnosis, demand
+      )
+    values (#{id,jdbcType=BIGINT}, #{createdate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{patientid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{area,jdbcType=BIGINT}, 
+      #{hospital,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{doctor,jdbcType=VARCHAR}, 
+      #{deliveryDate,jdbcType=TIMESTAMP}, #{discussDate,jdbcType=TIMESTAMP}, #{datafiles,jdbcType=VARCHAR}, 
+      #{member,jdbcType=BIGINT}, #{orderid,jdbcType=BIGINT}, #{company,jdbcType=BIGINT}, 
+      #{receiver,jdbcType=BIGINT}, #{diagnosis,jdbcType=LONGVARCHAR}, #{demand,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.CasesWithBLOBs" >
+    insert into tf_cases
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="patientid != null" >
+        patientid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="hospital != null" >
+        hospital,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="doctor != null" >
+        doctor,
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date,
+      </if>
+      <if test="discussDate != null" >
+        discuss_date,
+      </if>
+      <if test="datafiles != null" >
+        datafiles,
+      </if>
+      <if test="member != null" >
+        member,
+      </if>
+      <if test="orderid != null" >
+        orderid,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="receiver != null" >
+        receiver,
+      </if>
+      <if test="diagnosis != null" >
+        diagnosis,
+      </if>
+      <if test="demand != null" >
+        demand,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="patientid != null" >
+        #{patientid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=BIGINT},
+      </if>
+      <if test="hospital != null" >
+        #{hospital,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="doctor != null" >
+        #{doctor,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryDate != null" >
+        #{deliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="discussDate != null" >
+        #{discussDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datafiles != null" >
+        #{datafiles,jdbcType=VARCHAR},
+      </if>
+      <if test="member != null" >
+        #{member,jdbcType=BIGINT},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=BIGINT},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=BIGINT},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=BIGINT},
+      </if>
+      <if test="diagnosis != null" >
+        #{diagnosis,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="demand != null" >
+        #{demand,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.CasesWithBLOBs" >
+    update tf_cases
+    <set >
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="patientid != null" >
+        patientid = #{patientid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=BIGINT},
+      </if>
+      <if test="hospital != null" >
+        hospital = #{hospital,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="doctor != null" >
+        doctor = #{doctor,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date = #{deliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="discussDate != null" >
+        discuss_date = #{discussDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datafiles != null" >
+        datafiles = #{datafiles,jdbcType=VARCHAR},
+      </if>
+      <if test="member != null" >
+        member = #{member,jdbcType=BIGINT},
+      </if>
+      <if test="orderid != null" >
+        orderid = #{orderid,jdbcType=BIGINT},
+      </if>
+      <if test="company != null" >
+        company = #{company,jdbcType=BIGINT},
+      </if>
+      <if test="receiver != null" >
+        receiver = #{receiver,jdbcType=BIGINT},
+      </if>
+      <if test="diagnosis != null" >
+        diagnosis = #{diagnosis,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="demand != null" >
+        demand = #{demand,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tongfu.entity.CasesWithBLOBs" >
+    update tf_cases
+    set createdate = #{createdate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      patientid = #{patientid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      area = #{area,jdbcType=BIGINT},
+      hospital = #{hospital,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      doctor = #{doctor,jdbcType=VARCHAR},
+      delivery_date = #{deliveryDate,jdbcType=TIMESTAMP},
+      discuss_date = #{discussDate,jdbcType=TIMESTAMP},
+      datafiles = #{datafiles,jdbcType=VARCHAR},
+      member = #{member,jdbcType=BIGINT},
+      orderid = #{orderid,jdbcType=BIGINT},
+      company = #{company,jdbcType=BIGINT},
+      receiver = #{receiver,jdbcType=BIGINT},
+      diagnosis = #{diagnosis,jdbcType=LONGVARCHAR},
+      demand = #{demand,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.Cases" >
+    update tf_cases
+    set createdate = #{createdate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      patientid = #{patientid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      area = #{area,jdbcType=BIGINT},
+      hospital = #{hospital,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      doctor = #{doctor,jdbcType=VARCHAR},
+      delivery_date = #{deliveryDate,jdbcType=TIMESTAMP},
+      discuss_date = #{discussDate,jdbcType=TIMESTAMP},
+      datafiles = #{datafiles,jdbcType=VARCHAR},
+      member = #{member,jdbcType=BIGINT},
+      orderid = #{orderid,jdbcType=BIGINT},
+      company = #{company,jdbcType=BIGINT},
+      receiver = #{receiver,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

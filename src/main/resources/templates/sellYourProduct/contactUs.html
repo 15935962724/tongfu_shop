@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>平台入驻</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/home.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+    <script type="text/javascript" th:src="@{/assets/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/layer/layer.js}"></script>
+</head>
+<body>
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <!--head头部-->
+    <div class="head">
+        <div th:replace="~{head::topbar}"></div>
+    </div>
+
+    <div class="contactUs_Banner">
+        欢迎加入Surgi-plan平台
+    </div>
+    <div class="contactUs_Content">
+        <div class="contactUs_Content_Info">
+            <span>如果您是医疗产品制造商</span>
+            <img th:src="@{/assets/img/contact_zzs.png}" />
+            <a th:href="@{/sellYourProduct/subscription}">申请入驻</a>
+<!--             onclick="openLayer()"-->
+        </div>
+        <div class="contactUs_Content_Info">
+            <span>如有入驻、品牌、产品、以及网站问题</span>
+            <img th:src="@{/assets/img/contact_ask.png}" />
+            <a th:href="@{/gotoproblem}">联系客服</a>
+        </div>
+    </div>
+
+
+    <!--引用页面脚部-->
+    <div th:replace="/incloud/footer:: footer"></div>
+</body>
+</html>
+<script>
+    function openLayer(){
+        layer.open({
+            type: 1,
+            title: "请留下您的联系方式",
+            skin: 'layui-layer-rim', //加上边框
+            area: ['740px', '600px'], //宽高
+            content: '<div class="contactUs_Info"><div class="contactUs_Info_Title">企业/单位信息</div><div class="contactUs_Info_Ipt"><label><span>*</span>企业/单位名称</label><input class="companyName" type="text" placeholder="请输入企业名称" /></div><div class="contactUs_Info_Ipt"><label><span>*</span>网站地址</label><input class="companyUrl" type="text" placeholder="请输入网站地址" /></div><div class="contactUs_Info_Ipt"><label><span>*</span>行业领域</label><input class="companyField" type="text" placeholder="请输入行业领域" /></div><div class="contactUs_Info_Ipt"><label><span>*</span>企业/单位类型</label><input class="companyType" type="text" placeholder="请输入企业类型" /></div><div class="contactUs_Info_Ipt"><label><span>*</span>企业/单位电话</label><input class="companyPhone" type="text" placeholder="请输入企业电话" /></div><div class="contactUs_Info_Title">负责人信息</div><div class="contactUs_Info_Ipt"><label><span>*</span>负责人姓名</label><input class="name" type="text" placeholder="请输入负责人姓名" /></div><div class="contactUs_Info_Ipt"><label><span>*</span>联系电话</label><input class="phone" type="text" placeholder="请输入联系电话" /></div><div class="contactUs_Info_Ipt"><label><span>*</span>电子邮箱</label><input class="email" type="text" placeholder="请输入电子邮箱" /></div><div class="contactUs_Info_Title">您是通过什么渠道知道网站的？（非必填项）</div><div class="contactUs_Info_Textarea"><input type="text" class="channel" placeholder="" /></div><div class="contactUs_Info_Btn"><a onclick="postInfo()">提交</a><a onclick="layer.closeAll()">取消</a></div></div>'
+        });
+    }
+
+    function postInfo() {
+        var reg_tel = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+        var reg_email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        if($(".companyName").val() == ""){
+            layer.msg("请输入企业/单位名称");
+            return false;
+        }
+        if($(".companyUrl").val() == ""){
+            layer.msg("请输入网站地址");
+            return false;
+        }
+        if($(".companyField").val() == ""){
+            layer.msg("请输入您所属的行业领域");
+            return false;
+        }
+        if($(".companyType").val() == ""){
+            layer.msg("请输入企业/单位类型");
+            return false;
+        }
+        if($(".companyPhone").val() == ""){
+            layer.msg("请输入企业/单位电话");
+            return false;
+        }
+        if($(".name").val() == ""){
+            layer.msg("请输入负责人姓名");
+            return false;
+        }
+        if($(".phone").val() == ""){
+            layer.msg("请输入负责人联系电话");
+            return false;
+        }
+        if(!reg_tel.test($(".phone").val())){
+            layer.msg("请输入正确的负责人联系电话");
+            return false;
+        }
+        if($(".email").val() == ""){
+            layer.msg("请输入负责人电子邮箱");
+            return false;
+        }
+        if(!reg_email.test($(".email").val())){
+            layer.msg("请输入正确的负责人电子邮箱");
+            return false;
+        }
+        var data = {
+            companyName: $(".companyName").val(),
+            companyUrl: $(".companyUrl").val(),
+            companyField: $(".companyField").val(),
+            companyType: $(".companyType").val(),
+            companyPhone: $(".companyPhone").val(),
+            name: $(".name").val(),
+            phone: $(".phone").val(),
+            email: $(".email").val(),
+            channel: $(".channel").val()
+        };
+        $.ajax({
+            url: "[[@{/companyapply/save}]]",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType:"application/json",
+            dataType:"json",
+            async: false,
+            success: function (data) {
+                if(data.status == 200){
+                    layer.closeAll();
+                    layer.msg("入驻申请提交成功，请等待客服联系负责人！");
+                    $(".companyName").val('');
+                    $(".companyUrl").val('');
+                    $(".companyField").val('');
+                    $(".companyType").val('');
+                    $(".companyPhone").val('');
+                    $(".name").val('');
+                    $(".phone").val('');
+                    $(".email").val('');
+                    $(".channel").val('');
+                }else{
+                    layer.closeAll();
+                    layer.msg("入驻申请提交失败，请稍后重试！");
+                }
+            }
+        });
+    }
+
+</script>

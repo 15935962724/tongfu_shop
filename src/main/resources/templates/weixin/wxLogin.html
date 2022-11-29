@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input id="urls" type="hidden" th:value="${urls}" />
+		<input id="isRegister" type="hidden" th:value="${isRegister}" />
+		<input id="userinfojson" type="hidden" th:value="${userinfojson}" />
+	</body>
+</html>
+<script>
+	var urls = document.getElementById('urls');
+	var isRegister = document.getElementById('isRegister');
+	var userinfojson = document.getElementById('userinfojson');
+	var jsonVal = JSON.parse(userinfojson.value)
+	console.log(urls)
+	console.log(isRegister)
+	console.log(userinfojson)
+	console.log(jsonVal)
+//	var first = urls.value.substr(1);
+//	var end = first.substr(0, first.length-1);
+//	alert(urls.value)
+	window.location.href = '/index.html#/pages/userLogin?url='+ urls.value + '&isRegister=' + isRegister.value + '&openId=' + jsonVal.openid + '&nickName=' + jsonVal.nickname + '&headimgurl=' + jsonVal.headimgurl;
+//	window.location.href = 'http://localhost:8080/?url=%22/pages/index/index%22&isRegister=false'
+</script>

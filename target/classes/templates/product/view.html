@@ -1,0 +1,1281 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>[[${product.name}]]</title>
+</head>
+
+<link href="../css/cpxx.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/cpxx.css}"/>
+<link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+<link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+<link rel="stylesheet" href="../css/swiper.min.css" type="text/css" th:href="@{/assets/css/swiper.min.css}"/>
+<link rel="stylesheet" href="../css/styleSwiper.css" th:href="@{/assets/css/styleSwiper.css}">
+<link rel="stylesheet" type="text/css" href="css/animate.min.css" th:href="@{/assets/tanchuang/animate.min.css}">
+<link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+
+<script type="text/javascript" th:src="@{/assets/js/jquery-1.8.3.min.js}"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<!--弹窗特效-->
+<script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+<!--<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>-->
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+
+<!--<link rel="stylesheet" href="../css/jquery.jqzoom.css" type="text/css" th:href="@{/assets/css/jquery.jqzoom.css}"/>-->
+<!--<script type="text/javascript" th:src="@{/assets/js/jquery.jqzoom-core.js}"></script>-->
+<link rel="stylesheet" href="../css/cloudzoom.css" type="text/css" th:href="@{/assets/css/cloudzoom.css}"/>
+<script type="text/javascript" th:src="@{/assets/js/cloudzoom.js}"></script>
+
+<!--三级联动效果-->
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+<script src="../js/swiper.min.js" th:src="@{/assets/js/swiper.min.js}"></script>
+
+<style>
+    body {
+        position: relative;
+    }
+
+    #dlhui {
+        width: 335px;
+        height: 42px;
+        text-align: center;
+        line-height: 32px;
+    }
+
+    #dllan {
+        width: 335px;
+        height: 42px;
+        text-align: center;
+        line-height: 32px;
+        background: #007fdc;
+        border: 0px;
+        color: #fff;
+    }
+    .selectHospital{
+        width: 316px;
+        height: 36px;
+        position: absolute;
+        top: 9px;
+        left: 6px;
+        z-index: -1;
+        opacity: 0;
+    }
+    .selectView{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+
+    }
+    .selectView select{
+        margin-bottom: 10px;
+    }
+
+
+
+    .downLoadModal{
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.4);
+        display: none;
+    }
+    .downLoadModal_view{
+        display: flex;
+        flex-direction: column;
+        padding: 30px 0;
+        width: 800px;
+        background-color: #fff;
+        border-radius: 5px;
+    }
+    .downLoadModal_main{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+    }
+    .downLoadModal_content{
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        padding: 0px 20px;
+        margin-bottom: 20px;
+    }
+
+    .downLoadModal_title{
+        margin-bottom: 20px;
+    }
+    .downLoadModal_table{
+
+    }
+    .downLoadModal_table>thead th{
+        padding: 0 15px 0;
+        border: 1px solid #ccc;
+    }
+    .downLoadModal_table>thead th span{
+        color: #bd2130;
+    }
+    .downLoadModal_table>tbody td{
+        text-align: center;
+        padding: 5px;
+        border: 1px solid #ccc;
+    }
+    .downLoadModal_table>tbody td a{
+        color: #00a0ea;
+        cursor: pointer;
+    }
+    .downLoadModal_btn{
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    .downLoadModal_btn button{
+        padding: 5px 15px;
+        border-radius: 2px;
+        margin-right: 20px;
+        font-size: 14px;
+        color: #fff;
+        background-color: #bbb;
+    }
+
+
+</style>
+</head>
+
+<body>
+
+<!--语言切换-->
+<!--未登录-->
+<shiro:notAuthenticated>
+    <th:block th:replace="~{incloud/language::language}"></th:block>
+</shiro:notAuthenticated>
+<!--已登录-->
+<shiro:authenticated>
+    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+</shiro:authenticated>
+
+<div class="head">
+    <!--未登录-->
+    <div th:replace="~{head::topbar}"></div>
+    <!--已登录-->
+</div>
+
+<div class="log_con1">
+
+    <div class="kua">
+        <div class="leftu">
+            <div class="box">
+
+                <div class="tb-booth tb-pic tb-s310">
+                    <a class="jqueryzoom">
+                        <img id="img" class="cloudzoom" th:src="@{${pathUrl+picture.source}}" th:data-cloudzoom="'zoomSizeMode:\''+image+'\',zoomImage: \''+@{${pathUrl+picture.source}}+'\',autoInside: 30'"/>
+                    </a>
+                </div>
+
+                <ul class="tb-thumb" id="thumblist">
+
+                    <li th:each="Img:${listImg}" class="tb-selected">
+                        <img class="cloudzoom-gallery" th:src="@{${pathUrl+Img.source}}" th:data-cloudzoom="'useZoom: \''+.cloudzoom+'\',image:\''+${pathUrl+Img.source}+'\',zoomImage:\''+${pathUrl+Img.source}+'\''"/>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div id="ann">
+                <ul>
+
+                    <th:block th:if="${product.isDemonstration==false}">
+                        <li style="background-color:#bbb;cursor: pointer; ">
+                            <a href="JavaScript:void(0)">申请演示</a>
+                        </li>
+                    </th:block>
+                    <th:block th:if="${product.isDemonstration==true}">
+                        <li style="cursor: pointer" onclick="javascript:openDialog(0)">申请演示</li>
+                    </th:block>
+
+                    <th:block th:if="${product.isShowOntrialPackageUrl==false}">
+                        <li style="background-color:#bbb;cursor: pointer;">
+                            <a href="JavaScript:void(0)">免费试用</a>
+                        </li>
+                    </th:block>
+                    <th:block th:if="${product.isShowOntrialPackageUrl==true}">
+                        <li style="cursor: pointer;" onclick="javascript:openDialog(1)">免费试用</li>
+                    </th:block>
+
+                    <th:block th:if="${parentProductCategory.id!=28}">
+                        <th:block th:if="${product.isShowproductPackageUrl==false}">
+                            <li style="background-color:#bbb;cursor: pointer;" onclick="showDownloadModal()">
+                                立即下载
+                            </li>
+                        </th:block>
+                        <th:block th:if="${product.isShowproductPackageUrl==true}">
+                            <li style="cursor: pointer" onclick="showDownloadModal()">立即下载</li>
+                        </th:block>
+                    </th:block>
+
+                    <!--申请演示表单提交开始-->
+                    <div id="light" class="fatc">
+
+                        <div class="fatc_t">请完善个人信息
+                            <a href="javascript:void(0)" onclick="closeDialog()"><i class="iconfont">&#xe62f;</i></a>
+                        </div>
+                        <form name="demonForm" id="demonForm" style="height: 516px;overflow-y: scroll;">
+                            <input type="hidden" name="demonType" id="demonType"/>
+                            <input type="hidden" name="ip" id="ip">
+                            <input type="hidden" name="productId" th:value="${product.id}">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tongy">
+                                <tr>
+                                    <td class="td01">
+                                        <font>*</font>姓名：
+                                    </td>
+                                    <td class="td02"><input name="demonName" th:value="${member.name}" type="text"
+                                                            class="input" placeholder="请输入真实姓名" size="20"></td>
+                                </tr>
+                                <!--<tr>-->
+                                    <!--<td class="td01">-->
+                                        <!--<font>*</font>年龄：-->
+                                    <!--</td>-->
+                                    <!--<td class="td02">-->
+                                        <!--<input name="demonAge" value="" type="text" class="input" placeholder="请输入真实年龄" size="20">-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <tr>
+                                    <td class="td01">
+                                        <font>*</font>所在地：
+                                    </td>
+                                    <td class="td02" style="text-align: left;">
+                                        <input type="hidden" name="areaId" id="areaId" th:value="${member.area}"
+                                               th:title="${area==null?'':area.treePath}">
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td class="td01">
+                                        <font>*</font>医院名称：
+                                    </td>
+                                    <td class="td02" style="position: relative">
+                                        <input type="hidden" id="hospitalId" name="hospitalId">
+                                        <input name="hospitalName" id="hospitalName" autocomplete="off" th:value="${member.hospital}" type="text" class="input" placeholder="请输入医院名称" size="20" list="hospitalList" onchange="inputSelect()"/>
+                                        <datalist id="hospitalList" style="display:none;">
+
+                                        </datalist>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td01">
+                                        <font>*</font>科室：
+                                    </td>
+                                    <td class="td02 selectView">
+                                        <input type="hidden" id="department" name="department" th:value="${member.department}" th:title="${memberDepartment!=null?memberDepartment.treePath:''}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td01">详细地址：</td>
+                                    <td class="td02">
+                                        <input name="address" type="text" class="input" th:value="${member.address}"
+                                               placeholder="请填写详细地址" size="20">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td01">
+                                        <font>*</font>电话：
+                                    </td>
+                                    <td class="td02">
+                                        <input name="mobile" th:value="${member.mobile}" type="text" class="input"
+                                               size="20">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td01">
+                                        <font>*</font>邮箱：
+                                    </td>
+                                    <td class="td02"><input name="email" th:value="${member.email}" type="text"
+                                                            class="input" size="20"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td01">
+                                        <font>*</font>感兴趣的功能：
+                                    </td>
+                                    <td class="td02">
+                                        <textarea name="content" placeholder="请填写你感兴趣的功能"></textarea>
+                                        <span style="display:block;text-align:right;font-size:12px;color:#999;">还能输入200字</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align: center;">
+                                        <input style="cursor: pointer;" name="sub" type="button" onclick="applyFun()"
+                                               value="提交"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <!--申请演示表单提交结束-->
+                </ul>
+                <th:block th:if="${product.isScientific}">
+                    <div class="zhans">仅供临床科研使用</div>
+                </th:block>
+            </div>
+        </div>
+        <div class="rightxx">
+            <div class="bt">
+                <span id="name">[[${product.name}]]</span>
+                <a target="_blank" th:href="@{/company/view(id=${company.id})}">
+                    <img th:src="@{${pathUrl+company.logo}}"/>
+                    <span>了解更多</span>
+                </a>
+            </div>
+            <table width="100%" border="0" class="table1">
+                <tr>
+                    <td width="78">销售价格：</td>
+                    <td style="color:#ff7f25;"><span style="font-size:14px;">￥</span><span  style="font-size:22px;" id="priceId"> [[${product.isHideprice==true?product.priceExplain: #numbers.formatDecimal(product.price,1,'COMMA',2,'POINT') }]]</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>商品编号：</td>
+                    <td>[[${product.sn}]]</td>
+                </tr>
+                <!--<th:block th:if="${parentProductCategory.id!=28}">
+                    <tr>
+                        <td>软件大小：</td>
+                        <td>[[${product.softwareSize}]]</td>
+                    </tr>
+                </th:block>
+
+                <tr>
+                    <td>软件版本：</td>
+                    <td>[[${(product.softwareVersion==null or
+                        product.softwareVersion=='')?'未知':product.softwareVersion}]]
+                    </td>
+                </tr>-->
+                <tr>
+                <tr>
+                    <td>软件语言：</td>
+                    <td>[[${#strings.replace(product.language,',','/')}]]</td>
+                </tr>
+                <tr>
+                <tr>
+                    <td>器械分类：</td>
+                    <td>[[${product.apparatusCategory}]]</td>
+                </tr>
+                <tr>
+                    <td>生产厂家：</td>
+                    <td>[[${product.manufactor}]]</td>
+                </tr>
+                <tr>
+                    <td>公司网址：</td>
+                    <td>[[${product.url}]]</td>
+                </tr>
+                <tr>
+                    <td>认证信息：</td>
+                    <td>[[${#strings.replace(product.authenticationMessage,',','/')}]]</td>
+                </tr>
+                <th:block th:if="${parentProductCategory.id!=28}">
+                    <tr>
+                        <td>系统要求：</td>
+                        <td>[[${#strings.replace(product.system,',','/')}]]</td>
+                    </tr>
+                </th:block>
+
+                <tr  th:if="${agentProducts.size()>0}">
+                    <td>代理商：</td>
+                    <td>
+                        <select>
+                            <option>请选择</option>
+                            <option th:each="agentProduct:${agentProducts}">[[${agentProduct.full_name}]]--[[${agentProduct.mobile}]]</option>
+                        </select>
+                    </td>
+                </tr>
+
+            </table>
+            <div id="ishideprice">
+                <div class="guige">
+                    <div id="fang">购买方式：
+                        <Br/> 购买规格：
+                    </div>
+                    <div class="ggtit">
+                        <div id="tit">
+
+                        </div>
+                        <div class="con" id="JKDiv_0">
+                            <div class="guige_b">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="tab2" style="border:0px;">
+                    <span id="fang">购买数量：</span>
+                    <div class="shul">
+                        <span onclick="carjian()">
+                            <a href="javascript:void(0)">-</a>
+                        </span>
+                        <span id="num">1</span>
+                        <span onclick="carjia()">
+                            <a href="javascript:void(0)">+</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="goul">
+                    <button type="button" class="gw">加入购物车</button>
+                    <button type="button" class="gm">立即购买</button>
+                    <th:block th:if="${product.productId!=null}">
+                        <a target="_blank" th:href="@{/product/addedvalue(id=${product.productId})}">
+                            <button type="button" style="cursor:pointer" class="zzfw" th:style="${product.productId!=null}?'':'background-color:#bbb'">
+                                <img th:src="@{/assets/img/zzfwzs.png}"/>
+                                增值服务
+                            </button>
+                        </a>
+                    </th:block>
+
+                </div>
+            </div>
+            <!--ishideprice end-->
+
+        </div>
+    </div>
+    <!--立即购买-->
+    <form th:action="@{/cart/gotobalance}" METHOD="post" id="gotoBuyForm">
+        <input type="hidden" name="goproductid" id="goproductid" th:value="${product.id}" >
+        <input type="hidden" name="gopurchaseid" id="gopurchaseid">
+        <input type="hidden" name="gonum" id="gonumVal">
+        <input type="hidden" name="isaddedvalue" th:value="${isaddedvalue}">
+    </form>
+
+    <div class="clear"></div>
+
+    <th:block th:if="${productMealList.size()>0}">
+        <div class="taoc">
+            <div class="taoc_top">购买套餐</div>
+            <div class="tao_b">
+                <div class="title">
+                    <th:block th:each="productMeal:${productMealList}">
+                        <li th:onmousemove="|JavaScript:ChangeDiv(${productMealStat.index},'JKDiv1_',1,this)|"
+                            th:id="${productMealStat.index==0?'JKDiv1_DEF':''}"
+                            th:class="${productMealStat.index==0?'Selected':''}">优惠套装[[${productMealStat.index+1}]]
+                        </li>
+                        <span style="padding:0 40px;color:#e6e6e6;">|</span>
+                    </th:block>
+                </div>
+
+                <th:block th:each="productMeal:${productMealList}">
+                    <div class="con" th:id="'JKDiv1_'+${productMealStat.index}" th:style="${productMealStat.index!=0?'display:none;':''}">
+                        <div class="tac1">
+                            <li style="width: 300px">
+                                <span class="cp1">
+                                    <a href="#" >
+                                        <img th:src="@{${pathUrl+productMeal.productImg}}"/></a>
+                                </span>
+                                <span class="cpbt"><a href="">[[${productMeal.productName}]]</a></span>
+                                <span class="cpbt1">¥ [[${#numbers.formatDecimal(productMeal.productPrice,1,'COMMA',2,'POINT')}]] </span>
+                            </li>
+                            <li style="font-size: 26px;padding-top: 30px;">+</li>
+                            <li style="width: 300px"><span class="cp1"><a target="_blank" th:href="@{/product/trainPackagesView(id=${productMeal.productPackageId})}"><img
+                                    th:src="@{${pathUrl+productMeal.productPackageImg}}"/></a></span><span class="cpbt"><a
+                                    href="">[[${productMeal.productPackageName}]]</a></span>
+                                <span class="cpbt1">¥[[${#numbers.formatDecimal(productMeal.productPackagePrice,1,'COMMA',2,'POINT')}]]</span>
+                            </li>
+                            <li style="font-size:26px;padding-top: 30px;">=</li>
+                            <li style="padding-top: 26px;width: 227px;line-height: 30px;">
+                                <p>
+                                    <span id="mo">套餐价：</span>
+                                    <span id="mo1">¥   [[${#numbers.formatDecimal(productMeal.prouctMealPrice,1,'COMMA',2,'POINT')}]]</span>
+                                    <br /><span id="mo2">¥  [[${#numbers.formatDecimal(productMeal.originalPrice,1,'COMMA',2,'POINT')}]]</span>
+<!--                                    <span id="mo1">¥ [[${productMeal.prouctMealPrice}]]</span>-->
+<!--                                    <br />><span id="mo2">¥ [[${productMeal.originalPrice}]]</span>-->
+                                </p>
+                                <p id="mo3">立即节省： ¥ [[${#numbers.formatDecimal(productMeal.discountPrice,1,'COMMA',2,'POINT')}]] </p>
+                            </li>
+                            <li style="padding-top: 30px;">
+                                <a th:href="@{/order/addProductMealOrder(productMealId=${productMeal.productMealId})}">
+                                    <button type="button" class="tcgm" style="cursor:pointer">立即购买</button>
+                                </a>
+                            </li>
+                        </div>
+                    </div>
+                </th:block>
+
+            </div>
+        </div>
+    </th:block>
+
+</div>
+
+<div class="clear"></div>
+<!--八大项-->
+<div class="showAddsRight fr" th:each="num:${#numbers.sequence(1,(listSpe.size()+4-1)/4)}" >
+    <div class="bq_box">
+        <div class="s-left-banner" style="display: none;"></div>
+        <div class="s-left-list">
+            <ul>
+                    <li th:each="spe1:${listSpe}" th:if="${spe1Stat.index >= (num-1)*4 and spe1Stat.index < num*4 }"  th:onclick="|ChangeDiv(${spe1Stat.index},'JKDiv2_',3,this)|"
+                        th:id="${spe1Stat.index==0?'JKDiv2_DEF':''}" th:class="${spe1Stat.index%4 == 0 ?'Selected':''}"><span>[[${spe1.title}]]</span>
+                    </li>
+
+            </ul>
+        </div>
+        <div class="s-left-box">
+            <div class="product-detail-div clearfix" style="display:block;">
+                <div class="con2" th:each="spea:${listSpe}" th:if="${speaStat.index >= (num-1)*4 and speaStat.index < num*4 }" th:id="${'JKDiv2_'+speaStat.index}"
+                     th:style="${speaStat.index%4 == 0?'display:block':'display:none'}" style="display:none;">
+                    <div class="pzxx" th:utext="${spea.content}" style="padding:20px 60px;">
+                    </div>
+                </div>
+            </div>
+            <div id="helpInfoContent"></div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="light1" class="fatc">
+    <div class="fatc_t">请完善个人信息
+        <a href="javascript:void(0)" onclick="closeDialog1(1)"><i class="iconfont">&#xe62f;</i></a>
+    </div>
+    <div class="cnet">
+        <p><img src="../img/shib.png" th:src="@{/assets/img/shib.png}"></p>
+        <p style="padding: 20px 0px 40px 0px;">非常抱歉，您只有购买软件后才能查看完整软件教程！</p>
+        <p><input name="sub" type="submit" value="确认" onclick="closeDialog1(1)"/></p>
+    </div>
+</div>
+
+
+
+<div class="clear"></div>
+<div class="zxan">
+    <input type="button" value="我要咨询" id="btnZX"/>
+    <div id="divZX" style="display:none;margin:auto; z-index:10; background:#fff;">
+
+        <div class="top">我要咨询</div>
+        <div class="messageTextarea">
+            <textarea onkeyup="countNum()" name="zxcontent" placeholder="如果您有不清楚的地方，可以在线留言" maxlength="200"></textarea>
+            <span>还剩余<span id="textareaNum">200</span>字</span>
+        </div>
+        <input type="submit" onclick="openDialog2()" name="Submit" value="提交" style="float:unset; cursor: pointer">
+        <div id="light2" class="fatc">
+            <div class="fatc_t">咨询
+                <a href="javascript:void(0)" onclick="closeDialog2()"><i class="iconfont">&#xe62f;</i></a>
+            </div>
+            <div class="cnet">
+                <p style="padding: 20px 0px 40px 0px;">我们将通过邮件的形式回复您，请完善邮件信息！</p>
+                <p>
+                    <font>*</font>邮箱：<input name="zxemail" type="text" value=""
+                                            style="width:327px;border:1px solid #dadada;height:36px;text-align: left">
+                </p>
+                <p>
+                    <a href="JavaScript:void(0)" onclick="openDialog32()"><input type="button" value="确认"
+                                                                                 style="width:155px;margin-top:20px;"/></a>
+                </p>
+            </div>
+
+        </div>
+        <div id="light3" class="fatc">
+            <div class="fatc_t">咨询
+                <a href="javascript:void(0)" onclick="closeDialog3()"><i class="iconfont">&#xe62f;</i></a>
+            </div>
+            <div class="cnet">
+
+                <p><img src="../img/wanc.png" th:src="@{/assets/img/wanc.png}"/></p>
+                <p>提交成功</p>
+                <p>我们会尽快答复，请您注意查收邮件！</p>
+                <p>
+                    <a onclick="closeDialog3()"><input type="button" value="完成"
+                                                       style="width:155px;margin-top:20px;"></a>
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<th:block th:if="${toplist.size()>0}">
+    <div class="zixun">
+        <div class="top">看了此商品的会员还在看</div>
+        <div class="zixun_photo">
+
+
+            <div id="panda-show">
+                <div class="full" style="overflow: unset;">
+                    <div class="content" style="background-color: rgba(0,0,0,0);overflow: unset;">
+                        <a class="arrow-left" href="#" style="left: -36px"></a>
+                        <a class="arrow-right" href="#" style="right: -36px"></a>
+                        <div class="cover-left" style="background-color: rgba(0,0,0,0)"></div>
+                        <div class="swiper-containerLogo" style="overflow: hidden;">
+                            <div class="swiper-wrapper">
+
+                                <div class="swiper-slide tuijianItem" th:each="topproduct:${toplist}">
+                                    <span id="tu">
+                                         <a th:href="@{/product/view(id=${topproduct.id})}">
+                                             <img th:src="@{${pathUrl+topproduct.image}}"/>
+                                         </a>
+                                     </span>
+                                    <span id="tit">[[${topproduct.name}]]</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cover-right" style="background-color: rgba(0,0,0,0)"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</th:block>
+
+<!-- 软件分类   -->
+
+<div class="downLoadModal">
+
+    <div class="downLoadModal_view">
+
+        <div class="downLoadModal_main">
+
+
+            <div class="downLoadModal_content"  >
+                <div class="downLoadModal_title">
+                    测试版
+                </div>
+                <table class="downLoadModal_table" >
+                    <thead>
+                    <tr >
+                        <th>下载地址</th>
+                        <th>版本号</th>
+                        <th>软件大小</th>
+                    </tr>
+                    </thead>
+                    <tbody id="testTbody">
+                    <tr th:each="productSoftwarePackage:${productSoftwarePackages}" th:if="${productSoftwarePackage.type==1}">
+                        <td>[[${productSoftwarePackage.versionNo}]]</td>
+                        <td>[[${productSoftwarePackage.packageSize}]]</td>
+                        <td><a th:href="${productSoftwarePackage.packageUrl}" download="download">下载</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="downLoadModal_content" th:if="${@productpurchase.isProductPurchase('__${product.id}__')}">
+                <div class="downLoadModal_title">
+                    正式版
+                </div>
+                <table class="downLoadModal_table">
+                    <thead>
+                    <tr>
+                        <th>下载地址</th>
+                        <th>版本号</th>
+                        <th>软件大小</th>
+                    </tr>
+                    </thead>
+                    <tbody id="formalTbody">
+                    <tr th:each="productSoftwarePackage:${productSoftwarePackages}" th:if="${productSoftwarePackage.type==2}">
+                        <td>[[${productSoftwarePackage.versionNo}]]</td>
+                        <td>[[${productSoftwarePackage.packageSize}]]</td>
+                        <td><a th:href="${productSoftwarePackage.packageUrl}" download="download">下载</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="downLoadModal_btn">
+            <button class="btn btn-light" onclick="closeDownloadModal()">关闭</button>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="tjnav">
+    <ul th:replace="~{foot_category::topbar}">
+    </ul>
+</div>
+<!-- 软件分类   -->
+
+</div>
+</div>
+
+
+
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+
+</html>
+
+
+
+<script th:src="@{/assets/js/lSelect.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    //轮播图
+    var logoSwiper = new Swiper('.swiper-containerLogo', {
+        loop: true,
+        autoplay: { disableOnInteraction: false }, //可选选项，自动滑动
+        speed: 1000,
+        slidesPerView: 5,
+        slidesPerGroup: 1,
+        loopedSlides: 20,
+        loopAdditionalSlides: 20,
+        onSlideChangeEnd: function (swiper) {
+            if (swiper.activeIndex == 40) {
+                swiper.swipeTo(0, 0)
+            }
+        },
+
+    });
+
+
+    var titleText = [[${title}]];
+    var liLength = $(".s-left-list").find("li").length;
+    var liDom = $(".s-left-list").find("li");
+    for(var i = 0; i < liLength; i++){
+        if(titleText == $(liDom).eq(i).find('span').text()){
+            $(liDom).removeClass('Selected');
+            $(".con2").hide();
+            if(i > 4){
+                $(liDom).eq(0).addClass('Selected');
+                $(".con2").eq(0).show();
+            }else{
+                $(liDom).eq(4).addClass('Selected');
+                $(".con2").eq(4).show();
+            }
+            $(liDom).eq(i).addClass('Selected');
+            $(".con2").eq(i).show();
+        }
+    }
+
+
+    $('.arrow-left').on('click', function (e) {
+        e.preventDefault();
+        logoSwiper.slidePrev();
+    });
+    $('.arrow-right').on('click', function (e) {
+        e.preventDefault();
+        logoSwiper.slideNext();
+    });
+    //轮播图
+
+    //规格
+    var purchaseList = [[${purchases}]];
+    var falsTop = [[${product.isHideprice}]];//是否隐层价格
+    console.log(falsTop);
+    console.log(purchaseList);
+    var purchasehtml = ''
+    for(var i = 0; i < purchaseList.length; i++){
+        purchasehtml += '<div onclick="dataSource(this,'+ i +')">'+purchaseList[i].name+'</div>'
+    }
+    $("#tit").append(purchasehtml);
+    // $("#tit").find("div").eq(0).addClass(Selected);
+    dataSource($("#tit").find("div").eq(0),0);
+    //改变购买规格
+    function dataSource(obj, index) {
+        $(obj).addClass("Selected");
+        $(obj).siblings().removeClass("Selected");
+        //购物数量归为1
+        $("#num").html(1);
+        $("#gonumVal").val(1);
+        $('#gopurchaseid').val(purchaseList[index].id);
+        var list = purchaseList[index].product_puchase;
+        var price = list[0].price;
+        if (price == 0 || falsTop){  //判断是否隐层价格
+            price = 'N/A';
+            $("#priceId").html(price);
+            $(".gw").removeAttr("onclick");
+            $(".gm").removeAttr("onclick");
+            $(".gw").css("background-color","#ccc");
+            $(".gm").css("background-color","#ccc");
+        } else {
+            $("#priceId").html(price);
+            $(".gw").attr("onclick","fncart()");
+            $(".gm").attr("onclick","gotoBuyFormSubmit()");
+            $(".gw").removeAttr("style");
+            $(".gm").removeAttr("style");
+        }
+        $('#gopurchaseid').val(purchaseList[index].product_puchase[0].pu_id);
+        var childrenHtml = '';
+        for (var i = 0; i < list.length; i++) {
+
+            childrenHtml += '<div ';
+            if (i==0) {
+                childrenHtml +=  ' class="ding"';
+            }
+            childrenHtml += 'onclick="updatePrice('+ list[i].price +',this,'+ list[i].pu_id+')">'+list[i].name+'</div>';
+        }
+        $(".guige_b").empty();
+        $(".guige_b").append(childrenHtml);
+    }
+
+
+
+
+    //软件版本下拉监听
+    function showDownloadModal() {
+        $(".downLoadModal").css('display','flex');
+    }
+    //软件版本下拉监听
+    function closeDownloadModal() {
+        $(".downLoadModal").css('display','none');
+    }
+
+    /**
+     * 获取购买规格的价格
+     * @param id
+     * @param obj
+     */
+    function updatePrice(price, obj, id) {
+        if (price == 0 || falsTop){  //判断是否隐层价格
+            price = 'N/A';
+            $("#priceId").html(price);
+            $(".gw").removeAttr("onclick");
+            $(".gm").removeAttr("onclick");
+            $(".gw").css("background-color","#ccc");
+            $(".gm").css("background-color","#ccc");
+        } else {
+            $("#priceId").html(price);
+            $(".gw").attr("onclick","fncart()");
+            $(".gm").attr("onclick","gotoBuyFormSubmit()");
+            $(".gw").removeAttr("style");
+            $(".gm").removeAttr("style");
+        }
+        $(obj).siblings().removeClass("ding");
+        $(obj).addClass("ding");
+        $('#gopurchaseid').val(id);
+        //购物数量归为1
+        $("#num").html(1);
+        $("#gonumVal").val(1);
+    }
+
+
+    //规格
+
+</script>
+
+<script>
+
+
+    var id = [[${product.id}]]; //产品id
+    var ip = returnCitySN["cip"];
+    var firstPurId = [[${purchases[0].id}]]; //当前产品的第一个购买方式的id
+
+    var pay = [[${@productpurchase.isProductPurchase('__${product.id}__')}]];//该产品是否购买
+    // var navWidth = $("#firstNav").width();
+    var oBtnZX = document.getElementById('btnZX');
+    var oDivZX = document.getElementById('divZX');
+    var fals = [[${product.isHideprice}]];//是否隐层价格
+
+    //记录商品点击量
+    updateProductHits(id, ip);
+
+    // 地区选择
+    $("#areaId").lSelect({
+        url: "[[@{/area/getAreas}]]",
+        fun: "getHospitalList()"
+    });
+
+
+    //科室选择
+    $("#department").lSelect({
+        url: "[[@{/department/getDepartments}]]"
+    });
+
+
+
+    CloudZoom.quickStart();
+    //申请时传ip
+    $("#demonForm input[name='ip']").val(ip);
+
+
+
+    //展示咨询框
+    oBtnZX.onclick = function () {
+        oDivZX.style.display = 'block';
+        oBtnZX.style.display = 'none';
+    };
+
+    //提交申请窗口显示
+    function openDialog(type) {
+        document.getElementById('light').style.display = 'block';
+        $("#demonType").val(type);
+    }
+
+    //提交申请窗口关闭
+    function closeDialog() {
+        document.getElementById('light').style.display = 'none';
+    }
+
+
+    //选择地区获取医院列表
+    function getHospitalList() {
+        var ID = $("#areaId").val();
+        console.log(ID)
+        $("#hospitalList").empty();
+        var html = '';
+        $.ajax({
+            type: "POST",
+            // contentType: "application/json",
+            url: '[[@{/product/hospitals}]]',
+            data:{
+                areaId: ID
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data.data.length);
+                var datas = data.data;
+                for(var i = 0; i < datas.length; i++){
+                    html += '<option value="'+datas[i].name+'" data_id ="'+datas[i].id+'"></option>'
+                };
+                $("#hospitalName").val('');
+            }
+        });
+        $("#hospitalList").append(html);
+    }
+
+
+
+    function inputSelect() {
+        var input_select = $("#hospitalName").val();
+        var option_length = $("option").length;
+        var option_id = '';
+        for (var i = 0; i < option_length; i++) {
+            var option_value = $("option").eq(i).attr('value');
+            if (input_select == option_value) {
+                option_id = $("option").eq(i).attr('data_id');
+                break;
+            }
+        }
+        console.log(input_select, option_length, option_id);
+        $('#hospitalId').val(option_id);
+    }
+
+    //邮箱窗口展示
+    function openDialog32() {
+        var text = $("input[name='zxemail']").val();
+        if (text.length > 0){
+            if (text.indexOf('@') == '-1') {
+                $('#popup').html("邮箱输入有误,请重新输入！");
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+                return false;
+            } else {
+                openDialog3();
+                document.getElementById('light3').style.display = 'block';
+            }
+        } else {
+            $('#popup').html("请输入邮箱！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+
+
+    }
+
+    //咨询成功窗口关闭
+    function closeDialog3() {
+        $("#btnZX").show();
+        $("#divZX").hide();
+        $("textarea[name='zxcontent']").val('');
+        $("input[name='zxemail']").val('');
+        document.getElementById('light1').style.display = 'none';
+        document.getElementById('light2').style.display = 'none';
+        document.getElementById('light3').style.display = 'none';
+    }
+
+    function openDialog3() {
+        //提交咨询
+        var content = $("textarea[name='zxcontent']").val();
+        var email = $("input[name='zxemail']").val();
+        var pid = [[${product.id}]];
+        var cid = [[${company.id}]];
+        $.ajax({
+            type: "POST",
+            url: '[[@{/message/addMessage}]]',
+            data: {
+                pid: pid,
+                cid: cid,
+                content: content,
+                email: email
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data);
+                // if(data>0){
+                //     alert("咨询提交成功！");
+                //
+                // }else{
+                //     alert("咨询提交失败！");
+                // }
+            }
+
+        });
+    }
+
+    /*切换tab页*/
+    function ChangeDiv(divId, divName, zDivCount, obj) {
+        if (!pay && $(obj).find('span').text() == "软件教程") {
+            document.getElementById('light1').style.display = 'block';
+            return false;
+        }
+        if(divName == "JKDiv1_"){
+            $("#" + divName + divId).siblings("div.con").hide();
+        }else{
+            $("#" + divName + divId).siblings("div.con2").hide();
+        }
+        $("#" + divName + divId).show();
+        $(obj).siblings("li").removeClass('Selected');
+        $(obj).addClass('Selected');
+    }
+
+    /*隐藏软件提示框*/
+    function closeDialog1() {
+        document.getElementById('light1').style.display = 'none';
+    }
+
+    /*咨询剩余字数*/
+    function countNum() {
+        var textareaNum = $("textarea[name='zxcontent']").val().length;
+        $("#textareaNum").text(200 - textareaNum);
+    }
+
+    /*打开咨询*/
+    function openDialog2() {
+        var text = $(".messageTextarea textarea").val();
+        if (text.length > 0) {
+            document.getElementById('light2').style.display = 'block';
+        } else {
+            $('#popup').html("请输入咨询留言！");
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return false;
+        }
+    }
+
+    /*关闭咨询*/
+    function closeDialog2() {
+        document.getElementById('light2').style.display = 'none';
+    }
+
+    //记录点击量
+    function updateProductHits(id, ip) {
+        $.ajax({
+            type: "POST",
+            url: '[[@{/product/updateProductHits}]]',
+            data: {
+                pid: id,
+                ip: ip
+            },
+            dataType: "json",
+            async: false
+
+        });
+    }
+
+
+    //提交申请演示等
+    function applyFun() {
+        if($(".input[name='demonName']").val() == ''){
+            $('#popup').html("请输入您的姓名！");
+            syalert.syopen('alert2');
+            return false;
+        }
+        if($("#areaId").val() == ''){
+            $('#popup').html("请选择您的所在地！");
+            syalert.syopen('alert2');
+            return false;
+        }
+        if($("#hospitalName").val() == ''){
+            $('#popup').html("请选择您的所在医院！");
+            syalert.syopen('alert2');
+            return false;
+        }
+        if($("#department").val() == ''){
+            $('#popup').html("请选择您的所在科室！");
+            syalert.syopen('alert2');
+            return false;
+        }
+        var phone = $(".input[name='mobile']").val();
+        console.log(phone)
+        if(phone == ''){
+            $('#popup').html("请输入您的电话！");
+            syalert.syopen('alert2');
+            return false;
+        }
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+        if(!pattern.test(phone)){
+            $(".input [name='mobile']").val('');
+            $('#popup').html('手机号输入有误,请重新输入!')
+            syalert.syopen('alert2');
+            return;
+        }
+        var email = $(".input[name='email']").val();
+        console.log(email)
+        if(email == ''){
+            $('#popup').html("请输入您的邮箱！");
+            syalert.syopen('alert2');
+            return false;
+        }
+        var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        if(!reg.test(email)){
+            $(".input [name='email']").val('');
+            $('#popup').html('邮箱输入有误,请重新输入!')
+            syalert.syopen('alert2');
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: '[[@{/demon/addDemon}]]',
+            data: $("#demonForm").serialize(),
+            dataType: "json",
+            async: false,
+            success: function (data) {
+
+                if (data.result == 1) {
+                    alert("提交申请成功！");
+                    closeDialog();
+                    var demonType = $("#demonType").val();
+
+                    if (demonType == 2) {
+                        //提交的下载包申请
+                        var isPackage = data.isPackage;
+                        console.log(isPackage)
+                        if (isPackage == 1) {
+                            //下载包
+                            var tongfu = "[[${pathUrl}]]";
+                            window.open(tongfu + data.package);
+                        } else {
+                            //下载地址页面，重新打开一个页面
+                            window.open(data.packageUrl);
+                            // window.location.href=data.packageUrl;
+                        }
+                    }
+                } else {
+                    alert("提交申请失败！");
+                }
+
+            }
+
+        });
+    }
+
+    // 购物车增加
+    function carjia() {
+        var num = parseInt($("#num").html());
+        num = num + 1;
+        $("#num").html(num);
+        $("#gonumVal").val(num);
+    }
+
+    // 购物车减少
+    function carjian() {
+        var num = parseInt($("#num").html());
+        if (num > 1) {
+            num = num - 1
+            $("#num").html(num);
+            $("#gonumVal").val(num);
+        }
+    }
+
+
+    //加入购物车按钮
+    function fncart() {
+        if (fals){  //判断是否隐层价格
+          alert('该产品没有提供购买价格，不可加入购物车！');
+          return false;
+        }
+        var num = parseInt($("#num").html());
+        var productid = [[${product.id}]]; //产品id
+        var purchaseid = $('#gopurchaseid').val()//购买规格id
+        $.ajax({
+            type: "post",
+            url: '[[@{/cart/addCart}]]',
+            data: {
+                num: num,
+                productid: productid,
+                purchaseid: purchaseid,
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data);
+                if (data > 0) {
+                    $('#popup').html("添加购物车成功！");
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('');
+                    $('#shopping-amount').text(data);
+                    return false;
+                } else {
+                    alert("添加购物车失败！");
+                }
+
+            }
+        });
+    }
+
+    //立即购买
+    function gotoBuyFormSubmit() {
+        if (fals){  //判断是否隐层价格
+            alert('该产品没有提供购买价格，暂不可购买！');
+            return false;
+        }
+        $('#gotoBuyForm').submit();
+    }
+
+
+    //我要咨询
+    function fnconsultation() {
+        var content = $("textarea[name='zxcontent']").val();
+        var pid = [[${product.id}]];
+        var cid = [[${company.id}]];
+        $.ajax({
+            type: "POST",
+            url: '[[@{/message/addMessage}]]',
+            data: {
+                pid: pid,
+                cid: cid,
+                content: content
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data);
+
+                if (data > 0) {
+                    alert("咨询提交成功！");
+
+                } else {
+                    alert("咨询提交失败！");
+                }
+
+            }
+
+        });
+    }
+
+
+</script>
+

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>常见问题-银行转账</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+</head>
+<script src="../js/jquery-3.1.1.js" th:src="@{/assets/js/jquery-3.1.1.js}"></script>
+<body>
+
+
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css"  rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}"/>
+<link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+
+<div class="log_con" style="padding-top:0px;padding-bottom:50px;clear:both;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;<a href="javaScript:void(0);">我的SP</a></div>
+    <div class="con_sp">
+        <script>
+            $(function(){
+                $('.sp_nav .sp_nav-header-li-div').click(function(){
+                    if($(this).parent().hasClass('active')) {
+                        $(this).parent().removeClass('active').addClass("active-none");
+                    }else{
+                        $(this).parent().removeClass('active-none').addClass("active").siblings().removeClass('active').addClass("active-none");
+                        $(this).parent().siblings().find('.sp_nav-second-level li').removeClass('active1');
+                    }
+                });
+
+                $('.sp_nav-second-level li').click(function(){
+                    $(this).addClass('active1').siblings().removeClass('active1');
+                });
+            })
+        </script>
+        <style>
+            .sp_nav li.active-none{border-bottom:0px;}
+            .sp_nav li>div{color:#aaa;}
+        </style>
+        <div th:replace="/incloud/cjwtLeft:: left"></div>
+
+        <div class="con_right">
+            <div class="chax">
+                <div class="prob_s">
+                    <div class="prob_ss"><input type="text" value="输入问题关键词" /><button><i class="iconfont">&#xe639;</i>搜索</button></div>
+                </div>
+                <div class="prob_we">
+                    <span id="probt">发票声明</span>
+                    <p>我们可根据客户的具体要求为您提供购物的发票</p>
+                    <p>需要本站提供发票的用户 , 在下定单时 , 可以选择是否需要发票寄送服务。 </p>
+                    <p>我们统一开具北京市普通商业发票,如果您对发票抬头有特殊要求，请在定单的“发票抬头”栏中说明。</p>
+                    <p>所有选择了“需要发票”的定单 , 我们将主动向用户寄送发票 , 用户无需另外写信通知我们。</p>
+                    <p>寄送发票的规则是 ：</p>
+                    <p>1 、本站已向用户发送了注册码；</p>
+                    <p>2 、用户在付款时，已经选择了需要发票栏的用户；</p>
+                    <p>3 、我们提供商业零售统一发票；</p>
+
+
+                </div>
+            </div></div>
+    </div>
+    <script type="text/javascript">
+        var hl = $(".con_left").outerHeight();
+        var hr = $(".con_right").outerHeight();
+        var mh = Math.max(hl,hr);
+        $(".con_left").height(mh);
+        $(".con_right").height(mh);
+    </script>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

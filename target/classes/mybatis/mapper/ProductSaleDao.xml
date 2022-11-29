@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.ProductSaleDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.ProductSale" >
+    <result column="product" property="product" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="order_date" property="orderDate" jdbcType="TIMESTAMP" />
+    <result column="member" property="member" jdbcType="BIGINT" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="purchase_id" property="purchaseId" jdbcType="BIGINT" />
+    <result column="purchase_name" property="purchaseName" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.tongfu.entity.ProductSale" >
+    insert into tf_product_sale (product, create_date, order_date, 
+      member, count, product_name, 
+      purchase_id, purchase_name)
+    values (#{product,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{orderDate,jdbcType=TIMESTAMP}, 
+      #{member,jdbcType=BIGINT}, #{count,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, 
+      #{purchaseId,jdbcType=BIGINT}, #{purchaseName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.ProductSale" >
+    insert into tf_product_sale
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="product != null" >
+        product,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="orderDate != null" >
+        order_date,
+      </if>
+      <if test="member != null" >
+        member,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="purchaseId != null" >
+        purchase_id,
+      </if>
+      <if test="purchaseName != null" >
+        purchase_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="product != null" >
+        #{product,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderDate != null" >
+        #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="member != null" >
+        #{member,jdbcType=BIGINT},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null" >
+        #{purchaseId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseName != null" >
+        #{purchaseName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

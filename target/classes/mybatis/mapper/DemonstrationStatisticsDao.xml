@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.DemonstrationStatisticsDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.DemonstrationStatistics" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="product" property="product" jdbcType="BIGINT" />
+    <result column="member" property="member" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="iplat" property="iplat" jdbcType="VARCHAR" />
+    <result column="iplng" property="iplng" jdbcType="VARCHAR" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="adcode" property="adcode" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="area" property="area" jdbcType="BIGINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="hospital" property="hospital" jdbcType="BIGINT" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="BIGINT" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="BIT" />
+    <result column="status" property="status" jdbcType="BIGINT" />
+    <result column="admin_id" property="adminId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, product, member, create_date, ip, iplat, iplng, nation, province, city, district,
+    adcode, company_id, area, address, name, hospital, department, phone, mobile, content,
+    type, email, is_delete, status, admin_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_demonstration_statistics
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_demonstration_statistics
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.DemonstrationStatistics" >
+    insert into tf_demonstration_statistics (id, product, member,
+      create_date, ip, iplat,
+      iplng, nation, province,
+      city, district, adcode,
+      company_id, area, address,
+      name, hospital, department,
+      phone, mobile, content,
+      type, email, is_delete, status,
+      admin_id)
+    values (#{id,jdbcType=BIGINT}, #{product,jdbcType=BIGINT}, #{member,jdbcType=BIGINT},
+      #{createDate,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{iplat,jdbcType=VARCHAR},
+      #{iplng,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR},
+      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{adcode,jdbcType=VARCHAR},
+      #{companyId,jdbcType=BIGINT}, #{area,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{hospital,jdbcType=BIGINT}, #{department,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+      #{type,jdbcType=BIGINT}, #{email,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, #{status,jdbcType=BIGINT},
+      #{adminId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.DemonstrationStatistics" >
+    insert into tf_demonstration_statistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="product != null" >
+        product,
+      </if>
+      <if test="member != null" >
+        member,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="iplat != null" >
+        iplat,
+      </if>
+      <if test="iplng != null" >
+        iplng,
+      </if>
+      <if test="nation != null" >
+        nation,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="adcode != null" >
+        adcode,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="hospital != null" >
+        hospital,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="product != null" >
+        #{product,jdbcType=BIGINT},
+      </if>
+      <if test="member != null" >
+        #{member,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="iplat != null" >
+        #{iplat,jdbcType=VARCHAR},
+      </if>
+      <if test="iplng != null" >
+        #{iplng,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="adcode != null" >
+        #{adcode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="hospital != null" >
+        #{hospital,jdbcType=BIGINT},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=BIGINT},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.DemonstrationStatistics" >
+    update tf_demonstration_statistics
+    <set >
+      <if test="product != null" >
+        product = #{product,jdbcType=BIGINT},
+      </if>
+      <if test="member != null" >
+        member = #{member,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="iplat != null" >
+        iplat = #{iplat,jdbcType=VARCHAR},
+      </if>
+      <if test="iplng != null" >
+        iplng = #{iplng,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="adcode != null" >
+        adcode = #{adcode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="hospital != null" >
+        hospital = #{hospital,jdbcType=BIGINT},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=BIGINT},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIGINT},
+      </if>
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.DemonstrationStatistics" >
+    update tf_demonstration_statistics
+    set product = #{product,jdbcType=BIGINT},
+      member = #{member,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR},
+      iplat = #{iplat,jdbcType=VARCHAR},
+      iplng = #{iplng,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      adcode = #{adcode,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=BIGINT},
+      area = #{area,jdbcType=BIGINT},
+      address = #{address,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      hospital = #{hospital,jdbcType=BIGINT},
+      department = #{department,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIGINT},
+      email = #{email,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=BIT},
+      status = #{status,jdbcType=BIGINT},
+      admin_id = #{adminId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

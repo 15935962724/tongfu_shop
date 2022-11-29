@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>产品列表</title>
+    <!-- CSS Files
+    ================================================== -->
+    <script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script src="../css/iconfont.js"  th:src="@{/assets/css/iconfont.js}"></script>
+    <link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+    <link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+    <link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+    <link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}" />
+    <link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+    <link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+    <link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+    <link rel="stylesheet" href="../css/index.css" type="text/css" th:href="@{/assets/css/index.css}"/>
+    <script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+    <style>
+        .slick-dots {
+            bottom: 56px;
+        }
+    </style>
+</head>
+<body>
+<header>
+
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+</header>
+<script>
+    var btns =document.getElementById('btns');
+    var showid=document.getElementById('showid');
+    var colss=document.getElementById('colss');
+    if (btns && showid){
+        btns.onmouseover=function(){
+            showid.style.display='block';
+        }
+    }
+    if (colss && showid) {
+        colss.onclick=function(){
+            showid.style.display='none'
+        };
+    }
+    if (showid) {
+        document.onclick=function(){
+            showid.style.display='none';
+        };
+        if(showid.addEventListener)
+        {
+            showid.addEventListener('click',function(e){e.stopPropagation()},false)
+        }
+        else if(showid.attachEvent)
+        {
+            showid.attachEvent('click',function(e){e.stopPropagation()},false)
+        }
+    }
+
+</script>
+<style>
+    .slick-dots li button {background: #9acaff;}
+</style>
+
+<div class="content">
+
+    <section class="banner">
+        <div class="single-item slider">
+
+            <div class="bannerbg" th:each="ad:${adListHead}" >
+
+                <a th:href="@{${ad.url}}" target="_blank">
+                    <img src="../img/fxban.jpg" th:src="@{${path+ad.path}}"/>
+                </a>
+            </div>
+        </div>
+    </section>
+    <div id="Content1">
+
+        <div class="ruj">
+            <div class="title">
+                <li th:onclick="'javascript:gotocategory(\''+${cate1.id}+'\')'"  id="JKDiv_DEF" th:each="cate1:${categoryParentList}"  th:id="${cate1.id}" th:text="${cate1.name}"  th:classappend="${cate1.id==parent}?'Selected':''" ></li>
+            </div>
+            <div class="con" id="JKDiv_0">
+                <section class="section news-wrap">
+                    <div class="sec-layer">
+                        <form th:action="@{/product/list}" id="searchForm" method="post">
+                            <input type="hidden" name="parent" th:value="${parent}">
+                            <input type="hidden" name="category" th:value="${category}">
+                            <div class="sec-header">
+                                <h2 id="sname"> [[${productCategory.parentName}]]</h2>
+                                <div class="ss">
+                                    <input type="text" placeholder="请输入产品、品牌、关键词" name="keywords" id="keywords" th:value="${keywords}">
+                                    <button type="submit" onclick="selectProduct()" style=""><i class="iconfont">&#xe639;</i></button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="" style="display: flex;justify-content: space-between;align-items: flex-start;">
+
+
+
+                            <form  th:action="@{/product/list}" id="list">
+                                <input type="hidden" id="pageNum" name="pageNum">
+                                <input type="hidden" name="parent" th:value="${parent}">
+                                <input type="hidden" name="category" th:value="${category}">
+                                <input type="hidden"  name="keywords" th:value="${keywords}">
+                                <div style="width:914px;display: flex;flex-direction: column;">
+
+
+                                    <div class="notSeach" th:if="${page.list.size() == 0}">
+                                        <img th:src="@{/assets/img/notSearch.png}"/>
+                                        该分类暂无商品！
+                                    </div>
+
+                                    <div class="cp_list" th:if="${page.list.size() > 0}" style="padding:0 0 50px 0;">
+                                        <div class="cp_num">
+                                            [[${countCompanys}]]个品牌<span></span>[[${procount}]]个商品
+                                        </div>
+                                        <ul>
+                                            <li th:each="product:${page.list}">
+                                                <div id="photo">
+                                                    <a target="_blank" th:href="@{/product/view(id=${product.id})}">
+                                                        <img th:src="@{${path+product.image}}"/>
+                                                    </a>
+                                                </div>
+                                                <div class="you">
+                                            <span id="cpbt">
+                                                <a target="_blank" th:href="@{/product/view(id=${product.id})}" th:text="${product.name}"></a>
+                                            </span>
+
+                                                    <th:block th:if="${#strings.length(product.introduction)>120}">
+                                                        <div class="daoyu">
+                                                            [[${#strings.substring(product.introduction,0,120)}]]...
+                                                        </div>
+                                                    </th:block>
+                                                    <th:block th:if="${#strings.length(product.introduction)<=120}">
+                                                        <div class="daoyu">
+                                                            [[${product.introduction}]]
+                                                        </div>
+                                                    </th:block>
+
+
+                                                    <a target="_blank" th:href="@{/product/view(id=${product.id})}">
+                                                        <button style="cursor: pointer" type="button">
+                                                            产品详情
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                                <span id="dianp">
+                                            <a target="_blank"  th:href="@{/company/view(id=${product.companyid})}">
+                                                <img th:src="@{${path+product.logo}}"/>
+                                            </a>
+                                            <a target="_blank"  th:href="@{/company/view(id=${product.companyid})}">了解更多</a>
+                                        </span>
+
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+                                    <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+                                        <ul>
+                                            <li th:style="${page.pageNum==1?'display:none':''}" th:onclick="'javascript:$.pageSkip(\''+${page.pageNum-1}+'\')'">
+                                                <i class="iconfont">&#xe68d;</i>
+                                            </li>
+                                            <th:block th:if="${page.pages > 10}">
+                                                <th:block th:if="${page.pageNum == 1}">
+                                                    <li id="da">
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pageNum}+'\')'">[[${page.pageNum}]]</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pageNum+1}+'\')'">[[${page.pageNum+1}]]</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pageNum+2}+'\')'">[[${page.pageNum+2}]]</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pageNum+3}+'\')'">[[${page.pageNum+3}]]</a>
+                                                    </li>
+
+                                                    <li>
+                                                        ···
+                                                    </li>
+
+
+                                                    <li>
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pages}+'\')'">[[${page.pages}]]</a>
+                                                    </li>
+
+                                                </th:block>
+
+                                                <th:block th:if="${page.pageNum >1}">
+
+                                                    <li th:if="${page.pageNum >= 4}">
+                                                        <a th:href="'javascript:$.pageSkip(\''+1+'\')'">1</a>
+                                                    </li>
+                                                    <li th:if="${page.pageNum-4 > 0}">
+                                                        ···
+                                                    </li>
+
+                                                    <li th:if="${page.pageNum-2 >= 1}">
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pageNum-2}+'\')'">[[${page.pageNum-2}]]</a>
+                                                    </li>
+
+                                                    <li th:if="${page.pageNum-1 >= 1}">
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pageNum-1}+'\')'">[[${page.pageNum-1}]]</a>
+                                                    </li>
+
+                                                    <li id="da">
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pageNum}+'\')'">[[${page.pageNum}]]</a>
+                                                    </li>
+
+                                                    <li th:if="${page.pageNum+1 < page.pages}">
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pageNum+1}+'\')'">[[${page.pageNum+1}]]</a>
+                                                    </li>
+
+                                                    <li th:if="${page.pageNum+2 < page.pages}">
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pageNum+2}+'\')'">[[${page.pageNum+2}]]</a>
+                                                    </li>
+
+                                                    <li th:if="${page.pageNum+4 <= page.pages}">
+                                                        ···
+                                                    </li>
+
+
+                                                    <li th:if="${page.pageNum != page.pages}">
+                                                        <a th:href="'javascript:$.pageSkip(\''+${page.pages}+'\')'">[[${page.pages}]]</a>
+                                                    </li>
+
+                                                </th:block>
+
+
+                                            </th:block>
+                                            <li th:if="${page.pages <= 10}" th:each="pg:${#numbers.sequence(1,page.pages)}" th:id="${pg==page.pageNum?'da':''}">
+                                                <a th:href="'javascript:$.pageSkip(\''+${pg}+'\')'">[[${pg}]]</a>
+                                            </li>
+
+                                            <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}" th:onclick="'javascript:$.pageSkip(\''+${page.pageNum+1}+'\')'">
+                                                <i class="iconfont">&#xe638;</i>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+
+                                </div>
+                            </form>
+                            <div class="tjcp">
+                                <div class="dianx" th:each="rightAd,rightAdStat:${rightAds}">
+                                    <span class="tit">[[${rightAd.title}]]</span>
+                                    <span class="tu">
+
+                                        <th:block th:if="${rightAd.type==1}">
+                                          <a target="_blank" th:href="@{/product/view(id=${rightAd.product_id},title=${rightAd.title})}">
+                                            <img onerror="this.src='../assets/img/tuji.jpg'" th:src="@{${path+rightAd.logo}}" />
+                                          </a>
+                                        </th:block>
+                                        <th:block th:if="${rightAd.type==2}">
+                                          <a target="_blank" th:href="@{/learning/view(id=${rightAd.product_id})}">
+                                            <img onerror="this.src='../assets/img/tuji.jpg'" th:src="@{${path+rightAd.logo}}" />
+                                          </a>
+                                        </th:block>
+                                        <th:block th:if="${rightAd.type==3}">
+                                           <video th:src="@{${path+rightAd.logo}}" width="284" height="175" controls="controls">your browser does not support the video tag </video>
+                                        </th:block>
+                                    </span>
+                                    <!--<a target="_blank" >
+                                        <span class="bt"></span>
+                                    </a>-->
+                                    <th:block th:if="${#strings.length(rightAd.remark)>64}">
+                                        <span class="dao_2">[[${#strings.substring(rightAd.remark,0,64)}]]...</span>
+                                    </th:block>
+                                    <th:block th:if="${#strings.length(rightAd.remark)<=64}">
+                                        <span class="dao_2">[[${rightAd.remark}]]</span>
+                                    </th:block>
+
+
+                                    <th:block th:if="${rightAd.type==1}">
+                                        <button type="button" style="cursor: pointer" ><a target="_blank" th:href="@{/product/view(id=${rightAd.product_id},title=${rightAd.title})}">了解详情</a></button>
+                                    </th:block>
+                                    <th:block th:if="${rightAd.type==2}">
+                                        <button type="button" style="cursor: pointer" ><a target="_blank" th:href="@{/learning/view(id=${rightAd.product_id})}">了解详情</a></button>
+                                    </th:block>
+                                    <th:block th:if="${rightAd.type==3}">
+                                        <button type="button" style="cursor: pointer" ><a target="_blank" th:href="${rightAd.url}">了解详情</a></button>
+                                    </th:block>
+
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <script src="../js/scripts.js" th:src="@{/assets/js/scripts.js}"></script>
+    <script src="../js/aitracker-min.js" th:src="@{/assets/js/aitracker-min.js}"></script>
+
+    <script src="../js/slick.js"  th:src="@{/assets/js/slick.js}"></script>
+    <script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>
+    <script>
+
+        var size = 75;
+        $('.hide-wrap .li-sec').hover(
+            function() {
+                var span = $(this).find('.hide-span');
+                if (span && span.length) {
+                    $(span).text($(span).attr('data'))
+                }
+            },
+            function() {
+                var span = $(this).find('.hide-span');
+                if (span && span.length) {
+                    var data = $(span).attr('data');
+                    if (data.length > size) {
+                        $(span).text(data.substr(0, size) + '...')
+                    }
+                }
+            }
+        );
+        $('.hide-span').each(function(){
+            var data = $(this).attr('data');
+            if (data.length > size) {
+                $(this).text(data.substr(0, size) + '...')
+            }
+        });
+    </script>
+    <script>
+
+        //加载子集数据
+        function dataSource(id,obj) {
+            var objname=$(obj).html();
+            $("#sname").html(objname);
+            var tongfu= '[[@{/}]]';
+            var finddiv= $(".sec-body");
+
+            if(finddiv){
+
+                $(finddiv).remove();
+            }
+
+            var divbody = $("#list");
+
+            divbody.remove();
+            $(".tjcp").remove();
+            var secbody="<div class=\"sec-body\"></div>";
+            var rowcf="<div class=\"row cf\"></div>";
+            var col9="<div class=\"col-9\"></div>";
+            var ulseccf="<ul class=\"ul-sec cf\" id=\"ulid\"></ul>";
+
+            var sobj=$(secbody);
+            var robj=$(rowcf);
+            var cobj=$(col9);
+            var uobj=$(ulseccf);
+
+            // $("#sec-header")
+
+            $.ajax({
+                type:"GET",
+                url:'[[@{/category/queryList}]]',
+                data:{parent:id},
+                dataType:"json",
+                async: false,
+                success:function(data){
+                    var list=data.list;
+
+                    var html = "";
+                    if(list.length>0){
+
+                        for (var i = 0;i<list.length;i++){
+                            html=html+"<a href='"+tongfu+"product/list?category="+list[i].id+"&parent="+list[i].parent+"'>";
+                            html=html+"<li class='li-sec'>";
+                            html=html+"<div class='box'>";
+                            html=html+"<div class='box-body'>";
+                            html=html+"<div class='img-area'>";
+                            html=html+"<p><img src='"+data.path+list[i].image+"' /></p>";
+                            html=html+"</div>";
+                            html=html+"<div class='text-area'>";
+                            html=html+"<h3>"+list[i].name+"</h3>";
+                            html=html+"</div>";
+                            html+="</div>";
+                            html+="</div>";
+                            html=html+"</li>";
+                            html=html+"</a>";
+
+
+
+                        }
+                    }
+
+                    $(uobj).append(html);
+
+                    $(cobj).append($(uobj));
+
+                    $(robj).append($(cobj));
+
+                    $(sobj).append($(robj));
+
+                    $(".sec-header").after($(sobj));
+
+
+                }
+            });
+            $(obj).addClass("Selected");
+            $(obj).siblings().removeClass("Selected");
+        }
+    </script>
+</div>
+
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+<script>
+
+
+</script>
+<script>
+    $().ready(function() {
+
+        var $listForm = $("#list");
+        var $pageNum = $("#pageNum");
+
+
+
+        // 上一页，下一页
+        $.pageSkip = function(pageNumber) {
+
+            $pageNum.val(pageNumber);
+            $listForm.submit();
+            return false;
+        }
+
+    });
+
+    //提交查询
+    function selectProduct(){
+        var form = $("#searchForm");
+        form.submit();
+    }
+
+    function gotocategory(parent) {
+        // var url = window.location.href;
+        // console.log("???"+url);
+        var tongfu = "[[@{/}]]";
+        console.log(tongfu);
+        // url.substring()
+        location.href=tongfu+"category/list?parent="+parent;
+    }
+</script>
+
+</body>
+</html>

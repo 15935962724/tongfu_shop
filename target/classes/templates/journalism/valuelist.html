@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>增值服务</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script src="../css/iconfont.js" th:src="@{/assets/js/iconfont.js}"></script>
+    <link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+    <link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+    <link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+    <link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+    <link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+    <link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+    <link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+
+
+    <script src="../js/scripts.js" th:src="@{/assets/js/scripts.js}"></script>
+    <script src="../js/aitracker-min.js" th:src="@{/assets/js/aitracker-min.js}"></script>
+
+    <script src="../js/slick.js" th:src="@{/assets/js/slick.js}"></script>
+    <script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>
+    <script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script src="../js/swiper.min.js" th:src="@{/assets/js/memberView.js}"></script>
+</head>
+
+<body>
+
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+<!--<div class="banner" th:each="ad:${adListHead}">-->
+<!--    <a th:href="@{${ad.url}}">-->
+<!--    <img src="../img/zzfw.jpg" th:src="@{${path+ad.path}}"/>-->
+<!--    </a>-->
+<!--</div>-->
+<div class="content" style="background:#fff;">
+<section class="banner">
+    <div class="single-item slider">
+
+        <div class="bannerbg" th:each="ad:${adListHead}">
+
+            <a th:href="@{${ad.url}}">
+                <img th:src="@{${path+ad.path}}"/>
+            </a>
+        </div>
+<!--    <div class="bannerbg">-->
+<!--        < a href="#">-->
+<!--        < img src="http://106.13.123.1/adImage/1575948259135.jpg" />-->
+<!--    </ a>-->
+<!--    </div>-->
+    </div>
+</section>
+<!--<div style="height:80px;display:block;"></div>-->
+
+<div id="Content1">
+    <script>
+        $(function(){
+            $('.nav2 .nav2-header-li-div').click(function(){
+                if($(this).parent().hasClass('act')) {
+                    $(this).parent().removeClass('act').addClass("act-none");
+                }else{
+                    $(this).parent().removeClass('act-none').addClass("act").siblings().removeClass('act').addClass("act-none");
+                    $(this).parent().siblings().find('.nav2-second-level li').removeClass('act1');
+                }
+            });
+
+            $('.nav2-second-level li').click(function(){
+                $(this).addClass('act1').siblings().removeClass('act1');
+            });
+        })
+    </script>
+    <div class="zzfw_nav">
+        <div class="sidebar-collapse">
+            <ul class="nav2 metismenu" id="side-menu" style="">
+                <th:block th:each="cate:${categorylist}">
+                <!--<th:block th:each="amap:${articleMap}">-->
+
+                        <li class="act" th:class="${cate.name==categoryName?'act':'act-none'}">
+                            <div class="nav2-header-li-div"><span class="nav2-label" th:text="${cate.name}">影像后处理远程报告</span></div>
+                            <ul class="nav2-second-level">
+                                <th:block th:with="entrys=${articleMap[cate.name]}">
+                                    <li  th:each="article:${entrys}" th:class="${article.title==title?'act1':''}" ><a href="2j_zengzhfw.html" th:text="${article.title}" th:href="@{/article/valuelist(category=${article.article_category},id=${article.id})}">立体定向手术计划报告</a></li>
+                                    <!--<li><a href="3j_zrjh.html">粒子植入治疗计划报告</a></li>-->
+                                    <!--<li><a href="3j_zlbq.html">肿瘤放射治疗靶区勾画+剂量报告</a></li>-->
+                                </th:block>
+                            </ul>
+                        </li>
+
+                <!--</th:block>-->
+                </th:block>
+                <!--<li class="act">
+                    <div class="nav2-header-li-div"><span class="nav2-label">影像后处理远程报告</span></div>
+                    <ul class="nav2-second-level">
+                        <li class="act1"><a href="2j_zengzhfw.html">立体定向手术计划报告</a></li>
+                        <li><a href="3j_zrjh.html">粒子植入治疗计划报告</a></li>
+                        <li><a href="3j_zlbq.html">肿瘤放射治疗靶区勾画+剂量报告</a></li>
+                    </ul>
+                </li>
+                <li class="act-none">-->
+                    <!--<div class="nav2-header-li-div"><span class="nav2-label">个性化3D打印定制</span></div>-->
+                    <!--<ul class="nav2-second-level">-->
+                        <!--<li><a href="2j_gx3d.html">个性化3D打印定制服务</a></li>-->
+                        <!--<li><a href="3j_jxmb.html">颌面正畸/矫形模板定制</a></li>-->
+                        <!--<li><a href="3j_shmx.html">I 手术模型定制</a></li>-->
+                        <!--<li><a href="3j_lgdz.html">医用植入级聚醚醚酮3D打印颅骨定制</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+                <!--<li class="act-none">-->
+                    <!--<div class="nav2-header-li-div"><span class="nav2-label">临床科研立项合作</span></div>-->
+                    <!--<ul class="nav2-second-level">-->
+                        <!--<li><a href="2j_lcky.html">课题流程管理服务</a></li>-->
+                        <!--<li><a href="3j_ktsb.html">课题申报代理服务</a></li>-->
+                        <!--<li><a href="3j_ktlx.html">课题立项合作服务</a></li>-->
+                        <!--<li><a href="3j_ktyj.html">课题研究报告服务</a></li>-->
+                        <!--<li><a href="3j_ktxx.html">课题选项咨询服务</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+
+                <!--<li class="act-none">-->
+                    <!--<div class="nav2-header-li-div"><a href="2j_jxjy.html"><span class="nav2-label">继续医学教育项目</span></a></div>-->
+                <!--</li>-->
+                <!--<li class="act-none">-->
+                    <!--<div class="nav2-header-li-div"><span class="nav2-label">E-Turnkey Solution</span></div>-->
+                    <!--<ul class="nav2-second-level">-->
+                        <!--<li><a href="2j_Turnkey.html">Who we are?</a></li>-->
+                        <!--<li><a href="3j_wwd.html">What we do?</a></li>-->
+                        <!--<li><a href="3j_wcu.html">Why Choose Us ?</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+                <!--<li class="act-none">-->
+                    <!--<div class="nav2-header-li-div"><span class="nav2-label">专题研讨会外包</span></div>-->
+                    <!--<ul class="nav2-second-level">-->
+                        <!--<li><a href="2j_ytwb.html">为什么选择我们</a></li>-->
+                        <!--<li><a href="3j_wbfw.html">外包服务的优势</a></li>-->
+                        <!--<li><a href="3j_xgdx.html">以效果为导向的服务</a></li>-->
+                        <!--<li><a href="3j_wbfwnr.html">外包服务的内容</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+
+            </ul>
+
+        </div>
+    </div>
+    <div class="zzfw_right">
+        <div id="name" th:text="${title}">立体定向手术计划报告</div>
+        <div id="text" th:utext="${content}">
+            <p>　　立体定向已是临床开展很成熟的诊疗技术，然而手术效果与治疗靶区勾画是否精确关系密切。同时，诸多计划软件已经可以实现与常用/标准立体定向器械无缝兼容。因此，精准、可预见性的手术计划变得更加具有交互性和可行性，是获得满意手术效果的重要保证。</p>
+            <p>　　立体定向已是临床开展很成熟的诊疗技术，然而手术效果与治疗靶区勾画是否精确关系密切。同时，诸多计划软件已经可以实现与常用/标准立体定向器械无缝兼容。因此，精准、可预见性的手术计划变得更加具有交互性和可行性，是获得满意手术效果的重要保证。立体定向已是临床开展很成熟的诊疗技术，然而手术效果与治疗靶区勾画是否精确关系密切。同时，诸多计划软件已经可以实现与常用/标准立体定向器械无缝兼容。因此，精准、可预见性的手术计划变得更加具有交互性和可行性，是获得满意手术效果的重要保证。</p>
+            <p>　　因此，精准、可预见性的手术计划变得更加具有交互性和可行性，是获得满意手术效果的重要保证。</p>
+            <p style="text-align:center;"><img src="../img/zzfwt.jpg" /></p>
+        </div>
+    </div>
+
+</div>
+</div>
+<div id="Footer">
+    <div class="foot"><span class="Le">Surgi-plan.com Copyright © All Rights Reserved 2006-2023 <a href="">京ICP备17046258号</a></span>
+        <span class="RI"><a href="#">关于我们</a><a href="#">联系我们</a><a href="#">网站声明</a><a href="#">常见问题</a>
+        </span></div></div>
+</body>
+</html>

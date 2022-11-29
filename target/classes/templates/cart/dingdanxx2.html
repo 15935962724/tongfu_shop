@@ -1,0 +1,150 @@
+<div id="light1" class="fatc">
+    <div class="fatc_t">发票信息           <a href = "javascript:void(0)" onclick = "closeDialog1(1)"><i class="iconfont">&#xe62f;</i></a></div>
+    <div class="fatc_b">
+        <div class="title">
+            <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv2_',1,this)"   id="JKDiv2_DEF" class="Selected">电子发票</li>
+            <li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv2_',1,this)" >增值税专用发票</li>
+        </div>
+        <style>
+            #shuih{display:none;}
+        </style>
+        <div class="con"  id="JKDiv2_0">
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $("#hide").click(function(){
+                        $("#shuih").hide();
+                    });
+                    $("#show").click(function(){
+                        $("#shuih").show();
+                    });
+                });
+            </script>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td  rowspan="2" valign="top" class="cb1" style="padding-top:20px;"><font>*</font>发票抬头：</td>
+                    <td><input type="text"  value="个人"  class="dang" id="hide"></td></tr>
+                <tr>
+                    <td><input type="text"  value="新增单位发票" class="danwei" id="show"> </td>
+                </tr>
+                <tr id="shuih">
+                    <td class="cb1"><font>*</font>纳税人识别号：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr style="border-bottom:1px solid #e6e6e6;">
+                    <td class="cb1"><font>*</font>发票内容：</td>
+                    <td><span class="fpan dang">明细</span>
+                        <span class="fpan" >办公用品</span>
+                        <span class="fpan" >电脑配件</span>
+                        <span class="fpan" >耗材</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cb1"><font>*</font>收票人手机：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr>
+                    <td class="cb1"><font>*</font>收票人邮箱：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border-bottom:1px solid #e6e6e6;"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center;padding-top:30px;"><input type="button" value="保存"><input name="重置" type="reset" value="取消"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="con" id="JKDiv2_1" style="display:none;">
+            <!--第一步-->
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" id="first">
+                <tr>
+                    <td class="cb1"><font>*</font>开票方式：</td>
+                    <td><input type="text" value="订单完成后开票" ></td>
+                </tr>
+                <tr>
+                    <td class="cb1"><font>*</font>发票内容：</td>
+                    <td style="    text-align: left;"><input name="明细" type="submit" value="明细"  style="    margin-left: 34px;">
+                    </td>
+                <tr>
+                    <td colspan="2" style="hegiht:30px;">   </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"  style="border-bottom:1px solid #e6e6e6;padding-left:20px;"><div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i><span>2.填写或核对公司信息</span><i id="xian"></i><span>3.填写收票人信息</span> </div>
+                        <p>发票将在订单完成之后7-15个工作日寄出</p></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="text-align:center;"><input type="button" value="下一步"><input name="重置" type="reset" value="取消"></td>
+                </tr>
+
+            </table>
+            <!------第二步----------->
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" id="second">
+                <tr>
+                    <td class="cb1"><font>*</font>开票方式：</td>
+                    <td><input type="text" value="订单完成后开票" class="dang"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"  style="padding-left:20px;"><div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i><span id="fenb">2.填写或核对公司信息</span><i id="xians"></i><span>3.填写收票人信息</span> </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cb1"><font>*</font>单位名称：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr>
+                    <td class="cb1"><font>*</font>纳税人识别码：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr>
+                    <td class="cb1"><font>*</font>注册地址：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr>
+                    <td class="cb1"><font>*</font>注册电话：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr>
+                    <td class="cb1"><font>*</font>开户行：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr>
+                    <td class="cb1"><font>*</font>银行账户：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="text-align:center;border-top:1px solid #e6e6e6;"><input type="button" value="下一步"><input name="重置" type="reset" value="取消"></td>
+                </tr>
+            </table>
+
+            <!--第三步--->
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" id="third">
+                <tr>
+                    <td class="cb1"><font>*</font>开票方式：</td>
+                    <td><input type="text" value="订单完成后开票" class="dang"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"  style="padding-left:20px;"><div style="width:100%;overflow: hidden;"><span id="fenb">1.选择开票方式</span><i id="xians"></i><span id="fenb">2.填写或核对公司信息</span><i id="xians"></i><span id="fenb">3.填写收票人信息</span> </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cb1">收票人姓名：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr>
+                    <td class="cb1">收票人电话：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr>
+                    <td class="cb1">收票人地址：</td>
+                    <td><input type="text"  value="" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center;border-top:1px solid #e6e6e6;"><input type="button" value="保存"><input name="重置" type="reset" value="取消"></td>
+                </tr>
+            </table></div>
+
+    </div>
+</div>

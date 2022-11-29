@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>账号信息-基本资料</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+
+    <!--弹窗特效-->
+    <link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+    <link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+    <script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+    <!--三级联动插件-->
+    <script th:src="@{/assets/js/lSelect.js}"></script>
+</head>
+
+<body>
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+
+
+
+<!--语言切换-->
+<!--未登录-->
+<shiro:notAuthenticated>
+    <th:block th:replace="~{incloud/language::language}"></th:block>
+</shiro:notAuthenticated>
+<!--已登录-->
+<shiro:authenticated>
+    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+</shiro:authenticated>
+
+<div class="head">
+    <!--未登录-->
+    <div th:replace="~{head::topbar}"></div>
+    <!--已登录-->
+</div>
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;我的SP</div>
+    <div class="con_sp">
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+
+        <div class="con_right">
+            <div class="chax" style="overflow: hidden;">
+                <h1>基本资料</h1>
+                <div class="ziliao">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="us">用户名：</td>
+                            <td class="namw"><div style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 170px;" th:text="${member.username}"></div></td>
+                            <td><button onclick="bindPhoneShow()">修改</button></td>
+                        </tr>
+                        <tr>
+                            <td>邮箱：</td>
+                            <td th:text="${member.email==null?'暂未绑定邮箱':member.email}">暂未绑定邮箱</td>
+                            <td>
+                                <th:block th:if="${member.email==null}">
+                                    <button onclick="bindEmailShow()">绑定</button>
+                                </th:block>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>手机号：</td>
+                            <td th:text="${member.phone}"></td>
+                            <td><button th:onclick="'javascript:fnedit(this)'">修改</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="ziliao" style="width:410px;    border: 0px;">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td nowrap="nowrap" class="dais">待付款：</td>
+                            <td class="shu" >[[${orderStatus.paid}]]</td>
+                            <td class="dais">积分：</td>
+                            <td class="jif"><a href="#">[[${member.point}]]</a></td>
+                        </tr>
+                        <tr>
+                            <td nowrap="nowrap" class="dais">待收货：</td>
+                            <td class="shu">[[${orderStatus.received}]]</td>
+                            <td nowrap="nowrap" class="dais" style=" padding: 0px;">Know-how卡：</td>
+                            <td class="jif"><a href="#">3000.00元</a></td>
+                        </tr>
+                        <tr>
+                            <td nowrap="nowrap" class="dais">购物车：</td>
+                            <td class="shu" th:text="${cartsum}">30</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div style="height:20px;width:100%;display:block;"></div>
+            <!--            <form id="form" th:action="@{/member/editmember}">-->
+            <div class="chax">
+                <h1>详细信息</h1>
+                <table width="100%" border="0" class="shou" style="padding-top:20px;">
+                    <tr>
+                        <td class="left">姓名：</td>
+                        <td><input id="name" name="name" placeholder="请输入真实姓名" th:value="${member.name}" /></td>
+                    </tr>
+                    <tr>
+                        <td class="left">所在地：</td>
+                        <td>
+                            <input type="hidden" id="areaId" name="areaId" th:value="${member.area}" th:title="${memberArea!=null?memberArea.treePath:''}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td01">
+                            <font>*</font>医院名称：
+                        </td>
+                        <td style="position: relative">
+                            <input type="hidden" id="hospitalId" name="hospitalId">
+                            <input name="hospitalName" id="hospitalName" th:value="${member.hospital}" type="text" class="input" placeholder="请输入医院名称" size="20" list="hospitalList" onchange="inputSelect()"/>
+                            <datalist id="hospitalList" style="display:none;">
+
+                            </datalist>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left">科室：</td>
+                        <td>
+                            <input type="hidden" id="department" name="department" th:value="${member.department}" th:title="${memberDepartment!=null?memberDepartment.treePath:''}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left">详细地址：</td>
+                        <td><input id="address" name="address" type=""  placeholder="请填写详细地址" th:value="${member.address}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="left"></td>
+                        <td><button class="add" onclick="fnsubmit()">保存</button></td>
+                    </tr>
+                </table>
+
+
+            </div>
+            <!--            </form>-->
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="bindPhone" id="bindPhoneModel">
+
+    <div class="bindPhoneMain">
+        <div class="bindPhoneTitle">
+            <span>修改用户名</span>
+            <a onclick="hidebindPhone()">×</a>
+        </div>
+        <div class="bindPhoneModel">
+            <form id="bindPhone">
+                <div class="bindPhonePhone">
+                    <label>用户名:</label><input id="bindphone" type="text" placeholder="请输入手机号或者邮箱" />
+                </div>
+                <div class="bindPhoneCode">
+                    <label>验证码:</label>
+                    <div><input type="text" id="bindCode" placeholder="请输入验证码" /><a id="sendbindCode" onclick="getBindcode()">获取验证码</a></div>
+                </div>
+                <div class="bindPhoneBtn">
+                    <a href="javascript:void(0)" onclick="editBindphone()" >修改</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+<div class="bindPhone" id="bindEmail">
+
+    <div class="bindPhoneMain">
+        <div class="bindPhoneTitle">
+            <span>绑定邮箱</span>
+            <a onclick="bindEmailHide()">×</a>
+        </div>
+        <div class="bindPhoneModel">
+            <form id="bindPhone">
+                <div class="bindPhonePhone">
+                    <label>邮箱:</label><input id="bindEmailInput" type="text" placeholder="请输入邮箱" />
+                </div>
+                <div class="bindPhoneCode">
+                    <label>验证码:</label>
+                    <div><input type="text" id="bindEmailCode" placeholder="请输入验证码" /><a id="bindEmailCode" onclick="getBindEmailCode()">获取验证码</a></div>
+                </div>
+                <div class="bindPhoneBtn">
+                    <a href="javascript:void(0)" onclick="updateMemberEmail()" >绑定</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+<script type="text/javascript">
+    //判断控制页面初始时左右的高度一致
+    var hl = $(".con_left").outerHeight(); //获取左侧left层的高度
+    var hr = $(".con_right").outerHeight(); //获取右侧right层的高度
+    var mh = Math.max(hl,hr); //比较hl与hr的高度，并将最大值赋给变量mh
+    $(".con_left").height(mh); //将left层高度设为最大高度mh
+    $(".con_right").height(mh); //将right层高度设为最大高度
+
+    $(function() {
+
+        // 地区选择
+        $("#areaId").lSelect({
+            url: "[[@{/area/getAreas}]]"
+        });
+
+        //科室选择
+        $("#department").lSelect({
+            url: "[[@{/department/getDepartments}]]"
+        });
+
+        $("select[name='areaId_select']").on('change',function () {
+            getHospitalList()
+        });
+
+    });
+
+
+    //选择地区获取医院列表
+    function getHospitalList() {
+        var ID = $("#areaId").val();
+        console.log(ID);
+        $("#hospitalList").empty();
+        var html = '';
+        $.ajax({
+            type: "POST",
+            // contentType: "application/json",
+            url: '[[@{/product/hospitals}]]',
+            data:{
+                areaId: ID
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data.data.length);
+                var datas = data.data;
+
+                for(var i = 0; i < datas.length; i++){
+                    html += '<option value="'+datas[i].name+'" data_id ="'+datas[i].id+'"></option>'
+                };
+
+            }
+        });
+        $("#hospitalList").append(html);
+    }
+
+    //下拉选择医院赋值
+    function inputSelect() {
+        var input_select = $("#hospitalName").val();
+        var option_length = $("option").length;
+        var option_id = '';
+        for (var i = 0; i < option_length; i++) {
+            var option_value = $("option").eq(i).attr('value');
+            if (input_select == option_value) {
+                option_id = $("option").eq(i).attr('data_id');
+                break;
+            }
+        }
+        console.log(input_select, option_length, option_id);
+        $('#hospitalId').val(option_id);
+    }
+
+
+
+    //显示
+    function bindPhoneShow() {
+        $("#bindPhoneModel").show()
+    }
+    //隐藏
+    function hidebindPhone() {
+        $("#bindPhoneModel").hide()
+    }
+
+    //发送验证码
+    function getBindcode() {
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+        var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        var phone = $('#bindphone').val();
+        console.log(phone);
+        console.log();
+        var open = phone.indexOf('@') + 1;
+        if(pattern.test(phone)){
+            var url = '[[@{/sendCode}]]';
+        }else if(open){
+            var url = '[[@{/sendCodeEmail}]]';//邮箱验证码发送接口
+        }else{
+            $('#popup').html('请输入正确的手机号/邮箱')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+
+        var data = "{\"phone\":\""+phone+"\",\"templateid\":\"247796\",\"email\":\""+phone+"\"}";
+        $.ajax({
+            type:"POST",
+            contentType: "application/json",
+            url: url,
+            data:data,//手机号+短信模板id
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log(data);
+                if(data.status==200){
+                    console.log(data)
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                    sendbindCode();
+                }else {
+                    console.log(data)
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                }
+
+            }
+        });
+
+
+    }
+
+    //绑定账号发送验证码倒计时
+    var countBindtime = 60;
+    function sendbindCode() {
+        if (countBindtime == 0) {
+            $("#sendbindCode").attr("onclick","getBindcode()");
+            $('#sendbindCode').css({'background':'#007fdc'});
+            $('#sendbindCode').css({'color':'#f9fafc'});
+            $('#sendbindCode').text('发送验证码');
+            countBindtime = 60;
+            return;
+        } else {
+            $("#sendbindCode").removeAttr("onclick");
+            $('#sendbindCode').text(countBindtime+'后重新发送');
+            $('#sendbindCode').css({'background':'#E8E7E4'});
+            $('#sendbindCode').css({'color':'#333'});
+            countBindtime--;
+        }
+        setTimeout(function() {
+                sendbindCode() }
+            ,1000);
+    }
+
+    //修改账号提交
+    function editBindphone() {
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+        var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        var phone = $('#bindphone').val();
+        var open = phone.indexOf('@') + 1;
+        if(!pattern.test(phone) && !open){
+            $('#popup').html('请输入正确的手机号/邮箱')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+        if($("#bindCode").val() == ''){
+            $('#popup').html('请输入验证码')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+
+        var data = "{\"userName\":\""+phone+"\",\"code\":\""+$("#bindCode").val()+"\"}";
+        $.ajax({
+            type:"POST",
+            url: "[[@{/member/updateUserName}]]",
+            data:{
+                userName: phone,
+                code: $("#bindCode").val()
+            },//手机号+短信模板id
+            dataType:"json",
+            success:function (data) {
+                console.log(data);
+                if(data.status==200){
+                    console.log(data)
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                    $("#bindPhoneModel").hide();
+                    $('#bindphone').val();
+                    $('#bindCode').val();
+                }else {
+                    console.log(data)
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                }
+
+            }
+        });
+    }
+
+    //提交
+    function  fnsubmit() {
+        var name=$('#name').val();
+
+        var hospitalName=$("#hospitalName").val();
+        var hospitalId=$("#hospitalId").val();
+        var department=$("#department").val();
+        var address = $('#address').val();
+        var qu=$("#areaId").val();
+
+        $.ajax({
+            type:"POST",
+            url:'[[@{/member/editmember}]]',
+            dataType: "json",
+            data:{name:name,hospitalId:hospitalId ,hospitalName:hospitalName,department:department,
+                address:address,area:qu},
+            success:function(data){
+                if(data==1) {
+                    alert("提交成功");
+                    window.location.reload();//刷新当前页面
+                }else
+                {
+                    alert("提交失败");
+                }
+            },error:function () {
+                alert("提交错误")
+            }
+        });
+    }
+
+
+    //显示绑定邮箱
+    function bindEmailShow(){
+        $("#bindEmail").show()
+    }
+    //隐藏绑定邮箱
+    function bindEmailHide(){
+        $("#bindEmail").hide()
+    }
+    //发送邮箱验证码
+    function getBindEmailCode() {
+        var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        var email = $('#bindEmailInput').val();
+        if(email == ""){
+            $('#popup').html('请输入邮箱!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+        if(!reg.test(email)){
+            $('#popup').html('请输入正确的邮箱!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+
+        var data = "{\"templateid\":\"247796\",\"email\":\""+email+"\"}";
+        var url = '[[@{/sendCodeEmail}]]';//邮箱验证码发送接口
+        $.ajax({
+            type:"POST",
+            contentType: "application/json",
+            url: url,
+            data:data,//手机号+短信模板id
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log(data);
+                if(data.status==200){
+                    console.log(data)
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                    emailCountTime();
+                }else {
+                    console.log(data)
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                }
+
+            }
+        });
+
+
+    }
+
+    var emailCount = 60;
+    function emailCountTime() {
+        if (countBindtime == 0) {
+            $("#bindEmailCode").attr("onclick","getBindEmailCode()");
+            $('#bindEmailCode').css({'background':'#007fdc'});
+            $('#bindEmailCode').css({'color':'#f9fafc'});
+            $('#bindEmailCode').text('发送验证码');
+            emailCount = 60;
+            return;
+        } else {
+            $("#bindEmailCode").removeAttr("onclick");
+            $('#bindEmailCode').text(countBindtime+'后重新发送');
+            $('#bindEmailCode').css({'background':'#E8E7E4'});
+            $('#bindEmailCode').css({'color':'#333'});
+            emailCount--;
+        }
+        setTimeout(function() {
+                emailCountTime() }
+            ,1000);
+    }
+
+
+
+    //修改邮箱
+    function updateMemberEmail() {
+        var email = $('#bindEmailInput').val();
+
+        var myreg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+        if(email ==''){
+            $('#popup').html('邮箱不能未空!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+        if($("#bindEmailCode").val() ==''){
+            $('#popup').html('验证码不能未空!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+        if(!myreg.test($.trim(email))){
+            $('#popup').html('请输入有效的邮箱地址!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+
+
+        $.ajax({
+            type:"POST",
+            url:'[[@{/member/updateMemberEmail}]]',
+            dataType: "json",
+            data:{email:email,code:$("#bindEmailCode").val()},
+            success:function(data){
+                if(data.status==200) {
+                    // $('#popup').html('手机号输入有误,请重新输入!')
+                    // syalert.syopen('alert2');
+                    // $(".ci-count").html('11111');
+                    window.location.reload();//刷新当前页面
+                }else
+                {
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                }
+            },error:function () {
+                $('#popup').html('未知错误!')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+            }
+        });
+
+    }
+
+
+    //修改用户名
+    function  fnedit(obj) {
+        console.log("dfjldsjfsjfjdsfjsdfdsfjsdjflsjf");
+        var td = $(obj).parent().prev();
+        var phone = $(td).html();
+        var objname = $("<input type='text' style='width: 175px' id='phone' name='phone' value='"+phone+"'>");
+        $(td).html(objname);
+        $(obj).parent().html('<button onclick="updateMemberPhone()">保存</button>');
+        // $(obj).html("保存");
+    }
+
+    //修改用户名
+    function  updateMemberPhone() {
+        var phone = $('#phone').val();
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+        console.log(!pattern.test($.trim(phone)))
+        if(pattern.test($.trim(phone))==false){
+            $('#phone').val('');
+            $('#popup').html('手机号输入有误,请重新输入!!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+
+        $.ajax({
+            type:"POST",
+            url:'[[@{/member/updateMemberPhone}]]',
+            dataType: "json",
+            data:{phone:phone},
+            success:function(data){
+                if(data.status==200) {
+                    // $('#popup').html('手机号输入有误,请重新输入!')
+                    // syalert.syopen('alert2');
+                    // $(".ci-count").html('11111');
+                    window.location.reload();//刷新当前页面
+                }else
+                {
+                    $('#popup').html(data.msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                }
+            },error:function () {
+                $('#popup').html('未知错误!')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+            }
+        });
+
+    }
+
+    //修改用户名
+    function  updateMemberPhone() {
+        var phone = $('#phone').val();
+        var pattern = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])[0-9]{8}$/;
+        console.log(!pattern.test($.trim(phone)))
+        if(pattern.test($.trim(phone))==false){
+            $('#phone').val('');
+            $('#popup').html('手机号输入有误,请重新输入!!')
+            syalert.syopen('alert2');
+            $(".ci-count").html('11111');
+            return;
+        }
+
+        $.ajax({
+            type:"POST",
+            url:'[[@{/member/updateMemberPhone}]]',
+            dataType: "json",
+            data:{phone:phone},
+            success:function(data){
+                if(data.status==200) {
+                    // $('#popup').html('手机号输入有误,请重新输入!')
+                    // syalert.syopen('alert2');
+                    // $(".ci-count").html('11111');
+                    window.location.reload();//刷新当前页面
+                }else
+                {
+                    $('#popup').html(data.Msg);
+                    syalert.syopen('alert2');
+                    $(".ci-count").html('11111');
+                }
+            },error:function () {
+                $('#popup').html('未知错误!')
+                syalert.syopen('alert2');
+                $(".ci-count").html('11111');
+            }
+        });
+
+    }
+
+    //弹窗确定关闭效果
+    function ok(id){
+        syalert.syhide(id);
+    }
+
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>[[${productCategory.name}]]</title>
+</head>
+<!-- CSS Files
+================================================== -->
+<link rel="stylesheet" href="../css/common.css" type="text/css" th:href="@{/assets/css/common.css}">
+<link rel="stylesheet" href="../css/common-add.css" type="text/css" th:href="@{/assets/css/common-add.css}"/>
+<link rel="stylesheet" href="../css/reset.css" type="text/css" th:href="@{/assets/css/reset.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<style>
+.content{width:100%;height:auto;background:#f5faff;}
+    .footer .cf {
+        margin-left: -30px;
+    }
+    .section.footer .container .panel-body .cop ul li .item .logo.logo-health {
+        margin-left: 40px;
+    }
+</style>
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<!--<script src="../js/scripts.js"  th:src="@{/assets/js/scripts.js}"></script>-->
+<script>
+    var _mtac = {};
+   (function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500609824");
+
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+   })();
+</script>
+
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+
+<style>
+	
+    .bannerbg:not(:first-child) {
+      display:none;
+    }
+    .section.footer .container .panel-body .cop ul li .item .logo {
+      cursor: default;
+    }
+    .slick-pass {
+      z-index: 999;
+    }
+
+    .smaller .nav ul li.login-button:hover a.btn-primary-line {
+background-color: #fff;
+      background: -webkit-linear-gradient(left, #1171f4 0%, #468ff3 100%);
+      color: #fff;
+    }
+    .index-wrap .pro-wrap .sec-layer .sec-body .slider .slick-dots li button:before {
+      font-size: 6px;
+    }
+	.slick-dots,.slick-dots li button:before{display:none;}
+.header .nav ul li button .iconfont{font-size:22px;}
+.icon-sousuo{font-size:22px;position: absolute;right: -77px;top:0;z-index:5;
+background:url(../img/sousou.png); background-repeat: no-repeat; 
+background-position: 0px 16px; width: 40px; height: 44px; }
+
+    .seachPng img{border: 0px; width: 90px; height: 45px;}
+
+ </style>
+</head>
+
+<body id="homepage">
+<div id="wrapper" class="index-wrap">
+  <div class="page-overlay"></div>
+
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+<script>
+    var btns =document.getElementById('btns');
+    var showid=document.getElementById('showid');
+    var colss=document.getElementById('colss');
+	if (btns && showid){
+		btns.onmouseover=function(){
+			showid.style.display='block';
+		}
+	}
+	if (colss && showid) {
+		colss.onclick=function(){
+			showid.style.display='none'
+		};
+	}
+	if (showid) {
+		document.onclick=function(){
+			showid.style.display='none';
+		};
+		if(showid.addEventListener)
+		{
+			showid.addEventListener('click',function(e){e.stopPropagation()},false)
+		}
+		else if(showid.attachEvent)
+		{
+			showid.attachEvent('click',function(e){e.stopPropagation()},false)
+		}
+	}
+
+</script>        
+
+  <div class="content">
+
+    <section class="banner">
+    <div class="single-item slider" id="adHead">
+        <!--列表页头部广告-->
+        <div class="bannerbg" th:each="ad:${adListHead}">
+            
+
+                <a th:href="@{${ad.url}}" target="_blank"><img src="../img/fxban.jpg" th:src="@{${path+ad.path}}"/></a>
+
+        </div>
+        <!--<div class="bannerbg">-->
+              <!--<a href="#">-->
+                <!--<img src="../img/fxban.jpg" th:src="@{/assets/img/fxban.jpg}"/>-->
+            <!--</a>-->
+        <!--</div>-->
+        <!--列表页头部广告结束-->
+    </div>
+</section>
+<div id="Content1">
+
+<script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+<div class="ruj">
+<div class="title">
+
+
+    <!--<li th:onclick="'javascript:dataSource(\''+${cate1.id}+'\',this)'"  id="JKDiv_DEF" th:each="cate1,cate1Stat:${categoryParentList}"  th:id="${cate1.id}" th:text="${cate1.name}"  th:classappend="${cate1.id==parent}?'Selected':''" ></li>-->
+    <li th:onclick="'javascript:gotocategory(\''+${cate1.id}+'\')'"  id="JKDiv_DEF" th:each="cate1,cate1Stat:${categoryParentList}"  th:id="${cate1.id}" th:data_id = '${parent}' th:text="${cate1.name}"  th:classappend="${cate1.id==parent}?'Selected':''" ></li>
+
+</div>
+
+<div class="con" id="JKDiv_5">
+<section class="section news-wrap">
+    <div class="sec-layer">
+        <form hidden th:action="@{/product/list}" id="searchForm" method="post">
+            <input type="hidden" name="parent" th:value="${parent}">
+                <div class="sec-header">
+                    <h2 id="sname" th:text="${productCategory.name}"></h2>
+
+                    <div class="ss">
+                       <input type="text" placeholder="请输入产品、品牌、关键词" name="keywords" id="keywords" th:value="${keywords}">
+                       <button type="submit" onclick="selectProduct()" class="seachPng">
+                           <img src="../img/seach.png" th:src="@{/assets/img/seach.png}"/>
+                       </button>
+
+                    </div>
+                </div>
+        </form>
+        <div class="sec-body">
+            <div class="row cf">
+                <div class="col-9">
+                        <ul class="ul-sec cf" id="ulid" th:each="num:${#numbers.sequence(1,(categoryList.size()+6-1)/6)}" >
+                                <a th:href="@{/product/list(category=${category.id})}" th:each="category:${categoryList}" th:if="${categoryStat.index >= (num-1)*6 and categoryStat.index < num*6 }" >
+                                    <li class="li-sec">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <div class="img-area">
+                                                    <p><img src="../img/meir.jpg" th:src="@{${path+category.image}}"/></p>
+                                                </div>
+                                                <div class="text-area">
+                                                    <h3 th:text="${category.name}">眼科</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </a>
+                        </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<script>
+
+  var size = 75;
+  $('.hide-wrap .li-sec').hover(
+    function() {
+      var span = $(this).find('.hide-span');
+      console.log("span=="+span);
+      if (span && span.length) {
+        $(span).text($(span).attr('data'))
+      }
+    },
+    function() {
+      var span = $(this).find('.hide-span');
+        console.log("span=="+span);
+      if (span && span.length) {
+        var data = $(span).attr('data');
+        if (data.length > size) {
+          $(span).text(data.substr(0, size) + '...')
+        }
+      }
+    }
+  );
+  $('.hide-span').each(function(){
+    var data = $(this).attr('data');
+    if (data.length > size) {
+      $(this).text(data.substr(0, size) + '...')
+    }
+  });
+  // }
+</script>
+
+
+</div>
+
+</div>
+<style>
+.slick-dots,.slick-dots li button:before{display:none;}
+</style>
+<div style="width:100%;clear:both;display:block;"><section class="banner">
+    <div class="single-it slider" id="adFoot">
+        <!--列表脚部广告-->
+        <div class="bannerbg" th:each="foot:${adListFoot}">
+            
+            <a href="#" th:href="@{${foot.url}}" target="_blank">
+                <img src="../img/guangg.jpg" th:src="@{${path+foot.path}}"/>
+            </a>            
+        </div>
+        <!--<div class="bannerbg">-->
+              <!--<a href="#">-->
+                <!--<img src="../img/guangg.jpg" th:src="@{/assets/img/guangg.jpg}"/>-->
+            <!--</a>-->
+        <!--</div>  -->
+        <!--列表脚部广告结束-->
+    </div>
+</section>
+</div>
+<script src="../js/scripts.js" th:src="@{/assets/js/scripts.js}"></script>
+<!--<script src="../js/aitracker-min.js" th:src="@{/assets/js/aitracker-min.js}"></script>-->
+<!--<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>-->
+
+<script src="../js/slick.js" th:src="@{/assets/js/slick.js}"></script>
+<script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>
+<script>
+
+  var size = 75;
+  $('.hide-wrap .li-sec').hover(
+    function() {
+        console.log("111")
+      var span = $(this).find('.hide-span');
+      if (span && span.length) {
+        $(span).text($(span).attr('data'))
+      }
+    },
+    function() {
+        console.log("222")
+      var span = $(this).find('.hide-span');
+      if (span && span.length) {
+        var data = $(span).attr('data');
+        if (data.length > size) {
+          $(span).text(data.substr(0, size) + '...')
+        }
+      }
+    }
+  );
+  $('.hide-span').each(function(){
+    var data = $(this).attr('data');
+    if (data.length > size) {
+      $(this).text(data.substr(0, size) + '...')
+    }
+  });
+  // }
+</script>
+
+      <script>
+function gotocategory(parent) {
+
+    var tongfu = "[[@{/}]]";
+    // tongfu = tongfu.substring(0,tongfu.length-1);
+    console.log("tongfu:"+tongfu);
+
+    location.href=tongfu+"category/list?parent="+parent;
+
+
+}
+          //加载子集数据
+          function dataSource(id,obj) {
+              var objname=$(obj).html();
+              $("#sname").html(objname);
+              var tongfu= '[[@{/}]]';
+              var divbody = $("#ulid");
+              var adHead = $("#adHead");
+              var adFoot = $("#adFoot");
+              divbody.html("");
+              adHead.html("");
+              adFoot.html("");
+              $.ajax({
+                  type:"GET",
+                  url:'[[@{/category/queryList}]]',
+                  data:{parent:id},
+                  dataType:"json",
+                  async: false,
+                  success:function(data){
+                      var productCategoryList=data.productCategoryList;
+                      var adListHead=data.adListHead;
+                      console.log(adListHead);
+                      var adListFoot=data.adListFoot;
+
+                      var html = "";
+                      if(productCategoryList.length>0){
+
+                          for (var i = 0;i<productCategoryList.length;i++){
+// <a th:href="@{/product/list(category=${category.id},parent=${parent})}" th:each="category:${categoryList}">
+
+                                html=html+"<a href='"+tongfu+"product/list?category="+productCategoryList[i].id+"&parent="+productCategoryList[i].parent+"'>";
+                                html=html+"<li class='li-sec'>";
+                                html=html+"<div class='box'>";
+                                html=html+"<div class='box-body'>";
+                                html=html+"<div class='img-area'>";
+                                html=html+"<p><img src='"+data.path+productCategoryList[i].image+"' /></p>";
+                                html=html+"</div>";
+                                html=html+"<div class='text-area'>";
+                                html=html+"<h3>"+productCategoryList[i].name+"</h3>";
+                                html=html+"</div>";
+                                html+="</div>";
+                                html+="</div>";
+                                html=html+"</li>";
+                                html=html+"</a>";
+
+
+
+                          }
+                      }
+                      divbody.append(html);
+
+                      html = "";
+                      for(var i=0;i<adListHead.length;i++){
+                          console.log(adListHead.length);
+                          html += '<div class="bannerbg">';
+                          html += "<a  href='"+adListHead[i].url+"' target='_blank'><img  src='"+data.path+adListHead[i].path+"' /></a>";
+                          html += '</div>';
+
+                      }
+
+                      adHead.append(html);
+                      html="";
+                      for(var i=0;i<adListFoot.length;i++){
+                          html += '<div class="bannerbg">';
+                          html += "<a href='"+adListFoot[i].url+"' target='_blank'><img src='"+data.path+adListFoot[i].path+"' /></a>";
+                          html += '</div>';
+
+                      }
+
+                      adFoot.append(html);
+
+
+                  }
+              });
+              $(obj).addClass("Selected");
+              $(obj).siblings().removeClass("Selected");
+
+
+          }
+
+          //提交查询
+          function selectProduct(){
+              var form = $("#searchForm");
+              form.submit();
+          }
+$(function(){
+
+
+    //改变头部样式
+    var parentName="[[${productCategory.name}]]";
+
+    if(parentName.indexOf("分析")!=-1||parentName.indexOf("计划")!=-1){
+        $(".da").removeClass("da");
+
+        var arr = $("#headdiv").find("li").find("a");
+
+        var name2="";
+        for(var i=0;i<arr.length;i++){
+            var name=$(arr[i]).text();
+            name2+=name+"/";
+            if(name.indexOf(parentName)!=-1){
+
+                $(arr[i]).parent().addClass("da");
+
+            }
+        }
+        console.log("name=="+name2);
+    }
+
+
+});
+      </script>
+</div>
+
+
+    <!--引用页面脚部-->
+    <div th:replace="/incloud/footer:: footer"></div>
+
+
+</div>
+
+</body>
+</html>

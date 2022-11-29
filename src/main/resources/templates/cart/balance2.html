@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>确认订单信息</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+    <script type="text/javascript" src="../js/qiehuan.js" th:src="@{/assets/js/qiehuan.js}"></script></head>
+</head>
+<body>
+<link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+
+<link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+<link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+<script src="../css/iconfont.js" language="javascript" th:href="@{/assets/css/iconfont.css}"></script>
+
+<!--我的sp鼠标悬浮下拉-->
+<script src="../js/swiper.min.js" th:src="@{/assets/js/memberView.js}"></script>
+<style>
+    body{position: relative;}
+    .dlhui{width: 335px;height: 42px;text-align: center;line-height: 32px;}
+    .dllan{width: 335px;height: 42px;text-align: center;line-height: 32px;background:#007fdc;border:0px;color:#fff;}
+
+    label{float: left;padding-left: 20px;}
+    /*.ynfa{border-bottom:0px;padding:10px;display:none;}*/
+    .ynfa{border-bottom:0px;padding:10px;}
+    .fplx{margin-left:80px;float:left;font-size:16px;color:#999;line-height:40px;}
+    .taitou{padding-left:20px;font-size:16px;color:#999;line-height:40px;float:left;}
+    .taitou a{color:#007fdc;}
+</style>
+
+
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+    <script>
+        function test(){
+            $('.nav,.gou').children("li:has(ul)").hover(
+                function(){
+                    //$(this).find("ul>li:last").addClass("li-last-s1");//给每个下拉菜单的最后一个li元素添加css样式，此处非必要
+                    $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单
+                },
+                function(){
+                    $(this).children("ul").hide();//隐藏下拉菜单
+                }
+            );
+        }
+
+    </script>
+
+    <script>
+        test();
+    </script>
+</header>
+
+
+<div class="log_con" style="padding-top:0px;background:url(../img/bg04.jpg) repeat-x left top #fff;">
+
+    <div class="gwlist">
+
+
+
+
+
+
+
+
+        <table width="100%" border="0"  cellpadding="0" cellspacing="0">
+
+
+            <tr>
+                <!--发票td开始-->
+                <td colspan="7" id="fptd0" style="border-bottom:0px;padding:10px;"><span style="float:left;" id="isNeedInvoice">是否开发票</span>
+
+                    <a id="shi" href = "JavaScript:void(0)" onclick = "openDialog1()">  <label><input name="Fruit" type="radio" value=""/>是</label></a>
+                    <!--发票div开始-->
+                        <div id="light1" class="fatc">
+                        <div class="fatc_t">发票信息<a href = "javascript:void(0)" onclick = "closeDialog1(1)"><i class="iconfont">&#xe62f;</i></a></div>
+                        <div class="fatc_b">
+                            <div class="title">
+                                <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv2_',1,this)"   id="JKDiv2_DEF" class="Selected">电子发票</li>
+                                <li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv2_',1,this)" >增值税专用发票</li>
+                            </div>
+
+                            <div class="con"  id="JKDiv2_0">
+
+                                <!--普通发票form开始-->
+                                <form  id="invoiceForm" name="invoiceForm" action="" method="get" style="float: left;padding-left: 30px;">
+                                    <input type="hidden" name="ptype" value="0"/><!--普票类型-->
+                                    <input type="hidden" name="pcontent" value="0"/><!--普票发票内容-->
+                                    <input type="hidden" name="type" value="0"><!--发票类型-->
+                                    <input type="hidden" name="userId" th:value="${session.UserId}"><!--用户id-->
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td  rowspan="2" valign="top" class="cb1" style="padding-top:20px;"><font>*</font>发票抬头：</td>
+                                        <td><a href="javascript:void(0)" onclick="checkDZinvoice(this)"><input type="text" readonly  value="个人"  class="dang" id="hide"></a></td></tr>
+                                    <tr>
+                                        <td><a href="javascript:void(0)" onclick="checkDZinvoice(this)"><input type="text" name="ptitle"  th:value="${invoiceP.ptitle}" value="单位名称" class="danwei" id="show"></a></td>
+                                    </tr>
+                                    <tr id="shuih">
+                                        <td class="cb1"><font>*</font>纳税人识别号：</td>
+                                        <td><input type="text"  name="pidentityno" value="" th:value="${invoiceP.pidentityno}"></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #e6e6e6;">
+                                        <td class="cb1"><font>*</font>发票内容：</td>
+                                        <td>
+                                            <a href="javascript:void(0)" onclick="checkDZcontent(this)"><span class="fpan dang">明细</span></a>
+                                            <a href="javascript:void(0)" onclick="checkDZcontent(this)"><span class="fpan" >办公用品</span></a>
+                                            <a href="javascript:void(0)" onclick="checkDZcontent(this)"><span class="fpan" >电脑配件</span></a>
+                                            <a href="javascript:void(0)" onclick="checkDZcontent(this)"><span class="fpan" >耗材</span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cb1"><font>*</font>收票人手机：</td>
+                                        <td><input type="text"  name="pmobile" value="" th:value="${invoiceP.pmobile}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cb1"><font>*</font>收票人邮箱：</td>
+                                        <td><input type="text" name="pemail"  value="" th:value="${invoiceP.pemail}" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border-bottom:1px solid #e6e6e6;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:center;padding-top:30px;"><input type="button" value="保存" onclick="subPinvoice()"><input name="重置" type="reset" value="取消" onclick="closeDialog1()"></td>
+                                    </tr>
+                                </table>
+                                </form>
+                                <!--电子发票表单结束-->
+                            </div>
+                            <div class="con" id="JKDiv2_1" style="display:none;">
+                                专票
+                            </div>
+
+                        </div>
+                    </div>
+                        <!--发票div结束-->
+                    <div id="fade1" class="black_overlay"></div>
+                    <script type="text/javascript">
+
+                        function openDialog1(){
+                            document.getElementById('light1').style.display='block';
+
+                            document.getElementById('fade1').style.display='block';
+
+
+                        }
+                        function closeDialog1(){
+                            document.getElementById('light1').style.display='none';
+                            document.getElementById('fade1').style.display='none'
+                        }
+                        //修改发票
+                        function editinvoice(){
+
+                            $("#light1").css('display','block');
+                            alert(111);
+                            $("#fade1").css('display','block');
+                            alert(222);
+
+
+                        }
+
+                    </script>
+                    <label id="fou"><input name="Fruit" type="radio" value="" checked="checked" onclick="fnisInvoice()"/>否</label>
+
+                    <!--发票form结束-->
+
+                </td>
+                <td colspan="7" class="ynfa" >
+                    <span class="fplx">电子普通发票</span>   <span class="taitou">个人</span>   <span class="taitou"> 明细</span>     <span class="taitou" onclick = "editinvoice()">修改2</span>
+                </td>
+                <!--发票td结束-->
+            </tr>
+
+        </table>
+        <style>
+            .gwlist table #bians{padding-left:10px;}
+            .know{width:1200px;border-left:1px solid #e6e6e6;border-right:1px solid #e6e6e6;}
+            .know .title{height:60px;display:block;background:#f5faff;}
+            .know .title li{cursor:pointer;float:left;width:242px;text-align:center;font-size:16px;color:#666;line-height:60px;}
+            .know .title .Selected{width:242px;text-align:center;background:#f8f8f8;color:#666;}
+            .know .con{height:310px;padding-top:27px;overflow:hiddden;}
+            .know .con table{border:0px;}
+            .know .con table td{padding:0px 0px 12px 20px;font-size:14px;color:#333;line-height:38px;height:38px;*height:50px;text-align:left;border:0px;}
+            .know .con table td input{width:100px;height:34px;border:1px solid #e6e6e6;border-radius:3px;background:#fff;font-size:14px;color:#333;float:left;text-align:center;}
+            .know .con table td input:hover{border:1px solid #006ab7;}
+            .know .con table td i{margin:18px 5px;font-size:20px;color:#e6e6e6;float:left;}
+            .know .con table td button{width:100px;height:36px;border-radius:3px;background:#007fdc;color:#fff;font-size:14px;border:0px;line-height: 29px;margin-left:30px;}
+            .know .con table td a{color:#007fdc;text-decoration: underline;padding-left:205px;}
+            .know .con font{#e06500;font-weight:600;}
+
+
+        </style>
+
+    </div>
+</div>
+<div class="tjnav" style="border-top:1px solid #dbedfa;padding-top:38px;">
+    <ul th:replace="~{foot_category::topbar}">
+        <!--<li style="margin-left:0px;"><a href="#"><img src="../img/fenxi.png" /></a><span><a href="#">分析软件</a></span></li>-->
+        <!--<li><a href="#"><img src="../img/fxrj.png" /></a><span><a href="#">计划软件</a></span></li>-->
+        <!--<li><a href="#"><img src="../img/3d.png"/></a><span><a href="#">3D打印</a></span></li>-->
+        <!--<li><a href="#"><img src="../img/zhin.png" /></a><span><a href="#">人工智能</a></span></li>-->
+        <!--<li><a href="#"><img src="../img/robot.png" /></a><span><a href="#">导航/机器人</a></span></li>-->
+
+    </ul>
+
+</div>
+
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+<script>
+    //普通发票选择个人或者单位
+    function checkDZinvoice(obj) {
+        // $(obj).children().addClass("receiverCls");
+        $("#hide").attr('style','');
+        $("#show").attr('style','');
+        $("#hide").removeClass("dang");
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+        var ival=$(obj).children().val();
+        if(ival=="个人"){
+            $("#invoiceForm input[name='ptype']").val(0);
+        }else{
+            $("#invoiceForm input[name='ptype']").val(1);
+        }
+
+    }
+
+    //普通发票选择内容
+    function checkDZcontent(obj) {
+
+        $(obj).parent().find("span").attr("style","");
+        $(obj).parent().find("span").removeClass("dang");
+
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+        var ival=$(obj).children().html();
+        console.log("content=="+ival);
+        if(ival=="明细"){
+            $("#invoiceForm input[name='pcontent']").val(0);
+        }else if(ival=="办公用品"){
+            $("#invoiceForm input[name='pcontent']").val(1);
+        }else if(ival=="电脑配件"){
+            $("#invoiceForm input[name='pcontent']").val(2);
+        }else if(ival=="耗材"){
+            $("#invoiceForm input[name='pcontent']").val(3);
+        }
+
+    }
+    //提交普通发票
+    function subPinvoice() {
+        $.ajax({
+            type:"post",
+            url:'[[@{/invoice/addInvoice}]]',
+            data:$("#invoiceForm").serialize(),
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log("data"+data);
+                if(data.length>0){
+                    alert("成功");
+
+
+                    var spanarr=$(".ynfa").find("span");
+
+                    $(spanarr[0]).html(data[0]);
+                    $(spanarr[1]).html(data[1]);
+                    $(spanarr[2]).html(data[2]);
+                    //$(spanarr[3]).html("<span class='taitou' onclick = 'editinvoice()'>修改啦</span>");
+
+                    $("#fptd0 span").hide();//是否按钮隐藏
+                    $("#shi").hide();
+                    $("#fou").hide();
+                    closeDialog1();
+                    //$(".ynfa").show();//展示修改
+                }
+
+
+            }
+        });
+    }
+
+    //专票选择开票方式
+    function checkZmode(obj) {
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+    }
+    //专票选择开票内容
+    function checkZcontent(obj) {
+        var tongfu="[[@{/}]]"+"assets/img/more.png";
+        $(obj).children().css({
+            "border":"1px solid #fe943e",
+            "background":"url("+tongfu+") no-repeat right bottom #fff"
+
+        });
+    }
+    //专票下一步1
+    function fnnext1() {
+        $("#first").hide();
+        $("#second").show();
+    }
+    //专票下一步2
+    function fnnext2() {
+        $("#second").hide();
+        $("#third").show();
+    }
+    //发票点击“否”
+    function fnisInvoice() {
+        $("#orderForm input[name='isInvoice']").val(0);
+    }
+
+</script>
+</body>
+</html>

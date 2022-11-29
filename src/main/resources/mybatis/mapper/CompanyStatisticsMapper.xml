@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.CompanyStatisticsMapper" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.CompanyStatistics" >
+    <result column="member" property="member" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="com.tongfu.entity.CompanyStatistics" >
+    insert into tf_company_statistics (member, create_date, company_id
+      )
+    values (#{member,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{companyId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.CompanyStatistics" >
+    insert into tf_company_statistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="member != null" >
+        member,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="member != null" >
+        #{member,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

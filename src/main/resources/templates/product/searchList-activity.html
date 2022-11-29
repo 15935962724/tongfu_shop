@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>产品列表</title>
+</head>
+<!-- CSS Files
+================================================== -->
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}" />
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}" />
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}" />
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}" />
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}" />
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}" />
+<link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}" />
+<link rel="stylesheet" href="../css/index.css" type="text/css" th:href="@{/assets/css/index.css}" />
+<script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+
+<style>
+    .slick-dots li button {
+        background: #9acaff;
+    }
+</style>
+
+<body>
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+</header>
+<script>
+    var btns = document.getElementById('btns');
+    var showid = document.getElementById('showid');
+    var colss = document.getElementById('colss');
+    if(btns && showid) {
+        btns.onmouseover = function() {
+            showid.style.display = 'block';
+        }
+    }
+    if(colss && showid) {
+        colss.onclick = function() {
+            showid.style.display = 'none'
+        };
+    }
+    if(showid) {
+        document.onclick = function() {
+            showid.style.display = 'none';
+        };
+        if(showid.addEventListener) {
+            showid.addEventListener('click', function(e) {
+                e.stopPropagation()
+            }, false)
+        } else if(showid.attachEvent) {
+            showid.attachEvent('click', function(e) {
+                e.stopPropagation()
+            }, false)
+        }
+    }
+</script>
+
+<div class="content">
+
+    <section class="banner">
+        <div class="single-item slider">
+            <div class="bannerbg" th:each="ad:${adListHead}">
+                <a href="#" th:href="@{${ad.url}}">
+                    <img src="../img/fxban.jpg" th:src="@{${path+ad.path}}" />
+                </a>
+            </div>
+        </div>
+    </section>
+    <div id="Content1">
+
+        <div class="ruj">
+            <div class="con" id="JKDiv_0">
+                <section class="section news-wrap">
+                    <div class="sec-layer">
+                        <div class="luj" style="height:20px">
+                            <a th:href="@{/}">首页</a>&gt;
+                            <span class="cpsl">（共有<a>[[${page.total}]]</a>款产品）</span>
+                        </div>
+
+                        <div class="gsnew">
+                            <ul>
+                                <li th:each="news:${page.list}">
+                                    <div class="newsLabel">
+                                        <th:block th:with="arrays=${#strings.arraySplit(news.keyWord,'，')}">
+                                            <span th:each="arrayS:${arrays}" th:text="${#strings.length(arrayS)>4?#strings.substring(arrayS,3):arrayS}"></span>
+                                        </th:block>
+                                    </div>
+                                    <a th:href="@{/journalism/view(companyId=${company.id},id=${news.id})}">
+                                        <span class="tu" th:style="'background-image: url('+@{${path+news.logo}}+')'"></span>
+                                        <div class="right">
+													<span id="bt">
+                                    <span th:text="${news.title}"></span>
+													</span>
+                                            <span id="shij">日期：[[${#dates.format(news.modify_date,'yyyy/MM/dd')}]]</span>
+                                            <span id="shij">来自：[[${news.datasource}]]</span>
+                                        </div>
+                                        <div class="gsnew_model">
+                                            [[${news.title}]]
+                                            <a th:href="@{/journalism/view(companyId=${company.id},id=${news.id})}" th:title="${news.title}">了解详情</a>
+                                        </div>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+
+</html>
+<script src="../js/scripts.js" th:src="@{/assets/js/scripts.js}"></script>
+<script src="../js/aitracker-min.js" th:src="@{/assets/js/aitracker-min.js}"></script>
+<script src="../js/slick.js" th:src="@{/assets/js/slick.js}"></script>
+<script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>

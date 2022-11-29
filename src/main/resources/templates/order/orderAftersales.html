@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的SP-售后服务</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+    <script type="text/javascript" src="../js/qiehuan.js" th:src="@{/assets/js/qiehuan.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script language="javascript" th:src="@{/assets/js/layer/layer.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+    <!--三级联动插件-->
+    <script th:src="@{/assets/js/lSelect.js}"></script>
+
+    <style>
+        .hide{
+            display: none;
+        }
+        .show{
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+</header>
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}" >首页</a>&gt;<a href="javaScript:void(0);">我的SP</a></div>
+    <div class="con_sp">
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+        <div class="aftersales">
+            <div class="aftersalesMain">
+                <div class="aftersalesChoice">
+                    <div class="aftersalesChoiceTitle">
+                        退换商品
+                    </div>
+                    <div class="aftersalesChoiceShop" th:each="orderItem:${listview}">
+                        <input th:onchange="|checkShop(this,'${orderItem.sn}','${#numbers.formatDecimal(orderItem.price,1,'COMMA',2,'POINT')}')|" type="checkbox" name="shop" th:value="${#numbers.formatDecimal(orderItem.price,1,'COMMA',2,'POINT')}" th:sn="${orderItem.sn}" />
+                        <img th:src="@{${pathUrl+orderItem.thumbnail}}" />
+                        <div class="aftersalesChoiceShopInfo">
+                            <a>[[${orderItem.name}]]</a>
+                            <div class="aftersalesChoiceNum">
+                                数量： <button th:onclick="|numReduce(this,'${#numbers.formatDecimal(orderItem.price,1,'COMMA',2,'POINT')}')|">-</button><input type="text"  value="1" disabled /><button th:onclick="|numPlus(this,${orderItem.quantity},'${#numbers.formatDecimal(orderItem.price,1,'COMMA',2,'POINT')}')|">+</button>
+                            </div>
+                            <span>&yen;[[${#numbers.formatDecimal(orderItem.price,1,'COMMA',2,'POINT')}]]</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="aftersalesInput">
+                    <label><span>*</span>退货理由</label>
+                    <select id="returnShopText">
+                        <option>请选择</option>
+                        <option>兼容性问题</option>
+                        <option>电脑配置不符合</option>
+                        <option>软件质量问题</option>
+                        <option>需求有变</option>
+                        <option>不想要了</option>
+                    </select>
+                </div>
+                <div class="aftersalesInput">
+                    <label>退款金额</label><input id="moneyAll" type="text" value="¥0" disabled />
+                </div>
+                <div class="aftersalesTextare">
+                    <label>退款说明</label><textarea id="returnShop" placeholder="请输入退款说明"></textarea>
+                </div>
+                <div class="aftersalesTextare">
+                    <label>上传图片</label>
+                    <div class="upImgList">
+                        <div class="upImgList_Odd notUpload" style="background-size: 50px auto"  th:each="index:${#numbers.sequence(1, 6)}">
+                            <input onchange="editUploadImg(this)" accept="image/*" type="file" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aftersalesInput">
+                    <label>是否使用物流信息</label>
+                    <div class="aftersalesRadio">
+                        <input type="radio" name="logistics" id="yes" value="yes" onchange="changeLogistics(this,'yes')" /><label for="yes">是</label><input checked type="radio" name="logistics" id="no" value="no" onchange="changeLogistics(this,'no')" /><label for="no">否</label>
+                    </div>
+                </div>
+
+                <div class="aftersalesInput hide">
+                    <label><span>*</span>发货人</label><input type="text" id="shipper" placeholder="请输入发货人" />
+                </div>
+
+                <div class="aftersalesInput hide">
+                    <label><span>*</span>电话</label><input type="text" id="phone" placeholder="请输入电话" />
+                </div>
+
+                <div class="aftersalesInput hide">
+                    <label><span>*</span>地区</label>
+                    <input type="hidden" id="areaId" name="areaId" />
+                </div>
+
+                <div class="aftersalesInput hide">
+                    <label><span>*</span>详细地址</label><input type="text" id="address" placeholder="请输入详细地址" />
+                </div>
+
+                <div class="aftersalesInput hide">
+                    <label><span>*</span>物流公司</label><input type="text" id="deliveryCorp" placeholder="请输入物流公司" />
+                </div>
+
+                <div class="aftersalesInput hide">
+                    <label><span>*</span>物流单号</label><input type="text" id="trackingNo" placeholder="请输入物流单号" />
+                </div>
+                <div class="aftersalesPost">
+                    <a onclick="postAftersales()">提交</a>
+                </div>
+            </div>
+            <div class="aftersalesOrderInfo">
+                <div class="aftersalesChoiceTitle">
+                    订单详情
+                </div>
+                <th:block th:each="orderItem:${listview}">
+                    <div class="aftersalesOrderInfo_Shop">
+                        <img th:src="@{${pathUrl+orderItem.thumbnail}}" />
+                        <a href="javaScript:void (0)">[[${orderItem.name}]]</a>
+                    </div>
+                    <div class="aftersalesOrderInfo_Text">
+                        品牌：[[${orderItem.cname}]]
+                    </div>
+                    <div class="aftersalesOrderInfo_Text">
+                        单价：&yen;[[${#numbers.formatDecimal(orderItem.price,1,'COMMA',2,'POINT')}]]
+                    </div>
+                </th:block>
+
+                <div class="aftersalesOrderInfo_Text"  style="border-top:1px dashed #cccccc;height: 1px;overflow:hidden">
+                    创建时间：[[${#dates.format(order.create_date,'yyyy-MM-dd HH:mm:ss')}]]
+                </div>
+                <div class="aftersalesOrderInfo_Text">
+                    订单号：[[${order.sn}]]
+                </div>
+                <div class="aftersalesOrderInfo_Text">
+                    商品总价：&yen;[[${totalamount}]]
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var moneyAll = 0;
+    $(function() {
+        // 地区选择
+        $("#areaId").lSelect({
+            url: "[[@{/area/getAreas}]]",
+            width: "120px",
+            margin: "4px",
+        });
+    });
+
+    //数量减
+    function numReduce(_this,money) {
+        var num = $(_this).siblings("input").val();
+        console.log(num);
+        if(num == 1){
+            return false;
+        }else{
+            num--;
+            $(_this).siblings("input").val(num);
+            if($(_this).parents('.aftersalesChoiceShopInfo').siblings('input').is(":checked")){
+                moneyAll = parseInt((moneyAll*100) - (money*100))/100;
+                $("#moneyAll").val('¥'+moneyAll);
+            }
+        }
+    }
+    //数量加
+    function numPlus(_this ,maxNum,money) {
+        var num = $(_this).siblings("input").val();
+        if(num == maxNum){
+            return false;
+        }else{
+            num++;
+            $(_this).siblings("input").val(num);
+            if($(_this).parents('.aftersalesChoiceShopInfo').siblings('input').is(":checked")){
+                moneyAll = parseInt((moneyAll*100) + (money*100))/100;
+                $("#moneyAll").val('¥'+moneyAll);
+            }
+        }
+    }
+    //是否使用物流
+    function changeLogistics(_this,type){
+        if(type == 'yes'){
+            $(".hide").removeClass('hide').addClass('show')
+        }else {
+            $(".show").removeClass('show').addClass('hide')
+        }
+    }
+    //上传图片
+    function editUploadImg(_this) {
+        $(_this).parent().removeClass('notUpload').addClass("saveUpload");
+    }
+    //选择退款商品
+    function checkShop(_this,sn,money) {
+        var num = $(_this).siblings("div").find("input").val();
+        if($(_this).is(":checked")){
+            moneyAll = ((moneyAll*100) + (money*num*100))/100;
+        }else{
+            moneyAll = ((moneyAll*100) - (money*num*100))/100;
+        }
+        $("#moneyAll").val(moneyAll);
+    }
+    
+    function postAftersales() {
+        var length = $("input[name='shop']:checked").length;
+        if(length == 0){
+            layer.msg('请选择退款商品');
+            return false;
+        }
+        if($("#returnShopText option:selected").text() == '请选择'){
+            layer.msg('请选择退货理由');
+            return false;
+        }
+        if($("#yes").is(':checked')){
+            if($("#shipper").val() == ''){
+                layer.msg('请输入发货人');
+                return false;
+            }
+            if($("#phone").val() == ''){
+                layer.msg('请输入手机号');
+                return false;
+            }
+            if($("#areaId").val() == ''){
+                layer.msg('请选择地区');
+                return false;
+            }
+            if($("#address").val() == ''){
+                layer.msg('请输入详细地址');
+                return false;
+            }
+            if($("#deliveryCorp").val() == ''){
+                layer.msg('请输入物流公司');
+                return false;
+            }
+            if($("#trackingNo").val() == ''){
+                layer.msg('请输入物流单号');
+                return false;
+            }
+        }
+        //图片列表
+        var imagesList = new FormData();
+        var files = $(".saveUpload input[type='file']");
+        for (var i = 0; i < files.length; i++) {
+            imagesList.append("file", files[i].files[0]);
+        }
+        //退货商品
+        var data = [];
+        $("input[name='shop']:checked").each(function () {
+            // var money = $(this).val();
+            var sn = $(this).attr('sn');
+            var num = $(this).siblings("div").find("input").val();
+            var name = $(this).siblings("div").find("a").text();
+            data.push({
+                sn: sn,
+                name: name,
+                quantity: num
+            });
+        });
+        var jsonData = {
+            orders:'[[${order.id}]]',//订单id
+            company:'[[${order.company_id}]]',//供应商id
+            freight: $("#moneyAll").val(),//退款金额
+            deliveryCorp: $("#deliveryCorp").val(),//物流公司
+            trackingNo: $("#trackingNo").val(),//运单号
+            shipper: $("#shipper").val(),//发货人
+            area: $("#areaId").val(),//发货人地区
+            address: $("#address").val(),//发货人地址
+            phone: $("#phone").val(),//电话
+            message: $("#returnShopText option:selected").text(),//退货理由
+            memo: $("#returnShop").val(),//退款说明
+            images: imagesList,
+            returns_item: data
+        };
+        console.log(JSON.stringify(jsonData));
+        $.ajax({
+            type : "post",
+            url : '[[@{/returns/save}]]',
+            data : JSON.stringify(jsonData),
+            contentType: "application/json",
+            dataType: 'JSON',
+            success:function(data){
+                console.log(data);
+            }
+        });
+    }
+</script>
+

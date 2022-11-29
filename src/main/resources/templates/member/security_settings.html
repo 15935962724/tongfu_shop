@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的SP-安全设置</title>
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}" />
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+
+    <!--弹窗特效-->
+    <link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+    <!--<script th:src="@{/assets/js/jquery-3.1.1.js}"></script>-->
+    <!--<script src="js/jquery-1.10.2.min.js" th:src="@{/assets/tanchuang/jquery-1.10.2.min.js}"></script>-->
+    <link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+    <script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+</head>
+
+<body>
+
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}" >首页</a>&gt;<a href="javaScript:void (0)">我的SP</a></div>
+    <div class="con_sp">
+
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+
+        <div class="con_right">
+            <div class="chax">
+                <h1>安全设置</h1>
+                <style>
+                    .jbemali{width:163px;*width:183px;text-align:right;padding-right:20px;}
+                    .chax table td input{width: 307px;*width:327px;color:#999;margin-left: 10px;}
+                    .chax .zhif{width:237px;border:1px solid #dadada;border-radius:3px;height:36px;line-height:36px;position: relative;}
+                    .chax .zhif input{width:38px;height:36px;border:0px;border-right:1px solid #dadada;text-align:center;padding: 0px;margin: 0px;border-radius: 0px;}
+                    #dang{border:1px solid #007fdc;position: relative;top:-1px;left:-1px;}
+                </style>
+                <div class="anq" >
+                    <li>
+                        <span id="left">
+                        <th:block th:if="${member.email!=null}">
+                                邮箱已绑定
+                        </th:block>
+                        <th:block th:if="${member.email==null}">
+                                邮箱未绑定
+                        </th:block>
+                        </span>
+                        <span id="phone">[[${member.email==null?'未绑定邮箱':member.email}]]</span>
+                        <th:block th:if="${member.email==null}">
+                            <span id="bangd"><a href = "JavaScript:void(0)" onclick = "openDialog()"> 绑定</a></span>
+                        </th:block>
+
+                    </li>
+                    <div id="light" class="fatc">
+                        <div class="fatc_t">绑定邮箱
+                            <a href = "javascript:void(0)" onclick = "closeDialog(1)">
+                                <i class="iconfont">&#xe62f;</i>
+                            </a>
+                        </div>
+                        <div class="fatc_b">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" id="first">
+                                <tbody>
+                                <tr>
+                                    <td class="jbemali"><font>*</font>邮箱：</td>
+                                    <td><input type="text" id="email" name="email" value="" placeholder="请输入要绑定的邮箱"></td>
+                                </tr>
+                                <tr>
+                                    <td class="jbemali"><font>*</font>邮箱验证码：</td>
+                                    <td>
+                                        <input type="text" id="emailCode" placeholder="请输入邮箱验证码" style="width:160px;*width:180px;">
+                                        <input type="button" id="sendEmailCode" value="获取验证码" style="width:135px;margin-left:12px;height:37px;" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="jbemali"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="jbemali"></td>
+                                    <td>
+                                        <input type="button" id="updateEmail" value="确定">
+                                        <input type="reset" value="取消" onclick = "closeDialog(1)" >
+                                    </td>
+                                </tr>
+                                </tbody></table>
+                        </div>
+
+                    </div>
+                    <div id="fade" class="black_overlay"></div>
+                    <script type="text/javascript">
+                        $(function(){
+                        })
+                        function openDialog(){
+                            document.getElementById('light').style.display='block';
+                            document.getElementById('fade').style.display='block'
+                        }
+                        function closeDialog(){
+                            document.getElementById('light').style.display='none';
+                            document.getElementById('fade').style.display='none'
+                        }
+                    </script>
+
+
+                    <div id="fade1" class="black_overlay"></div>
+                    <script type="text/javascript">
+                        $(function(){
+                        })
+                        function openDialog1(){
+                            document.getElementById('light1').style.display='block';
+                            document.getElementById('fade1').style.display='block'
+                        }
+                        function closeDialog1(){
+                            document.getElementById('light1').style.display='none';
+                            document.getElementById('fade1').style.display='none'
+                        }
+                    </script>
+                    <li><span id="left">登录密码</span><span id="phone">********</span><span id="bangd"><a href = "JavaScript:void(0)" onclick = "openDialog2()"> 修改</a></span></li>
+                    <div id="light2" class="fatc">
+                        <div class="fatc_t">修改登录密码<a href = "javascript:void(0)" onclick = "closeDialog2(1)"><i class="iconfont">&#xe62f;</i></a></div>
+                        <div class="fatc_b">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" id="first">
+                                <tbody>
+                                <tr>
+                                    <td class="jbemali"><font>*</font> 新密码：</td>
+                                    <td>
+                                        <input type="password" id="password" placeholder="请输入新密码" style="width:160px;*width:180px;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="jbemali"><font>*</font>确认新密码：</td>
+                                    <td>
+                                        <input type="password" id="password2" placeholder="请再次输入新密码" style="width:160px;*width:180px;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="jbemali"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="jbemali"></td>
+                                    <td><input type="button" id="updatePassword" value="确定"><input onclick="closeDialog2(1)" type="reset" value="取消" ></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div id="fade2" class="black_overlay"></div>
+                    <li><span id="left">Know-how卡支付密码</span><span id="phone">********</span><span id="bangd"><a href = "JavaScript:void(0)" onclick = "openDialog3()"> 修改支付密码</a></span></li>
+                    <div id="light3" class="fatc">
+                        <div class="fatc_t">修改支付密码<a href = "javascript:void(0)" onclick = "closeDialog3(1)"><i class="iconfont">&#xe62f;</i></a></div>
+                        <div class="fatc_b">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" id="first">
+                                <tbody>
+                                <tr>
+                                    <td class="jbemali"><font>*</font> 支付密码：</td>
+                                    <td>
+                                        <div class="zhif">
+                                            <input type="password" id="passwordOld1" maxlength="1" onkeyup='document.getElementById("passwordOld2").focus()' />
+                                            <input type="password" id="passwordOld2" maxlength="1" onkeyup='document.getElementById("passwordOld3").focus()' />
+                                            <input type="password" id="passwordOld3" maxlength="1" onkeyup='document.getElementById("passwordOld4").focus()' />
+                                            <input type="password" id="passwordOld4" maxlength="1" onkeyup='document.getElementById("passwordOld5").focus()' />
+                                            <input type="password" id="passwordOld5" maxlength="1" onkeyup='document.getElementById("passwordOld6").focus()' />
+                                            <input type="password" id="passwordOld6" maxlength="1" onkeyup='document.getElementById("passwordNew1").focus()' style="border:0px;" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="jbemali"><font>*</font>确认密码：</td>
+                                    <td>
+                                        <div class="zhif">
+                                            <input type="password" maxlength="1" id="passwordNew1" onkeyup='document.getElementById("passwordNew2").focus()' />
+                                            <input type="password" maxlength="1" id="passwordNew2" onkeyup='document.getElementById("passwordNew3").focus()' />
+                                            <input type="password" maxlength="1" id="passwordNew3" onkeyup='document.getElementById("passwordNew4").focus()' />
+                                            <input type="password" maxlength="1" id="passwordNew4" onkeyup='document.getElementById("passwordNew5").focus()' />
+                                            <input type="password" maxlength="1" id="passwordNew5" onkeyup='document.getElementById("passwordNew6").focus()' />
+                                            <input type="password" maxlength="1" id="passwordNew6" style="border:0px;" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="jbemali"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="jbemali"></td>
+                                    <td><input type="button" onclick="closeDialog3()" value="确定"><input type="reset" value="取消" onclick="closeDialog3(1)" ></td>
+                                </tr>
+                                </tbody></table>
+                        </div>
+
+                    </div>
+                    <div id="fade3" class="black_overlay"></div>
+
+
+                    <script type="text/javascript">
+                        $(function(){
+                        })
+                        function openDialog2(){
+                            document.getElementById('light2').style.display='block';
+                            document.getElementById('fade2').style.display='block'
+                        }
+                        function closeDialog2(){
+                            document.getElementById('light2').style.display='none';
+                            document.getElementById('fade2').style.display='none'
+                        }
+                    </script>
+                    <script type="text/javascript">
+                        $(function(){
+                        })
+                        function openDialog3(){
+                            document.getElementById('light3').style.display='block';
+                            document.getElementById('fade3').style.display='block'
+                        }
+                        function closeDialog3(){
+                            document.getElementById('light3').style.display='none';
+                            document.getElementById('fade3').style.display='none'
+                        }
+                    </script>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+<script type="text/javascript">
+    var hl = $(".con_left").outerHeight();
+    var hr = $(".con_right").outerHeight();
+    var mh = Math.max(hl,hr);
+    $(".con_left").height(mh);
+    $(".con_right").height(mh);
+
+    //修改密码
+    $('#updatePassword').on('click',function () {
+        var password = $('#password').val();
+        if (password.length<6){
+            alert('密码长度最少八位!');
+            return;
+        }
+        var password2 = $('#password2').val();
+        if (password!=password2){
+            alert('两次输入密码不一致!');
+            return;
+        }
+
+        var regex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,30}');
+        if (!regex.test(password)) {
+            alert('密码中必须包含字母、数字、特称字符，至少8个字符！');
+            return;
+        }
+        if (!regex.test(password2)) {
+            alert('密码中必须包含字母、数字、特称字符，至少8个字符！');
+            return;
+        }
+
+        $.ajax({
+            type:"post",
+            url:'[[@{/member/updatePassword}]]',
+            data:{password:password},
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log(data)
+                if(data.status==200){
+                    console.log(data)
+                    alert(data.msg);
+                    location.reload()
+                }else {
+                    console.log(data)
+                    alert(data.msg);
+                }
+
+            }
+        });
+
+
+    });
+
+
+    //发送验证码倒计时
+    var countdown = 60;
+    function senCode() {
+        if (countdown == 0) {
+            // obj.removeAttribute("disabled");
+            // $("#sendCode").attr("disabled", "true");
+
+            $("#sendEmailCode").removeAttr("disabled");
+            $('#sendEmailCode').css({'background':'#007fdc'});
+            $('#sendEmailCode').css({'color':'#f9fafc'});
+            $('#sendEmailCode').val('发送验证码');
+            // obj.value="免费获取验证码";
+            countdown = 60;
+            return;
+        } else {
+            // obj.setAttribute("disabled", true);
+            $("#sendEmailCode").attr("disabled", "disabled");
+            $('#sendEmailCode').val(countdown+'后重新发送');
+            $('#sendEmailCode').css({'background':'#E8E7E4'});
+            $('#sendEmailCode').css({'color':'#333'});
+            // obj.value="重新发送(" + countdown + ")";
+            countdown--;
+        }
+        setTimeout(function() {
+                senCode() }
+            ,1000);
+    }
+    //绑定邮箱获取验证码
+    $('#sendEmailCode').on('click',function () {
+        var email = $('#email').val();
+
+        var myreg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+        if(email ==''){
+            alert('邮箱不能未空!')
+            return;
+        }
+        if(!myreg.test($.trim(email))){
+            alert('请输入有效的邮箱地址!')
+            return;
+        }
+
+        $.ajax({
+            type:"post",
+            url:'[[@{/member/sendEmailCode}]]',
+            data:{email:email},
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log(data)
+                if(data.status==200){
+                    console.log(data)
+                    alert(data.msg);
+                    senCode();
+                }else {
+                    console.log(data)
+                    alert(data.msg);
+                }
+
+            }
+        });
+
+
+    });
+
+    //绑定邮箱提交
+    $('#updateEmail').on('click',function () {
+        var email = $('#email').val();
+
+        var myreg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+        if(email ==''){
+            alert('邮箱不能未空!')
+            return;
+        }
+        if(!myreg.test($.trim(email))){
+            alert('请输入有效的邮箱地址!')
+            return;
+        }
+
+        var emailCode = $('#emailCode').val();
+
+        $.ajax({
+            type:"post",
+            url:'[[@{/member/updateEmail}]]',
+            data:{email:email,code:emailCode},
+            dataType:"json",
+            async: false,
+            success:function (data) {
+                console.log(data)
+                if(data.status==200){
+                    console.log(data)
+                    alert(data.msg);
+                    location.reload();
+                }else {
+                    console.log(data)
+                    alert(data.msg);
+                    location.reload();
+                }
+
+            }
+        });
+
+
+    });
+
+
+    function postPayword() {
+        var oldPassword = $("#passwordOld1").val() + $("#passwordOld2").val() + $("#passwordOld3").val() + $("#passwordOld4").val() + $("#passwordOld5").val() + $("#passwordOld6").val();
+        var newPassword = $("#passwordNew1").val() + $("#passwordNew2").val() + $("#passwordNew3").val() + $("#passwordNew4").val() + $("#passwordNew5").val() + $("#passwordNew6").val();
+        console.log(oldPassword);
+        console.log(newPassword);
+        if(oldPassword.length < 6){
+            alert("请把支付密码输入完整！")
+            return false;
+        }
+        if(newPassword.length < 6){
+            alert("请把确认密码输入完整！")
+            return false;
+        }
+    }
+
+
+    //弹窗确定关闭效果
+    function ok(id){
+        syalert.syhide(id);
+    }
+
+
+</script>
+
+</body>
+</html>

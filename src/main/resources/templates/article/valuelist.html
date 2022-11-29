@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>增值服务</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script src="../css/iconfont.js" th:src="@{/assets/js/iconfont.js}"></script>
+    <link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+    <link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+    <link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+    <link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+    <link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+    <link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+    <link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+
+
+    <script src="../js/scripts.js" th:src="@{/assets/js/scripts.js}"></script>
+    <script src="../js/aitracker-min.js" th:src="@{/assets/js/aitracker-min.js}"></script>
+
+    <script src="../js/slick.js" th:src="@{/assets/js/slick.js}"></script>
+    <script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>
+    <script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script src="../js/swiper.min.js" th:src="@{/assets/js/memberView.js}"></script>
+</head>
+
+<body>
+
+<header>
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+<!--<div class="banner" th:each="ad:${adListHead}">-->
+<!--    <a th:href="@{${ad.url}}">-->
+<!--    <img src="../img/zzfw.jpg" th:src="@{${path+ad.path}}"/>-->
+<!--    </a>-->
+<!--</div>-->
+<div class="content" style="background:#fff;">
+    <section class="banner">
+        <div class="single-item slider">
+
+            <div class="bannerbg" th:each="ad:${adListHead}">
+
+                <a th:href="@{${ad.url}}">
+                    <img th:src="@{${path+ad.path}}"/>
+                </a>
+            </div>
+            <!--    <div class="bannerbg">-->
+            <!--        < a href="#">-->
+            <!--        < img src="http://106.13.123.1/adImage/1575948259135.jpg" />-->
+            <!--    </ a>-->
+            <!--    </div>-->
+        </div>
+    </section>
+    <!--<div style="height:80px;display:block;"></div>-->
+
+    <div id="Content1">
+        <script>
+            $(function () {
+                $('.nav2 .nav2-header-li-div').click(function () {
+                    if ($(this).parent().hasClass('act')) {
+                        $(this).parent().removeClass('act').addClass("act-none");
+                    } else {
+                        $(this).parent().removeClass('act-none').addClass("act").siblings().removeClass('act').addClass("act-none");
+                        $(this).parent().siblings().find('.nav2-second-level li').removeClass('act1');
+                    }
+                });
+
+                $('.nav2-second-level li').click(function () {
+                    $(this).addClass('act1').siblings().removeClass('act1');
+                });
+            })
+        </script>
+
+
+
+
+
+
+        <div class="zzfw_right">
+            <div id="name" th:text="${title}">立体定向手术计划报告</div>
+            <div id="text" th:utext="${content}">
+                <p>
+                    　　立体定向已是临床开展很成熟的诊疗技术，然而手术效果与治疗靶区勾画是否精确关系密切。同时，诸多计划软件已经可以实现与常用/标准立体定向器械无缝兼容。因此，精准、可预见性的手术计划变得更加具有交互性和可行性，是获得满意手术效果的重要保证。</p>
+                <p>
+                    　　立体定向已是临床开展很成熟的诊疗技术，然而手术效果与治疗靶区勾画是否精确关系密切。同时，诸多计划软件已经可以实现与常用/标准立体定向器械无缝兼容。因此，精准、可预见性的手术计划变得更加具有交互性和可行性，是获得满意手术效果的重要保证。立体定向已是临床开展很成熟的诊疗技术，然而手术效果与治疗靶区勾画是否精确关系密切。同时，诸多计划软件已经可以实现与常用/标准立体定向器械无缝兼容。因此，精准、可预见性的手术计划变得更加具有交互性和可行性，是获得满意手术效果的重要保证。</p>
+                <p>　　因此，精准、可预见性的手术计划变得更加具有交互性和可行性，是获得满意手术效果的重要保证。</p>
+                <p style="text-align:center;"><img src="../img/zzfwt.jpg"/></p>
+            </div>
+        </div>
+
+
+        <div class="zzfw_nav">
+            <div class="sidebar-collapse">
+                <ul class="nav2 metismenu" id="side-menu" style="">
+
+
+                    <th:block th:each="cate:${categorylist}">
+                        <li class="act" th:class="${cate.name==categoryName?'act':'act-none'}">
+                            <div class="nav2-header-li-div"><span class="nav2-label"
+                                                                  th:text="${cate.name}">影像后处理远程报告</span></div>
+                            <ul class="nav2-second-level">
+                                <th:block th:with="entrys=${articleMap[cate.name]}">
+                                    <li th:each="article:${entrys}" th:class="${article.title==title?'act1':''}"><a
+                                            href="2j_zengzhfw.html" th:text="${article.title}"
+                                            th:href="@{/article/valuelist(category=${article.article_category},id=${article.id})}">立体定向手术计划报告</a>
+                                    </li>
+
+                                </th:block>
+                            </ul>
+                        </li>
+                    </th:block>
+
+                </ul>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+</body>
+</html>

@@ -1,0 +1,716 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>基于第三方医学影像软件应用和增值服务平台</title>
+</head>
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+
+<script src="../js/huaceng.js" th language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/index-css.css" type="text/css" th:href="@{/assets/css/index-css.css}"/>
+<link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link rel="stylesheet" href="../css/swiper.min.css" type="text/css" th:href="@{/assets/css/swiper.min.css}"/>
+<link rel="stylesheet" href="../css/reset.css" type="text/css" th:href="@{/assets/css/reset.css}"/>
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+
+<script src="../js/jquery-k.js" th:src="@{/assets/js/jquery-k.js}"></script>
+<script src="../js/jquery-k-ui.js" th:src="@{/assets/js/jquery-k-ui.js}"></script>
+
+<script src="../js/swiper.min.js" th:src="@{/assets/js/swiper.min.js}"></script>
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+<!--在线客服系统 火烈云-->
+<script th:src="@{/assets/js/huolieyun.js}"></script>
+
+
+
+<link href="../css/bootstrap.min.css" th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet">
+<link href="../css/bootstrap-dropdownhover.min.css" th:href="@{/assets/css/bootstrap-dropdownhover.min.css}"
+      rel="stylesheet">
+<!-- Fonts Awesome -->
+<!-- Google Fonts -->
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,200,300,100,500,600,700,800,900' rel='stylesheet'
+      type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400" rel="stylesheet">
+<!-- animate Effect -->
+<link href="../css/animate.css" th:href="@{/assets/css/animate.css}" rel="stylesheet">
+<!-- Main CSS -->
+<link href="../css/stylemoban.css" th:href="@{/assets/css/stylemoban.css}" rel="stylesheet">
+<!-- Responsive CSS -->
+<link href="../css/responsive.css" th:href="@{/assets/css/responsive.css}" rel="stylesheet">
+
+<!--<link rel="stylesheet" href="../css/idangerous.swiper.css" th:href="@{/assets/css/idangerous.swiper.css}">-->
+<link rel="stylesheet" href="../css/styleSwiper.css" th:href="@{/assets/css/styleSwiper.css}">
+
+<style>
+    body {
+        text-align: left;
+    }
+
+    .section-1-box-icon-background {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .section-1-box-icon-background img {
+        max-height: 94px;
+        border-radius: 50%;
+    }
+
+    .newTabbar:hover .section-1-box-icon-background {
+        border-color: #007fdc;
+    }
+
+    .newTabbar:hover .section-1-box h4 {
+        color: #007fdc;
+    }
+
+    .newTabbar:hover .section-1-box p {
+        color: #007fdc;
+    }
+
+    .newTabbar:hover img {
+        transform: scale(1.3);
+        transition: all 0.5s ease 0s;
+    }
+
+    .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        background: #CCC;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: #0020ff;
+    }
+</style>
+
+
+<script>
+    var _width = $(window).width(); // 获取浏览器宽度
+    if (_width <= 1200) { // 当屏幕宽度小于等1200
+        $(".header").hide(); // div1隐藏
+        $(".div2").show(); // div2显示
+    } else { // 反之
+        $(".div2").hide(); // div2隐藏
+        $(".header").show(); // div1显示
+    }
+</script>
+<!-- CSS Files
+================================================== -->
+<script>
+    var _mtac = {};
+    (function () {
+        var mta = document.createElement("script");
+        mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+        mta.setAttribute("name", "MTAH5");
+        mta.setAttribute("sid", "500609824");
+
+        try {
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(mta, s);
+        } catch (e) {
+        }
+    })();
+</script>
+
+</head>
+
+<body>
+
+
+<!--语言切换-->
+<!--未登录-->
+<shiro:notAuthenticated>
+    <th:block th:replace="~{incloud/language::language}"></th:block>
+</shiro:notAuthenticated>
+<!--已登录-->
+<shiro:authenticated>
+    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+</shiro:authenticated>
+
+<div class="head">
+    <!--未登录-->
+    <div th:replace="~{head::topbar}"></div>
+    <!--已登录-->
+</div>
+
+<!-- content begin -->
+<div class="content">
+
+    <section class="banner" style="overflow: hidden;height: 550px;">
+        <div class="single-item slider">
+            <!--头部广告-->
+            <div class="bannerbg" th:each="adhead:${adlistHead}">
+
+                <a th:href="@{${adhead.url}}" target="_blank">
+                    <img src="../img/banner1.jpg" th:src="@{${pathUrl+adhead.path}}"/>
+                </a>
+            </div>
+            <!--<div class="bannerbg">-->
+            <!--<a href="#">-->
+            <!--<img src="../img/banner1.jpg" th:src="@{/assets/img/banner1.jpg}"/>-->
+            <!--</a>-->
+            <!--</div>-->
+        </div>
+    </section>
+    <!--  测试  -->
+
+    <section id="section1" class="section-margine" style="margin: 0">
+        <div class="container">
+            <div class="row">
+                <div style="display: flex;justify-content: space-between; align-items: center">
+                    <div class="newTabbar" th:each="category:${categoryList}">
+                        <a target="_blank" th:href="@{/category/list(parent=${category.id})}">
+                            <div class="section-1-box wow bounceIn">
+                                <div class="section-1-box-icon-background">
+                                    <img th:src="@{${pathUrl+category.image}}"
+                                         src="http://106.13.123.1:8082/categoryUploadImg/1596683320217.png"/>
+                                    <!--                                <i class="fa fa-ambulance fa-2x"></i>-->
+                                </div>
+                                <h4 class="text-center" th:text="${category.name}">分析软件</h4>
+                                <!--<p class="text-center" th:text="${category.seoDescription}">Using many font styles canslow down your webpage, so only select the font styles that you</p>-->
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="section2" class="section-margine" style="margin: 24px 0 0 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-8 col-xs-8 nopadding">
+
+
+                    <div class="col-md-6 col-sm-6 col-xs-6" th:each="learning:${learnings3}">
+                        <div class="section-2-box-left wow fadeInLeft">
+                            <div class="newsLabel"><span>研讨会</span></div>
+                            <th:block th:if="${learningStat.index<2}">
+                                <figure><a th:href="@{/learning/view(id=${learning.id})}" target="_blank"><img
+                                        style="height: 210px;" th:src="@{${pathUrl+learning.logo}}"
+                                        class="img-responsive"></a></figure>
+                                <h4><a th:href="@{/learning/view(id=${learning.id})}" target="_blank">[[${learning.title}]]</a>
+                                </h4>
+                                <th:block th:if="${#strings.length(learning.introduce)>120}">
+                                    <p> [[${#strings.substring(learning.introduce,0,120)}]]...</p>
+                                </th:block>
+                                <th:block th:if="${#strings.length(learning.introduce)<=120}">
+                                    <p>[[${learning.introduce}]]</p>
+                                </th:block>
+                                <a th:href="@{/learning/view(id=${learning.id})}" target="_blank"
+                                   class="btn btn-primary">了解更多</a>
+                            </th:block>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4">
+
+                    <div class="swiper-container" id="xuehui" style="overflow: hidden;">
+
+                        <div class="swiper-wrapper">
+
+
+                            <div class="section-2-box-right wow fadeInRight swiper-slide swiperModel" style="border: 1px solid #037fde;background-color: #037fde">
+                                <a onclick="openNewview('https://mp.weixin.qq.com/s/813z2UOKitdHVWiQ6JNK3A')" style="cursor: pointer">
+                                    <img th:src="@{/assets/img/jinju.png}"/>
+                                </a>
+                                <hr style="background-color: #fff;right: 31px;top: 82px;"/>
+                                <p style="color: #fff;margin-top: 0;">
+                                    “近距离治疗与智慧放疗分会”在中国核学会以及各学科专家学者的倡导与支持下， 以北京大学第三医院为依托单位， 经过组织专家论证，
+                                    顺利通过中国核学会评估答辩，并正式批准成立。分会将在中国核学会<br/>的领导和支持下，致力于实现以学术为导向，核技术应用为目标，先进放疗技术产品／解决方案为引擎，临床应用实践为核心价值，
+                                    基于人工智能、 大数据、 云计算及互联网技术，搭建创新应用服务平台，营造从基层到高端医疗机构的全产业生态链， 成为行业引领者。
+                                </p>
+                                <div class="swiperModel-list">
+                                    <a onclick="openNewview('https://mp.weixin.qq.com/s/813z2UOKitdHVWiQ6JNK3A')" style="width: 100%;text-align: center;cursor: pointer">
+                                        <img th:src="@{/assets/img/jinjuhezhao.png}"/>
+                                    </a>
+                                </div>
+                                <a onclick="openNewview('https://mp.weixin.qq.com/s/813z2UOKitdHVWiQ6JNK3A')" class="btn"
+                                   style="background-color: #fff; color: #037fde">了解更多</a>
+                            </div>
+
+                            <div class="section-2-box-right wow fadeInRight swiper-slide swiperModel" style="border: 1px solid #066556;">
+                                <a onclick="openNewview('http://www.yxzb.org.cn/')" style="cursor: pointer">
+                                    <img th:src="@{/assets/img/zbxh.png}"/>
+                                </a>
+                                <hr style="background-color: #066556;right: 31px;top: 82px;"/>
+                                <p style="background-color: #0c9c85; color: #fff">
+                                    中国医学装备协会是经国家民政部批准成立登记的国家一级协会，其业务主管单位是国家卫生部。是全国医学装备工作者自愿组成并依法登记的学术性、公益性、非赢利性法人社会团体；是党和政府联系广大医学装备工作者<br/>的桥梁和纽带；是发展我国医学科学技术和医学装备的重要社会力量。
+                                </p>
+                                <div class="swiperModel-list">
+                                    <a onclick="openNewview('http://www.yxzb.org.cn/index.php?m=home&c=View&a=index&aid=466')" style="cursor: pointer">
+                                        <img th:src="@{/assets/img/zazhi.jpg}"/>
+                                    </a>
+                                    <a onclick="openNewview('http://www.yxzb.org.cn/index.php?m=home&c=Lists&a=index&tid=115')" style="width: 65%;margin: 0;cursor: pointer">
+                                        <img th:src="@{/assets/img/hybg.jpg}"/>
+                                    </a>
+                                </div>
+                                <a onclick="openNewview('https://www.yxzb.org.cn/')" class="btn" style="background-color: #066556">了解更多</a>
+                            </div>
+
+                            <div class="section-2-box-right wow fadeInRight swiper-slide swiperModel"
+                                 style="border: 1px solid #ef9d58;">
+                                <a onclick="openNewview('http://zgszyx.bosihw.cn/')" style="cursor: pointer">
+                                    <img th:src="@{/assets/img/zhonghua.png}"/>
+                                </a>
+                                <hr style="width: 216px;background-color: #ef9d58;right: 45px;top: 70px;"/>
+                                <p style="background-color:#ef9d58;color: #fff">
+                                    中国医学装备协会是经国家民政部批准成立登记的国家一级协会，其业务主管单位是国家卫生部。是全国医学装备工作者自愿组成并依法登记的学术性、公益性、非赢利性法人社会团体；是党和政府联系广大医学装备工作者<br/>的桥梁和纽带；是发展我国医学科学技术和医学装备的重要社会力量。
+                                </p>
+                                <div class="swiperModel-list">
+                                    <a onclick="openNewview('http://www.zgszyx.org/Magazine/IssueList.aspx')" style="cursor: pointer"><img th:src="@{/assets/img/shuzi.png}"/></a>
+                                    <a onclick="openNewview('http://www.zgszyx.org/Magazine/Default.aspx')" style="width: 65%;margin: 0;cursor: pointer"><img th:src="@{/assets/img/sb.jpg}"/></a>
+                                </div>
+                                <a onclick="openNewview('http://zgszyx.bosihw.cn/)" class="btn" style="background-color: #ef9d58; color: #fff">了解更多</a>
+                            </div>
+
+
+                        </div>
+                        <div class="swiper-pagination" id="xuehui-page" style="bottom: 4px;"></div>
+                        <!--分页器。如果放置在swiper-container外面，需要自定义样式。-->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        var xuehui = new Swiper('#xuehui', {
+            pagination: {
+                el: '#xuehui-page',
+                clickable: true,
+            },
+        })
+    </script>
+
+
+    <section id="section3" class="section-margine section3-background" style="margin: 24px 0 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="section-3-box">
+                        <figure><i class="fa fa-desktop fa-2x"></i></figure>
+                        <h3><span class="counter">4300</span>+</h3>
+                        <h4>平台产品</h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="section-3-box">
+                        <figure><i class="fa fa-group fa-2x"></i></figure>
+                        <h3><span class="counter">650</span>+</h3>
+                        <h4>合作厂商</h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="section-3-box">
+                        <figure><i class="fa fa-coffee fa-2x"></i></figure>
+                        <h3><span class="counter">13200</span>+</h3>
+                        <h4>累计病例</h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="section-3-box">
+                        <figure><i class="fa fa-glass fa-2x"></i></figure>
+                        <h3><span class="counter">8600</span>+</h3>
+                        <h4>平台用户</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 会议 -->
+    <div class="hy">
+        <!--        <div class="yth_tit" style="padding-bottom:10px;color: #777;"></div>-->
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <header class="title-head">
+                    <h2>会议</h2>
+                    <p>关注并参与国内国际关联学术会议，了解并通过我们体验医学影像软件在临床应用中的价值，提升您的学术水准，让工作更加得心应手！</p>
+                    <div class="line-heading">
+                        <span class="line-left"></span>
+                        <span class="line-middle">+</span>
+                        <span class="line-right"></span>
+                    </div>
+                </header>
+            </div>
+        </div>
+        <div class="swiper-container" id="swiper2">
+            <div class="swiper-wrapper">
+                <!--脚部广告-->
+                <div class="swiper-slide" th:each="adfoot:${adlistFoot}">
+                    <a th:href="@{${adfoot.url}}" target="_blank"><img src="../img/toystory.jpg"
+                                                                       th:src="@{${pathUrl+adfoot.path}}" alt=""></a>
+                </div>
+                <!--<div class="swiper-slide"><img src="../img/toystory.jpg" alt=""></div>-->
+                <!--<div class="swiper-slide"><img src="../img/toystory.jpg" alt=""></div>-->
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next2"></div>
+            <div class="swiper-button-prev2"></div>
+        </div>
+        <script>
+            var swiper = new Swiper('#swiper2', {
+                autoplay: true, //可选选项，自动滑动
+                pagination: {
+                    el: '#swiper2 .swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '#swiper2 .swiper-button-next2',
+                    prevEl: '#swiper2 .swiper-button-prev2',
+                },
+
+            });
+            $('#swiper2').mouseenter(function () {
+                $(this).find('.swiper-button-prev2,.swiper-button-next2').show();
+            }).mouseleave(function () {
+                $(this).find('.swiper-button-prev2,.swiper-button-next2').hide();
+            });
+        </script>
+    </div>
+    <!-- 会议结束 -->
+
+
+    <section id="section4" class="section-4 section-margine">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <header class="title-head">
+                        <h2>关于我们</h2>
+                        <p>About us</p>
+                        <div class="line-heading">
+                            <span class="line-left"></span>
+                            <span class="line-middle">+</span>
+                            <span class="line-right"></span>
+                        </div>
+                    </header>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4 right">
+                    <th:block th:each="aboutus,aboutusStat:${aboutusList}">
+                        <th:block th:if="${aboutus.orders==1}">
+                            <ul class="section">
+                                <li class="left">
+                                    <img src="../img/blog1.png" th:src="@{${pathUrl+aboutus.logo}}"/>
+                                </li>
+                                <li>
+                                    <a target="_blank" th:href="@{/gotoaboutus(id=${aboutus.id})}">
+                                        <strong>[[${aboutus.title}]]</strong>
+                                    </a>
+                                    <th:block th:if="${#strings.length(aboutus.introduce)>100}">
+                                        <p class="AboutusP"> [[${#strings.substring(aboutus.introduce,0,100)}]]...</p>
+                                    </th:block>
+                                    <th:block th:if="${#strings.length(aboutus.introduce)<=100}">
+                                        <p class="AboutusP">[[${aboutus.introduce}]]</p>
+                                    </th:block>
+                                    <a target="_blank" th:href="@{/gotoaboutus(id=${aboutus.id})}"
+                                       class="btn btn-primary btn-sm">了解更多</a>
+                            </ul>
+                        </th:block>
+                        <th:block th:if="${aboutus.orders==3}">
+                            <ul class="section tow">
+                                <li class="left">
+                                    <img src="../img/blog1.png" th:src="@{${pathUrl+aboutus.logo}}"/>
+                                </li>
+                                <li>
+                                    <a target="_blank" th:href="@{/gotoaboutus(id=${aboutus.id})}">
+                                        <strong>[[${aboutus.title}]]</strong>
+                                    </a>
+                                    <th:block th:if="${#strings.length(aboutus.introduce)>100}">
+                                        <p class="AboutusP"> [[${#strings.substring(aboutus.introduce,0,100)}]]...</p>
+                                    </th:block>
+                                    <th:block th:if="${#strings.length(aboutus.introduce)<=100}">
+                                        <p class="AboutusP">[[${aboutus.introduce}]]</p>
+                                    </th:block>
+                                    <a target="_blank" th:href="@{/gotoaboutus(id=${aboutus.id})}"
+                                       class="btn btn-primary btn-sm">了解更多</a>
+                            </ul>
+                        </th:block>
+
+                    </th:block>
+
+                    <!--<ul class="section two">-->
+                    <!--<li class="left">-->
+                    <!--<img src="../img/blog2.png" th:src="@{/assets/img/blog2.png}"/>-->
+                    <!--</li>-->
+                    <!--<li><strong>我们做什么？</strong>-->
+                    <!--<p class="AboutusP">Surgi-plan.com  致力于为外科医生提供低成本、多种选择的软件授权应用模式。这种全新的应用模...</p>-->
+                    <!--<a href="/tongfu/gotoaboutus" class="btn btn-primary btn-sm">了解更多</a>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4 left">
+                    <img style="display: block;width: 64%;margin: 80px auto 0;" th:src="@{/assets/img/logo_duan.png}">
+                </div>
+                <!-- end left -->
+                <div class="col-md-4 col-sm-4 col-xs-4 right">
+                    <th:block th:each="aboutus,aboutusStat:${aboutusList}">
+                        <th:block th:if="${aboutus.orders==2}">
+                            <ul class="section three">
+                                <li class="left">
+                                    <img src="../img/blog1.png" th:src="@{${pathUrl+aboutus.logo}}"/>
+                                </li>
+                                <li>
+                                    <a target="_blank" th:href="@{/gotoaboutus(id=${aboutus.id})}"><strong>[[${aboutus.title}]]</strong></a>
+
+                                    <th:block th:if="${#strings.length(aboutus.introduce)>100}">
+                                        <p class="AboutusP"> [[${#strings.substring(aboutus.introduce,0,100)}]]...</p>
+                                    </th:block>
+                                    <th:block th:if="${#strings.length(aboutus.introduce)<=100}">
+                                        <p class="AboutusP">[[${aboutus.introduce}]]</p>
+                                    </th:block>
+                                    <a target="_blank" th:href="@{/gotoaboutus(id=${aboutus.id})}"
+                                       class="btn btn-primary btn-sm">了解更多</a>
+                            </ul>
+                        </th:block>
+                        <th:block th:if="${aboutus.orders==4}">
+                            <ul class="section four">
+                                <li class="left">
+                                    <img src="../img/blog1.png" th:src="@{${pathUrl+aboutus.logo}}"/>
+                                </li>
+                                <li>
+                                    <a target="_blank" th:href="@{/gotoaboutus(id=${aboutus.id})}">
+                                        <strong>[[${aboutus.title}]]</strong>
+                                    </a>
+                                    <th:block th:if="${#strings.length(aboutus.introduce)>100}">
+                                        <p class="AboutusP"> [[${#strings.substring(aboutus.introduce,0,100)}]]...</p>
+                                    </th:block>
+                                    <th:block th:if="${#strings.length(aboutus.introduce)<=100}">
+                                        <p class="AboutusP">[[${aboutus.introduce}]]</p>
+                                    </th:block>
+                                    <a target="_blank" th:href="@{/gotoaboutus(id=${aboutus.id})}"
+                                       class="btn btn-primary btn-sm">了解更多</a>
+                            </ul>
+                        </th:block>
+
+                    </th:block>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section14" class="section-margine">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12  col-xs-12">
+                    <header class="title-head">
+                        <h2>Know-how</h2>
+                        <div class="line-heading">
+                            <span class="line-left"></span>
+                            <span class="line-middle">+</span>
+                            <span class="line-right"></span>
+                        </div>
+                    </header>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-4"
+                     th:each="knowhowArticle,knowhowArticleStat:${knowhowArticleList}">
+                    <div class="section-14-box">
+                        <th:block th:if="${knowhowArticleStat.index !=1}">
+                            <a target="_blank" th:href="@{/knowHowArticle/view(id=${knowhowArticle.id})}"><img
+                                    src="../img/moban/blog/blog-4.jpg" th:src="@{${pathUrl+knowhowArticle.logo}}"
+                                    class="img-responsive" alt="Blog image 1"></a>
+                        </th:block>
+                        <h3>
+                            <a target="_blank" style="font-weight: bold" th:href="@{/knowHowArticle/view(id=${knowhowArticle.id})}">[[${knowhowArticle.title}]]</a>
+                        </h3>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12  col-xs-12">
+                                <div class="comments">
+                                    <a target="_blank" th:href="@{/knowHowArticle/view(id=${knowhowArticle.id})}"
+                                       class="btn btn-primary btn-sm">了解更多</a>
+                                </div>
+                            </div>
+                        </div>
+                        <th:block th:if="${#strings.length(knowhowArticle.introduce)>75}">
+                            <p>[[${knowhowArticle.introduce}]]... </p>
+                        </th:block>
+                        <th:block th:if="${#strings.length(knowhowArticle.introduce)<=75}">
+                            <p>[[${knowhowArticle.introduce}]] </p>
+                        </th:block>
+
+                        <th:block th:if="${knowhowArticleStat.index ==1}">
+                            <a target="_blank" th:href="@{/knowHowArticle/view(id=${knowhowArticle.id})}"><img
+                                    src="../img/moban/blog/blog-4.jpg" th:src="@{${pathUrl+knowhowArticle.logo}}"
+                                    class="img-responsive" alt="Blog image 1"></a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section8" class="mytestimonial" style="padding: 0 0 0;">
+        <div class="container">
+            <div class="row">
+
+                <div class="swiper-container ftcontent" style="margin: 0 auto;position: relative;list-style: none;padding: 0;z-index: 1;height: 258px;padding: 50px 0 0;overflow:hidden;">
+                    <div class="swiper-wrapper ftlist">
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                <script th:inline="javascript" type="text/javascript">
+                    var list = [[${selectList}]];
+                    var url = [[${pathUrl}]];
+                    var html = '';
+                    console.log(list)
+                    for(var i = 0; i < list.length; i++){
+                        console.log();
+                        html += '<div class="swiper-slide ftitem"><a target="_blank" href="/article/view?category=5&articleid='+list[i].id+'">';
+                        html += '<p class="client-quote"><i class="fa fa-quote-left"></i>'+list[i].introduce+'<i class="fa fa-quote-right "></i></p><h5 class="client-name">'+list[i].expert_name+'</h5>';
+                        html += '</a></div>';
+                    }
+                    $(".ftlist").append(html);
+                    var testimonial = new Swiper('.ftcontent', {
+                        autoplay: true, //可选选项，自动滑动
+                        pagination: {
+                            el: '.ftcontent .swiper-pagination',
+                            type: 'custom',
+                            renderCustom: function (swiper, current, total) {
+                                var paginationHtml = '';
+                                for (var i = 1; i < list.length+ 1; i++) {
+                                    if (i == current) {
+                                        paginationHtml += "<div class='pagination pagination_active' style='background-image: url("+url+list[i-1].image+")'></div>"
+                                    } else {
+                                        paginationHtml += "<div class='pagination' style='background-image: url("+url+list[i-1].image+")'></div>"
+                                    }
+                                };
+                                return paginationHtml
+                            },
+                            clickable: true,
+                        },
+                    });
+                    $('.ftcontent .swiper-pagination').on('click', '.pagination', function () {
+                        var index = $(this).index();
+                        testimonial.slideTo(index, 1000, false);
+                    })
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <section id="section9" class="section-9-background" style="padding: 25px 238px;">
+
+        <div id="panda-show">
+            <div class="full" style="overflow: unset;">
+                <div class="content" style="background-color: rgba(0,0,0,0);overflow: unset;">
+                    <a class="arrow-left" href="#" style="left: -110px"></a>
+                    <a class="arrow-right" href="#" style="right: -110px"></a>
+                    <div class="cover-left"></div>
+                    <div class="swiper-containerLogo">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" th:each="companie:${companies}">
+                                <a th:href="@{/company/view(id=${companie.id})}" target="_blank">
+                                    <img src="http://www.sirtex.com/images/logo.png" th:src="@{${pathUrl+companie.logo}}"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cover-right"></div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!--<script src="../js/scripts.js"></script>-->
+    <script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>
+    <script src="../js/slick.js" th:src="@{/assets/js/slick.js}"></script>
+</div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+
+
+<script src="../js/bootstrap.min.js" th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script src="../js/jquery.plugin.min.js" th:src="@{/assets/js/jquery.plugin.min.js}"></script>
+<script src="../js/jquery.isotope.min.js" th:src="@{/assets/js/jquery.isotope.min.js}"></script>
+<script src="../js/jquery.magnific-popup.min.js" th:src="@{/assets/js/jquery.magnific-popup.min.js}"></script>
+<script src="../js/bootstrap-dropdownhover.min.js" th:src="@{/assets/js/bootstrap-dropdownhover.min.js}"></script>
+<script src="../js/wow.min.js" th:src="@{/assets/js/wow.min.js}"></script>
+<script src="../js/waypoints.min.js" th:src="@{/assets/js/waypoints.min.js}"></script>
+<script src="../js/jquery.counterup.min.js" th:src="@{/assets/js/jquery.counterup.min.js}"></script>
+<!--<script src="../js/idangerous.swiper.min.js" th:src="@{/assets/js/idangerous.swiper.min.js}"></script>-->
+<script src="../js/main.js" th:src="@{/assets/js/main.js}"></script>
+
+<script type="text/javascript">
+    var logoSwiper = new Swiper('.swiper-containerLogo', {
+        loop: true,
+        autoplay: { disableOnInteraction: false }, //可选选项，自动滑动
+        speed: 1000,
+        slidesPerView: 6,
+        slidesPerGroup: 1,
+        loopedSlides: 20,
+        loopAdditionalSlides: 20,
+        onSlideChangeEnd: function (swiper) {
+            //alert(swiper.activeIndex);
+            if (swiper.activeIndex == 40) {
+                swiper.swipeTo(0, 0)
+            }
+        },
+
+    });
+    $('.arrow-left').on('click', function (e) {
+        e.preventDefault()
+        logoSwiper.slidePrev()
+    })
+    $('.arrow-right').on('click', function (e) {
+        e.preventDefault()
+        logoSwiper.slideNext()
+    })
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var ip = returnCitySN["cip"];
+
+        saveWebsiteHits(ip);
+
+
+    });
+
+    //记录点击量
+    function saveWebsiteHits(ip) {
+        $.ajax({
+            type: "POST",
+            url: '[[@{/saveWebsiteHits}]]',
+            data: {ip: ip},
+            dataType: "json",
+            async: false
+
+        });
+    }
+
+    function openNewview(url) {
+        window.open (url, "newwindow", "height=800, width=800, top=200, left=200, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no")
+    }
+
+
+</script>
+
+</body>
+</html>

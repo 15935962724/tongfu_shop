@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>产品详情页</title>
+</head>
+
+<script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+<link href="../css/cpxx.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/cpxx.css}"/>
+<script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+<link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+
+<link href="../css/index.css"  th:href="@{/assets/css/index.css}" rel="stylesheet" type="text/css">
+
+<link href="../css/demo.css"  th:href="@{/assets/css/demo.css}" rel="stylesheet" type="text/css">
+<link href="../css/iconfont.css"  th:href="@{/assets/css/iconfont.css}" rel="stylesheet" type="text/css">
+<!--<script src="../css/iconfont.js" language="javascript"></script>-->
+
+
+<!--我的sp鼠标悬浮下拉-->
+<script th:src="@{/assets/js/memberView.js}"></script>
+<style>
+    .dxan #fbt {
+        font-size: 22px;
+        color: #333;
+        line-height: 200%;
+        text-align: center;
+    }
+
+    .dxan font {
+        width: 50px;
+        height: 1px;
+        background: #e6e6e6;
+        margin: 15px auto;
+        display: block;
+    }
+
+    .dxan .xian2 {
+        width: 40px;
+        height: 1px;
+        background: #007fdc;
+        float: left;
+    }
+
+    .dxan #js {
+        font-size: 16px;
+        color: #333;
+        line-height: 200%;
+        display: block;
+        text-align: center;
+    }
+
+    .dxan .xiang {
+        width: 1200px;
+        margin: auto;
+        padding: 60px 0px;
+        font-size: 14px;
+        color: #333;
+        line-height: 180%;
+        text-align: left;
+        display: block;
+        overflow: hideen;
+    }
+
+    .dxan .xiang p {
+        line-height: 200%;
+        margin-bottom: 20px;
+    }
+</style>
+</head>
+<body>
+
+<!--语言切换-->
+
+
+<!--语言切换-->
+<!--未登录-->
+<shiro:notAuthenticated>
+    <th:block th:replace="~{incloud/language::language}"></th:block>
+</shiro:notAuthenticated>
+<!--已登录-->
+<shiro:authenticated>
+    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+</shiro:authenticated>
+
+<div class="head">
+    <!--未登录-->
+    <div th:replace="~{head::topbar}"></div>
+    <!--已登录-->
+</div>
+<div class="log_con" style="padding-top:0px;background:url(../assets/img/bg04.jpg) repeat-x left top #fff;">
+    <div class="xxbt">
+        <div id="tit">
+            <a th:href="@{/company/view(id=${recommendProduct.companyId})}"><img th:src="@{${path+company.logo}}" onerror="this.src='../assets/img/list_dp.jpg'" ></a>
+            <span>[[${recommendProduct.title}]]</span>
+            <a id="ljxx" th:href="@{/product/view(id=${recommendProduct.productId})}">了解详情 </a>
+        </div>
+    </div>
+    <div class="dxan" th:utext="${recommendProduct.introduction}">
+
+    </div>
+</div>
+
+
+<div class="clear"></div>
+
+
+</div>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>

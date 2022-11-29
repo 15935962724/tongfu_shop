@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Know-how卡</title>
+    <script th:src="@{/assets/js/huaceng.js}" language="javascript"></script>
+    <script type="text/javascript" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link th:href="@{/assets/css/home.css}" type="text/css"  rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/assets/js/jquery.js}" ></script>
+    <script type="text/javascript" th:src="@{/assets/js/accordion.js}"></script>
+
+    <link th:href="@{/assets/css/index.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/assets/css/demo.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/assets/css/iconfont.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{/assets/js/iconfont.js}" language="javascript"></script>
+
+    <script th:src="@{/assets/js/jquery-3.1.1.js}" ></script>
+    <script th:src="@{/assets/js/qiehuan.js}" type="text/javascript"></script>
+
+
+    <!--弹窗特效-->
+    <link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+    <!--<script th:src="@{/assets/js/jquery-3.1.1.js}"></script>-->
+    <!--<script src="js/jquery-1.10.2.min.js" th:src="@{/assets/tanchuang/jquery-1.10.2.min.js}"></script>-->
+    <link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+    <script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+
+</head>
+
+<body>
+
+
+<!--语言切换-->
+<!--未登录-->
+<shiro:notAuthenticated>
+    <th:block th:replace="~{incloud/language::language}"></th:block>
+</shiro:notAuthenticated>
+<!--已登录-->
+<shiro:authenticated>
+    <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+</shiro:authenticated>
+
+<div class="head">
+    <!--未登录-->
+    <div th:replace="~{head::topbar}"></div>
+    <!--已登录-->
+</div>
+
+<div class="log_con" style="padding-top:0px;">
+    <div class="luj"><a th:href="@{/}">首页</a>&gt;<a href="javaScript:void(0); ">我的SP</a></div>
+    <div class="con_sp">
+
+        <style>
+            .sp_nav li.active {
+                background: url(../img/sp04.png);
+                background-repeat: no-repeat;
+                background-position: right 20px top 20px;
+                border-bottom: 1px solid #e6e6e6;
+            }
+
+        </style>
+
+        <!--引用页面左侧-->
+        <div th:replace="/incloud/conLeft:: con_left"></div>
+
+        <div class="con_right">
+            <div class="chax" style="overflow: hidden;padding:0px;">
+                <h1>绑定Know-how卡</h1>
+                <div class="card">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td style="width:170px;text-align:right;">请输入know-how卡卡号：</td>
+                            <td>
+                                <input type="text"/><i><img th:src="@{/assets/img/cd02.jpg}" /></i>
+                                <input type="text"/><i><img th:src="@{/assets/img/cd02.jpg}"/></i>
+                                <input type="text"/><i><img th:src="@{/assets/img/cd02.jpg}"/></i>
+                                <input type="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px;text-align:right;">请输入know-how卡卡密：</td>
+                            <td><input type="text"/></td>
+                        </tr>
+                        <tr>
+                            <td style="width:170px;text-align:right;">验证码：</td>
+                            <td>
+                                <input type="text"/>
+                                <img th:src="@{/assets/img/yzm.jpg}" style="float:left;margin-left:20px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <button>立即绑定</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><a href="javaScript:void(0); ">立即购买 Know-how卡</a></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+            <div class="howcd">
+                <div class="title">
+                    <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv_',1,this)" id="JKDiv_DEF" class="Selected">可用卡</li>
+                    <li onMouseMove="JavaScript:ChangeDiv('1','JKDiv_',1,this)">不可用卡(2)</li>
+                </div>
+                <div class="con1" id="JKDiv_0">
+                    <div class="cad">
+                        <span id="zanwu">
+                            <img th:src="@{/assets/img/zwk.jpg}"/><br>暂无Know-how卡
+                        </span>
+                    </div>
+                </div>
+                <div class="con1" id="JKDiv_1" style="display:none;">
+                    <div class="cad">
+                        <li>
+                            <span id="yue">余额：￥
+                                <span id="shu">0.00</span>
+                            </span>
+                            <span id="yxq">
+                                <p>有效期：2021-12-25  有效</p>
+                                <p>面&nbsp;&nbsp;&nbsp;值：¥ 1000.00</p>
+                                <p>卡&nbsp;&nbsp;&nbsp;号：12345678954120487</p>
+                            </span>
+                        </li>
+                        <li>
+                            <span id="gqk">余额：￥
+                                <span id="shu">506.00</span>
+                            </span>
+                            <span id="yxq">
+                                <p>有效期：2021-12-25  有效</p>
+                                <p> 面&nbsp;&nbsp;&nbsp;值：¥ 1000.00</p>
+                                <p>卡&nbsp;&nbsp;&nbsp;号：12345678954120487</p>
+                            </span>
+                        </li>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chax" style="overflow: hidden;padding:0px;">
+                <h1>know-how卡使用帮助</h1>
+                <div class="fap">
+                    <div class="title">
+                        <li onMouseMove="JavaScript:ChangeDiv('0','JKDiv2_',2,this)" id="JKDiv2_DEF" class="Selected">
+                            使用流程
+                        </li>
+                        <li onMouseMove="JavaScript:ChangeDiv('1','JKDiv2_',2,this)">常见问题</li>
+                    </div>
+                    <div class="con2" id="JKDiv2_0">
+                        <div class="shengq" style="font-size: 14px;font-weight: 560;   line-height: 200%;">
+                            <p>1、know-how卡绑定账户后，只能当前账户使用，不能跨账户使用；</p>
+                            <p>2、know-how卡非记名卡（即1000元面值）有效期为36个月，记名卡（即2000~5000元面值）无有效期；</p>
+                            <p>3、订单金额中使用know-how卡支付的部分，将不开出发票；</p>
+                            <p>4、退货时，know-how卡支付部分退回原know-how卡内，不予兑换；</p>
+                            <p>5、单张know-how卡可多次使用；每笔订单可以使用多张know-how卡，know-how卡不可兑换现金。</p>
+                            <p>6、Know-how卡不能兑现。</p>
+                            <p>7、Know-how卡可与其他支付方式一起使用。</p>
+                            <p>8、Know-how卡分两种，一种实体卡购买后会发到用户所填的收获地址；另一种为电子卡，购买后直接发到用户所填的电子邮箱。</p>
+                        </div>
+                    </div>
+                    <div class="con2" id="JKDiv2_1" style="display:none;">
+                        <div class="shengq" style="font-size: 14px;font-weight: 560;   line-height: 200%;">
+                            <p>1、 Know-how卡在别的渠道能否买到？<br/>答：不能，Know-how卡只有平台独家销售渠道。</p>
+                            <p>2、Know-how卡能否办理延期？<br/>答：正常情况下是没有延期服务的，除非是因平台原因或是遇到不可抗因素，平台予以相对时间的延期。</p>
+                            <p>3、Know-how卡是别人赠送的，能否更名？<br/>答：目前记名卡不允许更名。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        //判断控制页面初始时左右的高度一致
+        var hl = $(".con_left").outerHeight(); //获取左侧left层的高度
+        var hr = $(".con_right").outerHeight(); //获取右侧right层的高度
+        var mh = Math.max(hl, hr); //比较hl与hr的高度，并将最大值赋给变量mh
+        $(".con_left").height(mh); //将left层高度设为最大高度mh
+        $(".con_right").height(mh); //将right层高度设为最大高度
+
+
+        function ChangeDiv(num,obj,type,_this) {
+            $(_this).siblings('li').removeClass('Selected');
+            $(_this).addClass('Selected');
+            $('#'+obj+num).siblings('.con'+type).hide();
+            $('#'+obj+num).show();
+        }
+
+    </script>
+</div>
+
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>
+
+

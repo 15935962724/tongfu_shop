@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>供应商详情页中间部分</title>
+  </head>
+  <body>
+
+  <!--产品详情页中间部分-->
+  <footer th:fragment="language">
+
+
+
+
+    <div class="yuyan">
+<!--      <div class="yuyan_dw">-->
+<!--        <li class=""><img th:src="@{/assets/img/guoqi.jpg}"/>中文<i class="iconfont">&#xe641;</i>-->
+<!--          <ul class="gouw-son">-->
+<!--            <li class=""><a href="#"><img th:src="@{/assets/img/guoqi.jpg}"/>中文</a></li>-->
+<!--            <li class=""><a href="#"><img th:src="@{/assets/img/english.png}"/>EN</a></li>-->
+<!--          </ul>-->
+<!--        </li>-->
+<!--      </div>-->
+<!--      <script>-->
+<!--        $(function () {-->
+<!--          $('.yuyan_dw').children("li:has(ul)").click(function () {-->
+<!--            if ($(this).children("ul").is(":visible")) {-->
+<!--              $(this).children("ul").hide();//隐藏下拉菜单-->
+<!--            } else {-->
+<!--              $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单-->
+<!--            }-->
+<!--          });-->
+<!--          $('.yuyan_dw').mouseleave(function () {-->
+<!--            $(this).find("li ul").hide();//隐藏下拉菜单-->
+<!--          });-->
+<!--        });-->
+
+<!--      </script>-->
+
+
+      <div class="gou">
+
+        <li class=""><a href="javaScript:void(0); ">个人中心<i class="iconfont"></i></a>
+          <ul class="gouw-son" style="top: 28px">
+            <li class=""><a th:href="@{/member/view}">账号信息</a></li>
+            <li class=""><a th:href="@{/order/orderList}" >我的订单</a></li>
+            <li class=""><a href="Know-how.html">远程报告</a></li>
+            <li class=""><a href="Know-how.html">Konwhow卡订单</a></li>
+            <li class=""><a th:href="@{/point/list}">我的积分</a></li>
+            <li class=""><a href="Know-how.html">Konw-how卡</a></li>
+            <li class=""><a href="2j_spanquan.html">修改密码</a></li>
+            <li class=""><a href="2j_fapiao.html">我的发票</a></li>
+            <li class=""><a href="2j_zhengzhi.html">增值服务</a></li>
+          </ul>
+        </li>
+        <li class="" style="font-size:14px;"><a th:href="@{/denglu}">登录</a><a style="padding:0 3px;">|</a><a th:href="@{/register}">注册</a></li>
+
+      </div>
+      <!--head end-->
+      <a th:href="@{/sellYourProduct}" style="margin-left: 20px;color: #fff;background-color: #00a0ea;padding: 0 10px;cursor: pointer;font-size: 14px;">平台入驻</a>
+
+      <script>
+        $().ready(function() {
+
+          $('.navBar,.gou').children("li:has(ul)").hover(
+                  function(){
+                    console.log(1);
+                    //$(this).find("ul>li:last").addClass("li-last-s1");//给每个下拉菜单的最后一个li元素添加css样式，此处非必要
+                    $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单
+                  },
+                  function(){
+                    console.log(2);
+                    $(this).children("ul").hide();//隐藏下拉菜单
+                  }
+          );
+
+          $('.nar,.nav_g').children("li:has(ul)").hover(
+                  function(){
+                    console.log(1);
+                    //$(this).find("ul>li:last").addClass("li-last-s1");//给每个下拉菜单的最后一个li元素添加css样式，此处非必要
+                    $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单
+                  },
+                  function(){
+                    console.log(2);
+                    $(this).children("ul").hide();//隐藏下拉菜单
+                  }
+          );
+        });
+      </script>
+
+
+    </div>
+  </footer>
+
+
+  </body>
+</html>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.CartDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.Cart" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="cart_key" property="cartKey" jdbcType="VARCHAR" />
+    <result column="member" property="member" jdbcType="BIGINT" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, modify_date, cart_key, member, is_deleted, company_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_cart
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByMember" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_cart
+    where 1 = 1
+    <if test="member!=null">
+      and member = #{member,jdbcType=BIGINT}
+    </if>
+    <if test="companyId!=null">
+      and company_id = #{companyId,jdbcType=BIGINT}
+    </if>
+  </select>
+  <select id="selectCartSum" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select COALESCE(COUNT(i.id),0) FROM tf_cart c INNER JOIN tf_cart_item i ON c.id=i.cart
+    where member = #{member,jdbcType=BIGINT}
+  </select>
+
+  <select id="getCarts" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+    SELECT c.*,cp.name FROM tf_cart c LEFT JOIN tf_company cp ON c.company_id = cp.id
+    where 1 = 1
+    <if test="member!=null">
+      and c.member = #{member,jdbcType=BIGINT}
+    </if>
+    <if test="companyId!=null">
+      and c.company_id = #{companyId,jdbcType=BIGINT}
+    </if>
+  </select>
+
+  <select id="getByCartItem" resultType="java.util.Map">
+    SELECT c.* ,cp.name FROM tf_cart c
+    LEFT JOIN tf_cart_item ci ON c.id = ci.cart
+    LEFT JOIN tf_company cp ON c.company_id = cp.id
+     WHERE 1 = 1
+    <if test="member!=null">
+      and c.member = #{member,jdbcType=BIGINT}
+    </if>
+    <if test="cartItemIds!=null">
+      and ci.id IN
+      <foreach collection="cartItemIds" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+     GROUP BY c.id
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_cart
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.Cart" >
+    insert into tf_cart (id, create_date, modify_date,
+      cart_key, member, is_deleted,
+      company_id)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP},
+      #{cartKey,jdbcType=VARCHAR}, #{member,jdbcType=BIGINT}, #{isDeleted,jdbcType=BIT},
+      #{companyId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.Cart" useGeneratedKeys="true" keyProperty="id" >
+    insert into tf_cart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="cartKey != null" >
+        cart_key,
+      </if>
+      <if test="member != null" >
+        member,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cartKey != null" >
+        #{cartKey,jdbcType=VARCHAR},
+      </if>
+      <if test="member != null" >
+        #{member,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.Cart" >
+    update tf_cart
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cartKey != null" >
+        cart_key = #{cartKey,jdbcType=VARCHAR},
+      </if>
+      <if test="member != null" >
+        member = #{member,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.Cart" >
+    update tf_cart
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      cart_key = #{cartKey,jdbcType=VARCHAR},
+      member = #{member,jdbcType=BIGINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      company_id = #{companyId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

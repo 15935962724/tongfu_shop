@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>精英团队</title>
+</head>
+<!-- CSS Files
+================================================== -->
+<script src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+<script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+<link rel="stylesheet" href="../css/iconfont.css" type="text/css" th:href="@{/assets/css/iconfont.css}"/>
+<link rel="stylesheet" href="../css/demo.css" type="text/css" th:href="@{/assets/css/demo.css}"/>
+<link rel="stylesheet" href="../css/index-1.css" type="text/css" th:href="@{/assets/css/index-1.css}"/>
+<link rel="stylesheet" href="../css/home.css" type="text/css" th:href="@{/assets/css/home.css}"/>
+<link rel="stylesheet" href="../css/slick.css" type="text/css" th:href="@{/assets/css/slick.css}"/>
+<link rel="stylesheet" href="../css/slick-theme.css" type="text/css" th:href="@{/assets/css/slick-theme.css}"/>
+<link rel="stylesheet" href="../css/2j.css" type="text/css" th:href="@{/assets/css/2j.css}"/>
+
+<!--我的sp鼠标悬浮下拉-->
+<script src="../js/swiper.min.js" th:src="@{/assets/js/memberView.js}"></script>
+<style>
+
+    .bannerbg:not(:first-child) {
+        display:none;
+    }
+    .section.footer .container .panel-body .cop ul li .item .logo {
+        cursor: default;
+    }
+    .slick-pass {
+        z-index: 999;
+    }
+
+    .smaller .nav ul li.login-button:hover a.btn-primary-line {
+        background-color: #fff;
+        background: -webkit-linear-gradient(left, #1171f4 0%, #468ff3 100%);
+        color: #fff;
+    }
+    .index-wrap .pro-wrap .sec-layer .sec-body .slider .slick-dots li button:before {
+        font-size: 6px;
+    }
+    .slick-dots,.slick-dots li button:before{display:none;}
+    .header .nav ul li button .iconfont{font-size:22px;}
+    .icon-sousuo{font-size:22px;position: absolute;right: -77px;top:0;z-index:5;
+        background:url(../img/sousou.png); background-repeat: no-repeat;
+        background-position: 0px 16px; width: 40px; height: 44px; }
+
+</style>
+</head>
+
+<body>
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+</header>
+
+
+<div class="content" style="background:#fff;">
+    <section class="banner">
+        <div class="single-item slider">
+
+            <div class="bannerbg">
+
+                <a href="#">
+                    <img src="../img/fxban.jpg" th:src="@{/assets/img/fxban.jpg}"/>
+                </a>
+            </div>
+            <div class="bannerbg">
+                <a href="#">
+                    <img src="../img/fxban.jpg" th:src="@{/assets/img/fxban.jpg}"/>
+                </a>
+            </div>
+        </div>
+    </section>
+    <script src="../js/scripts.js" th:src="@{/assets/js/scripts.js}"></script>
+    <script src="../js/aitracker-min.js" th:src="@{/assets/js/aitracker-min.js}"></script>
+    <script src="../css/iconfont.js" th:src="@{/assets/css/iconfont.js}"></script>
+    <script src="../js/slick.js" th:src="@{/assets/js/slick.js}"></script>
+    <script src="../js/homepage.js" th:src="@{/assets/js/homepage.js}"></script>
+    <div id="Content1">
+        <style>
+
+        </style>
+        <script src="../js/qiehuan.js" type="text/ecmascript" th:src="@{/assets/js/qiehuan.js}"></script>
+        <div class="hangy">
+            <div class="title">
+                <li th:each="cate:${categorylist}" id="JKDiv_DEF" th:id="${cate.id==category?'JKDiv_DEF':''}" class="Selected" th:class="${cate.id==category?'Selected':''}"><a href="2j_jytd.html" th:href="@{/article/list(category=${cate.id})}" th:text="${cate.name}">精英团队</a></li>
+
+                <!--<li onMouseMove="JavaScript:ChangeDiv('0','JKDiv_',5,this)" id="JKDiv_DEF" class="Selected"><a href="2j_jytd.html">精英团队</a></li>-->
+                <!--<li onMouseMove= "JavaScript:ChangeDiv('1','JKDiv_',5,this)" ><a href="2j_gaodft.html">高端访谈</a></li>-->
+                <!--<li onMouseMove= "JavaScript:ChangeDiv('2','JKDiv_',5,this)" ><a href="2j_xueshd.html">学术活动</a></li>-->
+                <!--<li onMouseMove= "JavaScript:ChangeDiv('3','JKDiv_',5,this)" ><a href="2j_news.html">行业新闻</a></li>-->
+                <!--<li onMouseMove= "JavaScript:ChangeDiv('4','JKDiv_',5,this)" ><a href="2j_guojqy.html">国际前沿</a></li>-->
+                <!--<li onMouseMove= "JavaScript:ChangeDiv('5','JKDiv_',5,this)" ><a href="2j_jpwz.html">精品文章</a></li>-->
+            </div>
+            <!--精英团队-->
+            <form id="form" th:action="@{/article/list}" th:if="${category eq 117}">
+                <input type="hidden" id="pageNum" name="pageNum">
+                <input type="hidden" name="category" th:value="${category}" />
+            <div class="con" id="JKDiv_0">
+                <div class="jytd">
+                    <ul>
+                        <li th:each="article:${page.list}">
+                            <span class="tu"><a th:href="@{/article/view(category=${category},articleid=${article.id})}"><img src="../img/news_xz.jpg" th:src="@{${pathurl+article.image}}" width="276px" height="230px"/></a></span>
+                            <div class="lt">
+                                <span class="bt"   th:text="${#strings.substring(article.title,0,10)}"></span>
+                                <span class="daoy" th:utext="${article.seo_description}"></span>
+                                <a th:href="@{/article/view(category=${category},articleid=${article.id})}">查看更多</a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </div>
+                <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+                    <ul>
+                        <li th:style="${page.pageNum==1?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum-1}+'\')'">
+                            <i class="iconfont">&#xe68d;</i>
+                        </li>
+                        <li id="da" th:each="pg:${#numbers.sequence(1,page.pages)}" th:id="${page.pageNum==pg?'da':''}">
+                            <a th:href="'javascript:fenye(\''+${pg}+'\')'">[[${pg}]]</a>
+                        </li>
+                        <!--<li><a href="#">2</a></li>-->
+                        <!--<li><a href="#">3</a></li>-->
+                        <!--<li><a href="#">4</a></li>-->
+                        <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum+1}+'\')'"><i class="iconfont">&#xe638;</i></li>
+                    </ul>
+                </div>
+            </div>
+            </form>
+            <!--高端访谈-->
+            <form id="form" th:action="@{/article/list}" th:if="${category eq 118}">
+                <input type="hidden" id="pageNum" name="pageNum">
+                <input type="hidden" name="category" th:value="${category}" />
+                <div class="con" id="JKDiv_1"  >
+                    <div class="newlist">
+                        <ul>
+                            <li th:each="article:${page.list}">
+                                <span class="tu"><a href="#" th:href="@{/article/view(category=${category},articleid=${article.id})}"><img src="../img/img.jpg" th:src="@{${pathurl+article.image}}"/></a></span>
+                                <div id="right">
+                                    <span id="bt"><a href="#" th:text="${#strings.substring(article.title,0,10)}" th:href="@{/article/view(category=${category},articleid=${article.id})}">“心血管影像智能分析及精准介入规划系统”</a></span>
+                                    <span id="laiy">[[${#dates.format(article.modify_date,'yyyy/MM/dd')}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;来自：[[${article.datasource}]]</span>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                    <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+                        <ul>
+                            <li th:style="${page.pageNum==1?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum-1}+'\')'">
+                                <i class="iconfont">&#xe68d;</i>
+                            </li>
+                            <li id="da" th:each="pg:${#numbers.sequence(1,page.pages)}" th:id="${page.pageNum==pg?'da':''}">
+                                <a th:href="'javascript:fenye(\''+${pg}+'\')'">[[${pg}]]</a>
+                            </li>
+                            <!--<li><a href="#">2</a></li>-->
+                            <!--<li><a href="#">3</a></li>-->
+                            <!--<li><a href="#">4</a></li>-->
+                            <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum+1}+'\')'"><i class="iconfont">&#xe638;</i></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+            <!--学术活动-->
+            <form id="form" th:action="@{/article/list}" th:if="${category eq 119}">
+                <input type="hidden" id="pageNum" name="pageNum">
+                <input type="hidden" name="category" th:value="${category}" />
+                <div class="con" id="JKDiv_2"  >
+                    <div class="phlist">
+                        <ul>
+                            <li th:each="article:${page.list}">
+                                <span class="tu"><a href="#" th:href="@{/article/view(category=${category},articleid=${article.id})}"><img src="../img/phlist01.jpg" th:src="@{${pathurl+article.image}}" width="288px" height="198px"/></a></span>
+                                <div class="right">
+                                    <span id="bt"><a href="#" th:text="${#strings.substring(article.title,0,10)}" th:href="@{/article/view(category=${category},articleid=${article.id})}">中国肿瘤物理消融治疗学术大会暨第三届栓塞介入治疗大会</a></span>
+                                    <span id="shij">[[${#dates.format(article.modify_date,'yyyy/MM/dd')}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;来自：[[${article.datasource}]]</span>
+                                    <span class="daoy" th:text="${#strings.substring(article.seo_description,0,10)}">为了推动智慧医疗行业的健康发展，在健康中国计划中发挥更大的作用。由健康报社、智医疗网主办，联合地方医疗卫生主管部门、行业协会、学会等支持与协办的“第六届移动医疗产业大会暨第四届智慧医疗健康峰会”将于4月13-14日在北京召开。</span>
+                                    <th:block th:with="arrays=${#strings.arraySplit(article.seo_keywords,'，')}" >
+                                    <div class="guanl">
+                                        <a href="#" th:href="@{/article/list(category=${category},keywords=${arrayS})}" th:each="arrayS:${arrays}"><span th:text="${arrayS}"></span></a>
+<!--                                        <a href="#"><span>物理消融</span></a>-->
+<!--                                        <a href="#"><span>智慧医疗</span></a>-->
+<!--                                        <a href="#"><span>移动医疗</span></a>-->
+                                    </div></th:block>
+                                </div>
+                            </li>
+
+
+
+                        </ul>
+
+                    </div>
+                    <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+                        <ul>
+                            <li th:style="${page.pageNum==1?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum-1}+'\')'">
+                                <i class="iconfont">&#xe68d;</i>
+                            </li>
+                            <li id="da" th:each="pg:${#numbers.sequence(1,page.pages)}" th:id="${page.pageNum==pg?'da':''}">
+                                <a th:href="'javascript:fenye(\''+${pg}+'\')'">[[${pg}]]</a>
+                            </li>
+                            <!--<li><a href="#">2</a></li>-->
+                            <!--<li><a href="#">3</a></li>-->
+                            <!--<li><a href="#">4</a></li>-->
+                            <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum+1}+'\')'"><i class="iconfont">&#xe638;</i></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+            <!--行业新闻-->
+            <form id="form" th:action="@{/article/list}" th:if="${category eq 120}">
+                <input type="hidden" id="pageNum" name="pageNum">
+                <input type="hidden" name="category" th:value="${category}" />
+                <div class="con" id="JKDiv_3" >
+                    <div class="newlist">
+                        <ul>
+                            <li th:each="article:${page.list}">
+                                <span class="tu"><a href="#" th:href="@{/article/view(category=${category},articleid=${article.id})}"><img src="../img/img.jpg" th:src="@{${pathurl+article.image}}"/></a></span>
+                                <div id="right">
+                                    <span id="bt"><a href="#" th:text="${#strings.substring(article.title,0,10)}" th:href="@{/article/view(category=${category},articleid=${article.id})}">“心血管影像智能分析及精准介入规划系统”</a></span>
+                                    <span id="laiy">[[${#dates.format(article.modify_date,'yyyy/MM/dd')}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;来自：[[${article.datasource}]]</span>
+                                </div>
+                            </li>
+
+                        </ul>
+
+
+                    </div>
+
+                    <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+                        <ul>
+                            <li th:style="${page.pageNum==1?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum-1}+'\')'">
+                                <i class="iconfont">&#xe68d;</i>
+                            </li>
+                            <li id="da" th:each="pg:${#numbers.sequence(1,page.pages)}" th:id="${page.pageNum==pg?'da':''}">
+                                <a th:href="'javascript:fenye(\''+${pg}+'\')'">[[${pg}]]</a>
+                            </li>
+                            <!--<li><a href="#">2</a></li>-->
+                            <!--<li><a href="#">3</a></li>-->
+                            <!--<li><a href="#">4</a></li>-->
+                            <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum+1}+'\')'"><i class="iconfont">&#xe638;</i></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+            <!--国际前沿-->
+            <form id="form" th:action="@{/article/list}" th:if="${category eq 121}">
+                <input type="hidden" id="pageNum" name="pageNum">
+                <input type="hidden" name="category" th:value="${category}" />
+                <div class="con" id="JKDiv_4">
+                    <div class="newlist">
+                        <ul>
+                            <li th:each="article:${page.list}">
+                                <span class="tu"><a href="#" th:href="@{/article/view(category=${category},articleid=${article.id})}"><img src="../img/img.jpg"  th:src="@{${pathurl+article.image}}"/></a></span>
+                                <div id="right">
+                                    <span id="bt"><a href="#" th:text="${#strings.substring(article.title,0,10)}" th:href="@{/article/view(category=${category},articleid=${article.id})}">“心血管影像智能分析及精准介入规划系统”</a></span>
+                                    <span id="laiy">[[${#dates.format(article.modify_date,'yyyy/MM/dd')}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;来自：[[${article.datasource}]]</span>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+                        <ul>
+                            <li th:style="${page.pageNum==1?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum-1}+'\')'">
+                                <i class="iconfont">&#xe68d;</i>
+                            </li>
+                            <li id="da" th:each="pg:${#numbers.sequence(1,page.pages)}" th:id="${page.pageNum==pg?'da':''}">
+                                <a th:href="'javascript:fenye(\''+${pg}+'\')'">[[${pg}]]</a>
+                            </li>
+                            <!--<li><a href="#">2</a></li>-->
+                            <!--<li><a href="#">3</a></li>-->
+                            <!--<li><a href="#">4</a></li>-->
+                            <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum+1}+'\')'"><i class="iconfont">&#xe638;</i></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+            <!--精品文章-->
+            <form id="form" th:action="@{/article/list}" th:if="${category eq 122}">
+                <input type="hidden" id="pageNum" name="pageNum">
+                <input type="hidden" name="category" th:value="${category}" />
+                <div class="con" id="JKDiv_5" >
+                    <div class="newlist">
+                        <ul>
+                            <li th:each="article:${page.list}">
+                                <span class="tu"><a href="#" th:href="@{/article/view(category=${category},articleid=${article.id})}"><img src="../img/img.jpg" th:src="@{${pathurl+article.image}}"/></a></span>
+                                <div id="right">
+                                    <span id="bt"><a href="#" th:text="${#strings.substring(article.title,0,10)}" th:href="@{/article/view(category=${category},articleid=${article.id})}">“心血管影像智能分析及精准介入规划系统”</a></span>
+                                    <span id="laiy">[[${#dates.format(article.modify_date,'yyyy/MM/dd')}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;来自：[[${article.datasource}]]</span>
+                                </div>
+                            </li>
+
+                        </ul>
+
+
+
+                    </div>
+                    <div class="fenye" th:style="${page.pages<=1?'display:none':''}">
+                        <ul>
+                            <li th:style="${page.pageNum==1?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum-1}+'\')'">
+                                <i class="iconfont">&#xe68d;</i>
+                            </li>
+                            <li id="da" th:each="pg:${#numbers.sequence(1,page.pages)}" th:id="${page.pageNum==pg?'da':''}">
+                                <a th:href="'javascript:fenye(\''+${pg}+'\')'">[[${pg}]]</a>
+                            </li>
+                            <!--<li><a href="#">2</a></li>-->
+                            <!--<li><a href="#">3</a></li>-->
+                            <!--<li><a href="#">4</a></li>-->
+                            <li style="border:0px;" th:style="${page.pageNum==page.pages?'display:none':''}" th:onclick="'javascript:fenye(\''+${page.pageNum+1}+'\')'"><i class="iconfont">&#xe638;</i></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+
+
+
+        </div>
+        <script>
+            // /**
+            //  * detect IE
+            //  * returns version of IE or false, if browser is not Internet Explorer
+            //  */
+            // function detectIE() {
+            //   var ua = window.navigator.userAgent;
+            //
+            //   var msie = ua.indexOf('MSIE ');
+            //   if (msie > 0) {
+            //     // IE 10 or older => return version number
+            //     return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+            //   }
+            //
+            //   var trident = ua.indexOf('Trident/');
+            //   if (trident > 0) {
+            //     // IE 11 => return version number
+            //     var rv = ua.indexOf('rv:');
+            //     return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+            //   }
+            //
+            //   var edge = ua.indexOf('Edge/');
+            //   if (edge > 0) {
+            //     // Edge (IE 12+) => return version number
+            //     return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+            //   }
+            //
+            //   // other browser
+            //   return false;
+            // }
+            // if (detectIE()) {
+            var size = 75;
+            $('.hide-wrap .li-sec').hover(
+                function() {
+                    var span = $(this).find('.hide-span');
+                    if (span && span.length) {
+                        $(span).text($(span).attr('data'))
+                    }
+                },
+                function() {
+                    var span = $(this).find('.hide-span');
+                    if (span && span.length) {
+                        var data = $(span).attr('data');
+                        if (data.length > size) {
+                            $(span).text(data.substr(0, size) + '...')
+                        }
+                    }
+                }
+            );
+            $('.hide-span').each(function(){
+                var data = $(this).attr('data');
+                if (data.length > size) {
+                    $(this).text(data.substr(0, size) + '...')
+                }
+            });
+            // }
+            function fenye(page) {
+                $("#pageNum").val(page);
+               $("#form").submit();
+            }
+        </script>
+
+
+    </div>
+</div>
+
+<div id="Footer">
+    <div class="foot"><span class="Le">Surgi-plan.com Copyright © All Rights Reserved 2006-2023 <a href="">京ICP备17046258号</a></span>
+        <span class="RI"><a href="#">关于我们</a><a href="#">联系我们</a><a href="#">网站声明</a><a href="#">常见问题</a>
+</span></div>
+</div>
+
+</body>
+</html>

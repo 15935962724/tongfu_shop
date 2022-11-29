@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>确认订单信息</title>
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script type="text/javascript" src="../js/accordion.js" th:src="@{/assets/js/accordion.js}"></script>
+    <script type="text/javascript" src="../js/qiehuan.js" th:src="@{/assets/js/qiehuan.js}"></script>
+    <script type="text/javascript" src="../js/font.js" th:src="@{/assets/js/font.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}"/>
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.css}"></script>
+
+    <!--弹窗特效-->
+    <link rel="stylesheet" type="text/css"  th:href="@{/assets/tanchuang/animate.min.css}">
+    <link rel="stylesheet" href="syalert/syalert.min.css" th:href="@{/assets/tanchuang/syalert.min.css}"/>
+    <script src="syalert/syalert.min.js" th:src="@{/assets/tanchuang/syalert.min.js}"></script>
+    <script src="../js/swiper.min.js" th:src="@{/assets/js/swiper.min.js}"></script>
+    <script th:src="@{/assets/js/layer/layer.js}"></script>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+
+</head>
+
+<body>
+<header>
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+</header>
+
+<div class="log_con" style="padding-top:0px;background:url(/assets/img/bg04.jpg) repeat-x left top #fff;" th:style="'background: url('+@{/assets/img/bg04.jpg}+') repeat-x left top #fff;'">
+    <div class="progress" style="width:795px;">
+        <div class="pro-item pro-doing pro-item1">
+            <div class="pro-step">
+                <span class="step-index">1</span><p class="step-desc">添加购物车</p></div></div>
+        <div class="pro-item pro-doing pro-item2">
+            <div class="pro-line"></div><div class="pro-step"><span class="step-index">2</span><p class="step-desc">确认订单信息</p></div></div>
+        <div class="pro-item pro-doing pro-item3" style="padding-left: 155px;">
+            <div class="pro-line"></div><div class="pro-step"><span class="step-index">3</span><p class="step-desc">结算</p></div></div>
+        <div class="pro-item pro-undo pro-item4" style="padding-left: 173px;">
+            <div class="pro-line" style="left: 7px;"></div><div class="pro-step">
+            <span class="step-index">4</span><p class="step-desc">支付完成</p></div></div>
+    </div>
+    <style>
+        input{display: none;}
+        #seachName{display: block}
+        label{position: relative;    margin-right: 34px;}
+        label::before{display: inline-block; content: "";width: 16px;height: 16px;border-radius: 50%;border: 1px solid rgb(219, 219, 219);
+            margin-right: 6px;}
+        input:checked+label::before{background:url("[[@{/assets/img/green.png}]]") no-repeat center;border: 1px solid #006ab7;}
+        .kddx td{padding:8px 0px 8px 10px;color:#999;line-hieght:180%;text-align:left;font-size:14px;font-weight:460;}
+        .kddx .ktd{font-size:16px;color:#333;font-weight:560;border-right:1px solid #e6e6e6;}
+        .kddx .ktd1{width:200px;*width:255px;border-right:1px solid #e6e6e6;padding-right:50px;}
+        .kddx{float:right;}
+        .kddx li{position: relative;line-height:40px;}
+        .kddx li ul{position: absolute;left: -692px;top: 36px;box-shadow: 0px 0px 20px 7px #eff4f9;width:788px;    z-index: 100000;display:none;background:#fff;border-radius:3px;padding-bottom:20px;}
+        .kddx li ul span{padding-left:10px;}
+    </style>
+    <table class="tjdd" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="87%">提交订单成功，请您尽快支付！订单号：<span th:text="${order.sn}">103945755841</span></td>
+            <td>应付金额：<font >¥[[${totalAmount}]]</font></td>
+        </tr>
+        <tr>
+            <td class="td01">请您在提交订单7天内完成支付，否则订单会自动取消</td>
+            <td style="text-align:right">
+                <div class="kddx">
+                <!--    <li class=""><a>订单详情</a>
+                        <ul class="gouw-son hidden">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td height="40" colspan="4" bgcolor="#f0f0f0">订单号：[[${order.sn}]]　　下单时间：[[${#dates.format(order.createDate,'yyyy-MM-dd')}]]</td>
+                                </tr>
+                                <tr><td colspan="4" >&nbsp;
+                                </td></tr>
+                                <tr>
+                                    <td colspan="2" class="ktd">订单信息</td>
+                                    <td colspan="2" class="ktd" >商品信息</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:84px;">收货人信息：</td>
+                                    <td class="ktd1">[[${order.consignee}]]（[[${order.phone}]]）  </td>
+                                    <td style="width:70px;">商品名称：</td>
+                                    <td th:text="${productName}"></td>
+                                </tr>
+                                <tr>
+                                    <td valign="top">收货地址：</td>
+                                    <td class="ktd1">[[${order.receiverAddress}]]</td>
+                                    <td>应付金额：</td>
+                                    <td> [[${totalAmount}]]</td>
+                                </tr>
+                                <tr th:style="${order.isMakeInvoice==true?'':'display:none'}">
+                                    <td>发票信息：</td>
+
+                                    <td class="ktd1">
+                                        [[${orderInvoice.type==0?'增值税普通发票':'增值税专用发票'}]]
+                                        <th:block th:if="${orderInvoice.type==0}">
+                                        <span>
+                                            <th:block th:if="${orderInvoice.ptype==0}">
+                                                个人
+                                            </th:block>
+                                            <th:block th:if="${orderInvoice.ptype==1}">
+                                                单位
+                                            </th:block>
+                                        </span>
+                                        <span>
+                                            <th:block th:if="${orderInvoice.pcontent==0}">
+                                                明细
+                                            </th:block>
+                                            <th:block th:if="${orderInvoice.pcontent==1}">
+                                                办公用品
+                                            </th:block>
+                                            <th:block th:if="${orderInvoice.pcontent==2}">
+                                                电脑配件
+                                            </th:block>
+                                            <th:block th:if="${orderInvoice.pcontent==3}">
+                                                耗材
+                                            </th:block>
+                                        </span>
+                                        </th:block>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </table>
+
+                        </ul></li>
+                -->
+
+                </div>
+                <script>
+                    $(function(){
+                        $('.kddx').children("li:has(ul)").click(function(){
+                            if ($(this).children("ul").is(":visible")) {
+                                $(this).children("ul").hide();//隐藏下拉菜单
+                            } else {
+                                $(this).children("ul").slideDown(300);//JQ的slideDown方法，显示下拉菜单
+                            }
+                        });
+                        $('.kddx').mouseleave(function(){
+                            $(this).find("li ul").hide();//隐藏下拉菜单
+                        });
+                    });
+
+                </script>
+
+
+            </td>
+        </tr>
+    </table>
+
+    <table width="100%" border="0"  cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="tr03" style="width:260px;">商品名称</td>
+            <td class="tr03 td07">规格</td>
+            <td class="tr03 td07">单价</td>
+            <td class="tr03">数量</td>
+            <td class="tr03 td07">小计</td>
+        </tr>
+
+        <th:block th:each="order:${orders}">
+            <tr>
+                <td colspan="8" style="text-align: left">所属商家：<a style="cursor: pointer" target="_blank" th:href="@{/company/view(id=${order.company_id})}" href="">[[${order.name}]] <i class="iconfont">&#xe638;</i></a></td>
+            </tr>
+            <th:block th:with="entrys=${order.orderItems}" >
+                <tr th:each="orderItem:${entrys}">
+                    <td>[[${orderItem.name}]]</td>
+                    <td>[[${orderItem.purchaseName}]]</td>
+                    <td>[[${#numbers.formatDecimal(orderItem.price,1,'COMMA',2,'POINT')}]]</td>
+                    <td>[[${orderItem.quantity}]]</td>
+                    <td th:text="${#numbers.formatDecimal(orderItem.price*orderItem.quantity,1,2)}"></td>
+
+                </tr>
+            </th:block>
+
+        </th:block>
+    </table>
+
+    <table width="100%" border="0" class="zffs" cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="4" class="zffs_t">支付方式</td>
+        </tr>
+        <tr>
+            <td class="td011">
+                <input type="radio" name="paixu" id="paixu1" checked value="1">
+                <label for="paixu1" style="cursor:pointer">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-umidd17"></use>
+                    </svg>支付宝支付
+                </label>
+            </td>
+            <td class="td011">
+                <input type="radio" name="paixu" id="paixu2" value="2">
+                <label for="paixu2" style="cursor:pointer">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-weixin"></use>
+                    </svg>微信支付
+                </label>
+            </td>
+            <td class="td011">
+                <input type="radio" name="paixu" id="paixu3" value="3">
+                <label for="paixu3" style="cursor:pointer">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-yinlian"></use>
+                    </svg>银联支付
+                </label>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="4"><button class="cez" style="cursor: pointer" onclick="orderToPay()">去支付</button></td>
+        </tr>
+
+    </table>
+    <form name="alipayment" id="alipayment" th:action="@{/order/orderalipay}" method="post" >
+        <input type="hidden" name="orderId" th:value="${order.id}">
+        <input type="hidden" name="amount" th:value="${totalAmount}">
+    </form>
+    <script type="text/javascript" src="../js/input.js"></script>
+</div>
+<div class="tjnav" style="padding:80px 0px;">
+    <ul th:replace="~{foot_category::topbar}">
+    </ul>
+
+</div>
+
+<!--引用弹窗效果-->
+<div th:replace="/incloud/alert:: alert"></div>
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+<script>
+    function orderToPay() {
+       var val = $("input[name='paixu']:checked").val();
+       if(val==1){
+           $("#alipayment").submit();//支付宝
+       }
+       if(val==2){
+           var url = '[[@{/order/wxPay(orderId=${order.id})}]]';
+           layer.open({
+               type: 1,
+               skin: 'layui-layer-rim', //加上边框
+               area: ['420px', '280px'], //宽高
+               title: '请打开微信扫码支付',
+               content: '<img style="width: 200px;margin: 8px auto 0;" src="'+url+'" />'
+           });
+           // 每一秒查询一次
+
+               setInterval(function() {
+                   $.ajax({
+                       type:"POST",
+                       url:'[[@{/order/wxOrderquery}]]',
+                       data:{
+                           orderId: [[${order.id}]]
+                       },
+                       dataType: "json",
+                       async: false,
+                       success:function(data){
+                           if (data){
+                               window.location.href= '[[@{/}]]'+ 'order/view?orderId='+[[${order.id}]];
+                           }
+                       }
+                   });
+               }, 1000*3);
+           return;
+       }
+       if(val==3){
+            $('#popup').html('暂未开通银联支付')
+            syalert.syopen('alert2');
+            return;
+        }
+
+    }
+</script>
+</body>
+</html>

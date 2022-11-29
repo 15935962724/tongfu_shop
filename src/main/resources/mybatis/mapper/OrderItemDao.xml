@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongfu.dao.OrderItemDao" >
+  <resultMap id="BaseResultMap" type="com.tongfu.entity.OrderItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+    <result column="is_gift" property="isGift" jdbcType="BIT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="return_quantity" property="returnQuantity" jdbcType="INTEGER" />
+    <result column="shipped_quantity" property="shippedQuantity" jdbcType="INTEGER" />
+    <result column="sn" property="sn" jdbcType="VARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="orders" property="orders" jdbcType="BIGINT" />
+    <result column="product" property="product" jdbcType="BIGINT" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+    <result column="company" property="company" jdbcType="BIGINT" />
+    <result column="company_receiver" property="companyReceiver" jdbcType="BIGINT" />
+    <result column="adviser_receivre" property="adviserReceivre" jdbcType="BIGINT" />
+    <result column="product_purchase_id" property="productPurchaseId" jdbcType="BIGINT" />
+    <result column="purchase_name" property="purchaseName" jdbcType="VARCHAR" />
+    <result column="member_case_report" property="memberCaseReport" jdbcType="VARCHAR" />
+    <result column="company_case_report" property="companyCaseReport" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, modify_date, full_name, is_gift, name, price, quantity, return_quantity,
+    shipped_quantity, sn, thumbnail, weight, orders, product, is_deleted, company, company_receiver,
+    adviser_receivre, product_purchase_id, purchase_name, member_case_report, company_case_report
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_order_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tf_order_item
+    where orders = #{orderId,jdbcType=BIGINT}
+  </select>
+  <select id="selectProductid" resultType="java.util.Map" parameterType="java.lang.Long" >
+    select
+    product product,sum(quantity) quantity
+    from tf_order_item
+    where orders = #{orderId,jdbcType=BIGINT}
+    group by product
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tf_order_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongfu.entity.OrderItem" >
+    insert into tf_order_item (id, create_date, modify_date,
+      full_name, is_gift, name,
+      price, quantity, return_quantity,
+      shipped_quantity, sn, thumbnail,
+      weight, orders, product,
+      is_deleted, company, company_receiver,
+      adviser_receivre, product_purchase_id, purchase_name,
+      member_case_report, company_case_report)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP},
+      #{fullName,jdbcType=VARCHAR}, #{isGift,jdbcType=BIT}, #{name,jdbcType=VARCHAR},
+      #{price,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}, #{returnQuantity,jdbcType=INTEGER},
+      #{shippedQuantity,jdbcType=INTEGER}, #{sn,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR},
+      #{weight,jdbcType=INTEGER}, #{orders,jdbcType=BIGINT}, #{product,jdbcType=BIGINT},
+      #{isDeleted,jdbcType=BIT}, #{company,jdbcType=BIGINT}, #{companyReceiver,jdbcType=BIGINT},
+      #{adviserReceivre,jdbcType=BIGINT}, #{productPurchaseId,jdbcType=BIGINT}, #{purchaseName,jdbcType=VARCHAR},
+      #{memberCaseReport,jdbcType=VARCHAR}, #{companyCaseReport,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongfu.entity.OrderItem" >
+    insert into tf_order_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="fullName != null" >
+        full_name,
+      </if>
+      <if test="isGift != null" >
+        is_gift,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="returnQuantity != null" >
+        return_quantity,
+      </if>
+      <if test="shippedQuantity != null" >
+        shipped_quantity,
+      </if>
+      <if test="sn != null" >
+        sn,
+      </if>
+      <if test="thumbnail != null" >
+        thumbnail,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="orders != null" >
+        orders,
+      </if>
+      <if test="product != null" >
+        product,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="companyReceiver != null" >
+        company_receiver,
+      </if>
+      <if test="adviserReceivre != null" >
+        adviser_receivre,
+      </if>
+      <if test="productPurchaseId != null" >
+        product_purchase_id,
+      </if>
+      <if test="purchaseName != null" >
+        purchase_name,
+      </if>
+      <if test="memberCaseReport != null" >
+        member_case_report,
+      </if>
+      <if test="companyCaseReport != null" >
+        company_case_report,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fullName != null" >
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="isGift != null" >
+        #{isGift,jdbcType=BIT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="returnQuantity != null" >
+        #{returnQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="shippedQuantity != null" >
+        #{shippedQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="sn != null" >
+        #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbnail != null" >
+        #{thumbnail,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="orders != null" >
+        #{orders,jdbcType=BIGINT},
+      </if>
+      <if test="product != null" >
+        #{product,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=BIGINT},
+      </if>
+      <if test="companyReceiver != null" >
+        #{companyReceiver,jdbcType=BIGINT},
+      </if>
+      <if test="adviserReceivre != null" >
+        #{adviserReceivre,jdbcType=BIGINT},
+      </if>
+      <if test="productPurchaseId != null" >
+        #{productPurchaseId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseName != null" >
+        #{purchaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCaseReport != null" >
+        #{memberCaseReport,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCaseReport != null" >
+        #{companyCaseReport,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertList" parameterType="java.util.List">
+    insert into tf_order_item (create_date, modify_date,
+    full_name, is_gift, name,
+    price, quantity, return_quantity,
+    shipped_quantity, sn, thumbnail,
+    weight, orders, product,
+    is_deleted, company,
+    product_purchase_id, purchase_name
+    )
+    values
+    <!--item就是List里每一项的对象名，要用","分割每一条数据，最后要";"结尾-->
+    <foreach collection="list" item="orderItem" separator="," close=";">
+      (#{orderItem.createDate},#{orderItem.modifyDate},
+      #{orderItem.fullName},#{orderItem.isGift},#{orderItem.name},
+      #{orderItem.price},#{orderItem.quantity},#{orderItem.returnQuantity},#{orderItem.shippedQuantity},
+      #{orderItem.sn},#{orderItem.thumbnail},#{orderItem.weight},#{orderItem.orders},#{orderItem.product},
+      #{orderItem.isDeleted},#{orderItem.company},#{orderItem.productPurchaseId},#{orderItem.purchaseName})
+    </foreach>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongfu.entity.OrderItem" >
+    update tf_order_item
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fullName != null" >
+        full_name = #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="isGift != null" >
+        is_gift = #{isGift,jdbcType=BIT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="returnQuantity != null" >
+        return_quantity = #{returnQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="shippedQuantity != null" >
+        shipped_quantity = #{shippedQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="sn != null" >
+        sn = #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbnail != null" >
+        thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="orders != null" >
+        orders = #{orders,jdbcType=BIGINT},
+      </if>
+      <if test="product != null" >
+        product = #{product,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="company != null" >
+        company = #{company,jdbcType=BIGINT},
+      </if>
+      <if test="companyReceiver != null" >
+        company_receiver = #{companyReceiver,jdbcType=BIGINT},
+      </if>
+      <if test="adviserReceivre != null" >
+        adviser_receivre = #{adviserReceivre,jdbcType=BIGINT},
+      </if>
+      <if test="productPurchaseId != null" >
+        product_purchase_id = #{productPurchaseId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseName != null" >
+        purchase_name = #{purchaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCaseReport != null" >
+        member_case_report = #{memberCaseReport,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCaseReport != null" >
+        company_case_report = #{companyCaseReport,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongfu.entity.OrderItem" >
+    update tf_order_item
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      full_name = #{fullName,jdbcType=VARCHAR},
+      is_gift = #{isGift,jdbcType=BIT},
+      name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      quantity = #{quantity,jdbcType=INTEGER},
+      return_quantity = #{returnQuantity,jdbcType=INTEGER},
+      shipped_quantity = #{shippedQuantity,jdbcType=INTEGER},
+      sn = #{sn,jdbcType=VARCHAR},
+      thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      orders = #{orders,jdbcType=BIGINT},
+      product = #{product,jdbcType=BIGINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      company = #{company,jdbcType=BIGINT},
+      company_receiver = #{companyReceiver,jdbcType=BIGINT},
+      adviser_receivre = #{adviserReceivre,jdbcType=BIGINT},
+      product_purchase_id = #{productPurchaseId,jdbcType=BIGINT},
+      purchase_name = #{purchaseName,jdbcType=VARCHAR},
+      member_case_report = #{memberCaseReport,jdbcType=VARCHAR},
+      company_case_report = #{companyCaseReport,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>查看订单</title>
+
+    <script src="../js/huaceng.js" language="javascript" th:src="@{/assets/js/huaceng.js}"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+    <link href="../css/home.css" type="text/css"  rel="stylesheet" th:href="@{/assets/css/home.css}"/>
+    <script type="text/javascript" src="../js/jquery.js" th:src="@{/assets/js/jquery.js}"></script>
+    <script src="../css/iconfont.js" language="javascript" th:src="@{/assets/css/iconfont.js}"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link href="../css/2j.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/2j.css}"/>
+    <link href="../css/demo.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/demo.css}">
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/iconfont.css}">
+    <link href="../css/wuli.css" rel="stylesheet" type="text/css" th:href="@{/assets/css/wuli.css}"/>
+
+    <!--我的sp鼠标悬浮下拉-->
+    <script th:src="@{/assets/js/memberView.js}"></script>
+
+<body>
+<header>
+
+
+    <!--语言切换-->
+    <!--未登录-->
+    <shiro:notAuthenticated>
+        <th:block th:replace="~{incloud/language::language}"></th:block>
+    </shiro:notAuthenticated>
+    <!--已登录-->
+    <shiro:authenticated>
+        <th:block th:replace="~{incloud/languageLogin::language}"></th:block>
+    </shiro:authenticated>
+
+    <div class="head">
+        <!--未登录-->
+        <div th:replace="~{head::topbar}"></div>
+        <!--已登录-->
+    </div>
+
+</header>
+
+<div class="log_con" style="padding-top:0px;background:url(../img/bg04.jpg) repeat-x left top #fff;">
+    <div class="ckdd">
+        <div class="ckdd_t">订单详情：<span th:text="${order.sn}">106709681275</span></div>
+        <div class="ckdd_b">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td colspan="5" class="bjyan">订单状态</td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="progress" style="width: 920px;padding: 60px 0px;">
+                            <div class="pro-item pro-doing pro-item1">
+                                <div class="pro-step">
+                                    <span class="step-index"><i class="iconfont">&#xe6ae;</i></span>
+                                    <p class="step-desc">提交订单</p></div>
+                            </div>
+                            <div class="pro-item pro-doing pro-item2">
+                                <div class="pro-line"></div>
+                                <div class="pro-step"><span class="step-index"><i class="iconfont">&#xe693;</i></span>
+                                    <p class="step-desc">付款成功</p>
+                                </div>
+                            </div>
+                            <div class="pro-item pro-doing pro-item3" style="padding-left: 130px;">
+                                <div class="pro-line"></div>
+                                <div class="pro-step"><span class="step-index"><i class="iconfont"
+                                                                                  style="font-size:50px;">&#xe608;</i></span>
+                                    <p class="step-desc">等待发货</p></div>
+                            </div>
+                            <div class="pro-item pro-undo pro-item4" style="padding-left: 151px;">
+                                <div class="pro-line" style="left: 7px;"></div>
+                                <div class="pro-step">
+                                    <span class="step-index"><i class="iconfont"
+                                                                style="font-size:38px;">&#xe609;</i></span>
+                                    <p class="step-desc">等待收货</p></div>
+                            </div>
+                            <div class="pro-item pro-undo pro-item" style="padding-left: 158px;">
+                                <div class="pro-line" style="left: 7px;"></div>
+                                <div class="pro-step">
+                                    <span class="step-index"><i class="iconfont">&#xe61f;</i></span>
+                                    <p class="step-desc">完成</p></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr bgcolor="#f6fbff">
+                    <td colspan="2" class="bjyan" style="border-right:0px;">商品信息</td>
+                    <td style="width:60px;*width:100px;border-right:0px;">数量</td>
+                    <td style="width:288px;*width:328px;border-right:0px;">金额</td>
+                    <td>下单时间</td>
+                </tr>
+                <tr th:each="view:${listview}">
+                    <td style="width:60px;*width:100px;border-right:0px;"><img width="60px" src="../img/fp01.jpg" th:src="@{${pathUrl+view.thumbnail}}" /></td>
+                    <td style="    width: 315px;*width:355px;border-right:0px;">[[${view.name}]]</td>
+                    <td>x [[${view.quantity}]]</td>
+                    <td>[[${#numbers.formatDecimal(view.totalamount,1,'COMMA',2,'POINT')}]]元</td>
+                    <td th:text="${#dates.format(view.create_date,'yyyy-MM-dd')}">2019-11-07 20:00</td>
+                </tr>
+
+            </table>
+
+
+        </div>
+    </div>
+    <div class="ckdd">
+        <div class="ckdd_t">物流信息</div>
+        <div class="order-track order-track-new">
+            <div class="track-rcol">
+                <div class="track-list track-list-date">
+                    <ul>
+                        <li class="afterdate  node-to-change track-node-0004  first"><i class="node-icon"><i class="dot"></i><i class="state-icon"></i></i><span class="date">2019-11-25<span class="week">/周一</span></span><span class="time">18:24:09</span><span class="txt"><div class="stress-txt">已签收</div></span></li>
+                        <li class=""><i class="node-icon"><i class="dot"></i></i><span class="time">18:11:37</span><span class="txt">[北京市]已签收，感谢您使用顺丰，期待再次为您服务</span></li>
+                        <li class=" node-to-change track-node-0003"><i class="node-icon"><i class="dot"></i><i class="state-icon"></i></i><span class="time">13:24:09</span><span class="txt"><div class="stress-txt">待收货</div></span></li>
+                        <li class=""><i class="node-icon"><i class="dot"></i></i><span class="time">13:24:00</span><span class="txt">[北京市]快递到达西红门营业点</span></li>
+                        <li class=" node-to-change track-node-0002 "><i class="node-icon"><i class="dot"></i><i class="state-icon"></i></i><span class="time">11:07:07</span><span class="txt"><div class="stress-txt">运输中</div></span></li>
+                        <li class=""><i class="node-icon"><i class="dot"></i></i><span class="time">10:40:18</span><span class="txt">[北京市]快件正在派送途中</span></li>
+                        <li class=""><i class="node-icon"><i class="dot"></i></i><span class="time">09:54:27</span><span class="txt">[北京市]快递到达西红门营业点</span></li>
+                        <li class=""><i class="node-icon"><i class="dot"></i></i><span class="time">8:23:52</span><span class="txt">[北京市]快递到达西红门营业点</span></li>
+                        <li class=" afterdate "><i class="node-icon"><i class="dot"></i></i><span class="date">2019-11-23<span class="week">/周六</span></span><span class="time">6:55:08</span><span class="txt">您的订单揽收</span></li>
+                        <li class=" node-to-change track-node-0001 "><i class="node-icon"><i class="dot"></i><i class="state-icon"></i></i><span class="time">6:54:57</span><span class="txt"><div class="stress-txt">已下单</div></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="kddxq">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td colspan="2" class="ktd11" style="font-size:16px;color:#333;">收货人信息</td>
+                    <td colspan="2" class="ktd11" style="font-size:16px;color:#333;">配送信息</td>
+                    <td colspan="2" class="ktd11" style="font-size:16px;color:#333;">付款信息</td>
+                    <td colspan="2" style="font-size:16px;color:#333;">发票信息</td>
+                </tr>
+                <tr>
+                    <td style="width: 90px;*width:106px;">收货人信息：</td>
+                    <td class="ktd11" style="width:220px;*width:260px;">[[${order.consignee}]] （[[${order.phone}]]）</td>
+                    <td style="width: 70px;*width:86px;">配送方式：</td>
+                    <td class="ktd11" style="width: 70px;*width:86px;">[[${order.shipping_method_name}]]</td>
+                    <td style="width: 70px;*width:86px;">付款方式：</td>
+                    <td class="ktd11">[[${order.payment_method_name}]]</td>
+                    <td style="width: 70px;*width:86px;">发票类型：</td>
+                    <td>[[${order.type}]]</td>
+                </tr>
+                <tr>
+                    <td>收货人地址：</td>
+                    <td class="ktd11">[[${order.area_name}]][[${order.address}]]</td>
+                    <td>运费：</td>
+                    <td class="ktd11">[[${#numbers.formatDecimal(order.freight,1,'COMMA',2,'POINT')}]]</td>
+                    <td>付款时间：  </td>
+                    <td class="ktd11">[[${#dates.format(order.paid_date,'yyyy-MM-dd HH:mm:ss')}]]</td>
+                    <td>发票抬头：</td>
+                    <td>
+                        [[${order.title}]]
+                    </td>
+                </tr>
+                <tr>
+                    <td>邮箱:</td>
+                    <td class="ktd11"> [[${order.email}]]</td>
+                    <td></td>
+                    <td class="ktd11">&nbsp;</td>
+                    <td>商品总额：</td>
+                    <td class="ktd11">[[${totalamount}]]</td>
+                    <td>发票内容：</td>
+                    <td>
+                        [[${order.pcontent}]]
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="ktd11"></td>
+                    <td></td>
+                    <td class="ktd11">&nbsp;</td>
+                    <td>应付总额：</td>
+                    <td class="ktd11">[[${#numbers.formatDecimal(order.amount_paid,1,'COMMA',2,'POINT')}]]</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<!--引用页面脚部-->
+<div th:replace="/incloud/footer:: footer"></div>
+
+</body>
+</html>
+
